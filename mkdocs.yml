@@ -1,0 +1,244 @@
+# site_name: CanonicalFlow | Trading System Documentation
+site_name: CanonicalFlow
+site_description: Trading System Documentation
+site_author: bxvtr
+copyright: >-
+  Copyright © 2026 <a href="https://github.com/CanonicalFlow/" target="_blank" rel="noopener">CanonicalFlow</a>.
+  Licensed under
+  <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>.
+  No financial advice.
+
+docs_dir: docs
+
+theme:
+  name: material
+  custom_dir: docs/overrides
+  # Fallback only; header/drawer logos are overrides/partials/logo.html (light + dark)
+  logo: assets/cf_logo_light.svg
+  favicon: assets/cf_icon.ico
+  language: en
+
+  font:
+    text: false
+    code: false
+
+  features:
+    - navigation.top
+    - navigation.tabs
+    - navigation.instant
+    - navigation.tracking
+    - navigation.expand
+    - navigation.sections
+    - header.autohide
+    - toc.follow
+    - navigation.footer
+    - navigation.indexes
+    - navigation.path
+    - toc.integrate
+    - search.highlight
+
+  palette:
+    # Light (default)
+    - scheme: default
+      primary: white
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Dark
+    - scheme: slate
+      primary: black
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+
+  - pymdownx.tabbed:
+      alternate_style: true
+
+  - pymdownx.snippets:
+      base_path: docs
+
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+plugins:
+  - search
+  - macros
+
+extra:
+  generator: false
+  version:
+    provider: mike
+
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/CanonicalFlow/docs/
+
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/disable-nav-drag.js
+
+nav:
+  - Guides:
+      - Architecture Map: 00-guides/architecture-map.md
+      - Documentation Structure: 00-guides/documentation-structure.md
+      - Documentation Philosophy: 00-guides/documentation-philosophy.md
+      - Terminology: 00-guides/terminology.md
+
+  - Architecture:
+      - Overview: 10-architecture/architecture-overview.md
+      - System Narrative: 10-architecture/system-narrative.md
+
+      - Structure:
+          - Architecture Principles: 10-architecture/architecture-principles.md
+          - Logical Architecture: 10-architecture/logical-architecture.md
+          - Physical Architecture: 10-architecture/physical-architecture.md
+
+      - Dynamics:
+          - System Flows: 10-architecture/system-flows.md
+          - Intent Pipeline: 10-architecture/intent-pipeline.md
+          - Intent Lifecycle: 10-architecture/intent-lifecycle.md
+
+      - ADR:
+          - Overview: 10-architecture/adr/overview.md
+
+          # - System Foundations:
+          - Two-Axis Structure: 10-architecture/adr/system-foundations/ADR-001-two-axis-structure.md
+          - Canonical Storage: 10-architecture/adr/system-foundations/ADR-002-canonical-storage.md
+          - Event-Derived State Model: 10-architecture/adr/system-foundations/ADR-003-event-vs-state-model.md
+
+          # - Execution Engine:
+          - Outbound Queue: 10-architecture/adr/execution-engine/ADR-004-outbound-queue.md
+          - Risk Validation: 10-architecture/adr/execution-engine/ADR-005-risk-validation.md
+          - Explicit State Machines: 10-architecture/adr/execution-engine/ADR-006-explicit-state-machines.md
+          - Layered Runtime Architecture: 10-architecture/adr/execution-engine/ADR-007-layered-runtime-architecture.md
+
+          # - Research Infrastructure:
+          - hftbacktest as Simulated Venue: 10-architecture/adr/research-infrastructure/ADR-008-hftbacktest-as-venue.md
+
+  - Concepts:
+      - Overview: 20-concepts/concepts-overview.md
+
+      - Core Models:
+          - Time Model: 20-concepts/time-model.md
+          - Event Model: 20-concepts/event-model.md
+          - State Model: 20-concepts/state-model.md
+          - Determinism Model: 20-concepts/determinism-model.md
+          - Invariants: 20-concepts/invariants.md
+
+      - Domain Behavior:
+          - Order Lifecycle: 20-concepts/order-lifecycle.md
+          - Intent Dominance: 20-concepts/intent-dominance.md
+
+      - Processing Semantics:
+          - Queue Semantics: 20-concepts/queue-semantics.md
+          - Queue Processing: 20-concepts/queue-processing.md
+          - Failure Semantics: 20-concepts/failure-semantics.md
+
+      - Runtime Inputs:
+          - Snapshot Driven Inputs: 20-concepts/snapshot-driven-inputs.md
+          - Ingest vs Decision Frequency: 20-concepts/ingest-vs-decision-frequency.md
+
+  - Stacks:
+      - Overview: 30-stacks/stacks-overview.md
+
+      - Data Recording:
+          - Overview: 30-stacks/data-recording/data-recording-overview.md
+          - Scope and Role: 30-stacks/data-recording/scope-and-role.md
+          - Interfaces: 30-stacks/data-recording/interfaces.md
+          - Internal Structure: 30-stacks/data-recording/internal-structure.md
+          - Operational Behavior: 30-stacks/data-recording/operational-behavior.md
+          - Implementation Notes: 30-stacks/data-recording/implementation-notes.md
+
+      - Data Quality:
+          - Overview: 30-stacks/data-quality/data-quality-overview.md
+          - Scope and Role: 30-stacks/data-quality/scope-and-role.md
+          - Interfaces: 30-stacks/data-quality/interfaces.md
+          - Internal Structure: 30-stacks/data-quality/internal-structure.md
+          - Operational Behavior: 30-stacks/data-quality/operational-behavior.md
+          - Implementation Notes: 30-stacks/data-quality/implementation-notes.md
+
+      - Data Storage:
+          - Overview: 30-stacks/data-storage/data-storage-overview.md
+          - Scope and Role: 30-stacks/data-storage/scope-and-role.md
+          - Interfaces: 30-stacks/data-storage/interfaces.md
+          - Internal Structure: 30-stacks/data-storage/internal-structure.md
+          - Operational Behavior: 30-stacks/data-storage/operational-behavior.md
+          - Implementation Notes: 30-stacks/data-storage/implementation-notes.md
+
+      - Backtesting:
+          - Overview: 30-stacks/backtesting/backtesting-overview.md
+          - Scope and Role: 30-stacks/backtesting/scope-and-role.md
+          - Interfaces: 30-stacks/backtesting/interfaces.md
+          - Internal Structure: 30-stacks/backtesting/internal-structure.md
+          - Operational Behavior: 30-stacks/backtesting/operational-behavior.md
+          - Implementation Notes: 30-stacks/backtesting/implementation-notes.md
+
+      - Live:
+          - Overview: 30-stacks/live/live-overview.md
+          - Scope and Role: 30-stacks/live/scope-and-role.md
+          - Interfaces: 30-stacks/live/interfaces.md
+          - Internal Structure: 30-stacks/live/internal-structure.md
+          - Operational Behavior: 30-stacks/live/operational-behavior.md
+          - Implementation Notes: 30-stacks/live/implementation-notes.md
+
+      - Analysis:
+          - Overview: 30-stacks/analysis/analysis-overview.md
+          - Scope and Role: 30-stacks/analysis/scope-and-role.md
+          - Interfaces: 30-stacks/analysis/interfaces.md
+          - Internal Structure: 30-stacks/analysis/internal-structure.md
+          - Operational Behavior: 30-stacks/analysis/operational-behavior.md
+          - Implementation Notes: 30-stacks/analysis/implementation-notes.md
+
+      - Monitoring:
+          - Overview: 30-stacks/monitoring/monitoring-overview.md
+          - Scope and Role: 30-stacks/monitoring/scope-and-role.md
+          - Interfaces: 30-stacks/monitoring/interfaces.md
+          - Internal Structure: 30-stacks/monitoring/internal-structure.md
+          - Operational Behavior: 30-stacks/monitoring/operational-behavior.md
+          - Implementation Notes: 30-stacks/monitoring/implementation-notes.md
+
+  # - Operations:
+  #     - Overview: 40-operations/operations-overview.md
+  #     - Monitoring: 40-operations/monitoring.md
+  #     - Recovery Model: 40-operations/recovery-model.md
+  #     - Incident Model: 40-operations/incident-model.md
+
+  #     - Backtesting:
+  #         - Overview: 40-operations/backtesting/backtesting-operations-overview.md
+  #         - Experiment Model: 40-operations/backtesting/experiment-model.md
+  #         - Segment Sweep Structure: 40-operations/backtesting/segment-sweep-structure.md
+  #         - Result Manifests: 40-operations/backtesting/result-manifests.md
+  #         - Argo DAG: 40-operations/backtesting/argo-dag.md
+
+  #     - Live:
+  #         - Overview: 40-operations/live/live-operations-overview.md
+  #         - Session Model: 40-operations/live/session-model.md
+  #         - Deployment Control: 40-operations/live/deployment-control.md
+  #         - Execution Supervision: 40-operations/live/execution-supervision.md
+  #         - Live Artifacts: 40-operations/live/live-artifacts.md
+
+  #     - Runbooks:
+  #         - Overview: 40-operations/runbooks/runbooks-overview.md
+
+  # - Evolution:
+  #     - Milestones: 50-evolution/milestones.md
+  #     - Roadmap: 50-evolution/roadmap.md
+  #     - Scaling Vision: 50-evolution/scaling-vision.md
+
+  #     - Development Logs:
+  #         - Overview: 50-evolution/dev-logs/dev-logs-overview.md

@@ -1,0 +1,13 @@
+{
+  "name": "CanonicalFlow Docs Dev",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "workspaceFolder": "/workspaces/docs",
+  "remoteUser": "root",
+  "runArgs": ["--security-opt=label=disable"],
+  "containerEnv": {
+    "SHELL": "/bin/bash"
+  }
+}
