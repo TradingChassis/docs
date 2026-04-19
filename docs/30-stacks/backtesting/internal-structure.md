@@ -104,7 +104,7 @@ Role:
 - Write execution records (dispatch histories, Order lifecycle records, detailed execution traces) to **Execution Record Storage**.
 - Ensure that all outputs are durably persisted and available for later retrieval by the Analysis Stack and operational tooling.
 
-The Artifact Writer is the final internal capability. Its output is the Backtesting Stack's durable contribution to the System: persisted experiment results and execution records that outlast the run and are available for downstream analysis.
+The Artifact Writer is the final internal capability. Its output is the Backtesting Stack's durable contribution to the Infrastructure: persisted experiment results and execution records that outlast the run and are available for downstream analysis.
 
 ---
 

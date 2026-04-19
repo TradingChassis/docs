@@ -4,9 +4,9 @@
 
 ## Purpose
 
-The System Narrative provides architectural context for the trading infrastructure described in this documentation.
+The Infrastructure Narrative provides architectural context for the trading infrastructure described in this documentation.
 
-While the concept documents define the formal models governing System behavior (Events, State, Time, Determinism), this document explains the broader architectural motivation and tells the **story of how the System works** from Event recording through State derivation, Strategy decision, policy evaluation, Execution Control, and Venue feedback.
+While the concept documents define the formal models governing System behavior (Events, State, Time, Determinism), this document explains the broader architectural motivation and tells the **story of how the Infrastructure works** from Event recording through State derivation, Strategy decision, policy evaluation, Execution Control, and Venue feedback.
 
 This document is intentionally narrative in style. Normative definitions and invariants belong in the concept documents it references; this document makes the overall model coherent, readable, and grounded.
 
@@ -24,13 +24,13 @@ Modern trading systems must simultaneously satisfy several competing requirement
 
 A trading architecture may evolve organically, possibly resulting in systems where Research diverges significantly from Live trading. Such divergence leads to Strategies behaving differently in simulation than in production, making Research results unreliable as predictors of Live behavior.
 
-This System addresses the problem by enforcing a **unified conceptual model** across all Runtimes. Backtesting and Live Execution share the same Core Runtime semantics. The System guarantees that if a Strategy behaves a certain way against a given Event Stream in Backtesting, it will behave the same way against the same Event Stream in Live — because the processing model is identical.
+This System addresses the problem by enforcing a **unified conceptual model** across all Runtimes. Backtesting and Live Execution share the same Core Runtime semantics. The Infrastructure guarantees that if a Strategy behaves a certain way against a given Event Stream in Backtesting, it will behave the same way against the same Event Stream in Live — because the processing model is identical.
 
 ---
 
 ## Microstructure Context
 
-The System is designed primarily for microstructure-driven trading Strategies.
+The Infrastructure is designed primarily for microstructure-driven trading Strategies.
 
 Microstructure refers to the behavior of markets at the level of the order book and individual trade Events, including:
 
@@ -42,13 +42,13 @@ Microstructure refers to the behavior of markets at the level of the order book 
 
 Strategies operating in this domain depend heavily on realistic modeling of Execution behavior, latency and Event ordering, Order lifecycle transitions, and market interaction through order books.
 
-Because of this, the infrastructure must accurately reproduce the interaction between trading logic and the market. The System architecture therefore prioritizes **deterministic Event processing** and **realistic Execution modeling** — the two properties that make Research results transferable to Live.
+Because of this, the infrastructure must accurately reproduce the interaction between trading logic and the market. The Infrastructure architecture therefore prioritizes **deterministic Event processing** and **realistic Execution modeling** — the two properties that make Research results transferable to Live.
 
 ---
 
 ## System Scope
 
-The System provides the infrastructure required to support trading Research and Live Execution.
+The Infrastructure provides the infrastructure required to support trading Research and Live Execution.
 
 Its responsibilities include:
 
@@ -58,27 +58,27 @@ Its responsibilities include:
 - policy enforcement via the Risk Engine
 - operational monitoring and Analysis
 
-The System deliberately does not define Strategies. Strategy logic is an external Component that reads State projections and emits commands into the System through well-defined interfaces.
+The Infrastructure deliberately does not define Strategies. Strategy logic is an external Component that reads State projections and emits commands into the Infrastructure through well-defined interfaces.
 
-Venues represent system boundaries: the System sends outbound requests to Venues and ingests their responses as Events.
+Venues represent system boundaries: the Infrastructure sends outbound requests to Venues and ingests their responses as Events.
 
 ---
 
-## How the System works
+## How the Infrastructure works
 
-The System is deterministic and event-driven. Its behavior is fully defined by two canonical inputs: the **Event Stream** and **Configuration**. Everything else — State, dispatch decisions, Order projections — is derived from these inputs.
+The Infrastructure is deterministic and event-driven. Its behavior is fully defined by two canonical inputs: the **Event Stream** and **Configuration**. Everything else — State, dispatch decisions, Order projections — is derived from these inputs.
 
 ### Events and State
 
-Everything begins with an **Event**: an immutable record of something the System must process. Events arrive in **Processing Order** — the strict internal sequence that defines causality. Event Time (the timestamp an Event carries) is metadata; it does not determine when the System processes the Event.
+Everything begins with an **Event**: an immutable record of something the Infrastructure must process. Events arrive in **Processing Order** — the strict internal sequence that defines causality. Event Time (the timestamp an Event carries) is metadata; it does not determine when the Infrastructure processes the Event.
 
-When the System applies an Event, it derives updated **State**:
+When the Infrastructure applies an Event, it derives updated **State**:
 
 `State = f(Event Stream, Configuration)`
 
 State is not a mutable store owned by any Component. It is a **deterministic projection** of the Event Stream and Configuration, recomputable at any point by replaying the Event Stream and Configuration from the beginning. No Component holds parallel mutable truth. The Event Stream, together with Configuration, is the only authoritative source of System history.
 
-State is organized into three domains: **Market State** (current market conditions), **Execution State** (Orders, fills, positions, and execution-control substate), and **Control State** (operational flags and Runtime signals). These three domains together constitute the full derived condition of the System at any Event Stream position.
+State is organized into three domains: **Market State** (current market conditions), **Execution State** (Orders, fills, positions, and execution-control substate), and **Control State** (operational flags and Runtime signals). These three domains together constitute the full derived condition of the Infrastructure at any Event Stream position.
 
 ### Strategy and Intents
 
@@ -86,7 +86,7 @@ With current State derived, **Strategy** evaluates its position and decides what
 
 An Intent is a **command**, not an Event. It is not appended to the Event Stream. It does not change State. It exists only as transient input to the current processing step. If Strategy produces no Intent, the processing step continues without one; if Strategy produces an Intent, it moves immediately to the next stage.
 
-This distinction matters: because Intents are ephemeral commands rather than persistent records, they carry no history, create no State on their own, and impose no commitment on the System until they have passed through policy evaluation and Execution Control.
+This distinction matters: because Intents are ephemeral commands rather than persistent records, they carry no history, create no State on their own, and impose no commitment on the Infrastructure until they have passed through policy evaluation and Execution Control.
 
 ### Risk: policy only
 
@@ -94,7 +94,7 @@ Every Intent is evaluated by the **Risk Engine** before anything further happens
 
 The answer is binary: **allowed** or **denied**. An allowed Intent proceeds; a denied Intent does not.
 
-The Risk Engine does **not** decide when to send the Intent, in what order, or whether current rate limits permit transmission. Those are execution-control questions, not policy questions. Risk stops at admissibility. The boundary between policy and Execution Control is strict, and the System enforces it.
+The Risk Engine does **not** decide when to send the Intent, in what order, or whether current rate limits permit transmission. Those are execution-control questions, not policy questions. Risk stops at admissibility. The boundary between policy and Execution Control is strict, and the Infrastructure enforces it.
 
 Where a policy decision must be part of the canonical record (for replay or audit), the outcome appears as an **Intent-related Event** on the Event Stream.
 
@@ -104,9 +104,9 @@ An allowed Intent does not go directly to the Venue. It enters **Execution Contr
 
 The **Queue** is **derived execution-control substate** within **Execution State**: a projection of current effective pending outbound work, recomputable from the Event Stream and Configuration ([Queue Semantics](../20-concepts/queue-semantics.md)).
 
-**Queue Processing** runs as a deterministic computation **within Event processing**. There is no separate runtime tick, no background scheduling loop, no independent clock. When the System processes an Event, that same processing step also evaluates the Queue: it applies dominance rules (ensuring at most one effective pending command per logical Order key), checks inflight status, evaluates rate limits, and selects which allowed commands may be dispatched in this step.
+**Queue Processing** runs as a deterministic computation **within Event processing**. There is no separate runtime tick, no background scheduling loop, no independent clock. When the Infrastructure processes an Event, that same processing step also evaluates the Queue: it applies dominance rules (ensuring at most one effective pending command per logical Order key), checks inflight status, evaluates rate limits, and selects which allowed commands may be dispatched in this step.
 
-The result is that every execution-control decision is a pure, deterministic function of the current Event Stream and Configuration. Given the same inputs, the System will always produce the same dispatch decisions at the same Event Stream position.
+The result is that every execution-control decision is a pure, deterministic function of the current Event Stream and Configuration. Given the same inputs, the Infrastructure will always produce the same dispatch decisions at the same Event Stream position.
 
 ### Orders begin at submission
 
@@ -126,9 +126,9 @@ There is no parallel path by which Venue responses update State directly. All St
 
 ## Determinism and replayability
 
-The event-driven model described above is the foundation of the System's determinism guarantee.
+The event-driven model described above is the foundation of the Infrastructure's determinism guarantee.
 
-Because `State = f(Event Stream, Configuration)`, and because all dispatch decisions are deterministic functions of derived State and Configuration, the entire history of the System can be reproduced exactly by replaying the Event Stream under the same Configuration. This applies to Backtesting and Live equally.
+Because `State = f(Event Stream, Configuration)`, and because all dispatch decisions are deterministic functions of derived State and Configuration, the entire history of the Infrastructure can be reproduced exactly by replaying the Event Stream under the same Configuration. This applies to Backtesting and Live equally.
 
 This has practical consequences:
 

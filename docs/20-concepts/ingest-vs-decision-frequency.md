@@ -4,7 +4,7 @@
 
 ## Purpose
 
-This document explains the distinction between **ingest frequency** and **decision frequency** in the System and how both remain grounded in the canonical event-driven model.
+This document explains the distinction between **ingest frequency** and **decision frequency** in the Infrastructure and how both remain grounded in the canonical event-driven model.
 
 It establishes:
 
@@ -38,13 +38,13 @@ Capitalized terms are used as in [Terminology](../00-guides/terminology.md).
 
 ### Ingest frequency
 
-**Ingest frequency** is the rate at which **Events** enter the **Event Stream** and are processed by the System. It reflects the arrival rate of external occurrences — market data updates, execution reports, control signals — as represented by their **Processing Order** positions in the stream.
+**Ingest frequency** is the rate at which **Events** enter the **Event Stream** and are processed by the Infrastructure. It reflects the arrival rate of external occurrences — market data updates, execution reports, control signals — as represented by their **Processing Order** positions in the stream.
 
 Every Event in the stream is applied in **Processing Order**. Each applied Event updates derived **State**. Ingest frequency therefore sets the rate at which derived **State** is updated.
 
 ### Decision frequency
 
-**Decision frequency** is the rate at which **Strategy** is evaluated — i.e., the rate at which the System invokes Strategy to read derived **State** and potentially emit **Intents**.
+**Decision frequency** is the rate at which **Strategy** is evaluated — i.e., the rate at which the Infrastructure invokes Strategy to read derived **State** and potentially emit **Intents**.
 
 Strategy evaluation does **not** occur on every Event. Strategy emits zero or more **Intents** per evaluation, and evaluation itself occurs on a subset of processing steps. That subset is determined by semantic relevance: which Events, under which derived State conditions, warrant Strategy being consulted.
 
@@ -114,7 +114,7 @@ If Strategy evaluation is triggered by wall-clock time or any mechanism outside 
 No timer, scheduler, or wall-clock interval may serve as the authority for when Strategy is evaluated. The only valid trigger is the occurrence of a specific Event or a specific derived State condition, both of which are determined by the Event Stream and Configuration.
 
 **I2 — Derived State must be current at the point of Strategy evaluation.**
-When Strategy evaluates, it reads derived State that is up to date through the triggering Event's **Processing Order** position. The System must not present Strategy with a stale State projection from a prior position as if it were current.
+When Strategy evaluates, it reads derived State that is up to date through the triggering Event's **Processing Order** position. The Infrastructure must not present Strategy with a stale State projection from a prior position as if it were current.
 
 **I3 — Decision cadence must not alter Processing Order.**
 Reduced decision frequency does not imply that non-triggering Events are held back, batched, or reordered. Every Event is applied in **Processing Order** and updates derived State. Decision cadence only affects when Strategy is consulted — not how Events are sequenced.
@@ -124,7 +124,7 @@ Any mutable store that tracks "time since last decision" or "Events since last e
 
 ### Non-goals
 
-- This document does not define which specific Event categories trigger Strategy evaluation in the System. That is a Configuration-level implementation choice.
+- This document does not define which specific Event categories trigger Strategy evaluation in the Infrastructure. That is a Configuration-level implementation choice.
 - This document does not prescribe minimum or maximum decision frequencies. These are Strategy-specific and context-specific design decisions.
 - This document does not address how Queue Processing, Risk evaluation, or Venue Adapter pacing relate to ingest frequency. Those concerns are addressed in their respective documents.
 

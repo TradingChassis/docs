@@ -13,7 +13,7 @@ Updated: {{ page.meta.updated }}
 
 ## Context
 
-Strategy produces Intents — ephemeral commands expressing desired trading actions — during Event processing. These commands, if eventually dispatched, become outbound requests that directly affect the System's market exposure.
+Strategy produces Intents — ephemeral commands expressing desired trading actions — during Event processing. These commands, if eventually dispatched, become outbound requests that directly affect the Infrastructure's market exposure.
 
 Without a centralized policy gate, the following problems arise:
 
@@ -22,7 +22,7 @@ Without a centralized policy gate, the following problems arise:
 - **Strategy-Venue coupling.** If Strategy can interact with Venues or Venue Adapters directly, bypassing policy evaluation, then safety depends entirely on Strategy implementation discipline. This is not an acceptable architectural guarantee.
 - **Policy and execution-control conflation.** Policy admissibility ("is this Intent allowed?") and execution-control scheduling ("when should this allowed work be dispatched?") are fundamentally different questions. Mixing them in a single component makes both harder to reason about, audit, and evolve independently.
 
-The System requires an architectural boundary that separates **policy admissibility** from **execution-control scheduling**, enforces policy on every Intent before it can proceed toward Venue interaction, and prevents any component from bypassing that enforcement.
+The Infrastructure requires an architectural boundary that separates **policy admissibility** from **execution-control scheduling**, enforces policy on every Intent before it can proceed toward Venue interaction, and prevents any component from bypassing that enforcement.
 
 ---
 
@@ -51,7 +51,7 @@ The System requires an architectural boundary that separates **policy admissibil
 
 ### What Risk evaluates
 
-Risk evaluates **policy admissibility** — whether the System's rules permit this Intent to proceed. Typical policy checks include:
+Risk evaluates **policy admissibility** — whether the Infrastructure's rules permit this Intent to proceed. Typical policy checks include:
 
 - Position and exposure limits
 - Trading enable/disable controls (kill-switch)
@@ -86,7 +86,7 @@ Risk does not evaluate any of the following — these are execution-control conc
 
 ## Trade-offs
 
-**Every Intent incurs a Risk evaluation.** Policy evaluation runs on every Intent, including those that will ultimately be superseded by dominance in execution-control substate before dispatch. This is the cost of mandatory enforcement: the System evaluates admissibility before it knows whether a command will be collapsed. The alternative — evaluating policy only at dispatch time — would allow inadmissible commands to reside in execution-control substate, blurring the boundary between policy and execution control.
+**Every Intent incurs a Risk evaluation.** Policy evaluation runs on every Intent, including those that will ultimately be superseded by dominance in execution-control substate before dispatch. This is the cost of mandatory enforcement: the Infrastructure evaluates admissibility before it knows whether a command will be collapsed. The alternative — evaluating policy only at dispatch time — would allow inadmissible commands to reside in execution-control substate, blurring the boundary between policy and execution control.
 
 **Risk cannot express "send later."** The binary allowed/denied model means Risk has no mechanism to delay an Intent. If a condition is temporary (e.g., a rate-limit window), Risk must either allow the Intent (letting execution control handle timing) or deny it. This is intentional: mixing delay semantics into Risk would conflate policy with execution control and make both harder to reason about.
 

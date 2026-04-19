@@ -36,9 +36,9 @@ Capitalized terms are used as in [Terminology](../00-guides/terminology.md).
 
 ## Core definition
 
-A **snapshot-driven input** is an input to the System that represents the **condition of a source at a bounded point in time**, rather than an ordered sequence of incremental change records.
+A **snapshot-driven input** is an input to the Infrastructure that represents the **condition of a source at a bounded point in time**, rather than an ordered sequence of incremental change records.
 
-Instead of receiving every change that led to the current condition, the System receives the current condition itself — the full state of the source as of a specific moment.
+Instead of receiving every change that led to the current condition, the Infrastructure receives the current condition itself — the full state of the source as of a specific moment.
 
 Common scenarios where snapshot-driven inputs arise:
 
@@ -54,7 +54,7 @@ In each case, the snapshot represents a **bounded, point-in-time view** of some 
 
 The canonical model requires that `State = f(Event Stream, Configuration)` and that **Events are the only source of State transitions**. Snapshot-driven inputs must be integrated in a way that does not violate this.
 
-There are two canonical-compatible ways to integrate a snapshot into the System:
+There are two canonical-compatible ways to integrate a snapshot into the Infrastructure:
 
 ### Integration path A: snapshot as Event
 
@@ -64,11 +64,11 @@ From that stream position onward, derived State reflects the contents of the sna
 
 This path makes the snapshot a full part of canonical history. A replay of the stream reproduces the snapshot Event and derives the same State from it. The snapshot does not exist as a hidden input — it is visible in the stream.
 
-**Event Time on the snapshot Event** records when the snapshot was taken externally. Processing Order, not Event Time, determines when it is applied to derived State — as with all Events in the System ([Time Model](../20-concepts/time-model.md)).
+**Event Time on the snapshot Event** records when the snapshot was taken externally. Processing Order, not Event Time, determines when it is applied to derived State — as with all Events in the Infrastructure ([Time Model](../20-concepts/time-model.md)).
 
 ### Integration path B: snapshot as bounded Configuration anchor
 
-The snapshot is provided as a **stable, versioned Configuration anchor** — a known starting State for a bounded processing scope. It is not appended as an Event, but it is an explicit, immutable input to the System for that processing context.
+The snapshot is provided as a **stable, versioned Configuration anchor** — a known starting State for a bounded processing scope. It is not appended as an Event, but it is an explicit, immutable input to the Infrastructure for that processing context.
 
 Subsequent Events are applied on top of this anchor under the same derivation rules as usual.
 
@@ -85,7 +85,7 @@ A snapshot that **silently mutates derived State** outside either of the above p
 
 ## Snapshots as derived input representations
 
-Not all snapshot-related structures are external inputs. The System also uses snapshot representations on the **read side**: bounded views of derived State maintained for efficiency and component access.
+Not all snapshot-related structures are external inputs. The Infrastructure also uses snapshot representations on the **read side**: bounded views of derived State maintained for efficiency and component access.
 
 A **derived State projection** — a materialized view of some portion of current derived State, maintained incrementally as Events are processed — is semantically valid as a read-side efficiency mechanism. Strategy, for example, reads **projections** of derived Market and Execution State rather than re-deriving full State from the stream on each processing step ([State Model](state-model.md)).
 
@@ -134,7 +134,7 @@ A bounded State projection maintained as a snapshot for efficiency must produce 
 
 ### Non-goals
 
-- This document does not define **which** snapshot Event types are recognized in the System. The Event Model establishes that Market Events may include order book snapshots ([Event Model: Market Events](event-model.md#market-events)); specific named types are defined at implementation time.
+- This document does not define **which** snapshot Event types are recognized in the Infrastructure. The Event Model establishes that Market Events may include order book snapshots ([Event Model: Market Events](event-model.md#market-events)); specific named types are defined at implementation time.
 
 - This document does not prescribe **how often** snapshots are consumed or at what granularity derived views are materialized. Frequency is an implementation and performance decision subject to the semantic constraints above.
 
@@ -163,4 +163,4 @@ A bounded State projection maintained as a snapshot for efficiency must produce 
 
 3. **Frequency and scope of derived State projections.** Which projections of derived State are maintained as snapshots, at what granularity, and how they are kept consistent with the Event Stream during processing are implementation decisions governed by the semantic constraints above but not prescribed by them.
 
-4. **Handling of snapshot sequence gaps.** How the System responds when an expected incremental update sequence is disrupted and a new snapshot must be consumed (e.g., feed reconnect with sequence gap) is an operational and implementation concern. The canonical constraint — that any resulting State transition must enter through Event processing — applies, but the specific recovery protocol is not defined here.
+4. **Handling of snapshot sequence gaps.** How the Infrastructure responds when an expected incremental update sequence is disrupted and a new snapshot must be consumed (e.g., feed reconnect with sequence gap) is an operational and implementation concern. The canonical constraint — that any resulting State transition must enter through Event processing — applies, but the specific recovery protocol is not defined here.

@@ -1,12 +1,12 @@
 # Stacks Overview
 
-This section describes the Stacks that realize the System's architecture as concrete, implementation-facing subsystems. Each Stack is a functional domain with defined responsibilities, interfaces, and boundaries.
+This section describes the Stacks that realize the Infrastructure's architecture as concrete, implementation-facing subsystems. Each Stack is a functional domain with defined responsibilities, interfaces, and boundaries.
 
 ---
 
 ## Purpose of the Stacks Section
 
-The Stacks section explains how the System is implemented. While the Concepts section defines the canonical models and invariants — the Event model, the State model, the Determinism model, the Order lifecycle, Queue semantics — the Stacks section describes the operational domains where those models are applied.
+The Stacks section explains how the Infrastructure is implemented. While the Concepts section defines the canonical models and invariants — the Event model, the State model, the Determinism model, the Order lifecycle, Queue semantics — the Stacks section describes the operational domains where those models are applied.
 
 Stack documents are **implementation-facing**. They describe what each subsystem does, what it consumes and produces, how it is structured internally, and how it behaves during operation. They are not canonical semantics documents — they do not define or redefine the core architecture model. They realize it.
 
@@ -14,11 +14,11 @@ Stack documents are **implementation-facing**. They describe what each subsystem
 
 ## Stack Groups
 
-The seven Stacks are organized into three groups that reflect the System's major operational domains.
+The seven Stacks are organized into three groups that reflect the Infrastructure's major operational domains.
 
 ### Data Platform
 
-Stacks responsible for raw data acquisition, validation, normalization, and persistent storage. Together they form the pipeline that produces reliable, canonical datasets and provides the durable storage surfaces used by the rest of the System.
+Stacks responsible for raw data acquisition, validation, normalization, and persistent storage. Together they form the pipeline that produces reliable, canonical datasets and provides the durable storage surfaces used by the rest of the Infrastructure.
 
 - [Data Recording Stack](data-recording/data-recording-overview.md)
 - [Data Quality Stack](data-quality/data-quality-overview.md)
@@ -33,7 +33,7 @@ Stacks responsible for executing the Core Runtime — running Strategies against
 
 ### Analysis and Monitoring
 
-Stacks responsible for making the System's outputs interpretable and its runtime behavior visible. One Stack performs retrospective analysis on persisted outputs; the other provides runtime observability for running system parts.
+Stacks responsible for making the Infrastructure's outputs interpretable and its runtime behavior visible. One Stack performs retrospective analysis on persisted outputs; the other provides runtime observability for running system parts.
 
 - [Analysis Stack](analysis/analysis-overview.md)
 - [Monitoring Stack](monitoring/monitoring-overview.md)
@@ -76,13 +76,13 @@ Provides runtime observability for running system parts — collecting telemetry
 
 The Stacks cooperate through defined data flows and integration surfaces. At overview level, the key relationships are:
 
-**Raw data capture → validation → canonical storage.** The Data Recording Stack captures raw market data. The Data Quality Stack validates and promotes it. The Data Storage Stack holds the resulting canonical datasets and all other persistent artifacts. This pipeline produces the reliable data foundation that the rest of the System depends on.
+**Raw data capture → validation → canonical storage.** The Data Recording Stack captures raw market data. The Data Quality Stack validates and promotes it. The Data Storage Stack holds the resulting canonical datasets and all other persistent artifacts. This pipeline produces the reliable data foundation that the rest of the Infrastructure depends on.
 
 **Canonical data → runtime execution.** The Backtesting Stack and the Live Stack consume canonical datasets from the Data Storage Stack as inputs to Core Runtime execution. Both produce execution outputs — experiment results, run artifacts, execution records — that are persisted back to the Data Storage Stack's persistent surfaces.
 
 **Persisted outputs → retrospective analysis.** The Analysis Stack consumes persisted outputs from the Data Storage Stack — experiment results from Backtesting, execution records from Live, canonical and derived datasets — and produces derived analytical artifacts. The Analysis Stack operates downstream of execution, not alongside it.
 
-**Running systems → runtime observability.** The Monitoring Stack receives telemetry and status signals from the Live Stack, the Backtesting Stack, and other running system parts during active execution. It provides operational visibility into what is happening while the System is running.
+**Running systems → runtime observability.** The Monitoring Stack receives telemetry and status signals from the Live Stack, the Backtesting Stack, and other running system parts during active execution. It provides operational visibility into what is happening while the Infrastructure is running.
 
 **The Data Storage Stack as shared substrate.** The Data Storage Stack is not a sequential pipeline stage — it is a platform layer used by most other Stacks. Recording writes raw data to it. Quality promotes canonical data into it. Backtesting and Live read from it and write execution outputs to it. Analysis reads persisted outputs from it and writes derived artifacts back. The Data Storage Stack provides the persistent surfaces; it does not govern the semantic decisions of the Stacks that use it.
 

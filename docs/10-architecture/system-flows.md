@@ -19,7 +19,7 @@ Canonical vocabulary applies throughout.
 
 ## Runtime flow overview
 
-The System advances **only** through **deterministic Event processing**: each step applies **Events** from the **Event Stream** in **Processing Order** under **Configuration** and updates **derived State** (see [Time Model](../20-concepts/time-model.md)).
+The Infrastructure advances **only** through **deterministic Event processing**: each step applies **Events** from the **Event Stream** in **Processing Order** under **Configuration** and updates **derived State** (see [Time Model](../20-concepts/time-model.md)).
 
 There is **one** unified Runtime sequence for a given applied Event—**no** competing alternative flows. **Queue Processing** is **not** a second **loop**, **tick**, or **scheduler phase**; it is part of **the same** Event-processing step that updates Market, Execution (including **execution-control substate**), and System domains.
 
@@ -205,7 +205,7 @@ There is **no** parallel path where **Venue** updates **State** without **Events
 2. **State derivation:** `State = f(Event Stream, Configuration)`; Components **read** projections, they do **not** own mutable system truth.
 3. **Risk vs Execution Control:** **Allowed / denied** only at **Risk**; **timing and ordering** only at **Queue Processing**.
 4. **Intent vs Event:** **Intents** are commands during a step; they are **not** Events. Stream updates use **Events** only **when** canonical history requires ([Terminology: Intent visibility](../00-guides/terminology.md#intent-visibility)).
-5. **Orders:** **Orders** are **derived** in **Execution State**; they **exist** from **submission** onward in state **Submitted** as projections; Strategy does **not** “send Orders” as primary objects— it sends **Intents**; the System **dispatches** and **Venue** **Execution Events** refine **Order** state.
+5. **Orders:** **Orders** are **derived** in **Execution State**; they **exist** from **submission** onward in state **Submitted** as projections; Strategy does **not** “send Orders” as primary objects— it sends **Intents**; the Infrastructure **dispatches** and **Venue** **Execution Events** refine **Order** state.
 6. **Determinism:** Same stream + Configuration → same derived State at each position (including execution-control substate).
 
 ---

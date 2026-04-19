@@ -4,7 +4,7 @@
 
 ## Purpose and scope
 
-This document defines the **lifecycle of Intents only**: how a **command** produced by **Strategy** moves from creation to **terminal disposition** inside the System.
+This document defines the **lifecycle of Intents only**: how a **command** produced by **Strategy** moves from creation to **terminal disposition** inside the Infrastructure.
 
 It specifies **conceptual stages** and **valid transitions**. It does **not**:
 

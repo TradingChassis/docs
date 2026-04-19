@@ -1,18 +1,18 @@
 # Scope and Role
 
-The Data Storage Stack provides, organizes, and exposes the persistent storage surfaces of the System — the durable substrate on which raw datasets, canonical datasets, derived artifacts, execution records, quarantined datasets, and experiment outputs are retained and made accessible to other Stacks.
+The Data Storage Stack provides, organizes, and exposes the persistent storage surfaces of the Infrastructure — the durable substrate on which raw datasets, canonical datasets, derived artifacts, execution records, quarantined datasets, and experiment outputs are retained and made accessible to other Stacks.
 
 ---
 
 ## Purpose
 
-The Data Storage Stack exists to give the System a stable, logically organized persistent layer. Multiple Stacks — Data Recording, Data Quality, Backtesting, Live, Analysis — need to durably persist and later retrieve datasets and artifacts. The Data Storage Stack provides the storage surfaces they write to and read from, maintains logical separation between different classes of stored data, and ensures that persisted content remains durably available for downstream use.
+The Data Storage Stack exists to give the Infrastructure a stable, logically organized persistent layer. Multiple Stacks — Data Recording, Data Quality, Backtesting, Live, Analysis — need to durably persist and later retrieve datasets and artifacts. The Data Storage Stack provides the storage surfaces they write to and read from, maintains logical separation between different classes of stored data, and ensures that persisted content remains durably available for downstream use.
 
 The Data Storage Stack is a **persistent substrate and organization layer**, not a semantic processor. It does not decide what data is valid, what becomes canonical, or what is quarantined. Those are decisions made by other Stacks — primarily the Data Quality Stack. The Data Storage Stack provides the durable surfaces on which those decisions are realized and their outcomes stored.
 
 ---
 
-## Position in the System
+## Position in the Infrastructure
 
 The Data Storage Stack is part of the **Data Platform**. Unlike the Data Recording and Data Quality Stacks, which occupy specific positions in a sequential pipeline, the Data Storage Stack serves as a **persistent platform layer** that multiple Stacks interact with:
 
@@ -70,7 +70,7 @@ The Data Storage Stack is **not** responsible for:
 
 ## Why the Stack Matters
 
-The Data Storage Stack is the persistent substrate that allows other Stacks to exchange, retain, and reuse durable datasets and artifacts without collapsing their logical boundaries. Without it, the System would not have a stable basis for:
+The Data Storage Stack is the persistent substrate that allows other Stacks to exchange, retain, and reuse durable datasets and artifacts without collapsing their logical boundaries. Without it, the Infrastructure would not have a stable basis for:
 
 - retaining raw recording outputs across recording sessions;
 - maintaining Canonical Storage as a validated dataset layer distinct from raw data;

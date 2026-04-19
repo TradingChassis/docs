@@ -4,9 +4,9 @@
 
 ## Purpose and scope
 
-This document states the **non-negotiable properties** that must always hold across the System.
+This document states the **non-negotiable properties** that must always hold across the Infrastructure.
 
-Each invariant is a normative constraint. Violation places the System in an invalid State.
+Each invariant is a normative constraint. Violation places the Infrastructure in an invalid State.
 
 This document does not describe architecture, implementation, or process. For those, see [Logical Architecture](../10-architecture/logical-architecture.md), [System Flows](../10-architecture/system-flows.md), and the concept documents referenced below.
 
@@ -31,7 +31,7 @@ An **Event** in the **Event Stream** must not be modified, deleted, or reordered
 No component may apply **Events** out of the sequence defined by **Processing Order**. **Processing Order** is the canonical causal axis; **Event Time** is metadata and does not override it.
 
 **E5 — Identical inputs produce identical State.**
-Given an identical **Event Stream**, identical **Configuration**, and the same **Processing Order**, the System must produce identical **State** at every stream position without exception.
+Given an identical **Event Stream**, identical **Configuration**, and the same **Processing Order**, the Infrastructure must produce identical **State** at every stream position without exception.
 
 ---
 
@@ -95,7 +95,7 @@ No component may cause an outbound execution action without a prior allowed poli
 
 ## Determinism invariants
 
-**D1 — The System must be fully replayable.**
+**D1 — The Infrastructure must be fully replayable.**
 Given the same **Event Stream** and the same **Configuration**, every prior **State** and every prior dispatch decision must be exactly reproducible. No execution path may depend on information not present in **Event Stream + Configuration**.
 
 **D2 — Wall-clock time and runtime timing must not affect canonical behavior.**
@@ -111,7 +111,7 @@ Both **Runtimes** must apply the same deterministic processing rules to the same
 
 ## Violation
 
-If any invariant is violated, the System is in an **invalid State**.
+If any invariant is violated, the Infrastructure is in an **invalid State**.
 
 A component that detects an invariant violation must halt further processing, emit diagnostic information, and prevent propagation of inconsistent **State**. Invariant violations are critical system faults and must not be silently ignored.
 

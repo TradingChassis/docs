@@ -4,7 +4,7 @@
 
 ## Purpose and scope
 
-This document provides **semantic orientation** for the System's core conceptual layer.
+This document provides **semantic orientation** for the Infrastructure's core conceptual layer.
 
 Each section below summarizes one core concept, states its role, and explains how it relates to others. Full normative rules, invariants, and lifecycle definitions are in the individual concept documents linked throughout.
 
@@ -16,11 +16,11 @@ This document does **not** restate full lifecycle stages, queue evaluation algor
 
 ## The canonical inputs
 
-The System's behavior is fully defined by two inputs. Everything else—all derived **State**, all dispatch decisions, all **Order** projections—is a deterministic function of these two.
+The Infrastructure's behavior is fully defined by two inputs. Everything else—all derived **State**, all dispatch decisions, all **Order** projections—is a deterministic function of these two.
 
 ### Event
 
-An **Event** is an **immutable record of an occurrence** that the System must treat as input to processing. Events are the **only source of State transitions**.
+An **Event** is an **immutable record of an occurrence** that the Infrastructure must treat as input to processing. Events are the **only source of State transitions**.
 
 Events are not commands. They record what has observably occurred: market data, execution feedback, control signals, intent-processing outcomes where canonical history requires them.
 
@@ -28,7 +28,7 @@ Events are not commands. They record what has observably occurred: market data, 
 
 ### Event Stream
 
-The **Event Stream** is the **canonical, totally ordered sequence** of Events the System applies. It defines **Processing Order**: the strict internal sequence that determines causality and State derivation.
+The **Event Stream** is the **canonical, totally ordered sequence** of Events the Infrastructure applies. It defines **Processing Order**: the strict internal sequence that determines causality and State derivation.
 
 **Event Time** (the external timestamp inside an Event) is metadata. It does not define Processing Order.
 
@@ -36,7 +36,7 @@ The **Event Stream** is the **canonical, totally ordered sequence** of Events th
 
 ### Configuration
 
-**Configuration** is the explicit, versioned set of rules, parameters, and ordering assumptions under which the System processes the Event Stream and derives State. It is the second canonical input alongside the Event Stream.
+**Configuration** is the explicit, versioned set of rules, parameters, and ordering assumptions under which the Infrastructure processes the Event Stream and derives State. It is the second canonical input alongside the Event Stream.
 
 Configuration must not change silently during processing. Any Configuration change that affects derived State must be represented as an explicit versioned input consistent with canonical history.
 
@@ -48,7 +48,7 @@ Configuration must not change silently during processing. Any Configuration chan
 
 ### State
 
-**State** is the complete derived condition of the System:
+**State** is the complete derived condition of the Infrastructure:
 
 `State = f(Event Stream, Configuration)`
 
@@ -82,7 +82,7 @@ Three normative distinctions define what an Intent is not:
 - **Not persistent** — An Intent exists only as transient input to the processing step in which it is generated.
 - **Not an Order** — Intent lifecycle and Order lifecycle are distinct and must not be collapsed.
 
-Where the System must record an Intent-processing outcome for canonical history (e.g. a policy decision, a dispatch), that record appears as an **Intent-related Event**, not as the Intent itself.
+Where the Infrastructure must record an Intent-processing outcome for canonical history (e.g. a policy decision, a dispatch), that record appears as an **Intent-related Event**, not as the Intent itself.
 
 → [Terminology: Intent](../00-guides/terminology.md#intent) · [Intent Lifecycle](../10-architecture/intent-lifecycle.md)
 
@@ -128,7 +128,7 @@ Internal Queue Processing derivations — dominance, eligibility, inflight gatin
 
 ## Order
 
-An **Order** is a **derived entity in Execution State**. It represents the System's execution-level tracking of a submitted outbound action.
+An **Order** is a **derived entity in Execution State**. It represents the Infrastructure's execution-level tracking of a submitted outbound action.
 
 **The Order lifecycle begins at submission.** `Submitted` is the first Order state. Nothing before dispatch — Intent generation, Risk acceptance, Queue residency — constitutes an Order.
 
@@ -140,7 +140,7 @@ After submission, Order state evolves exclusively through **Execution Events**. 
 
 ## Determinism
 
-The System is **deterministic**: given an identical Event Stream, identical Configuration, and the same Processing Order, it produces identical State at every stream position.
+The Infrastructure is **deterministic**: given an identical Event Stream, identical Configuration, and the same Processing Order, it produces identical State at every stream position.
 
 This requires:
 

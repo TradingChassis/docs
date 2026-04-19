@@ -96,7 +96,7 @@ Retrospective Live analysis is analytical and asynchronous. It operates on persi
 
 ## Implementation Boundaries
 
-**Implementation choices, not canonical semantics.** The workflow patterns, versioning strategies, persistence approaches, and comparison structures described here are implementation-level concerns. They do not define or modify the System's canonical Event, State, or lifecycle semantics.
+**Implementation choices, not canonical semantics.** The workflow patterns, versioning strategies, persistence approaches, and comparison structures described here are implementation-level concerns. They do not define or modify the Infrastructure's canonical Event, State, or lifecycle semantics.
 
 **Analysis operates on persisted artifacts.** The implementation reads from and writes to the Data Storage Stack's persistent surfaces. It does not interact with running systems, consume transient runtime state, or participate in real-time processing.
 

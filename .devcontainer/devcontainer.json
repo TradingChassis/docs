@@ -1,5 +1,5 @@
 {
-  "name": "CanonicalFlow Docs Dev",
+  "name": "TradingChassis Docs Dev",
   "build": {
     "dockerfile": "Dockerfile",
     "context": ".."

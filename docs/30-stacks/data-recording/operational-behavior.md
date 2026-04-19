@@ -36,7 +36,7 @@ Persistent Raw Storage is **not Canonical Storage**. The Data Recording Stack do
 
 ### The transition from buffer to durable storage
 
-The operational significance of this transition is durability and availability. Before the Raw Writer completes its write, data exists only in transient local form. After completion, the data is durably stored and can survive infrastructure disruption. This transition is the point at which raw data becomes a persistent artifact of the System rather than ephemeral capture-time state.
+The operational significance of this transition is durability and availability. Before the Raw Writer completes its write, data exists only in transient local form. After completion, the data is durably stored and can survive infrastructure disruption. This transition is the point at which raw data becomes a persistent artifact of the Infrastructure rather than ephemeral capture-time state.
 
 ---
 

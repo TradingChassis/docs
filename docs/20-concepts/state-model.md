@@ -4,7 +4,7 @@
 
 ## Purpose and scope
 
-The **State Model** is the formal definition of **State** in the System.
+The **State Model** is the formal definition of **State** in the Infrastructure.
 
 It specifies:
 
@@ -21,7 +21,7 @@ This document does **not** redefine **Event** semantics or component responsibil
 
 ## Definition of State
 
-**State** is the **complete derived condition** of the System at a position in **Processing Order**.
+**State** is the **complete derived condition** of the Infrastructure at a position in **Processing Order**.
 
 **Normative rules:**
 
@@ -75,7 +75,7 @@ A **State Transition** is a deterministic change to derived State caused by proc
 
 ## Determinism
 
-The System’s derived State is **deterministic** if and only if: for identical **Event Stream** and identical **Configuration**, State (including all substate described below) is identical at every **Processing Order** position.
+The Infrastructure’s derived State is **deterministic** if and only if: for identical **Event Stream** and identical **Configuration**, State (including all substate described below) is identical at every **Processing Order** position.
 
 Derived State must not depend on wall-clock time, scheduler timing, thread interleaving, or mutable stores outside what is defined by **Event Stream + Configuration** and the derivation rules.
 
@@ -126,7 +126,7 @@ An **Order** is a **derived entity** in **Execution State**.
 
 1. Orders are **not** authoritative objects stored independently of the Event Stream. They exist only as **projections** maintained while applying the derivation function.
 
-2. The **Order lifecycle begins at submission** with state **Submitted**: the stage at which the System represents an outbound request as **submitted** and awaiting Venue acknowledgement or further **Execution Events**. Stages before that are **Intent** and execution-control derivation, not a persisted **Order** entity in this sense.
+2. The **Order lifecycle begins at submission** with state **Submitted**: the stage at which the Infrastructure represents an outbound request as **submitted** and awaiting Venue acknowledgement or further **Execution Events**. Stages before that are **Intent** and execution-control derivation, not a persisted **Order** entity in this sense.
 
 3. Orders evolve **only** through **Events** (e.g. acknowledgements, fills, cancellations, rejections), in **Processing Order**.
 

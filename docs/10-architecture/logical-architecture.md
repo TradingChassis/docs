@@ -4,7 +4,7 @@
 
 ## Purpose and scope
 
-The **Logical Architecture** defines the **logical components** of the System, their **responsibilities**, and **hard boundaries** between them.
+The **Logical Architecture** defines the **logical components** of the Infrastructure, their **responsibilities**, and **hard boundaries** between them.
 
 It answers:
 
@@ -131,7 +131,7 @@ An **Order** is **not** a Strategy-owned control object; it is a **projection** 
 **Normative boundaries:**
 
 - The Adapter **does not** decide **policy** (**Risk**) or **Execution Control** (**Queue Processing**).
-- The Adapter **does not** own derived State; it **reads** what Execution Control hands off and **writes** the System only through **Events** (or through mechanisms that append **Events**).
+- The Adapter **does not** own derived State; it **reads** what Execution Control hands off and **writes** the Infrastructure only through **Events** (or through mechanisms that append **Events**).
 
 ---
 
@@ -141,7 +141,7 @@ An **Order** is **not** a Strategy-owned control object; it is a **projection** 
 
 - Accept execution requests and emit **market** and **execution** feedback according to the Venue’s (or simulator’s) rules.
 
-The **Venue** is outside the logical Core; responses enter the System as **Events**.
+The **Venue** is outside the logical Core; responses enter the Infrastructure as **Events**.
 
 ---
 

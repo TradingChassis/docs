@@ -4,11 +4,11 @@
 
 ## Purpose and scope
 
-The Physical Architecture describes how the System's logical components are realized as deployed infrastructure.
+The Physical Architecture describes how the Infrastructure's logical components are realized as deployed infrastructure.
 
 While the [Logical Architecture](logical-architecture.md) defines conceptual components and their responsibilities, this document explains:
 
-- the physical deployment environments the System operates in
+- the physical deployment environments the Infrastructure operates in
 - what runs where, and how physical components interact
 - how the Core Runtime's canonical semantics are preserved across deployment boundaries
 - how storage, transport, and observability infrastructure relate to the canonical model
@@ -21,7 +21,7 @@ Capitalized terms are used as in [Terminology](../00-guides/terminology.md).
 
 ## Deployment topology
 
-The System is deployed across three classes of physical infrastructure:
+The Infrastructure is deployed across three classes of physical infrastructure:
 
 - **Recorder / Live Node** — low-latency server co-located near a Venue for market data collection or Live Execution
 - **Central Infrastructure Cluster** — general-purpose server infrastructure for Research, Backtesting, and Analysis workloads
@@ -188,7 +188,7 @@ The `canonical/` layer holds promoted validated market data used by Backtesting 
 
 ## Market data pipeline
 
-Market data enters the System through Recorder nodes and is promoted to Canonical Storage through a validation pipeline:
+Market data enters the Infrastructure through Recorder nodes and is promoted to Canonical Storage through a validation pipeline:
 
 ```mermaid
 flowchart TB

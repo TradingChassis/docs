@@ -6,9 +6,9 @@ This document captures implementation-facing rationale and design considerations
 
 ## Why Live Realization Matters
 
-The Live Stack operates at the boundary between the System's deterministic processing model and the real market. Implementation choices here directly affect whether the Core Runtime's architectural guarantees — deterministic Event processing, structured lifecycle management, layered responsibility separation — are preserved through to real-time production execution.
+The Live Stack operates at the boundary between the Infrastructure's deterministic processing model and the real market. Implementation choices here directly affect whether the Core Runtime's architectural guarantees — deterministic Event processing, structured lifecycle management, layered responsibility separation — are preserved through to real-time production execution.
 
-A weak realization (e.g., Venue connectivity that bypasses the Venue Adapter boundary, execution records that are lost on failure, observability that is absent during critical conditions) undermines the System's architectural integrity in the context where it matters most — real trading with real financial consequences.
+A weak realization (e.g., Venue connectivity that bypasses the Venue Adapter boundary, execution records that are lost on failure, observability that is absent during critical conditions) undermines the Infrastructure's architectural integrity in the context where it matters most — real trading with real financial consequences.
 
 The implementation patterns described here are designed to ensure that the Live Stack's realization preserves the Core Runtime's processing model while meeting the operational demands of production trading.
 
@@ -49,7 +49,7 @@ Real Venue interaction requires the Venue Connectivity Layer to manage active, b
 The Operational Control Surface must be realized as a reliable, accessible interface through which operators and operational tooling can interact with the live trading session. Implementation patterns include:
 
 - **Control channels.** API endpoints, command-line interfaces, or message-based control surfaces that accept session lifecycle commands (start, stop), trading controls (enable, disable, kill-switch), and Configuration updates.
-- **State visibility.** Exposing current session state — trading status, active Strategy, active Configuration, connection status — so that operators can assess the system's condition before issuing control commands.
+- **State visibility.** Exposing current session state — trading status, active Strategy, active Configuration, connection status — so that operators can assess the Infrastructure's condition before issuing control commands.
 - **Control safety.** Ensuring that control actions are applied reliably and that their effects are reflected in the Core Runtime's processing state. A kill-switch activation, for example, must reliably prevent further outbound dispatch — not merely signal an intent to stop.
 
 ---
@@ -64,7 +64,7 @@ Execution records are the Live Stack's durable output. The implementation must e
 
 **Traceability.** Each persisted record should carry sufficient context to be traceable — which session produced it, which Strategy and Configuration were in effect, which Venue interaction it relates to. This linkage is what makes post-hoc analysis by the Analysis Stack meaningful rather than a disconnected collection of records.
 
-**Failure resilience.** The persistence path must be robust against transient storage failures. If a write fails, the implementation should buffer and retry rather than silently dropping execution records. The durable record of live execution is not optional — it is the mechanism by which the System retains knowledge of what it did in production.
+**Failure resilience.** The persistence path must be robust against transient storage failures. If a write fails, the implementation should buffer and retry rather than silently dropping execution records. The durable record of live execution is not optional — it is the mechanism by which the Infrastructure retains knowledge of what it did in production.
 
 ---
 

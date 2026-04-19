@@ -24,7 +24,7 @@ Supporting terms at the end assume the core definitions.
 
 ## Event
 
-An **Event** is an immutable record of an occurrence that the System is required to treat as input to processing.
+An **Event** is an immutable record of an occurrence that the Infrastructure is required to treat as input to processing.
 
 **Normative rules:**
 
@@ -32,7 +32,7 @@ An **Event** is an immutable record of an occurrence that the System is required
 2. Events are applied strictly in **Processing Order** (see [Processing Order](#processing-order)).
 3. After creation, an Event must not be altered.
 
-The System is fully event-driven: all evolution of derived State is accounted for by the Event Stream and Configuration.
+The Infrastructure is fully event-driven: all evolution of derived State is accounted for by the Event Stream and Configuration.
 
 ---
 
@@ -80,11 +80,11 @@ Processing Order is independent of Event Time and Capture Time.
 
 ## Configuration
 
-**Configuration** is the explicit, versioned set of rules, parameters, and ordering assumptions under which the System processes the **Event Stream** and derives **State**.
+**Configuration** is the explicit, versioned set of rules, parameters, and ordering assumptions under which the Infrastructure processes the **Event Stream** and derives **State**.
 
 **Normative rules:**
 
-1. **Configuration** is part of the canonical input to the System.
+1. **Configuration** is part of the canonical input to the Infrastructure.
 2. Derived **State** depends on **Event Stream + Configuration**.
 3. **Configuration** defines processing rules and parameters, but is not itself **Processing Order**.
 4. **Configuration** must not change silently during processing.
@@ -95,7 +95,7 @@ Processing Order is independent of Event Time and Capture Time.
 
 ## State
 
-**State** is the complete derived condition of the System.
+**State** is the complete derived condition of the Infrastructure.
 
 **Normative rules:**
 
@@ -138,7 +138,7 @@ A **State Transition** is a deterministic change to derived State caused by proc
 
 ## Determinism
 
-The System is **deterministic** if and only if: for identical Event Stream and identical Configuration, all derived State (including execution-control substate) is identical at every Processing Order position.
+The Infrastructure is **deterministic** if and only if: for identical Event Stream and identical Configuration, all derived State (including execution-control substate) is identical at every Processing Order position.
 
 Derived behavior must not depend on:
 
@@ -157,7 +157,7 @@ An **Intent** is a **command**: a Strategy’s desired trading action (e.g. crea
 
 1. An Intent is **not** an Event.
 2. An Intent is **not** persistent. It exists only as transient input within the processing step in which Strategy evaluation occurs.
-3. An Intent does not, by itself, change State. Effects appear only through subsequent **State derivation** after Events that the System records when canonical history requires them (see [Intent visibility](#intent-visibility)).
+3. An Intent does not, by itself, change State. Effects appear only through subsequent **State derivation** after Events that the Infrastructure records when canonical history requires them (see [Intent visibility](#intent-visibility)).
 
 Strategies produce Intents; they do not send orders to Venues or perform Execution Control.
 
@@ -225,7 +225,7 @@ An **Order** is a **derived entity** in **Execution State**.
 **Normative rules:**
 
 1. Orders exist only as projections maintained while processing the Event Stream; they are not a separate source of truth.
-2. The **Order lifecycle begins at submission** with state **Submitted**—the stage at which the System represents an outbound request as submitted and awaiting Venue acknowledgement or further execution Events. Prior stages are Intent and execution-control derivation, not a persisted Order entity.
+2. The **Order lifecycle begins at submission** with state **Submitted**—the stage at which the Infrastructure represents an outbound request as submitted and awaiting Venue acknowledgement or further execution Events. Prior stages are Intent and execution-control derivation, not a persisted Order entity.
 3. Orders evolve only through Events (e.g. acknowledgements, fills, cancellations, rejections).
 
 ---
@@ -242,7 +242,7 @@ The **Order lifecycle** is the defined set of states and transitions an Order ma
 
 ---
 
-## System principle
+## Infrastructure principle
 
 **All** derived State—including Market, Execution (including Orders and execution-control substate), and System domains—is produced **only** by processing the Event Stream under Configuration.
 
@@ -252,11 +252,11 @@ No Component may mutate State outside this mechanism.
 
 > The following terms are supporting terminology and rely on the core definitions above. They do not redefine Event, State, Intent, Order, Queue, Risk, or Execution Control.
 
-## System
+## Infrastructure
 
-The **System** is the trading infrastructure described in this documentation: Core Runtime, data platform, Backtesting and Live Runtimes, and analysis and monitoring, as documented elsewhere.
+The **Infrastructure** is the trading infrastructure described in this documentation: Core Runtime, data platform, Backtesting and Live Runtimes, and analysis and monitoring, as documented elsewhere.
 
-The System **excludes** proprietary Strategy implementations (except as interfaces), portfolio allocation, and external regulatory frameworks unless explicitly documented.
+It **excludes** proprietary Strategy implementations (except as interfaces), portfolio allocation, and external regulatory frameworks unless explicitly documented.
 
 ## Core
 
@@ -282,13 +282,13 @@ Different Runtimes share the same **semantic** model; they differ in data source
 
 ## Live
 
-**Live** is real-time Strategy execution against a real Venue under the same Core semantics as Backtesting.
+**Live** is real-time Strategy Execution against a real Venue under the same Core semantics as Backtesting.
 
 ## Execution
 
 **Execution** is the activity of turning permitted, scheduled outbound actions into Venue requests and ingesting Venue responses as Events.
 
-**Execution** in this sense spans Venue Adapter I/O; **Execution Control** spans Queue and Queue Processing before the Adapter.
+**Execution** in this sense spans Venue Adapter I/O; **Execution Control** spans Queue and Queue Processing.
 
 ## Venue
 
@@ -308,11 +308,11 @@ A **Component** is a deployable or logical unit within a Stack.
 
 ## Research
 
-**Research** is the use of the System for Strategy development and evaluation (typically Backtesting, Analysis, Canonical Storage). It is a usage context, not a Core semantic primitive.
+**Research** is the use of the Infrastructure for Strategy development and evaluation (typically Backtesting, Analysis, Canonical Storage). It is a usage context, not a Core semantic primitive.
 
 ## Analysis
 
-**Analysis** is read-oriented inspection of datasets and results produced by the System.
+**Analysis** is read-oriented inspection of datasets and results produced by the Infrastructure.
 
 ## Canonical Storage
 
@@ -320,7 +320,7 @@ A **Component** is a deployable or logical unit within a Stack.
 
 ## Flow
 
-A **Flow** is a narrative or diagram of how information moves between parts of the System. Flows are explanatory; **Processing Order** and the Event Stream are normative for causality.
+A **Flow** is a narrative or diagram of how information moves between parts of the Infrastructure. Flows are explanatory; **Processing Order** and the Event Stream are normative for causality.
 
 ## Pipeline
 

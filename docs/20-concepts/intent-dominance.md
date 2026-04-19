@@ -41,7 +41,7 @@ A **Strategy** may generate a sequence of **Intents** targeting the same logical
 NEW → REPLACE → REPLACE → CANCEL
 ```
 
-Rather than forwarding each command independently (which would produce redundant or conflicting execution requests), the System collapses them. Dominance determines which command is the **current effective** pending action.
+Rather than forwarding each command independently (which would produce redundant or conflicting execution requests), the Infrastructure collapses them. Dominance determines which command is the **current effective** pending action.
 
 The result for the sequence above is:
 
@@ -61,7 +61,7 @@ Dominance operates at the level of a **logical order key**: the stable identifie
 - Dominance rules are evaluated **only** among commands targeting the **same** logical order key.
 - Commands targeting **different** logical order keys are **independent** and do not interact.
 
-**Order ID** is the canonical key used throughout the System for this purpose ([Order Lifecycle](order-lifecycle.md)).
+**Order ID** is the canonical key used throughout the Infrastructure for this purpose ([Order Lifecycle](order-lifecycle.md)).
 
 ---
 

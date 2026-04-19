@@ -12,7 +12,7 @@ The Backtesting Stack **uses** the Core Runtime — it does not **define** it. T
 
 ---
 
-## Position in the System
+## Position in the Infrastructure
 
 The Backtesting Stack belongs to the **Core Runtime** group:
 
@@ -65,6 +65,6 @@ The Backtesting Stack is **not** responsible for:
 
 ## Why the Stack Matters
 
-The Backtesting Stack is the mechanism through which the System's deterministic, event-driven Core Runtime is applied to historical data for Strategy evaluation. Without it, the Core Runtime would have no Research execution context — canonical datasets would exist but could not be used for systematic, reproducible Strategy evaluation.
+The Backtesting Stack is the mechanism through which the Infrastructure's deterministic, event-driven Core Runtime is applied to historical data for Strategy evaluation. Without it, the Core Runtime would have no Research execution context — canonical datasets would exist but could not be used for systematic, reproducible Strategy evaluation.
 
 The value of the Backtesting Stack depends directly on the properties it preserves from the Core Runtime: determinism, reproducibility, and semantic parity with Live. A backtest that does not reproduce the same processing semantics as Live execution provides misleading results. The Backtesting Stack's role is to ensure that the execution environment it provides is faithful to the Core Runtime model, so that conclusions drawn from Backtesting results are architecturally grounded.
