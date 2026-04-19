@@ -41,7 +41,7 @@ Live execution continuously produces outcomes that must be durably persisted:
 
 These records are written to **Execution Record Storage** during and after live execution. Persistence is not deferred to session end — execution records are written as outcomes are produced, so that a durable record exists even if the session is interrupted.
 
-Persisted execution records are the Live Stack's durable contribution to the System. After live execution completes, these records are available for downstream consumption by the Analysis Stack and operational tooling — enabling post-hoc execution-quality review, performance evaluation, and audit.
+Persisted execution records are the Live Stack's durable contribution to the Infrastructure. After live execution completes, these records are available for downstream consumption by the Analysis Stack and operational tooling — enabling post-hoc execution-quality review, performance evaluation, and audit.
 
 ---
 
@@ -85,8 +85,8 @@ Observability is operationally critical for live trading. The Live Stack must re
 
 ## Why This Behavior Matters
 
-The Live Stack's operational behavior is where the System's architecture produces real market outcomes. Every architectural decision upstream — the deterministic processing model, the event-derived state model, the layered runtime architecture, the separation of Risk from Execution Control, the explicit lifecycle state machines — converges into real-time execution that submits real orders and manages real positions.
+The Live Stack's operational behavior is where the Infrastructure's architecture produces real market outcomes. Every architectural decision upstream — the deterministic processing model, the event-derived state model, the layered runtime architecture, the separation of Risk from Execution Control, the explicit lifecycle state machines — converges into real-time execution that submits real orders and manages real positions.
 
-If the Live Stack's operational behavior does not faithfully execute the Core Runtime's processing model, the system's architectural guarantees do not hold in production. If execution outcomes are not persistently recorded, the system has no durable history of what it did. If the live environment is not observable and controllable, it cannot be operated safely.
+If the Live Stack's operational behavior does not faithfully execute the Core Runtime's processing model, the Infrastructure's architectural guarantees do not hold in production. If execution outcomes are not persistently recorded, the Infrastructure has no durable history of what it did. If the live environment is not observable and controllable, it cannot be operated safely.
 
 The operational behavior described here — continuous real-time execution of the Core Runtime, bidirectional Venue interaction, persistent execution-record production, and operator-visible, controllable runtime behavior — is what makes the Live Stack a production-grade trading infrastructure.

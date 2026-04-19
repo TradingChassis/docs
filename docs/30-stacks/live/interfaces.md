@@ -26,7 +26,7 @@ Control signals relevant to live operation — session start and stop, trading e
 
 ## Outputs
 
-The Live Stack produces outputs in two directions: outbound toward real Venues, and inbound toward the System's persistent and observability layers.
+The Live Stack produces outputs in two directions: outbound toward real Venues, and inbound toward the Infrastructure's persistent and observability layers.
 
 ### Outbound execution
 
@@ -60,7 +60,7 @@ Real Venues are the external execution counterpart of the Live Stack. The interf
 - **Outbound.** The Venue Adapter translates outbound execution requests from the Core Runtime into Venue-specific API calls and transmits them. The Venue Adapter handles protocol translation and external I/O; it does not decide policy or scheduling.
 - **Inbound.** Venue responses (execution reports, acknowledgements, rejections) are received by the Venue Adapter and surfaced as Execution Events that enter the Event Stream for processing by the Core Runtime.
 
-The Live Stack operates at the System boundary with the real market. The Venue Adapter isolates Venue-specific protocol behavior from the Core Runtime — the Core processes canonical Execution Events regardless of which Venue produced them.
+The Live Stack operates at the Infrastructure boundary with the real market. The Venue Adapter isolates Venue-specific protocol behavior from the Core Runtime — the Core processes canonical Execution Events regardless of which Venue produced them.
 
 ---
 
@@ -101,7 +101,7 @@ Consumes persisted Live outputs for post-hoc analysis — execution-quality revi
 
 **Real Venues are the execution counterpart.** Outbound execution requests go to real Venues; inbound execution feedback comes from real Venues. This is the defining characteristic that distinguishes the Live Stack from other execution contexts.
 
-**Execution records are the primary persistable output.** The Live Stack's durable contribution to the System is the execution record — the persisted history of what was dispatched, what the Venue reported, and what Order lifecycle outcomes resulted. These records are written to the Data Storage Stack and are available for downstream analysis.
+**Execution records are the primary persistable output.** The Live Stack's durable contribution to the Infrastructure is the execution record — the persisted history of what was dispatched, what the Venue reported, and what Order lifecycle outcomes resulted. These records are written to the Data Storage Stack and are available for downstream analysis.
 
 **The Core Runtime is used, not defined.** The Live Stack supplies inputs to and captures outputs from the Core Runtime. It does not modify the Core Runtime's processing semantics.
 

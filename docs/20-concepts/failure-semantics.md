@@ -4,7 +4,7 @@
 
 ## Purpose
 
-This document defines what **failure** means in the System and what constraints failure handling must satisfy within a deterministic, event-driven architecture.
+This document defines what **failure** means in the Infrastructure and what constraints failure handling must satisfy within a deterministic, event-driven architecture.
 
 It answers:
 
@@ -45,7 +45,7 @@ In the canonical model, this definition has a precise implication:
 
 > A failure must not produce **silent** or **out-of-band State changes**. Any failure that has State-relevant consequences must expose those consequences through the **Event Stream**, not through parallel mutable mechanisms.
 
-This constraint follows directly from the System's foundational rule: **Events are the only source of State transitions** ([Invariants: E1](invariants.md)). A failure that silently mutates derived State violates this invariant and breaks determinism and replayability.
+This constraint follows directly from the Infrastructure's foundational rule: **Events are the only source of State transitions** ([Invariants: E1](invariants.md)). A failure that silently mutates derived State violates this invariant and breaks determinism and replayability.
 
 Failures therefore divide into two classes based on their relationship to canonical State:
 
@@ -62,9 +62,9 @@ The central discipline of failure handling in this System is determining which c
 
 ### 1. Input and recording failures
 
-Input failures occur when an external source supplies data the System cannot process: a malformed market update, a missing sequence number, a feed interruption, a corrupted record.
+Input failures occur when an external source supplies data the Infrastructure cannot process: a malformed market update, a missing sequence number, a feed interruption, a corrupted record.
 
-**Semantic constraint:** A gap or discontinuity in the observed event feed may itself need to be recorded as a **System Event** or **Control Event** on the canonical stream, if downstream processing depends on the System's known state of data completeness. The absence of an expected market update does not automatically become an Event — but if the System takes a definitive action based on that absence (e.g., pauses evaluation, marks the feed as degraded), that action and its effect on derived **State** must enter the stream.
+**Semantic constraint:** A gap or discontinuity in the observed event feed may itself need to be recorded as a **System Event** or **Control Event** on the canonical stream, if downstream processing depends on the Infrastructure's known state of data completeness. The absence of an expected market update does not automatically become an Event — but if the Infrastructure takes a definitive action based on that absence (e.g., pauses evaluation, marks the feed as degraded), that action and its effect on derived **State** must enter the stream.
 
 A feed interruption that is transparently recovered — input resumes without any gap visible to the processing model — has no canonical State consequence and requires no record.
 
@@ -74,7 +74,7 @@ Strategy evaluation failures occur when **Strategy** logic cannot produce a resu
 
 **Semantic constraint:** Strategy produces **Intents** — ephemeral commands with no persistent existence. A Strategy evaluation failure that prevents Intent generation leaves derived **State** unchanged. No **Order** is affected; no canonical State transition has occurred.
 
-A Strategy failure is **state-invisible** unless the System takes a definitive action (e.g., halting a Strategy, disabling it) that must be reflected in **Control State** through **Events**.
+A Strategy failure is **state-invisible** unless the Infrastructure takes a definitive action (e.g., halting a Strategy, disabling it) that must be reflected in **Control State** through **Events**.
 
 Because Intents are not Events and are not part of canonical history, a failed Intent generation leaves no trace in the stream and requires no recovery for deterministic replay.
 
@@ -94,7 +94,7 @@ Execution Control failures occur during **Queue Processing**: inability to evalu
 
 A failure in Queue Processing that prevents dispatch in a given step means work remains in **Pending dispatch** for the next processing step. No hidden fallback state is created; the next step re-derives the Queue correctly.
 
-If a Queue Processing failure causes the System to take a definitive action that must be part of canonical history (e.g., withdrawing a pending Intent as part of a controlled shutdown), that action must be represented as an **Event**.
+If a Queue Processing failure causes the Infrastructure to take a definitive action that must be part of canonical history (e.g., withdrawing a pending Intent as part of a controlled shutdown), that action must be represented as an **Event**.
 
 ### 5. Venue and external interaction failures
 
@@ -111,9 +111,9 @@ Failure modes include:
 
 **Dispatch failure (pre-acknowledgment).** If dispatch fails before the request reaches the Venue — i.e., transmission did not occur — there is no successful dispatch record in canonical history. Therefore no **Order** enters **Execution State**, and no **Order** lifecycle begins, since the lifecycle starts only at submission ([Order Lifecycle](order-lifecycle.md)).
 
-**Missing acknowledgment (Order in Submitted).** An **Order** dispatched to the Venue remains in `Submitted` state until an **Execution Event** advances it. The System **must not** silently change the Order's state. No out-of-band reconciliation may alter the derived Order projection without going through the stream. The Order stays in `Submitted` — canonically and correctly — until an Event arrives that resolves its status.
+**Missing acknowledgment (Order in Submitted).** An **Order** dispatched to the Venue remains in `Submitted` state until an **Execution Event** advances it. The Infrastructure **must not** silently change the Order's state. No out-of-band reconciliation may alter the derived Order projection without going through the stream. The Order stays in `Submitted` — canonically and correctly — until an Event arrives that resolves its status.
 
-**Definitive disposition under persistent uncertainty.** If the System ultimately determines that an unacknowledged Order must be given a definitive terminal disposition (e.g., treated as unknown or failed), that determination must be expressed as an **Event** appended to the stream. Only then does the Order lifecycle advance. The specific policy governing when and how that determination is made is an implementation concern.
+**Definitive disposition under persistent uncertainty.** If the Infrastructure ultimately determines that an unacknowledged Order must be given a definitive terminal disposition (e.g., treated as unknown or failed), that determination must be expressed as an **Event** appended to the stream. Only then does the Order lifecycle advance. The specific policy governing when and how that determination is made is an implementation concern.
 
 **Venue rejections and cancellations.** Venue-originated rejection, fill, or cancellation feedback arrives as **Execution Events** per the normal processing model. These are not failures in the semantic sense — they are expected Venue responses recorded in the stream, which then derive the corresponding **Order** lifecycle transitions.
 
@@ -126,7 +126,7 @@ The rule for when a failure must enter canonical history follows directly from t
 **A failure must appear as an Event if and only if:**
 
 1. It produces or constrains a **State transition** that must be reproducible under replay; or
-2. It causes the System to take a definitive action affecting derived **State** (e.g., a halt, a forced Order disposition, a Strategy disabling); or
+2. It causes the Infrastructure to take a definitive action affecting derived **State** (e.g., a halt, a forced Order disposition, a Strategy disabling); or
 3. It would otherwise create an irreconcilable discrepancy between the canonical **Event Stream** and the real-world state of outstanding submissions.
 
 **A failure does not need to appear as a canonical Event if:**
@@ -152,9 +152,9 @@ An **Order** in any lifecycle state must not have its state changed by failure-h
 No failure-handling mechanism may introduce a private mutable store that shadows derived State and influences future processing decisions without being part of **Event Stream + Configuration**. Queue reconciliation state, inflight tracking, and exposure bookkeeping are all derived — they must remain so under failure conditions.
 
 **F4 — Pre-submission failures are State-neutral by default.**
-A failure that occurs before dispatch (Strategy, Risk, Execution Control) has no persistent State consequence unless the System takes a definitive action requiring a canonical record. The ephemeral nature of **Intents** and the derived nature of the **Queue** mean these failures leave no residual State without an explicit Event.
+A failure that occurs before dispatch (Strategy, Risk, Execution Control) has no persistent State consequence unless the Infrastructure takes a definitive action requiring a canonical record. The ephemeral nature of **Intents** and the derived nature of the **Queue** mean these failures leave no residual State without an explicit Event.
 
-**F5 — Violation of these constraints places the System in an invalid State.**
+**F5 — Violation of these constraints places the Infrastructure in an invalid State.**
 As with all invariant violations ([Invariants: Violation](invariants.md#violation)), failure-handling code that breaks these constraints must not proceed silently. Propagation of inconsistent State must be prevented.
 
 ---
@@ -169,7 +169,7 @@ The failure is recorded as an **Event** (or set of Events) on the canonical stre
 **Replay-incompatible failure handling:**
 The failure is handled out-of-band: State is mutated through a mechanism not visible in the stream, or an Order lifecycle transition occurs without a corresponding Event. Replaying the stream does not reproduce the post-failure State. This breaks determinism ([Determinism Model: What would break determinism](determinism-model.md#what-would-break-determinism)).
 
-The implication is that **failure handling is itself event-driven**. The System responds to failures by appending Events that represent the known outcome, and then processing continues deterministically from those Events. There is no separate failure-resolution mode that operates outside the canonical model.
+The implication is that **failure handling is itself event-driven**. The Infrastructure responds to failures by appending Events that represent the known outcome, and then processing continues deterministically from those Events. There is no separate failure-resolution mode that operates outside the canonical model.
 
 ---
 
@@ -194,8 +194,8 @@ The following aspects of failure handling are intentionally not defined here bec
 
 1. **Named Event types for failure records.** Which specific named Event types (e.g., a "dispatch failure" record, a "feed gap" control Event, an "Order disposition" Event) are defined for recording failures in canonical history is an implementation decision. The canonical model requires only that the relevant outcomes enter the stream as Events; it does not prescribe the taxonomy.
 
-2. **Timeout policy for unacknowledged Orders.** When the System treats a prolonged absence of Venue feedback as grounds for a definitive Order disposition is a Configuration and policy decision. The canonical model constrains only that the disposition itself must be Event-driven when it occurs.
+2. **Timeout policy for unacknowledged Orders.** When the Infrastructure treats a prolonged absence of Venue feedback as grounds for a definitive Order disposition is a Configuration and policy decision. The canonical model constrains only that the disposition itself must be Event-driven when it occurs.
 
-3. **Venue reconnection and retry behavior.** Whether and how the System attempts reconnection, re-queries Order status from a Venue, or uses alternative data paths after a connection interruption is an infrastructure and operational concern. Any resulting State changes must conform to the failure constraints in this document.
+3. **Venue reconnection and retry behavior.** Whether and how the Infrastructure attempts reconnection, re-queries Order status from a Venue, or uses alternative data paths after a connection interruption is an infrastructure and operational concern. Any resulting State changes must conform to the failure constraints in this document.
 
 4. **Diagnostic and monitoring surface.** How failures are reported outside the canonical stream (logs, metrics, alerting) does not affect canonical semantics and is not constrained here beyond the requirement that such mechanisms must not write to canonical State directly.

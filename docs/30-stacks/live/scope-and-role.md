@@ -12,7 +12,7 @@ The Live Stack **uses** the Core Runtime; it does not **define** it. The Core Ru
 
 ---
 
-## Position in the System
+## Position in the Infrastructure
 
 The Live Stack belongs to the **Core Runtime** group. It operates at the boundary between the Core Runtime and the real market and Venue environment:
 
@@ -33,7 +33,7 @@ The Live Stack is **not** part of the Data Platform. It does not capture raw dat
 
 ### Relationship to the Core Runtime
 
-The Live Stack executes the same Core Runtime that defines the System's processing semantics — the same Event-driven processing model, the same Strategy → Risk → Execution Control → Venue Adapter chain, the same deterministic State derivation. The Live Stack provides the real-time operational context in which those semantics are applied to live market conditions and real Venue interactions.
+The Live Stack executes the same Core Runtime that defines the Infrastructure's processing semantics — the same Event-driven processing model, the same Strategy → Risk → Execution Control → Venue Adapter chain, the same deterministic State derivation. The Live Stack provides the real-time operational context in which those semantics are applied to live market conditions and real Venue interactions.
 
 ### Operational importance
 
@@ -70,6 +70,6 @@ The Live Stack is **not** responsible for:
 
 ## Why the Stack Matters
 
-The Live Stack is where the System's architecture meets real markets. Everything upstream — canonical models, deterministic processing semantics, validated datasets, Research-evaluated Strategies — converges here into real-time execution that produces real financial outcomes.
+The Live Stack is where the Infrastructure's architecture meets real markets. Everything upstream — canonical models, deterministic processing semantics, validated datasets, Research-evaluated Strategies — converges here into real-time execution that produces real financial outcomes.
 
-The Live Stack's reliability and operational soundness directly determine whether the System's architectural guarantees translate into safe, controlled production behavior. A Live Stack that is not observable cannot be operated safely. A Live Stack that does not faithfully execute the Core Runtime's processing model produces behavior that diverges from what was validated during Research. The Live Stack's role is to ensure that the transition from Research to production is architecturally faithful and operationally controlled.
+The Live Stack's reliability and operational soundness directly determine whether the Infrastructure's architectural guarantees translate into safe, controlled production behavior. A Live Stack that is not observable cannot be operated safely. A Live Stack that does not faithfully execute the Core Runtime's processing model produces behavior that diverges from what was validated during Research. The Live Stack's role is to ensure that the transition from Research to production is architecturally faithful and operationally controlled.

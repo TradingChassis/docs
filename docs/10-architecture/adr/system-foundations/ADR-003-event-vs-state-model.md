@@ -17,19 +17,19 @@ A trading system must process a continuous stream of occurrences — market data
 
 Two fundamental approaches exist:
 
-**Mutable state as primary truth.** Components directly mutate an internal state store in response to incoming signals. The current state *is* the system's truth; history is either not retained or maintained separately as a secondary concern.
+**Mutable state as primary truth.** Components directly mutate an internal state store in response to incoming signals. The current state *is* the Infrastructure's truth; history is either not retained or maintained separately as a secondary concern.
 
-**Event stream as primary truth.** Occurrences are recorded as immutable Events in a canonical stream. State is a derived projection: a deterministic function of the Event stream and configuration. The stream is the system's truth; current state is recomputable from it.
+**Event stream as primary truth.** Occurrences are recorded as immutable Events in a canonical stream. State is a derived projection: a deterministic function of the Event stream and configuration. The stream is the Infrastructure's truth; current state is recomputable from it.
 
 The mutable-state-as-truth approach creates specific problems for a system that must be deterministic, replayable, and operationally auditable:
 
-- **Reconstruction is unreliable.** If state is the primary store, reconstructing historical state requires either complete snapshots at every point of interest or reverse-engineering state from incomplete logs. Neither is guaranteed to reproduce the exact condition the system was in at a given moment.
+- **Reconstruction is unreliable.** If state is the primary store, reconstructing historical state requires either complete snapshots at every point of interest or reverse-engineering state from incomplete logs. Neither is guaranteed to reproduce the exact condition the Infrastructure was in at a given moment.
 - **Replay is structurally unsupported.** Replaying the same inputs to reproduce the same outputs requires that all state evolution be accounted for by those inputs. When components mutate state directly — through ad hoc writes, hidden caches, timer-driven updates, or out-of-band corrections — the inputs alone are insufficient to reproduce the result.
-- **Backtesting and Live diverge.** If the system permits state mutations outside the input-processing path, Backtesting (which replays historical inputs) cannot reproduce the state mutations that occurred during Live execution. The two Runtimes evaluate different systems.
-- **Causality is ambiguous.** When multiple components can mutate state through different mechanisms, the question "why is the system in this state?" has no single authoritative answer. Debugging requires correlating disparate mutation sources rather than reading a single ordered history.
+- **Backtesting and Live diverge.** If the Infrastructure permits state mutations outside the input-processing path, Backtesting (which replays historical inputs) cannot reproduce the state mutations that occurred during Live execution. The two Runtimes evaluate different systems.
+- **Causality is ambiguous.** When multiple components can mutate state through different mechanisms, the question "why is the Infrastructure in this state?" has no single authoritative answer. Debugging requires correlating disparate mutation sources rather than reading a single ordered history.
 - **Consistency across domains is fragile.** Market State, Execution State, and Control State must remain mutually consistent. Direct mutation across domains without a single sequencing mechanism creates windows where one domain reflects an occurrence that another has not yet processed.
 
-The System requires deterministic behavior, exact replayability, and semantic parity between Backtesting and Live. These properties are structurally incompatible with a mutable-state-as-truth model.
+The Infrastructure requires deterministic behavior, exact replayability, and semantic parity between Backtesting and Live. These properties are structurally incompatible with a mutable-state-as-truth model.
 
 ---
 
@@ -49,7 +49,7 @@ This decision imposes the following architectural rules:
 
 3. **State is derived, not owned.** No component holds State as independent mutable truth. Components read projections of derived State; they do not maintain authoritative copies that diverge from what the Event Stream would produce.
 
-4. **State is reconstructible.** Given an identical Event Stream and identical Configuration, the System produces identical State at every Processing Order position. State can be reconstructed at any point by replaying the stream under the same Configuration.
+4. **State is reconstructible.** Given an identical Event Stream and identical Configuration, the Infrastructure produces identical State at every Processing Order position. State can be reconstructed at any point by replaying the stream under the same Configuration.
 
 5. **All inputs that influence State must be canonical.** Any data that affects derived State must be either part of the Event Stream or part of explicit, versioned Configuration. Hidden stores, caches, and out-of-band writes that influence State evolution are forbidden.
 
@@ -75,7 +75,7 @@ There is no fourth top-level domain. Execution-control substate (Queue contents,
 
 **All derived entities are projections, not independent truth.** Orders, positions, Queue contents, and execution-control bookkeeping exist only as projections maintained during Event processing. None is an authoritative store that can diverge from the Event Stream. This rules out designs where, for example, a Queue maintains its own truth independently of the derivation path, or where Order state is updated through a mechanism other than processing Execution Events.
 
-**Processing Order is the causal axis.** Because State derivation is sequential over the Event Stream, the strict ordering of Events — Processing Order — defines the system's internal causal history. Event Time is preserved as external metadata but does not determine when an Event is applied. This eliminates timing-dependent ambiguity in state evolution.
+**Processing Order is the causal axis.** Because State derivation is sequential over the Event Stream, the strict ordering of Events — Processing Order — defines the Infrastructure's internal causal history. Event Time is preserved as external metadata but does not determine when an Event is applied. This eliminates timing-dependent ambiguity in state evolution.
 
 **No separate runtime tick.** All advancement of State — including execution-control substate — occurs within Event processing. There is no background timer, polling loop, or autonomous scheduler that advances State independently. This follows directly from the decision: if State is derived from the Event Stream, anything that changes State outside Event processing introduces a mutation path that the stream cannot account for.
 
@@ -95,4 +95,4 @@ There is no fourth top-level domain. Execution-control substate (Queue contents,
 
 ## Summary
 
-The System treats the Event Stream as canonical history and State as a derived projection. State is not primary truth; it is a deterministic function of Event Stream and Configuration. This decision is the structural foundation for deterministic replay, Backtesting/Live semantic parity, and the prohibition of hidden mutable truth throughout the system.
+The Infrastructure treats the Event Stream as canonical history and State as a derived projection. State is not primary truth; it is a deterministic function of Event Stream and Configuration. This decision is the structural foundation for deterministic replay, Backtesting/Live semantic parity, and the prohibition of hidden mutable truth throughout the Infrastructure.

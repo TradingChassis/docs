@@ -93,7 +93,7 @@ Role:
 - Produce reports and summaries — structured outputs that distill analytical findings into communicable form.
 - Produce comparison artifacts — structured representations of cross-experiment or cross-context comparisons.
 
-The Derived Artifact Builder packages analytical outputs into durable, reusable artifacts. Its outputs are what the Analysis Stack contributes back to the System's persistent record.
+The Derived Artifact Builder packages analytical outputs into durable, reusable artifacts. Its outputs are what the Analysis Stack contributes back to the Infrastructure's persistent record.
 
 ### Result Writer
 
@@ -104,7 +104,7 @@ Role:
 - Write derived analytical artifacts, comparison outputs, evaluation results, and analysis datasets to **Derived Storage** and **Experiment / Artifact Storage**.
 - Ensure that analytical outputs are durably stored and available for future reference, further analysis, or downstream consumption.
 
-The Result Writer is the capability through which the Analysis Stack's outputs become part of the System's persistent record.
+The Result Writer is the capability through which the Analysis Stack's outputs become part of the Infrastructure's persistent record.
 
 ### Analysis Versioning Surface
 

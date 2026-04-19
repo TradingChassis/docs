@@ -1,12 +1,12 @@
-# CanonicalFlow — Trading System Documentation
+# TradingChassis — Trading Infrastructure Documentation
 
-This repository contains the architecture documentation for the CanonicalFlow trading system. It is the canonical reference for the system's concepts, architectural decisions, implementation-facing stack descriptions, and operational model.
+This repository contains the architecture documentation for the TradingChassis trading infrastructure. It is the canonical reference for the infrastructure's concepts, architectural decisions, implementation-facing stack descriptions, and operational model.
 
 ---
 
 ## Purpose
 
-The goal of this repository is to make the structure, reasoning, and constraints of the system explicit and durable. It captures:
+The goal of this repository is to make the structure, reasoning, and constraints of the Infrastructure explicit and durable. It captures:
 
 - canonical system concepts and semantic models
 - architectural boundaries and design decisions
@@ -14,7 +14,7 @@ The goal of this repository is to make the structure, reasoning, and constraints
 - operational behavior and runtime model
 - system evolution context
 
-Documentation here is organized to remain accurate over time by separating what the system is *conceptually* from how it is *realized* in implementation.
+Documentation here is organized to remain accurate over time by separating what the Infrastructure is *conceptually* from how it is *realized* in implementation.
 
 ---
 
@@ -22,7 +22,7 @@ Documentation here is organized to remain accurate over time by separating what 
 
 This documentation is intended for:
 
-- system architects and quantitative developers working on or reasoning about the system
+- system architects and quantitative developers working on or reasoning about the Infrastructure
 - infrastructure and platform engineers who need to understand subsystem boundaries
 - contributors who need shared vocabulary and design context before making changes
 
@@ -64,7 +64,7 @@ The documentation is numbered to encode reading flow from foundational orientati
 | `40-operations`   | Operational model, monitoring, recovery, and runbook-facing material.                                                                                                                                                         |
 | `50-evolution`    | Roadmap, milestones, and development history.                                                                                                                                                                                 |
 
-The `20-concepts` section defines what the system *means*. The `30-stacks` section documents how those meanings are realized. Other sections orient, record decisions, or describe operational and evolutionary context.
+The `20-concepts` section defines what the Infrastructure *means*. The `30-stacks` section documents how those meanings are realized. Other sections orient, record decisions, or describe operational and evolutionary context.
 
 Each Stack in `30-stacks` follows a standard document structure: overview, scope and role, interfaces, internal structure, operational behavior, and implementation notes.
 

@@ -22,7 +22,7 @@ All contributions should follow the core architectural philosophy:
 
 Avoid introducing ambiguous descriptions, undocumented assumptions, or unclear system behavior.
 
-Architecture documentation should explain why the System exists in its current form, not only how it is implemented.
+Architecture documentation should explain why the Infrastructure exists in its current form, not only how it is implemented.
 
 ---
 

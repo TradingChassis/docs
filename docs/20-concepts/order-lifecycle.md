@@ -19,7 +19,7 @@ Capitalized terms are used as in [Terminology](../00-guides/terminology.md).
 
 ## What an Order represents
 
-An **Order** is a **derived entity** in **Execution State**: the System's execution-level representation of a submitted outbound action, created at **dispatch** and subsequently evolved through **canonical Execution Events**.
+An **Order** is a **derived entity** in **Execution State**: the Infrastructure's execution-level representation of a submitted outbound action, created at **dispatch** and subsequently evolved through **canonical Execution Events**.
 
 **Normative rules:**
 
@@ -36,13 +36,13 @@ Each **Order** is identified by a stable **Order ID** assigned by the Core when 
 
 - **All** **Execution Events** and outbound commands targeting the same logical order share that **Order ID**.
 - The **Venue** may assign an additional **Venue-side identifier** (e.g. exchange order ID), associated with the **Order** after **Venue acknowledgement**.
-- **Order ID** is the canonical key for lifecycle tracking within the System regardless of Venue-assigned identifiers.
+- **Order ID** is the canonical key for lifecycle tracking within the Infrastructure regardless of Venue-assigned identifiers.
 
 ---
 
 ## Lifecycle entry condition
 
-An **Order** comes into existence in **Execution State** at **submission** in state **Submitted**: the point at which the System represents an outbound request as **submitted** and is awaiting **Venue** acknowledgement or further **Execution Events**.
+An **Order** comes into existence in **Execution State** at **submission** in state **Submitted**: the point at which the Infrastructure represents an outbound request as **submitted** and is awaiting **Venue** acknowledgement or further **Execution Events**.
 
 **Prior stages**—such as **Intent** command creation, **Risk** policy evaluation, and **Queue Processing** / **Execution Control**—belong to the **Intent lifecycle** ([Intent Lifecycle](../10-architecture/intent-lifecycle.md)), **not** to this lifecycle. The **Order** lifecycle **begins** only at **Submission**.
 

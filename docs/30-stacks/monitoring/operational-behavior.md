@@ -1,12 +1,12 @@
 # Operational Behavior
 
-This document describes how the Monitoring Stack behaves during normal operation: how observability signals are collected from running system parts, how health and status become visible, how alert-oriented monitoring arises from ongoing conditions, and how operational visibility is maintained while the System is running.
+This document describes how the Monitoring Stack behaves during normal operation: how observability signals are collected from running system parts, how health and status become visible, how alert-oriented monitoring arises from ongoing conditions, and how operational visibility is maintained while the Infrastructure is running.
 
 ---
 
 ## Runtime Signal Observation
 
-The Monitoring Stack operates concurrently with the system parts it observes. During normal operation, it continuously receives observability-relevant signals — telemetry, metrics, status indicators, health signals, error and failure events — from running Stacks and components.
+The Monitoring Stack operates concurrently with the Infrastructure parts it observes. During normal operation, it continuously receives observability-relevant signals — telemetry, metrics, status indicators, health signals, error and failure events — from running Stacks and components.
 
 Signal observation is **ongoing and runtime-concurrent**. The Monitoring Stack does not wait for execution to complete before it begins. It observes execution as it happens, maintaining a current picture of what is running, what state it is in, and whether conditions are nominal.
 
@@ -60,7 +60,7 @@ Operational visibility is **runtime-continuous**. It does not require a triggeri
 
 ## Operational Boundaries
 
-**Runtime-concurrent, not retrospective.** The Monitoring Stack's operational behavior is defined by what is happening while the System is running. It does not evaluate persisted experiment results, compare Strategy performance across historical runs, or produce derived analytical artifacts. Retrospective evaluation of stored outputs is an Analysis Stack responsibility.
+**Runtime-concurrent, not retrospective.** The Monitoring Stack's operational behavior is defined by what is happening while the Infrastructure is running. It does not evaluate persisted experiment results, compare Strategy performance across historical runs, or produce derived analytical artifacts. Retrospective evaluation of stored outputs is an Analysis Stack responsibility.
 
 **Observability, not execution.** The Monitoring Stack observes running system parts without participating in their execution logic. It does not run Strategies, process Events, evaluate Risk, manage Execution Control, or interact with Venues. Its operational activity is signal collection, health evaluation, alert detection, and visibility exposure — not runtime business logic.
 
@@ -74,4 +74,4 @@ Operational visibility is **runtime-continuous**. It does not require a triggeri
 
 The Monitoring Stack's operational behavior determines whether running system parts are observable during execution. Without ongoing signal collection, health evaluation, and operational visibility, runtime Stacks execute without structured awareness of their operational state — degradations proceed without detection, failures become visible only through their downstream consequences, and the operational picture remains incomplete until after the fact.
 
-The operational behavior described here — continuous signal observation, structured health and status tracking, condition-driven alert evaluation, and runtime-concurrent visibility exposure — is what makes the Monitoring Stack an effective observability layer. It ensures that while the System is running, its operational state is accessible, its health is assessable, and conditions that require attention are surfaced in time to act on them.
+The operational behavior described here — continuous signal observation, structured health and status tracking, condition-driven alert evaluation, and runtime-concurrent visibility exposure — is what makes the Monitoring Stack an effective observability layer. It ensures that while the Infrastructure is running, its operational state is accessible, its health is assessable, and conditions that require attention are surfaced in time to act on them.

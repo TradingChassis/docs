@@ -22,7 +22,7 @@ The Data Storage Stack does not push data to consumers or notify them of new con
 
 Although the storage classes share the Data Storage Stack as their persistent substrate, they exhibit different behavioral characteristics in operation:
 
-**Persistent Raw Storage** receives a continuous flow of raw recorded datasets during active recording sessions. Its content grows as the Data Recording Stack captures data from Venue feeds. Raw datasets are read by the Data Quality Stack for assessment and are retained as the System's raw empirical record.
+**Persistent Raw Storage** receives a continuous flow of raw recorded datasets during active recording sessions. Its content grows as the Data Recording Stack captures data from Venue feeds. Raw datasets are read by the Data Quality Stack for assessment and are retained as the Infrastructure's raw empirical record.
 
 **Canonical Storage** receives datasets only through the Data Quality Stack's promotion process. Writes to Canonical Storage are less frequent than writes to Persistent Raw Storage and occur only after successful validation, normalization, and promotion. Canonical datasets are **immutable after promotion** — corrections produce new dataset versions rather than modifying existing ones. This immutability is an operational property of the storage class, not merely a policy preference.
 
@@ -64,7 +64,7 @@ The Data Storage Stack is what makes this decoupling possible. By providing dura
 
 ## Why This Behavior Matters
 
-The Data Storage Stack's operational behavior — durable availability, logical separation, and passive persistence — is what enables the rest of the System to operate as decoupled Stacks with independent processing schedules.
+The Data Storage Stack's operational behavior — durable availability, logical separation, and passive persistence — is what enables the rest of the Infrastructure to operate as decoupled Stacks with independent processing schedules.
 
 If storage surfaces were unavailable or unreliable, producing Stacks could not persist their outputs and consuming Stacks could not retrieve their inputs. If logical separation collapsed — if raw and canonical data co-mingled in an undifferentiated storage pool — the distinction between unassessed raw data and validated canonical data would be operationally meaningless, regardless of what the Data Quality Stack had decided.
 

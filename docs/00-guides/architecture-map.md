@@ -33,7 +33,7 @@ For a brief semantic introduction to each core concept, see [Concepts Overview](
 | What are the logical components and their responsibilities? | [Logical Architecture](../10-architecture/logical-architecture.md) |
 | What is the step-by-step runtime sequence? | [System Flows](../10-architecture/system-flows.md) |
 | How does an Intent move from Strategy to Venue? | [Intent Pipeline](../10-architecture/intent-pipeline.md) |
-| What is the system's top-level structure and layer organization? | [Architecture Overview](../10-architecture/architecture-overview.md) |
+| What is the Infrastructure's top-level structure and layer organization? | [Architecture Overview](../10-architecture/architecture-overview.md) |
 
 ### Lifecycle semantics
 
@@ -62,9 +62,9 @@ For a brief semantic introduction to each core concept, see [Concepts Overview](
 
 | Question | Document |
 | -------- | -------- |
-| How are the system's stacks organized? | [Architecture Overview](../10-architecture/architecture-overview.md) |
+| How are the Infrastructure's stacks organized? | [Architecture Overview](../10-architecture/architecture-overview.md) |
 | How does Backtesting relate to Live at the semantic level? | [Architecture Overview](../10-architecture/architecture-overview.md) |
-| How is the system deployed? | [Physical Architecture](../10-architecture/physical-architecture.md) |
+| How is the Infrastructure deployed? | [Physical Architecture](../10-architecture/physical-architecture.md) |
 
 ---
 
@@ -108,7 +108,7 @@ For the full step-by-step sequence, see [System Flows](../10-architecture/system
 
 ## System topology
 
-The System is organized into three infrastructure layers:
+The Infrastructure is organized into three infrastructure layers:
 
 ```mermaid
 flowchart TB

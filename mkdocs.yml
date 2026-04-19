@@ -1,9 +1,8 @@
-# site_name: CanonicalFlow | Trading System Documentation
-site_name: CanonicalFlow
-site_description: Trading System Documentation
+site_name: TradingChassis
+site_description: Trading Infrastructure Documentation
 site_author: bxvtr
 copyright: >-
-  Copyright © 2026 <a href="https://github.com/CanonicalFlow/" target="_blank" rel="noopener">CanonicalFlow</a>.
+  Copyright © 2026 <a href="https://github.com/TradingChassis/" target="_blank" rel="noopener">TradingChassis</a>.
   Licensed under
   <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>.
   No financial advice.
@@ -14,8 +13,8 @@ theme:
   name: material
   custom_dir: docs/overrides
   # Fallback only; header/drawer logos are overrides/partials/logo.html (light + dark)
-  logo: assets/cf_logo_light.svg
-  favicon: assets/cf_icon.ico
+  logo: assets/tc_logo_light.png
+  favicon: assets/tc_logo_dark.png
   language: en
 
   font:
@@ -84,7 +83,7 @@ extra:
 
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/CanonicalFlow/docs/
+      link: https://github.com/TradingChassis/docs/
 
 extra_css:
   - stylesheets/extra.css

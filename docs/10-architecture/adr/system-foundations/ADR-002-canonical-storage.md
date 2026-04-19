@@ -13,7 +13,7 @@ Updated: {{ page.meta.updated }}
 
 ## Context
 
-The System operates across multiple Stacks — Data Recording, Data Quality, Data Storage, Backtesting, Live, Analysis, Monitoring — that share persistent datasets. Market data is collected from external sources, normalized, validated, and then consumed by both Research workflows (Backtesting, Analysis) and Live operations.
+The Infrastructure operates across multiple Stacks — Data Recording, Data Quality, Data Storage, Backtesting, Live, Analysis, Monitoring — that share persistent datasets. Market data is collected from external sources, normalized, validated, and then consumed by both Research workflows (Backtesting, Analysis) and Live operations.
 
 Without a single authoritative dataset layer, the following problems arise:
 
@@ -29,7 +29,7 @@ The architecture requires an explicit authoritative dataset layer that all Stack
 
 ## Decision
 
-The System maintains **Canonical Storage** as the authoritative validated dataset layer for cross-stack use.
+The Infrastructure maintains **Canonical Storage** as the authoritative validated dataset layer for cross-stack use.
 
 ### Core rules
 
@@ -79,4 +79,4 @@ The System maintains **Canonical Storage** as the authoritative validated datase
 
 ## Summary
 
-The System maintains Canonical Storage as the authoritative validated dataset layer. Datasets reach this layer only through staged promotion (`raw → normalized → validated → canonical`) and are immutable after promotion. All Stacks that consume validated data reference Canonical Storage as the single authoritative source. Canonical Storage is distinct from the Runtime Event Stream: the Event Stream governs runtime causality and State derivation; Canonical Storage governs persistent dataset authority across Stacks. This decision ensures reproducible inputs, consistent cross-stack data, traceable provenance, and explicit data boundaries between Stacks.
+The Infrastructure maintains Canonical Storage as the authoritative validated dataset layer. Datasets reach this layer only through staged promotion (`raw → normalized → validated → canonical`) and are immutable after promotion. All Stacks that consume validated data reference Canonical Storage as the single authoritative source. Canonical Storage is distinct from the Runtime Event Stream: the Event Stream governs runtime causality and State derivation; Canonical Storage governs persistent dataset authority across Stacks. This decision ensures reproducible inputs, consistent cross-stack data, traceable provenance, and explicit data boundaries between Stacks.

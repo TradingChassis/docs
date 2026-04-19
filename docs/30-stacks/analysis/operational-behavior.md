@@ -48,7 +48,7 @@ The Analysis Stack produces derived analytical artifacts as the outcomes of its 
 - **Evaluation results** — structured assessments of Strategy performance, execution quality, or discrepancy magnitude.
 - **Reports and summaries** — structured outputs that distill analytical findings into communicable form.
 
-These outputs are written to the Data Storage Stack's persistent surfaces — primarily Derived Storage and Experiment / Artifact Storage — where they become part of the System's persistent record. Persisted analytical outputs are available for future reference, further analysis, or consumption by other analytical work.
+These outputs are written to the Data Storage Stack's persistent surfaces — primarily Derived Storage and Experiment / Artifact Storage — where they become part of the Infrastructure's persistent record. Persisted analytical outputs are available for future reference, further analysis, or consumption by other analytical work.
 
 ---
 
@@ -84,6 +84,6 @@ In practice, this means that the Analysis Stack's operational behavior includes 
 
 ## Why This Behavior Matters
 
-The Analysis Stack's operational behavior determines whether the System's persisted outputs are turned into actionable, trustworthy analytical knowledge. If analysis is not reproducible, evaluative conclusions are fragile — they may change unpredictably when re-executed. If outputs are not traceable to their inputs, conclusions are unverifiable. If comparison between Research and Live outcomes is not supported, the gap between expectations and production reality remains unmeasured.
+The Analysis Stack's operational behavior determines whether the Infrastructure's persisted outputs are turned into actionable, trustworthy analytical knowledge. If analysis is not reproducible, evaluative conclusions are fragile — they may change unpredictably when re-executed. If outputs are not traceable to their inputs, conclusions are unverifiable. If comparison between Research and Live outcomes is not supported, the gap between expectations and production reality remains unmeasured.
 
 The operational behavior described here — asynchronous consumption of persisted artifacts, structured evaluation and comparison, derived output production, and reproducible versioned execution with full traceability — is what makes the Analysis Stack a reliable basis for Research evaluation and production assessment.

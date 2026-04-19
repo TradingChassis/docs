@@ -149,18 +149,18 @@ body {
   align-items: center;
 }
 
-.md-header__button.md-logo .cf-logo,
-.md-nav__title .md-logo .cf-logo {
-  height: 0.75rem;
+.md-header__button.md-logo .tc-logo,
+.md-nav__title .md-logo .tc-logo {
+  height: 1.25rem;
   width: auto;
   display: block;
 }
 
-/* Must beat .md-header__button.md-logo .cf-logo { display: block } or both logos stay visible */
-body[data-md-color-scheme="default"] .md-header__button.md-logo .cf-logo--dark,
-body[data-md-color-scheme="default"] .md-nav__title .md-logo .cf-logo--dark,
-body[data-md-color-scheme="slate"] .md-header__button.md-logo .cf-logo--light,
-body[data-md-color-scheme="slate"] .md-nav__title .md-logo .cf-logo--light {
+/* Must beat .md-header__button.md-logo .tc-logo { display: block } or both logos stay visible */
+body[data-md-color-scheme="default"] .md-header__button.md-logo .tc-logo--dark,
+body[data-md-color-scheme="default"] .md-nav__title .md-logo .tc-logo--dark,
+body[data-md-color-scheme="slate"] .md-header__button.md-logo .tc-logo--light,
+body[data-md-color-scheme="slate"] .md-nav__title .md-logo .tc-logo--light {
   display: none;
 }
 

@@ -4,7 +4,7 @@
 
 ## Purpose and scope
 
-The **Time Model** defines how temporal ordering and causality are represented within the System.
+The **Time Model** defines how temporal ordering and causality are represented within the Infrastructure.
 
 It specifies:
 
@@ -19,7 +19,7 @@ This document does **not** redefine **Event** semantics, **State** derivation, o
 
 ## Temporal domains
 
-The System distinguishes two temporal domains. They represent different aspects of reality and must not be conflated.
+The Infrastructure distinguishes two temporal domains. They represent different aspects of reality and must not be conflated.
 
 | Domain | Meaning | Role in causality |
 | ------ | ------- | ----------------- |
@@ -42,7 +42,7 @@ Typical sources:
 
 1. **Event Time is metadata carried by an Event.** It describes external semantics; it does not cause State changes by itself.
 2. **Event Time does not determine Processing Order.** Two Events with the same Event Time are still ordered by their **stream position** ([Event Model](event-model.md)).
-3. **Venue timestamps never override internal ordering.** Processing Order is always determined by stream position under the System's processing rules.
+3. **Venue timestamps never override internal ordering.** Processing Order is always determined by stream position under the Infrastructure's processing rules.
 
 ---
 
@@ -70,7 +70,7 @@ Typical sources:
 
 Network latency, buffering, feed jitter, replay from historical data, or ordering rules may introduce divergence between when an Event occurred externally and when it is processed internally.
 
-This separation is **intentional and explicitly modeled**. The System preserves external market semantics through **Event Time** (carried in Events) while guaranteeing deterministic internal behavior through **Processing Order**.
+This separation is **intentional and explicitly modeled**. The Infrastructure preserves external market semantics through **Event Time** (carried in Events) while guaranteeing deterministic internal behavior through **Processing Order**.
 
 ---
 
@@ -137,7 +137,7 @@ Given:
 - identical **Configuration**;
 - the same **Processing Order**;
 
-the System must produce **identical State Transitions** at every stream position, including all execution-control derivations.
+the Infrastructure must produce **identical State Transitions** at every stream position, including all execution-control derivations.
 
 The **Event Stream** and **Configuration** together constitute the canonical input. No private runtime state, wall-clock read, or scheduler timing may influence replay outcomes.
 

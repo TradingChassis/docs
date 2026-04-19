@@ -14,7 +14,7 @@ This philosophy governs how documentation is read, written, and maintained so th
 
 ## What this documentation is
 
-The documentation is a structured reference model of the System:
+The documentation is a structured reference model of the Infrastructure:
 
 - **Canonical documents** define normative semantics and constraints.
 - **Overview documents** summarize and orient; they do not redefine canonical meaning.
@@ -75,7 +75,7 @@ When readers can derive multiple incompatible meanings from the same concept set
 
 ### P8 - Evolution without semantic drift
 
-Documentation must evolve as the System evolves, but updates must preserve canonical semantics unless an explicit architectural decision changes them.
+Documentation must evolve as the Infrastructure evolves, but updates must preserve canonical semantics unless an explicit architectural decision changes them.
 
 Edits that change wording without preserving meaning are semantic drift and must be treated as architectural regressions.
 

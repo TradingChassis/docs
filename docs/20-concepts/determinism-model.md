@@ -4,7 +4,7 @@
 
 ## Purpose and scope
 
-The **Determinism Model** defines what determinism means in the System, what it requires, and what behavior is forbidden because it would break **replayability** or **reproducibility**.
+The **Determinism Model** defines what determinism means in the Infrastructure, what it requires, and what behavior is forbidden because it would break **replayability** or **reproducibility**.
 
 It does **not** restate the architecture in full. For formal definitions of **Events**, **State**, **Processing Order**, and **time**, see [Event Model](event-model.md), [State Model](state-model.md), and [Time Model](time-model.md).
 
@@ -14,9 +14,9 @@ Capitalized terms are used as in [Terminology](../00-guides/terminology.md).
 
 ## Definition
 
-The System is **deterministic** if and only if:
+The Infrastructure is **deterministic** if and only if:
 
-> Given an identical **Event Stream**, identical **Configuration**, and the same **Processing Order**, the System produces identical **State** (including all **execution-control substate**) at every stream position.
+> Given an identical **Event Stream**, identical **Configuration**, and the same **Processing Order**, the Infrastructure produces identical **State** (including all **execution-control substate**) at every stream position.
 
 Formally:
 
@@ -132,7 +132,7 @@ Determinism enables:
 ## Relationship to other documents
 
 - [Terminology](../00-guides/terminology.md) — canonical definitions including **Event Stream**, **Configuration**, **Processing Order**, **State**.
-- [Event Model](event-model.md) — how Events enter the System; Event Stream as canonical input.
+- [Event Model](event-model.md) — how Events enter the Infrastructure; Event Stream as canonical input.
 - [State Model](state-model.md) — `State = f(Event Stream, Configuration)`; State domains; no hidden mutation.
 - [Time Model](time-model.md) — Processing Order as causal axis; Event Time as metadata; no wall-clock authority.
 - [Queue Processing](queue-processing.md) — deterministic execution-control evaluation within Event processing; no separate tick.

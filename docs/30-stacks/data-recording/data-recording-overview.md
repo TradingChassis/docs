@@ -8,13 +8,13 @@ The Data Recording Stack captures raw market data from real Venues and preserves
 
 ## Purpose
 
-The Data Recording Stack exists to reliably obtain and durably store the System's raw empirical market-data record. It connects to external Venue market-data feeds, receives raw messages — trades, order book updates, and associated metadata — and persists them as raw recorded datasets with source and timing metadata preserved.
+The Data Recording Stack exists to reliably obtain and durably store the Infrastructure's raw empirical market-data record. It connects to external Venue market-data feeds, receives raw messages — trades, order book updates, and associated metadata — and persists them as raw recorded datasets with source and timing metadata preserved.
 
 This Stack focuses exclusively on data capture and raw persistence. It does not validate, normalize, or promote datasets. Those responsibilities belong to downstream Stacks in the Data Platform.
 
 ---
 
-## Position in the System
+## Position in the Infrastructure
 
 The Data Recording Stack is the first Stack in the Data Platform flow:
 

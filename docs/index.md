@@ -1,4 +1,4 @@
-# CanonicalFlow Documentation
+# TradingChassis Documentation
 
 This documentation is the technical reference for a deterministic, event-driven trading system.
 
@@ -9,7 +9,7 @@ It does not focus on proprietary strategy logic or alpha design.
 
 ## What this system is
 
-At a high level, the system is designed for:
+At a high level, the Infrastructure is designed for:
 
 - event-driven runtime behavior with deterministic processing
 - Research and Backtesting grounded in the same conceptual model as Live operation
@@ -36,7 +36,7 @@ For a dedicated structure explanation, see [Documentation Structure](00-guides/d
 
 ## Start here by goal
 
-### Understand the system conceptually
+### Understand the Infrastructure conceptually
 
 1. [Architecture Map](00-guides/architecture-map.md)
 2. [System Narrative](10-architecture/system-narrative.md)

@@ -84,6 +84,6 @@ For parameter sweeps and batch runs, result production follows the same pattern 
 
 ## Why This Behavior Matters
 
-The Backtesting Stack's operational behavior determines whether the System's deterministic Core Runtime model is faithfully applied to historical data for Research. If runs are not deterministic, results are not reproducible and Strategy evaluation loses credibility. If simulated execution is absent or unrealistic, the processing loop is incomplete and execution-quality metrics are meaningless. If results are not durably persisted, experiments cannot be compared or revisited.
+The Backtesting Stack's operational behavior determines whether the Infrastructure's deterministic Core Runtime model is faithfully applied to historical data for Research. If runs are not deterministic, results are not reproducible and Strategy evaluation loses credibility. If simulated execution is absent or unrealistic, the processing loop is incomplete and execution-quality metrics are meaningless. If results are not durably persisted, experiments cannot be compared or revisited.
 
 The operational behavior described here — deterministic execution of the full Core Runtime processing chain against canonical historical data, with realistic simulated execution, structured result production, and durable persistence — is what makes the Backtesting Stack a reliable basis for Research.

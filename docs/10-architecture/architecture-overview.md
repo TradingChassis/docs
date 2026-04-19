@@ -1,13 +1,13 @@
 # Architecture Overview
 
-For the architectural design philosophy of the System see:
+For the architectural design philosophy of the Infrastructure see:
 [Architecture Principles](../10-architecture/architecture-principles.md)
 
 ---
 
 ## Purpose and scope
 
-This document provides a **top-level architectural overview** of the System.
+This document provides a **top-level architectural overview** of the Infrastructure.
 
 It explains:
 
@@ -28,7 +28,7 @@ Capitalized terms are used as in [Terminology](../00-guides/terminology.md).
 
 ## Architectural layers
 
-The System is organized into three structural layers:
+The Infrastructure is organized into three structural layers:
 
 ```mermaid
 flowchart TD
@@ -69,7 +69,7 @@ flowchart TD
 
 The **Core Runtime** is the deterministic, event-driven engine that executes **Strategy** logic, manages **risk**, controls **outbound execution**, and processes **Venue feedback**.
 
-It is the semantic center of the System. The Data Platform supplies canonical inputs; Analysis and Monitoring consume outputs. The Core Runtime applies the **Event Stream** under **Configuration** and produces **derived State**, dispatch decisions, and **Orders**.
+It is the semantic center of the Infrastructure. The Data Platform supplies canonical inputs; Analysis and Monitoring consume outputs. The Core Runtime applies the **Event Stream** under **Configuration** and produces **derived State**, dispatch decisions, and **Orders**.
 
 ### Deterministic event-driven processing
 
@@ -172,7 +172,7 @@ Responsibilities: metrics collection, Runtime telemetry, operational dashboards,
 
 ## Backtesting and Live parity
 
-A central architectural goal of the System is **semantic parity** between Backtesting and Live.
+A central architectural goal of the Infrastructure is **semantic parity** between Backtesting and Live.
 
 Both Runtimes run the same **Core Runtime** semantics:
 
