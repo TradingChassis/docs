@@ -50,7 +50,7 @@ Development follows an iterative loop:
 
 ## Principle
 
-> Dev Logs are not documentation of results
+> Dev Logs are not documentation of results  
 > They are documentation of thinking
 
 ---
@@ -85,6 +85,8 @@ Each Dev Log follows a consistent structure:
 
 ```markdown
 # [Problem Title]
+
+---
 
 ## Context
 Brief description of the context and where the problem occurs.
