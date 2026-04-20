@@ -201,7 +201,7 @@ Concept documents are best read in dependency order:
 2. [Event Model](event-model.md) — Events and the Event Stream
 3. [State Model](state-model.md) — `State = f(Event Stream, Configuration)`; State domains
 4. [Determinism Model](determinism-model.md) — what determinism requires and what breaks it
-5. [Invariants](invariants.md) — non-negotiable system-wide constraints
+5. [Invariants](invariants.md) — non-negotiable infrastructure-wide constraints
 6. [Order Lifecycle](order-lifecycle.md) — Order from submission to terminal state
 7. [Intent Dominance](intent-dominance.md) — deterministic reconciliation of pending pre-submission work
 8. [Queue Semantics](queue-semantics.md) — Queue as derived execution-control substate

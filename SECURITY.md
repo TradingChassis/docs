@@ -3,8 +3,7 @@
 This document describes how to report security issues related to this
 documentation repository and its supporting infrastructure.
 
-This repository contains architecture documentation only and does
-not include production trading systems.
+This repository contains architecture documentation only.
 
 ---
 
@@ -49,14 +48,14 @@ All valid reports will be handled through responsible disclosure.
 
 This repository contains:
 
-- system architecture documentation
-- conceptual system models
+- architecture documentation
+- conceptual models
 - design decisions and trade-offs
 - operational and evolution documentation
 
 It does not contain:
 
-- production runtime systems
+- production runtime
 - executable trading infrastructure
 - Strategy implementations
 - proprietary datasets
@@ -69,7 +68,7 @@ infrastructure and delivery mechanisms.
 
 ## Components Outside This Repository
 
-The broader trading system may include components such as:
+The broader trading infrastructure may include components such as:
 
 - runtime execution engines
 - live trading infrastructure

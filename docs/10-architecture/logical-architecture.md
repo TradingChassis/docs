@@ -18,7 +18,7 @@ This document **does not**:
 - replace the canonical glossary ([Terminology](../00-guides/terminology.md));
 - define **Order lifecycle** stages ([Order Lifecycle](../20-concepts/order-lifecycle.md));
 - describe **Stack** placement or **physical** deployment ([Physical Architecture](physical-architecture.md));
-- provide a full **Runtime** walkthrough ([System Flows](system-flows.md)).
+- provide a full **Runtime** walkthrough ([Infrastructure Flows](infrastructure-flows.md)).
 
 Canonical terms (**Event**, **Intent**, **State**, **Queue**, **Risk**, **Execution Control**, **Order**) mean what [Terminology](../00-guides/terminology.md) defines.
 
@@ -29,12 +29,12 @@ Canonical terms (**Event**, **Intent**, **State**, **Queue**, **Risk**, **Execut
 The logical layer assumes the following (see foundational documents for detail):
 
 1. **State** is fully **derived** from **Event Stream + Configuration**; **Events** are the **only** source of **State transitions**.
-2. An **Intent** is an ephemeral **command**, **not** an Event and **not** persistent; intent-processing outcomes become system-visible through **Events** when **canonical history** requires it.
+2. An **Intent** is an ephemeral **command**, **not** an Event and **not** persistent; intent-processing outcomes become visible through **Events** when **canonical history** requires it.
 3. **Risk** is the **policy layer only**. **Queue** and **Queue Processing** implement **Execution Control** only. The **Queue** is **derived execution-control substate**, not a second source of truth.
-4. **Queue Processing** is part of **deterministic Event processing**—there is **no** separate Runtime **tick** or **loop** owned by the Queue as an autonomous subsystem.
+4. **Queue Processing** is part of **deterministic Event processing**—there is **no** separate Runtime **tick** or **loop** owned by the Queue as an autonomous subinfrastructure.
 5. An **Order** is a **derived entity** in **Execution State**; its lifecycle **begins at submission** with state **Submitted**. Strategy does not **own** Orders as primary control objects.
 
-Components **read** derived State (or documented **projections** of it). They **do not** hold parallel mutable “system truths”. Effects on State occur only through **Event processing** under Configuration.
+Components **read** derived State (or documented **projections** of it). They **do not** hold parallel mutable “truths”. Effects on State occur only through **Event processing** under Configuration.
 
 ---
 
@@ -50,7 +50,7 @@ At the logical layer, the following Components cooperate:
 | **Queue** | Holds **execution-control substate**: reconciled **allowed** pending outbound work (derived). |
 | **Queue Processing** | Computes **Execution Control**: eligibility, ordering, inflight gating, rate-compliant timing—**within** Event processing. |
 | **Venue Adapter** | **Protocol translation** and **external I/O** to or from the **Venue**. |
-| **Venue** | **System boundary**: external or simulated execution environment. |
+| **Venue** | **Infrastructure boundary**: external or simulated execution environment. |
 
 The **Runtime / Core** is not a separate “business” Component; it names the **processing context** in which logical Components operate. Concrete packaging belongs to implementation docs.
 
@@ -173,7 +173,7 @@ flowchart TB
 
 **Reading:**
 
-- **Events** (from Venue, control, system, and recorded outcomes where required) advance **derived State** through **Event processing**.
+- **Events** (from Venue, control, infrastructure, and recorded outcomes where required) advance **derived State** through **Event processing**.
 - **Strategy** reads State and produces **Intents**.
 - **Risk** filters Intents by **policy** only.
 - **Queue** and **Queue Processing** apply **Execution Control** to **allowed** work.
@@ -206,7 +206,7 @@ The **same** logical Components apply in **Backtesting** and **Live**. **Differe
 | **Processing Order** vs **Event Time** | [Time Model](../20-concepts/time-model.md) |
 | **Stack** layout and canonical datasets | [Architecture Overview](architecture-overview.md), stacks docs |
 | **Order lifecycle** states and transitions | [Order Lifecycle](../20-concepts/order-lifecycle.md) |
-| Step-by-step **Runtime** narrative | [System Flows](system-flows.md) |
+| Step-by-step **Runtime** narrative | [Infrastructure Flows](infrastructure-flows.md) |
 | **Deployment** | [Physical Architecture](physical-architecture.md) |
 
 This document **must not** be read as defining **Intent lifecycle** stages; lifecycle docs map to processing; Component boundaries stay as above.
@@ -218,6 +218,6 @@ This document **must not** be read as defining **Intent lifecycle** stages; life
 - [Terminology](../00-guides/terminology.md) — canonical terms.
 - [Event Model](../20-concepts/event-model.md), [State Model](../20-concepts/state-model.md) — formal Event and State semantics.
 - [Architecture Overview](architecture-overview.md) — structural Stacks.
-- [System Flows](system-flows.md) — operational propagation of Events and decisions.
+- [Infrastructure Flows](infrastructure-flows.md) — operational propagation of Events and decisions.
 - [Physical Architecture](physical-architecture.md) — deployment.
 - [Order Lifecycle](../20-concepts/order-lifecycle.md) — Order progression (derived **Execution State**).

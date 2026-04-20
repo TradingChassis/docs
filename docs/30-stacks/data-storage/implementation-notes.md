@@ -18,7 +18,7 @@ Storage realization choices are therefore architectural choices, even though the
 
 The primary storage classes — Persistent Raw Storage, Canonical Storage, Derived Storage, Quarantine Storage, Experiment / Artifact Storage, Execution Record Storage — are **logically distinct**. This distinction is mandatory.
 
-Physical separation is **not** mandatory. Multiple storage classes may reside on the same physical storage system — the same object store, the same filesystem, the same cluster. What is mandatory is that the logical boundaries between classes remain unambiguous in the realization:
+Physical separation is **not** mandatory. Multiple storage classes may reside on the same physical storage infrastructure — the same object store, the same filesystem, the same cluster. What is mandatory is that the logical boundaries between classes remain unambiguous in the realization:
 
 - A consuming Stack reading from Canonical Storage must not inadvertently read raw or quarantined data.
 - A producing Stack writing to Quarantine Storage must not inadvertently write to Canonical Storage.
@@ -71,7 +71,7 @@ Different storage classes serve different purposes and may therefore exhibit dif
 
 **Execution Record Storage.** Receives execution records from Live and Backtesting. Retention may be governed by audit and operational-review requirements.
 
-These characteristics are implementation-level considerations, not canonical system semantics. They describe how storage classes are expected to behave in practice and inform realization decisions such as storage-tier selection, lifecycle policies, and backup strategies.
+These characteristics are implementation-level considerations, not canonical infrastructure semantics. They describe how storage classes are expected to behave in practice and inform realization decisions such as storage-tier selection, lifecycle policies, and backup strategies.
 
 ---
 

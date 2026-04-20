@@ -1,6 +1,6 @@
 # Interfaces
 
-This document defines the inputs, outputs, and interface boundaries of the Analysis Stack — what it consumes, what it produces, and how it relates to the persistent storage surfaces and persisted system outputs it depends on.
+This document defines the inputs, outputs, and interface boundaries of the Analysis Stack — what it consumes, what it produces, and how it relates to the persistent storage surfaces and persisted infrastructure outputs it depends on.
 
 ---
 
@@ -73,7 +73,7 @@ The Analysis Stack does not define storage classes, manage storage organization,
 
 ---
 
-## Relationship to Persisted System Outputs
+## Relationship to Persisted Infrastructure Outputs
 
 The Analysis Stack operates **downstream of persisted outputs** produced by other Stacks. It does not interact with those Stacks during their execution — it consumes their stored results after the fact.
 
@@ -95,6 +95,6 @@ The Analysis Stack operates **downstream of persisted outputs** produced by othe
 
 **The Analysis Stack does not participate in runtime execution.** It does not run Strategies, process Events, evaluate Risk, manage Execution Control, or interact with Venues. It operates on the products of runtime execution, not within it.
 
-**The Analysis Stack is not operational monitoring.** It does not track runtime health, emit alerts, or provide real-time operational visibility. Its scope is retrospective analysis of persisted outputs, not ongoing observation of running systems.
+**The Analysis Stack is not operational monitoring.** It does not track runtime health, emit alerts, or provide real-time operational visibility. Its scope is retrospective analysis of persisted outputs, not ongoing observation of running infrastructures.
 
 **Storage surfaces are used, not governed.** The Analysis Stack reads from and writes to the Data Storage Stack's persistent surfaces but does not manage their organization, retention, or access policies.

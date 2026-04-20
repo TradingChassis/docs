@@ -13,7 +13,7 @@ and this project adheres to Semantic Versioning.
 - Established structured documentation layout under `docs/`
 - Introduced core sections for:
 
-  - system overview
+  - infrastructure overview
   - architecture
   - core concepts
   - architectural decisions
@@ -22,4 +22,4 @@ and this project adheres to Semantic Versioning.
   - experiments
   - long-term evolution
 - Added MkDocs + mike versioning setup for versioned documentation
-- Defined repository as the canonical reference for system architecture and design intent
+- Defined repository as the canonical reference for architecture and design intent

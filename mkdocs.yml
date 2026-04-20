@@ -100,7 +100,7 @@ nav:
 
   - Architecture:
       - Overview: 10-architecture/architecture-overview.md
-      - System Narrative: 10-architecture/system-narrative.md
+      - Infrastructure Narrative: 10-architecture/infrastructure-narrative.md
 
       - Structure:
           - Architecture Principles: 10-architecture/architecture-principles.md
@@ -108,25 +108,22 @@ nav:
           - Physical Architecture: 10-architecture/physical-architecture.md
 
       - Dynamics:
-          - System Flows: 10-architecture/system-flows.md
+          - Infrastructure Flows: 10-architecture/infrastructure-flows.md
           - Intent Pipeline: 10-architecture/intent-pipeline.md
           - Intent Lifecycle: 10-architecture/intent-lifecycle.md
 
       - ADR:
           - Overview: 10-architecture/adr/overview.md
 
-          # - System Foundations:
-          - Two-Axis Structure: 10-architecture/adr/system-foundations/ADR-001-two-axis-structure.md
-          - Canonical Storage: 10-architecture/adr/system-foundations/ADR-002-canonical-storage.md
-          - Event-Derived State Model: 10-architecture/adr/system-foundations/ADR-003-event-vs-state-model.md
+          - Two-Axis Structure: 10-architecture/adr/foundations/ADR-001-two-axis-structure.md
+          - Canonical Storage: 10-architecture/adr/foundations/ADR-002-canonical-storage.md
+          - Event-Derived State Model: 10-architecture/adr/foundations/ADR-003-event-vs-state-model.md
 
-          # - Execution Engine:
           - Outbound Queue: 10-architecture/adr/execution-engine/ADR-004-outbound-queue.md
           - Risk Validation: 10-architecture/adr/execution-engine/ADR-005-risk-validation.md
           - Explicit State Machines: 10-architecture/adr/execution-engine/ADR-006-explicit-state-machines.md
           - Layered Runtime Architecture: 10-architecture/adr/execution-engine/ADR-007-layered-runtime-architecture.md
 
-          # - Research Infrastructure:
           - hftbacktest as Simulated Venue: 10-architecture/adr/research-infrastructure/ADR-008-hftbacktest-as-venue.md
 
   - Concepts:

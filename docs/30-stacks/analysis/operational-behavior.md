@@ -33,9 +33,9 @@ Multiple result sets are compared along defined dimensions: parameter-sweep anal
 
 ### Research–Live retrospective analysis
 
-Persisted Backtesting outcomes are compared with persisted Live execution outcomes to identify, measure, and model discrepancies between Research-oriented expectations and actual production behavior. This analysis is retrospective — it operates on persisted outputs from both contexts after the fact, not on running systems. Its purpose is to make the gap between Research and Live outcomes understandable and quantifiable.
+Persisted Backtesting outcomes are compared with persisted Live execution outcomes to identify, measure, and model discrepancies between Research-oriented expectations and actual production behavior. This analysis is retrospective — it operates on persisted outputs from both contexts after the fact, not on running infrastructures. Its purpose is to make the gap between Research and Live outcomes understandable and quantifiable.
 
-All analytical work is asynchronous. The Analysis Stack does not observe running systems in real time. It analyzes what has already been persisted — the results of experiments that have completed, the records of Live execution that has already occurred.
+All analytical work is asynchronous. The Analysis Stack does not observe running infrastructures in real time. It analyzes what has already been persisted — the results of experiments that have completed, the records of Live execution that has already occurred.
 
 ---
 
@@ -56,7 +56,7 @@ These outputs are written to the Data Storage Stack's persistent surfaces — pr
 
 Reproducibility and versioning are not aspirational properties of the Analysis Stack — they are operational requirements that influence how analysis behaves in practice.
 
-**Reproducible execution.** The same analysis definition applied to the same persisted inputs must produce the same outputs. This requires that analysis logic is deterministic with respect to its inputs — it does not depend on wall-clock time, execution order, or transient system state.
+**Reproducible execution.** The same analysis definition applied to the same persisted inputs must produce the same outputs. This requires that analysis logic is deterministic with respect to its inputs — it does not depend on wall-clock time, execution order, or transient infrastructure state.
 
 **Versioned analysis definitions.** Changes to analysis logic produce new versions. An analytical output is associated with the specific version of the analysis definition that produced it. This makes it possible to determine whether two outputs were produced by the same or different analytical logic.
 
@@ -70,9 +70,9 @@ In practice, this means that the Analysis Stack's operational behavior includes 
 
 ## Operational Boundaries
 
-**Asynchronous and retrospective.** The Analysis Stack operates on persisted artifacts, on its own schedule, independently of the Stacks that produced them. It does not observe or interact with running systems in real time.
+**Asynchronous and retrospective.** The Analysis Stack operates on persisted artifacts, on its own schedule, independently of the Stacks that produced them. It does not observe or interact with running infrastructures in real time.
 
-**Not operational monitoring.** The Analysis Stack does not track runtime health, emit alerts, or provide real-time operational visibility. Its scope is retrospective analysis of persisted outputs — a fundamentally different operational mode from ongoing observation of running systems.
+**Not operational monitoring.** The Analysis Stack does not track runtime health, emit alerts, or provide real-time operational visibility. Its scope is retrospective analysis of persisted outputs — a fundamentally different operational mode from ongoing observation of running infrastructures.
 
 **Not runtime execution.** The Analysis Stack does not run Strategies, process Events, evaluate Risk, manage Execution Control, or interact with Venues. It analyzes the products of runtime execution, not the execution itself.
 

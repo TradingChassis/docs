@@ -2,7 +2,7 @@
 
 Part of: **Analysis and Monitoring**
 
-The Analysis Stack provides the infrastructure and components required to consume persisted system outputs and artifacts, perform asynchronous and reproducible analysis on them, and produce derived analytical artifacts, comparisons, and evaluation results.
+The Analysis Stack provides the infrastructure and components required to consume persisted infrastructure outputs and artifacts, perform asynchronous and reproducible analysis on them, and produce derived analytical artifacts, comparisons, and evaluation results.
 
 ---
 
@@ -10,7 +10,7 @@ The Analysis Stack provides the infrastructure and components required to consum
 
 The Analysis Stack exists to turn the Infrastructure's persisted outputs into evaluative knowledge. Backtesting runs produce experiment results. Live execution produces execution records. The Data Platform holds canonical datasets and derived data. The Analysis Stack provides the technical infrastructure to consume these persisted outputs, evaluate them, compare them across experiments and contexts, and produce derived analytical artifacts — all asynchronously and reproducibly.
 
-The Analysis Stack is **retrospective and asynchronous** in character. It operates on data that is already durably stored. It does not participate in ongoing runtime execution and does not observe running systems in real time. Its work begins after other Stacks have produced and persisted their outputs.
+The Analysis Stack is **retrospective and asynchronous** in character. It operates on data that is already durably stored. It does not participate in ongoing runtime execution and does not observe running infrastructures in real time. Its work begins after other Stacks have produced and persisted their outputs.
 
 ---
 
@@ -49,11 +49,11 @@ The Analysis Stack is responsible for:
 
 ## Key Boundaries
 
-**Operates on persisted artifacts, not running systems.** The Analysis Stack consumes data that is already durably stored. It does not consume transient runtime state, live event streams, or real-time operational signals.
+**Operates on persisted artifacts, not running infrastructures.** The Analysis Stack consumes data that is already durably stored. It does not consume transient runtime state, live event streams, or real-time operational signals.
 
 **Asynchronous and retrospective.** The Analysis Stack operates on its own schedule, independently of the Stacks that produced its inputs. There is no synchronous coupling between the Analysis Stack and the Backtesting or Live Stacks.
 
-**Not operational monitoring.** The Analysis Stack does not track runtime health, emit alerts, or provide real-time operational visibility. Its scope is retrospective analysis of persisted outputs — a fundamentally different concern from ongoing observation of running systems.
+**Not operational monitoring.** The Analysis Stack does not track runtime health, emit alerts, or provide real-time operational visibility. Its scope is retrospective analysis of persisted outputs — a fundamentally different concern from ongoing observation of running infrastructures.
 
 **Not runtime execution.** The Analysis Stack does not run Strategies, process Events, or interact with Venues. It operates on the products of runtime execution, not within it.
 
@@ -77,7 +77,7 @@ All inputs are consumed from the Data Storage Stack's persistent surfaces. All d
 
 ## Why the Stack Matters
 
-The Analysis Stack is where persisted system outputs become actionable knowledge. Experiment results, execution records, and canonical datasets are raw material — they carry information, but they do not by themselves answer questions about Strategy quality, execution effectiveness, or the relationship between Research expectations and Live outcomes.
+The Analysis Stack is where persisted infrastructure outputs become actionable knowledge. Experiment results, execution records, and canonical datasets are raw material — they carry information, but they do not by themselves answer questions about Strategy quality, execution effectiveness, or the relationship between Research expectations and Live outcomes.
 
 The Analysis Stack provides the infrastructure to ask and answer those questions: to compare experiments, to evaluate performance, to quantify the gap between Research and Live, and to produce derived artifacts that make the Infrastructure's behavior measurable and interpretable. Without it, persisted outputs would accumulate without systematic evaluation, and Research conclusions would depend on ad hoc inspection rather than reproducible, versioned analysis.
 

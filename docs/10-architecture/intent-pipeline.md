@@ -6,7 +6,7 @@
 
 This document defines the **outbound Intent pipeline** as a **conceptual transformation path**: the sequence of stages through which a **Strategy**-produced **Intent** passes before becoming an outbound submission to a **Venue**.
 
-The pipeline is **not** an independent runtime engine and **not** a second source of truth. It is the **conceptual view** of how an **Intent** command flows through **policy decision**, **execution-control handling**, and **dispatch** as part of deterministic **Event processing** ([System Flows](system-flows.md)).
+The pipeline is **not** an independent runtime engine and **not** a second source of truth. It is the **conceptual view** of how an **Intent** command flows through **policy decision**, **execution-control handling**, and **dispatch** as part of deterministic **Event processing** ([Infrastructure Flows](infrastructure-flows.md)).
 
 This document does **not**:
 
@@ -73,7 +73,7 @@ The pipeline enforces a strict separation between **two** independent control pl
 
 | Control plane | Stage | Question answered |
 | ------------- | ----- | ----------------- |
-| **Policy** | Risk Engine | *Is this Intent admissible under System policy?* |
+| **Policy** | Risk Engine | *Is this Intent admissible under policy?* |
 | **Execution Control** | Queue + Queue Processing | *Of the admissible work, what can be sent right now?* |
 
 **Policy** comes first and is **irreversible** within the pipeline: a **denied** Intent does not proceed to Execution Control. **Risk** does **not** decide transmission timing, ordering, rate-limit compliance, or inflight gating—those are **Execution Control** only ([Logical Architecture](logical-architecture.md)).
@@ -115,7 +115,7 @@ Only the minimal effective command is dispatched. This is a **deterministic deri
 
 These are **internal deterministic derivations** over derived State. They do **not** require separate canonical **Event** types unless the Infrastructure explicitly requires records for replay or audit ([Terminology: Intent visibility](../00-guides/terminology.md#intent-visibility)).
 
-Queue Processing is part of **deterministic Event processing**—**not** a separate tick or autonomous scheduler loop ([System Flows](system-flows.md)).
+Queue Processing is part of **deterministic Event processing**—**not** a separate tick or autonomous scheduler loop ([Infrastructure Flows](infrastructure-flows.md)).
 
 ---
 
@@ -158,7 +158,7 @@ This document defines the **conceptual pipeline path**. For the detailed semanti
 
 - [Terminology](../00-guides/terminology.md) — canonical terms.
 - [Logical Architecture](logical-architecture.md) — component boundaries and responsibilities.
-- [System Flows](system-flows.md) — canonical **Runtime** sequencing of all pipeline stages within **Event processing**.
+- [Infrastructure Flows](infrastructure-flows.md) — canonical **Runtime** sequencing of all pipeline stages within **Event processing**.
 - [Intent Lifecycle](intent-lifecycle.md) — **Intent** stage progression (`Generated → Policy decided → Pending dispatch → Dispatched → Inflight → Closed`).
 - [Order Lifecycle](../20-concepts/order-lifecycle.md) — **Order** evolution from **Submitted** onward (downstream from pipeline dispatch).
 - [Queue Processing](../20-concepts/queue-processing.md) — deterministic sendability evaluation rules.

@@ -19,7 +19,7 @@ It explains:
 This document describes **structural architecture**. It does not replace:
 
 - [Logical Architecture](logical-architecture.md) — logical component definitions and responsibility boundaries
-- [System Flows](system-flows.md) — step-by-step runtime sequencing within the Core
+- [Infrastructure Flows](infrastructure-flows.md) — step-by-step runtime sequencing within the Core
 - [Concepts Overview](../20-concepts/concepts-overview.md) — semantic definitions of Events, State, Intent, Order, etc.
 
 Capitalized terms are used as in [Terminology](../00-guides/terminology.md).
@@ -86,7 +86,7 @@ At the architectural level, the Core Runtime executes the following chain on eac
 ```mermaid
 flowchart TB
     E["Event\n(Processing Order)"]
-    S["State derivation\nMarket · Execution · System"]
+    S["State derivation\nMarket · Execution · Infrastructure"]
     ST["Strategy\nemits Intents"]
     R["Risk Engine\npolicy: allowed / denied"]
     Q["Queue + Queue Processing\nExecution Control"]
@@ -199,7 +199,7 @@ This design ensures that behavior validated during Backtesting is structurally r
 | Document | What it adds |
 | -------- | ------------ |
 | [Logical Architecture](logical-architecture.md) | Logical component definitions and hard responsibility boundaries |
-| [System Flows](system-flows.md) | Step-by-step canonical sequencing within the Core Runtime |
+| [Infrastructure Flows](infrastructure-flows.md) | Step-by-step canonical sequencing within the Core Runtime |
 | [Physical Architecture](physical-architecture.md) | Infrastructure deployment and runtime environment |
 | [Concepts Overview](../20-concepts/concepts-overview.md) | Semantic definitions of Event, State, Intent, Order, Queue, etc. |
 | [State Model](../20-concepts/state-model.md) | Formal definition of `State = f(Event Stream, Configuration)` and State domains |

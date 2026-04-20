@@ -1,20 +1,20 @@
 # Scope and Role
 
-The Monitoring Stack provides the infrastructure, components, and integration surfaces required to observe running system behavior, expose operational visibility, collect telemetry and status signals, and support health- and alert-oriented monitoring for relevant runtime Stacks.
+The Monitoring Stack provides the infrastructure, components, and integration surfaces required to observe running infrastructure behavior, expose operational visibility, collect telemetry and status signals, and support health- and alert-oriented monitoring for relevant runtime Stacks.
 
 ---
 
 ## Purpose
 
-The Monitoring Stack exists to make running system behavior visible. Runtime Stacks — most prominently the Live Stack and the Backtesting Stack — produce telemetry, metrics, status signals, and health indicators as they execute. The Monitoring Stack provides the technical infrastructure to collect these signals, expose them as operational visibility surfaces, and support health- and alert-oriented monitoring that keeps running system parts diagnosable and operationally trackable.
+The Monitoring Stack exists to make running infrastructure behavior visible. Runtime Stacks — most prominently the Live Stack and the Backtesting Stack — produce telemetry, metrics, status signals, and health indicators as they execute. The Monitoring Stack provides the technical infrastructure to collect these signals, expose them as operational visibility surfaces, and support health- and alert-oriented monitoring that keeps running infrastructure parts diagnosable and operationally trackable.
 
-The Monitoring Stack is **runtime-concurrent** in character. It works alongside running system parts while they are active. Its concern is what is happening now — the operational state of running processes, the health of executing components, the status of active workflows, and the detection of runtime conditions that require attention. Its value is in ongoing observation, not in after-the-fact interpretation.
+The Monitoring Stack is **runtime-concurrent** in character. It works alongside running infrastructure parts while they are active. Its concern is what is happening now — the operational state of running processes, the health of executing components, the status of active workflows, and the detection of runtime conditions that require attention. Its value is in ongoing observation, not in after-the-fact interpretation.
 
 ---
 
 ## Position in the Infrastructure
 
-The Monitoring Stack belongs to the **Analysis and Monitoring** group. It works alongside running system parts rather than defining their execution semantics:
+The Monitoring Stack belongs to the **Analysis and Monitoring** group. It works alongside running infrastructure parts rather than defining their execution semantics:
 
 ```mermaid
 flowchart LR
@@ -25,13 +25,13 @@ flowchart LR
     TMS --> MS["Monitoring Stack"]
 ```
 
-The Monitoring Stack has its strongest practical relevance for **Live operation** and **Backtesting execution**, where runtime observability is most critical. It may also support observability of other relevant running system parts where needed.
+The Monitoring Stack has its strongest practical relevance for **Live operation** and **Backtesting execution**, where runtime observability is most critical. It may also support observability of other relevant running infrastructure parts where needed.
 
 The Monitoring Stack does **not** define execution logic. It observes execution — it does not participate in it. Runtime Stacks retain full ownership of their execution semantics; the Monitoring Stack provides a parallel observability layer over their running behavior.
 
 ### Relationship to Retrospective Analysis
 
-The Monitoring Stack and the Analysis Stack share a group but serve fundamentally different concerns. The Monitoring Stack observes what is happening in running systems. The Analysis Stack evaluates what has already happened by consuming persisted outputs. The boundary is temporal and functional: Monitoring is concurrent and operational; analysis is retrospective and evaluative. This distinction holds even when the same underlying data might eventually serve both purposes.
+The Monitoring Stack and the Analysis Stack share a group but serve fundamentally different concerns. The Monitoring Stack observes what is happening in running infrastructures. The Analysis Stack evaluates what has already happened by consuming persisted outputs. The boundary is temporal and functional: Monitoring is concurrent and operational; analysis is retrospective and evaluative. This distinction holds even when the same underlying data might eventually serve both purposes.
 
 ### Tool-Overlap Principle
 
@@ -43,12 +43,12 @@ Real products and platforms may combine orchestration, execution status, dashboa
 
 The Monitoring Stack is responsible for:
 
-- **Making running system behavior observable** — providing the infrastructure to observe, inspect, and track the runtime state of executing system parts.
+- **Making running infrastructure behavior observable** — providing the infrastructure to observe, inspect, and track the runtime state of executing infrastructure parts.
 - **Collecting and integrating telemetry and status signals** — receiving metrics, health signals, error and failure signals, status indicators, and other observability-relevant runtime outputs from running Stacks.
 - **Exposing operational visibility** — making runtime behavior, execution progress, component health, and operational conditions accessible through monitoring surfaces.
 - **Supporting health- and alert-oriented monitoring** — enabling detection of runtime issues, degradations, failures, and noteworthy operational conditions, and supporting alert-oriented workflows that surface these conditions.
 - **Providing monitoring integration surfaces** — offering the integration points through which running Stacks expose their telemetry and status signals to the monitoring infrastructure.
-- **Making runtime issues diagnosable** — ensuring that when something goes wrong in a running system, the Monitoring Stack provides the observability needed to identify, locate, and characterize the issue.
+- **Making runtime issues diagnosable** — ensuring that when something goes wrong in a running infrastructure, the Monitoring Stack provides the observability needed to identify, locate, and characterize the issue.
 
 ---
 
@@ -68,6 +68,6 @@ The Monitoring Stack is **not** responsible for:
 
 ## Why the Stack Matters
 
-The Monitoring Stack is the layer that makes running system behavior visible, diagnosable, and operationally trackable. Without it, runtime Stacks may still execute, but they do so without structured operational visibility — health conditions go undetected, degradations proceed without awareness, and runtime issues become discoverable only through their downstream consequences rather than through timely observation.
+The Monitoring Stack is the layer that makes running infrastructure behavior visible, diagnosable, and operationally trackable. Without it, runtime Stacks may still execute, but they do so without structured operational visibility — health conditions go undetected, degradations proceed without awareness, and runtime issues become discoverable only through their downstream consequences rather than through timely observation.
 
 The Monitoring Stack ensures that while the Infrastructure is running, its operational state is accessible, its health is assessable, and conditions that require attention are surfaced through appropriate monitoring and alerting surfaces.

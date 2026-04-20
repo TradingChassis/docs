@@ -8,7 +8,7 @@ This document states the **non-negotiable properties** that must always hold acr
 
 Each invariant is a normative constraint. Violation places the Infrastructure in an invalid State.
 
-This document does not describe architecture, implementation, or process. For those, see [Logical Architecture](../10-architecture/logical-architecture.md), [System Flows](../10-architecture/system-flows.md), and the concept documents referenced below.
+This document does not describe architecture, implementation, or process. For those, see [Logical Architecture](../10-architecture/logical-architecture.md), [Infrastructure Flows](../10-architecture/infrastructure-flows.md), and the concept documents referenced below.
 
 Capitalized terms are used as in [Terminology](../00-guides/terminology.md).
 
@@ -113,7 +113,7 @@ Both **Runtimes** must apply the same deterministic processing rules to the same
 
 If any invariant is violated, the Infrastructure is in an **invalid State**.
 
-A component that detects an invariant violation must halt further processing, emit diagnostic information, and prevent propagation of inconsistent **State**. Invariant violations are critical system faults and must not be silently ignored.
+A component that detects an invariant violation must halt further processing, emit diagnostic information, and prevent propagation of inconsistent **State**. Invariant violations are critical infrastructure faults and must not be silently ignored.
 
 ---
 

@@ -54,7 +54,7 @@ Failures therefore divide into two classes based on their relationship to canoni
 | **State-invisible failure** | A failure whose outcome has no effect on canonical derived **State** | No canonical record required |
 | **State-visible failure** | A failure whose outcome changes or constrains what the **Event Stream** must represent | Must appear as an **Event** |
 
-The central discipline of failure handling in this System is determining which class a given failure belongs to, and responding accordingly.
+The central discipline of failure handling in this Infrastructure is determining which class a given failure belongs to, and responding accordingly.
 
 ---
 
@@ -64,7 +64,7 @@ The central discipline of failure handling in this System is determining which c
 
 Input failures occur when an external source supplies data the Infrastructure cannot process: a malformed market update, a missing sequence number, a feed interruption, a corrupted record.
 
-**Semantic constraint:** A gap or discontinuity in the observed event feed may itself need to be recorded as a **System Event** or **Control Event** on the canonical stream, if downstream processing depends on the Infrastructure's known state of data completeness. The absence of an expected market update does not automatically become an Event — but if the Infrastructure takes a definitive action based on that absence (e.g., pauses evaluation, marks the feed as degraded), that action and its effect on derived **State** must enter the stream.
+**Semantic constraint:** A gap or discontinuity in the observed event feed may itself need to be recorded as a **Infrastructure Event** or **Control Event** on the canonical stream, if downstream processing depends on the Infrastructure's known state of data completeness. The absence of an expected market update does not automatically become an Event — but if the Infrastructure takes a definitive action based on that absence (e.g., pauses evaluation, marks the feed as degraded), that action and its effect on derived **State** must enter the stream.
 
 A feed interruption that is transparently recovered — input resumes without any gap visible to the processing model — has no canonical State consequence and requires no record.
 
@@ -132,7 +132,7 @@ The rule for when a failure must enter canonical history follows directly from t
 **A failure does not need to appear as a canonical Event if:**
 
 1. It is transient and transparently recovered within a processing step with no State-visible effect; or
-2. It is a pre-submission failure (Strategy error, Risk indeterminacy, Queue Processing transient error) that produces no State change and no definitive system action.
+2. It is a pre-submission failure (Strategy error, Risk indeterminacy, Queue Processing transient error) that produces no State change and no definitive infrastructure action.
 
 Diagnostic recording outside the canonical stream (e.g., operational logs, monitoring signals) is always permitted and does not affect canonical semantics.
 
@@ -146,7 +146,7 @@ The following constraints apply to all failure-handling logic. None may be relax
 A failure may not be handled by writing to a derived State projection, a cache, or any store outside the **Event Stream** + **Configuration** derivation path. Any State change resulting from failure handling must go through Event processing.
 
 **F2 — Failures must not bypass Event-driven Order lifecycle.**
-An **Order** in any lifecycle state must not have its state changed by failure-handling code that does not operate through **Execution Events**. An Order in `Submitted` with no Venue response remains in `Submitted` until an Event — including a system-generated failure-disposition Event — resolves it.
+An **Order** in any lifecycle state must not have its state changed by failure-handling code that does not operate through **Execution Events**. An Order in `Submitted` with no Venue response remains in `Submitted` until an Event — including a infrastructure-generated failure-disposition Event — resolves it.
 
 **F3 — Failures must not introduce hidden authoritative state.**
 No failure-handling mechanism may introduce a private mutable store that shadows derived State and influences future processing decisions without being part of **Event Stream + Configuration**. Queue reconciliation state, inflight tracking, and exposure bookkeeping are all derived — they must remain so under failure conditions.

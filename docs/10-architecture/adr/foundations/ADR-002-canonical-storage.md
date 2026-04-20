@@ -49,7 +49,7 @@ The Infrastructure maintains **Canonical Storage** as the authoritative validate
 
 ### What Canonical Storage is not
 
-**Canonical Storage is not the Runtime Event Stream.** The Event Stream is the canonical record of system history for runtime semantics — deterministic replay, State derivation (`State = f(Event Stream, Configuration)`), and Processing Order are defined from Events, not from storage datasets. Canonical Storage provides validated persistent datasets (market data, experiment results, Research artifacts) that the Core Runtime and Analysis consume. These are complementary but distinct: the Event Stream governs runtime causality; Canonical Storage governs dataset authority.
+**Canonical Storage is not the Runtime Event Stream.** The Event Stream is the canonical record of infrastructure history for runtime semantics — deterministic replay, State derivation (`State = f(Event Stream, Configuration)`), and Processing Order are defined from Events, not from storage datasets. Canonical Storage provides validated persistent datasets (market data, experiment results, Research artifacts) that the Core Runtime and Analysis consume. These are complementary but distinct: the Event Stream governs runtime causality; Canonical Storage governs dataset authority.
 
 **Canonical Storage is not generic persistent storage.** It is specifically the layer for validated, promoted, immutable datasets with defined provenance. Scratch storage, intermediate processing artifacts, and unpromoted raw data are not part of Canonical Storage.
 

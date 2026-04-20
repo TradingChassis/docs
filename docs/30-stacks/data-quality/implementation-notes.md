@@ -63,7 +63,7 @@ A practical metadata model may track states such as:
 
 Each state transition should be recorded with a timestamp and, where relevant, the reason for the transition (especially for quarantine and rejection). This metadata is the mechanism that makes dataset progression traceable after the fact.
 
-The metadata model is an implementation realization, not a canonical system semantic. Its specific states and transitions may evolve as the stack's processing logic matures, without affecting the broader system's semantic model.
+The metadata model is an implementation realization, not a canonical infrastructure semantic. Its specific states and transitions may evolve as the stack's processing logic matures, without affecting the broader infrastructure's semantic model.
 
 ---
 
@@ -71,7 +71,7 @@ The metadata model is an implementation realization, not a canonical system sema
 
 The Data Quality Stack's processing — discovery, validation, normalization, promotion, quarantine — can be realized as a **workflow-orchestrated pipeline** in which each stage is a discrete task with defined inputs, outputs, and completion conditions.
 
-Workflow orchestration systems such as Argo Workflows are a natural fit for this pattern:
+Workflow orchestration infrastructures such as Argo Workflows are a natural fit for this pattern:
 
 - **Discovery as a trigger.** A scheduled or event-driven task scans for new Dataset Manifests. Each discovered manifest triggers a pipeline instance for the corresponding raw dataset.
 - **Validation as a task graph.** Individual validation checks (schema, completeness, consistency, market-plausibility) can be expressed as parallel or sequential tasks within a single workflow. Each task writes its outcome to validation metadata.
@@ -79,7 +79,7 @@ Workflow orchestration systems such as Argo Workflows are a natural fit for this
 - **Promotion as a gated step.** The promotion gate evaluates accumulated metadata from prior stages. If the dataset meets promotion criteria, the canonical output is written to Canonical Storage and promotion metadata is recorded. If not, the dataset is routed to quarantine or rejection.
 - **Quarantine and rejection as terminal tasks.** Non-promotion outcomes produce their own metadata records and may trigger review workflows or operational alerts.
 
-Argo Workflows is presented here as an example implementation approach, not as a required technology. Any orchestration system that supports task-graph execution, conditional routing, and metadata persistence can realize this pattern.
+Argo Workflows is presented here as an example implementation approach, not as a required technology. Any orchestration infrastructure that supports task-graph execution, conditional routing, and metadata persistence can realize this pattern.
 
 The key implementation property is that each stage is **independently observable and retriable**: if normalization fails, it can be rerun without re-executing validation; if a promotion gate decision needs re-evaluation, it can be re-executed against updated criteria without reprocessing the entire pipeline.
 
@@ -110,7 +110,7 @@ Traceability in practice requires:
 - **Immutability of promotion metadata.** Once a dataset is promoted and its promotion metadata is written, that metadata should not be silently modified. If a promoted dataset is later found to be defective, the appropriate action is to record a new quality event (e.g., a post-promotion review outcome), not to retroactively alter the original promotion record.
 - **Stable dataset identity.** Each raw dataset and each canonical dataset should carry stable identifiers that link the two through the validation-normalization-promotion chain. A canonical dataset should be traceable back to the specific raw dataset and the specific validation/promotion cycle that produced it.
 
-These properties are implementation concerns — they describe how the Data Quality Stack's realization preserves auditability. They do not introduce new canonical system semantics.
+These properties are implementation concerns — they describe how the Data Quality Stack's realization preserves auditability. They do not introduce new canonical infrastructure semantics.
 
 ---
 

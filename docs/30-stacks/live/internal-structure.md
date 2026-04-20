@@ -94,7 +94,7 @@ Emits runtime telemetry, execution metrics, and operational signals for consumpt
 
 Role:
 
-- Emit execution throughput, order status, processing latency, error conditions, and system health indicators during live execution.
+- Emit execution throughput, order status, processing latency, error conditions, and infrastructure health indicators during live execution.
 - Provide the telemetry surface that the Monitoring Stack consumes for real-time dashboards, alerting, and operational visibility.
 
 The Observability Integration Surface makes live execution observable without the Live Stack owning the monitoring infrastructure. The Monitoring Stack provides the platform; the Live Stack provides the telemetry.

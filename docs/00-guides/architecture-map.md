@@ -31,7 +31,7 @@ For a brief semantic introduction to each core concept, see [Concepts Overview](
 | Question | Document |
 | -------- | -------- |
 | What are the logical components and their responsibilities? | [Logical Architecture](../10-architecture/logical-architecture.md) |
-| What is the step-by-step runtime sequence? | [System Flows](../10-architecture/system-flows.md) |
+| What is the step-by-step runtime sequence? | [Infrastructure Flows](../10-architecture/infrastructure-flows.md) |
 | How does an Intent move from Strategy to Venue? | [Intent Pipeline](../10-architecture/intent-pipeline.md) |
 | What is the Infrastructure's top-level structure and layer organization? | [Architecture Overview](../10-architecture/architecture-overview.md) |
 
@@ -55,8 +55,8 @@ For a brief semantic introduction to each core concept, see [Concepts Overview](
 
 | Question | Document |
 | -------- | -------- |
-| What does determinism mean in this system? What breaks it? | [Determinism Model](../20-concepts/determinism-model.md) |
-| What are the non-negotiable system invariants? | [Invariants](../20-concepts/invariants.md) |
+| What does determinism mean? What breaks it? | [Determinism Model](../20-concepts/determinism-model.md) |
+| What are the non-negotiable invariants? | [Invariants](../20-concepts/invariants.md) |
 
 ### Infrastructure and deployment
 
@@ -102,11 +102,11 @@ Key points for navigation:
 - **Orders:** Begin at submission. Queue residency and Risk acceptance are not Order states. → [Order Lifecycle](../20-concepts/order-lifecycle.md)
 - **Venue feedback:** Returns as Execution Events, advancing already-existing Orders. → [Event Model](../20-concepts/event-model.md), [Order Lifecycle](../20-concepts/order-lifecycle.md)
 
-For the full step-by-step sequence, see [System Flows](../10-architecture/system-flows.md).
+For the full step-by-step sequence, see [Infrastructure Flows](../10-architecture/infrastructure-flows.md).
 
 ---
 
-## System topology
+## Infrastructure topology
 
 The Infrastructure is organized into three infrastructure layers:
 

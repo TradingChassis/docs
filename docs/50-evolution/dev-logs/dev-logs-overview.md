@@ -57,13 +57,13 @@ Development follows an iterative loop:
 
 ## What are Dev Logs?
 
-Dev Logs document the evolution of specific problems or system behaviors over time.
+Dev Logs document the evolution of specific problems or infrastructure behaviors over time.
 
 Each log represents:
 
 - one problem
 
-- one system component
+- one infrastructure component
 
 - or one line of investigation
 

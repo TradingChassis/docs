@@ -1,6 +1,6 @@
 # Terminology
 
-This document is the **canonical semantic source** for core System terms.
+This document is the **canonical semantic source** for core Infrastructure terms.
 
 It defines what concepts mean and how they relate. It does **not** specify stack layout, operational procedures, or full end-to-end runtime walkthroughs; those belong in architecture and operations documentation.
 
@@ -116,9 +116,9 @@ Derived State is grouped into **three** conceptual domains:
 | ------ | ---- |
 | **Market State** | Observed market conditions (e.g. order book, trades) derived from market-related Events. |
 | **Execution State** | Trading and execution projection: Orders, fills, positions, balances, and related status derived from execution-related Events. |
-| **Control State** | Runtime configuration, control, and operational flags derived from system and control Events. |
+| **Control State** | Runtime configuration, control, and operational flags derived from infrastructure and control Events. |
 
-These three domains together constitute the full System State.
+These three domains together constitute to the full State.
 
 **Normative rule:** There is **no** separate top-level State domain for the Queue. Queue-related data is **derived execution-control substate** and is part of the derivation of Execution State (or of the single derived State that includes Execution Control), not a fourth peer domain.
 
@@ -165,7 +165,7 @@ Strategies produce Intents; they do not send orders to Venues or perform Executi
 
 ## Intent visibility
 
-**Intent processing becomes system-visible through Events** when the canonical history must record an outcome that affects replay or audit (e.g. risk decision, dispatch to a Venue, terminal failure that must not be re-inferred).
+**Intent processing becomes visible through Events** when the canonical history must record an outcome that affects replay or audit (e.g. risk decision, dispatch to a Venue, terminal failure that must not be re-inferred).
 
 **Normative rules:**
 
@@ -194,7 +194,7 @@ The **Queue** is **derived state**: the data structure (or equivalent projection
 
 1. The Queue is **not** a second source of truth. It is recomputable from Event Stream + Configuration together with the deterministic execution-control rules.
 2. The Queue is **execution-control substate**, not a fourth top-level State domain (see [State domains](#state-domains)).
-3. The Queue stores **effective** pending outbound work (e.g. at most one reconciled command per logical order key, per System rules), not a redundant copy of every raw Strategy emission.
+3. The Queue stores **effective** pending outbound work (e.g. at most one reconciled command per logical order key), not a redundant copy of every raw Strategy emission.
 
 ---
 
@@ -205,7 +205,7 @@ The **Queue** is **derived state**: the data structure (or equivalent projection
 **Normative rules:**
 
 1. Queue Processing implements **Execution Control** only, not policy. It assumes Intents are already risk-allowed unless the model explicitly re-validates against derived limits that are themselves State.
-2. There is **no separate runtime tick.** Queue Processing is **part of deterministic Event processing**—the same sequential application of Events that advances Market, Execution, and System domains also advances execution-control substate and dispatch decisions.
+2. There is **no separate runtime tick.** Queue Processing is **part of deterministic Event processing**—the same sequential application of Events that advances Market, Execution, and Infrastructure domains also advances execution-control substate and dispatch decisions.
 3. Dominance, eligibility, and scheduling are **internal deterministic derivations** within that processing unless canonical history explicitly requires additional Events ([Intent visibility](#intent-visibility)).
 
 ---
@@ -244,7 +244,7 @@ The **Order lifecycle** is the defined set of states and transitions an Order ma
 
 ## Infrastructure principle
 
-**All** derived State—including Market, Execution (including Orders and execution-control substate), and System domains—is produced **only** by processing the Event Stream under Configuration.
+**All** derived State—including Market, Execution (including Orders and execution-control substate), and Infrastructure domains—is produced **only** by processing the Event Stream under Configuration.
 
 No Component may mutate State outside this mechanism.
 
@@ -300,7 +300,7 @@ A **Venue Adapter** maps internal outbound actions to Venue protocols and maps V
 
 ## Stack
 
-A **Stack** is a documented subsystem grouping (e.g. Data Recording, Data Storage, Live). Stacks are organizational; core semantics in this document are independent of Stack boundaries.
+A **Stack** is a documented subinfrastructure grouping (e.g. Data Recording, Data Storage, Live). Stacks are organizational; core semantics in this document are independent of Stack boundaries.
 
 ## Component
 

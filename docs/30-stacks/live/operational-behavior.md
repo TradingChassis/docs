@@ -61,9 +61,9 @@ Operational control inputs are applied within the bounds of the Core Runtime's p
 
 ### Observability
 
-The Live Stack emits runtime telemetry throughout execution — execution throughput, order status, processing latency, error conditions, and system health indicators. The Monitoring Stack consumes this telemetry for real-time dashboards, alerting, and operational visibility.
+The Live Stack emits runtime telemetry throughout execution — execution throughput, order status, processing latency, error conditions, and infrastructure health indicators. The Monitoring Stack consumes this telemetry for real-time dashboards, alerting, and operational visibility.
 
-Observability is operationally critical for live trading. The Live Stack must remain observable at all times during execution so that operators can assess system health, detect anomalies, and make informed operational decisions. However, the Monitoring Stack owns the monitoring platform — the Live Stack's responsibility is to emit the telemetry that makes observability possible.
+Observability is operationally critical for live trading. The Live Stack must remain observable at all times during execution so that operators can assess infrastructure health, detect anomalies, and make informed operational decisions. However, the Monitoring Stack owns the monitoring platform — the Live Stack's responsibility is to emit the telemetry that makes observability possible.
 
 ---
 

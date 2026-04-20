@@ -23,7 +23,7 @@ Without explicit layering, responsibilities become entangled:
 - **Venue-specific concerns leak into the Core.** If protocol translation is not isolated, Venue-specific message formats, API semantics, and connection handling spread into Strategy, Risk, or Execution Control. Core logic becomes coupled to a specific Venue's interface, breaking portability across Venues and across Runtimes (Backtesting vs Live).
 - **Feedback bypasses the canonical path.** Without explicit layering, Venue responses may update component state directly rather than re-entering the Infrastructure through the Event Stream. This introduces out-of-band mutation paths that break deterministic replay.
 
-These problems are not speculative. Trading systems that grow without explicit layering routinely produce monolithic processing paths where decision logic, safety policy, scheduling, and Venue protocol handling are interleaved in ways that cannot be tested, audited, or evolved independently.
+These problems are not speculative. Trading infrastructures that grow without explicit layering routinely produce monolithic processing paths where decision logic, safety policy, scheduling, and Venue protocol handling are interleaved in ways that cannot be tested, audited, or evolved independently.
 
 The architecture requires explicit runtime layers with defined responsibilities and hard boundaries, so that each concern is handled by exactly one layer and no layer assumes responsibilities that belong to another.
 

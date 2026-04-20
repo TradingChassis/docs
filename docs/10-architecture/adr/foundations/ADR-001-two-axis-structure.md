@@ -28,7 +28,7 @@ Without an explicit organizational decision, documentation and architectural rea
 
 The core risk is **semantic drift**: the canonical model loses its authority as implementation detail accumulates around it, and the question "is this a rule of the Infrastructure or a property of this Stack?" becomes unanswerable.
 
-This risk is not hypothetical. Trading systems that grow organically tend to produce documentation where the same concept is restated differently in each Stack's context, subtle contradictions accumulate, and no single document is definitively authoritative for a given rule.
+This risk is not hypothetical. Trading infrastructures that grow organically tend to produce documentation where the same concept is restated differently in each Stack's context, subtle contradictions accumulate, and no single document is definitively authoritative for a given rule.
 
 ---
 
@@ -43,7 +43,7 @@ Documents on this axis define the Infrastructure's **semantic foundation**: the 
 This axis comprises:
 
 - **Concept documents** — Time Model, Event Model, State Model, Determinism Model, Invariants, Queue Semantics, Queue Processing, Intent Dominance, Order Lifecycle, Failure Semantics, Snapshot-Driven Inputs, Ingest vs Decision Frequency
-- **Architectural semantics** — Logical Architecture, System Flows, Intent Pipeline, Intent Lifecycle, Architecture Principles
+- **Architectural semantics** — Logical Architecture, Infrastructure Flows, Intent Pipeline, Intent Lifecycle, Architecture Principles
 
 Documents on the conceptual axis **must not** depend on or assume any specific Stack, deployment topology, technology choice, or operational procedure. They define what is true of the Infrastructure regardless of how it is deployed.
 
@@ -83,7 +83,7 @@ When a semantic rule and a Stack-specific description appear to conflict, the co
 
 ## Trade-offs
 
-**Bridging documents require editorial judgment.** Documents that span both axes — Architecture Overview, System Narrative, Physical Architecture — require case-by-case decisions about which content is semantic and which is implementation-specific. This boundary is not always obvious and demands ongoing discipline.
+**Bridging documents require editorial judgment.** Documents that span both axes — Architecture Overview, Infrastructure Narrative, Physical Architecture — require case-by-case decisions about which content is semantic and which is implementation-specific. This boundary is not always obvious and demands ongoing discipline.
 
 **Stack documentation is less self-contained.** A reader approaching the Infrastructure from a single Stack must follow references to concept documents for semantic rules rather than finding everything restated locally. This is the intended trade-off: self-containedness at the Stack level would reintroduce the duplication and drift that this decision prevents.
 

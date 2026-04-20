@@ -4,9 +4,9 @@
 
 ## Purpose
 
-This document defines the philosophy of the documentation set as an architectural system of record.
+This document defines the philosophy of the documentation set as an architectural infrastructure of record.
 
-The goal is not to accumulate notes. The goal is to maintain a coherent, authoritative representation of System semantics, architecture boundaries, and implementation alignment over time.
+The goal is not to accumulate notes. The goal is to maintain a coherent, authoritative representation of semantics, architecture boundaries, and implementation alignment over time.
 
 This philosophy governs how documentation is read, written, and maintained so that the docs remain reliable under change.
 
@@ -22,7 +22,7 @@ The documentation is a structured reference model of the Infrastructure:
 
 A reader should be able to answer both questions from the same corpus:
 
-- **Conceptual understanding:** "How does this System work at a model level?"
+- **Conceptual understanding:** "How does this infrastructure work at a model level?"
 - **Precise reference:** "What is the exact authoritative definition of this concept?"
 
 If the documentation cannot do both, it is incomplete.
@@ -130,7 +130,7 @@ A document is considered healthy when:
 
 This document defines documentation philosophy only. It does not:
 
-- define System semantics;
+- define semantics;
 - restate full architecture flows or lifecycle models;
 - duplicate section-level structure guidance;
 - prescribe prose style beyond architectural clarity requirements.

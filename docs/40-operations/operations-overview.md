@@ -9,7 +9,7 @@ While the Architecture and Stacks sections define the structural organization of
 The Runtime model describes:
 
 - event-driven processing
-- operational System behavior
+- operational Infrastructure behavior
 - monitoring and failure handling
 
 Together these documents explain how the Infrastructure behaves in both Backtesting and Live Runtimes.
@@ -47,7 +47,7 @@ The live Runtime is responsible for:
 - real-time Strategy execution
 - risk enforcement
 - Order execution
-- continuous system monitoring
+- continuous infrastructure monitoring
 
 This Runtime is operated by the Execution Stack.
 
@@ -107,7 +107,7 @@ State Update
 
 Market Events and execution Events continuously update States and drive trading decisions.
 
-This event-driven feedback loop ensures consistent System behavior across both Backtesting and Live Runtimes.
+This event-driven feedback loop ensures consistent Infrastructure behavior across both Backtesting and Live Runtimes.
 
 ---
 
@@ -139,14 +139,14 @@ Translate internal execution requests into Venue-specific API interactions.
 
 ## Operational Concerns
 
-Operating a trading system requires additional Runtime capabilities beyond the core trading loop.
+Operating a trading infrastructure requires additional Runtime capabilities beyond the core trading loop.
 
 These include:
 
 - monitoring and observability
 - incident detection
 - failure handling
-- system recovery
+- infrastructure recovery
 
 The following documents describe these operational concerns in detail:
 
@@ -180,5 +180,5 @@ These include:
 
 - monitoring infrastructure
 - incident handling
-- system recovery procedures
+- infrastructure recovery procedures
 - specific Runtime behavior

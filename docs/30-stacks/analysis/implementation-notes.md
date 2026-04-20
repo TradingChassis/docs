@@ -6,7 +6,7 @@ This document captures implementation-facing rationale and design considerations
 
 ## Why Analytical Realization Matters
 
-The Analysis Stack turns persisted system outputs into evaluative knowledge. How that transformation is realized — how artifacts are loaded, how analysis logic is structured, how outputs are versioned and persisted — determines whether analytical conclusions are trustworthy, reproducible, and traceable.
+The Analysis Stack turns persisted infrastructure outputs into evaluative knowledge. How that transformation is realized — how artifacts are loaded, how analysis logic is structured, how outputs are versioned and persisted — determines whether analytical conclusions are trustworthy, reproducible, and traceable.
 
 A weak realization (e.g., ad hoc scripts with untracked inputs, unversioned analysis logic, results that cannot be traced to specific persisted artifacts) produces analytical outputs that cannot be verified, reproduced, or meaningfully compared. The implementation patterns described here are designed to make analysis systematic, reproducible, and durable.
 
@@ -36,7 +36,7 @@ Comparison and evaluation are among the most common analytical tasks. Their real
 
 **Cross-experiment comparison.** An analysis workflow loads results from multiple Backtesting runs — different parameter values, different Strategies, different time periods — and applies comparative logic: ranking by performance metric, computing parameter sensitivity, or identifying systematic patterns across runs. The implementation must support structured iteration over result sets and consistent application of comparative criteria.
 
-**Research–Live discrepancy analysis.** An analysis workflow loads persisted Backtesting outcomes and persisted Live execution records for the same Strategy and time period, and compares them along defined dimensions: fill quality, execution timing, slippage, performance divergence. This is a retrospective analytical task — it operates on persisted outputs from both contexts, not on running systems. The implementation must support cross-context artifact loading (from both Experiment / Artifact Storage and Execution Record Storage) and structured comparison across contexts.
+**Research–Live discrepancy analysis.** An analysis workflow loads persisted Backtesting outcomes and persisted Live execution records for the same Strategy and time period, and compares them along defined dimensions: fill quality, execution timing, slippage, performance divergence. This is a retrospective analytical task — it operates on persisted outputs from both contexts, not on running infrastructures. The implementation must support cross-context artifact loading (from both Experiment / Artifact Storage and Execution Record Storage) and structured comparison across contexts.
 
 **Threshold and criterion evaluation.** Analysis logic applies defined criteria — minimum performance thresholds, maximum drawdown limits, execution-quality standards — to individual or comparative results. The implementation should support configurable criteria so that evaluative standards can evolve without rewriting analysis logic.
 
@@ -48,7 +48,7 @@ Reproducibility and versioning are implementation-level requirements that influe
 
 **Reproducible analysis runs.** The same analysis definition applied to the same persisted inputs must produce the same outputs. In practice, this requires:
 
-- Analysis logic that is deterministic with respect to its inputs — no dependence on wall-clock time, random seeds without explicit seeding, or transient system state.
+- Analysis logic that is deterministic with respect to its inputs — no dependence on wall-clock time, random seeds without explicit seeding, or transient infrastructure state.
 - Explicit specification of which persisted artifacts are consumed — not implicit discovery that may resolve to different artifacts on different runs.
 - Frozen dependencies where the analysis environment includes libraries or frameworks whose behavior may change across versions.
 
@@ -90,7 +90,7 @@ Implementation considerations:
 - **Temporal alignment.** Comparing Research and Live outcomes for the same Strategy and time period requires aligning artifacts by time range, instrument, and Strategy configuration. The implementation should support structured alignment rather than requiring manual matching.
 - **Discrepancy quantification.** The analysis should produce structured outputs that quantify the discrepancy — not just "different" but "different by how much, along which dimensions, and with what pattern." This requires that discrepancy analysis produce measurable, comparable outputs, not just narrative observations.
 
-Retrospective Live analysis is analytical and asynchronous. It operates on persisted outputs after execution has occurred. It is not real-time operational monitoring — it does not observe running systems or emit alerts.
+Retrospective Live analysis is analytical and asynchronous. It operates on persisted outputs after execution has occurred. It is not real-time operational monitoring — it does not observe running infrastructures or emit alerts.
 
 ---
 
@@ -98,10 +98,10 @@ Retrospective Live analysis is analytical and asynchronous. It operates on persi
 
 **Implementation choices, not canonical semantics.** The workflow patterns, versioning strategies, persistence approaches, and comparison structures described here are implementation-level concerns. They do not define or modify the Infrastructure's canonical Event, State, or lifecycle semantics.
 
-**Analysis operates on persisted artifacts.** The implementation reads from and writes to the Data Storage Stack's persistent surfaces. It does not interact with running systems, consume transient runtime state, or participate in real-time processing.
+**Analysis operates on persisted artifacts.** The implementation reads from and writes to the Data Storage Stack's persistent surfaces. It does not interact with running infrastructures, consume transient runtime state, or participate in real-time processing.
 
 **Not operational monitoring.** The Analysis Stack's implementation is oriented around asynchronous, retrospective analytical work. It does not implement real-time observation, alerting, or runtime health tracking. That is a separate concern.
 
 **No storage governance.** The Analysis Stack reads from and writes to storage surfaces but does not manage their organization, retention, or access policies.
 
-**No deployment specification.** The patterns above describe design considerations and realization approaches. They do not prescribe specific notebook platforms, pipeline frameworks, scheduling systems, or infrastructure configurations. Those belong in deployment documentation.
+**No deployment specification.** The patterns above describe design considerations and realization approaches. They do not prescribe specific notebook platforms, pipeline frameworks, scheduling infrastructures, or infrastructure configurations. Those belong in deployment documentation.

@@ -4,11 +4,11 @@
 
 ## Purpose
 
-This document defines how **snapshot-driven inputs** fit into a deterministic, event-driven System.
+This document defines how **snapshot-driven inputs** fit into a deterministic, event-driven Infrastructure.
 
 It establishes:
 
-- what a snapshot-driven input is in this System's semantic context;
+- what a snapshot-driven input is in this Infrastructure's semantic context;
 - how snapshots relate to canonical history and the Event Stream;
 - what constraints must hold for snapshot use to remain compatible with determinism and replayability;
 - what snapshot-driven inputs are not permitted to do.
@@ -43,7 +43,7 @@ Instead of receiving every change that led to the current condition, the Infrast
 Common scenarios where snapshot-driven inputs arise:
 
 - A market data feed that delivers a full order book state on connection or reconnect, followed by incremental updates
-- An initial position or balance report provided at system start before incremental execution events begin flowing
+- An initial position or balance report provided at infrastructure start before incremental execution events begin flowing
 - A periodic full-state delivery from a Venue or data source that does not expose incremental history
 
 In each case, the snapshot represents a **bounded, point-in-time view** of some external reality. It is not a sequence of what happened; it is a summary of what is known to be true at a specific moment.
@@ -58,7 +58,7 @@ There are two canonical-compatible ways to integrate a snapshot into the Infrast
 
 ### Integration path A: snapshot as Event
 
-The snapshot is **canonicalized as an Event** (specifically, a **Market Event** or **System Event** as appropriate — see [Event Model](event-model.md)) and appended to the **Event Stream** at the relevant **Processing Order** position.
+The snapshot is **canonicalized as an Event** (specifically, a **Market Event** or **Infrastructure Event** as appropriate — see [Event Model](event-model.md)) and appended to the **Event Stream** at the relevant **Processing Order** position.
 
 From that stream position onward, derived State reflects the contents of the snapshot. Subsequent incremental Events (deltas, updates) are applied on top in **Processing Order**, exactly as they would be if no snapshot had been used.
 
@@ -78,7 +78,7 @@ This path is compatible with determinism and replayability only if the snapshot 
 
 A snapshot that **silently mutates derived State** outside either of the above paths violates the canonical model. Specifically:
 
-- Maintaining a mutable "current state" store updated by incoming snapshots, where that store influences System behavior without entering the Event Stream, is **hidden mutable truth** and is forbidden ([Invariants: E1, E2, D3](invariants.md)).
+- Maintaining a mutable "current state" store updated by incoming snapshots, where that store influences Infrastructure behavior without entering the Event Stream, is **hidden mutable truth** and is forbidden ([Invariants: E1, E2, D3](invariants.md)).
 - Treating a live, non-versioned snapshot read as equivalent to a stable canonical input breaks replayability: the same Event Stream replayed at a different time may read a different snapshot and produce a different result.
 
 ---
@@ -124,7 +124,7 @@ A bounded State projection maintained as a snapshot for efficiency must produce 
 
 ### Constraints
 
-- A snapshot must not be used as a **primary source of State** that independently determines System behavior. It is either part of the canonical input (Event or Configuration anchor) or a derived view — never an authoritative truth that runs in parallel.
+- A snapshot must not be used as a **primary source of State** that independently determines Infrastructure behavior. It is either part of the canonical input (Event or Configuration anchor) or a derived view — never an authoritative truth that runs in parallel.
 
 - A snapshot anchor used to bootstrap State must be **explicitly versioned and fixed** for its processing scope. Using a live read of current state as an anchor introduces non-determinism.
 

@@ -74,7 +74,7 @@ However, some structural relationships exist:
 
 ## Internal Structural Boundaries
 
-**Logical separation is mandatory.** Each storage class must remain logically distinct, even when multiple classes share the same physical storage system. A dataset's storage-class membership must be unambiguous: a dataset in Persistent Raw Storage is raw; a dataset in Canonical Storage is canonical; a dataset in Quarantine Storage is quarantined. These classifications must not be blurred by shared infrastructure.
+**Logical separation is mandatory.** Each storage class must remain logically distinct, even when multiple classes share the same physical storage infrastructure. A dataset's storage-class membership must be unambiguous: a dataset in Persistent Raw Storage is raw; a dataset in Canonical Storage is canonical; a dataset in Quarantine Storage is quarantined. These classifications must not be blurred by shared infrastructure.
 
 **No semantic processing.** The Data Storage Stack's internal structure organizes and separates persistent data. It does not validate, normalize, promote, quarantine, or transform data. Those are responsibilities of other Stacks. The internal structure provides the durable surfaces on which those Stacks' decisions are stored.
 

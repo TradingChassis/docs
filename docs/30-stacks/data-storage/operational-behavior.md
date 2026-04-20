@@ -56,7 +56,7 @@ The Data Storage Stack is what makes this decoupling possible. By providing dura
 
 **No Core Runtime participation.** The Data Storage Stack's operational behavior does not intersect with the Core Runtime Event Stream, State derivation, or execution-path processing. It stores artifacts produced by Core Runtime Stacks (execution records, experiment outputs), but it does not participate in the runtime that produces them.
 
-**Logical separation under shared infrastructure.** During normal operation, multiple storage classes may reside on the same physical storage system. Logical separation is maintained through organizational conventions (namespaces, paths, prefixes, or equivalent boundaries). The operational consequence is that a consuming Stack reading from Canonical Storage never inadvertently reads from Persistent Raw Storage or Quarantine Storage — the logical boundaries are stable and enforced regardless of physical co-location.
+**Logical separation under shared infrastructure.** During normal operation, multiple storage classes may reside on the same physical storage infrastructure. Logical separation is maintained through organizational conventions (namespaces, paths, prefixes, or equivalent boundaries). The operational consequence is that a consuming Stack reading from Canonical Storage never inadvertently reads from Persistent Raw Storage or Quarantine Storage — the logical boundaries are stable and enforced regardless of physical co-location.
 
 **Observability.** The operational health of the Data Storage Stack — surface availability, write/read success rates, storage utilization per class, durability status — should remain observable at a high level. The specifics of monitoring instrumentation and alerting are defined elsewhere.
 

@@ -6,7 +6,7 @@
 
 This document explains how the documentation repository is organized and how to navigate it.
 
-It describes section roles, reading paths, and document types. It does **not** redefine System semantics.
+It describes section roles, reading paths, and document types. It does **not** redefine semantics.
 
 ---
 
@@ -15,7 +15,7 @@ It describes section roles, reading paths, and document types. It does **not** r
 The documentation is organized into numbered top-level groups:
 
 - `00-guides/` - orientation, shared vocabulary, and repository-level reading aids
-- `10-architecture/` - system-level architecture views, boundaries, and design records
+- `10-architecture/` - architecture views, boundaries, and design records
 - `20-concepts/` - canonical conceptual models and semantic definitions
 - `30-stacks/` - implementation-facing stack realizations of the conceptual model
 - `40-operations/` - operational model, monitoring, recovery, and runbook-facing material
@@ -38,7 +38,7 @@ Use this section to enter the documentation set:
 
 This section reduces onboarding cost and keeps cross-document language aligned.
 
-### `10-architecture` - System architecture views
+### `10-architecture` - Infrastructure architecture views
 
 Use this section to understand architectural composition and responsibility boundaries:
 
@@ -97,7 +97,7 @@ When a statement appears in multiple role types, canonical definition documents 
 
 ### New reader path
 
-Start here for a full-system understanding:
+Start here for a full understanding:
 
 1. [architecture-map.md](architecture-map.md)
 2. [architecture-overview.md](../10-architecture/architecture-overview.md)
@@ -145,6 +145,6 @@ This is the main function of the repository structure: stable meaning with evolv
 
 This document explains information architecture and navigation only. It does not:
 
-- define System semantics in detail;
+- define semantics in detail;
 - duplicate [documentation-philosophy.md](documentation-philosophy.md);
 - replace architecture, concept, stack, or operations source documents.
