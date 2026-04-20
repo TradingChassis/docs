@@ -1,10 +1,10 @@
 ---
-title: Introducing Time Events for Execution Control
+title: Introducing Control-Time Events for Execution Control
 updated: 2026-04-20
 adr_status: In progress
 ---
 
-# Introducing Time Events for Execution Control
+# Introducing Control-Time Events for Execution Control
 
 Status: {{ page.meta.adr_status }}  
 Updated: {{ page.meta.updated }}
@@ -14,6 +14,7 @@ Updated: {{ page.meta.updated }}
 ## Context
 
 The Core Runtime is modeled as a deterministic event-driven system.
+
 Queue Processing currently runs only as part of Event processing. This keeps the model deterministic and avoids hidden runtime ticks, but it also means that pending execution-control work may remain unevaluated when no new external Events arrive.
 
 This becomes problematic when the Queue contains allowed but not yet dispatchable work that should be retried once execution-control constraints (such as rate capacity) allow it again.
@@ -39,7 +40,7 @@ If the Queue contains pending outbound work and no new Market or Execution Event
 
 - The current model lacks an explicit deterministic mechanism for time-based re-evaluation of the Queue's outbound work.
 - A hidden timer or autonomous Queue loop would solve the symptom but would violate the architecture principles.
-- A better approach may be to model time-based re-evaluation explicitly as canonical Time Events.
+- A better approach may be to model time-based re-evaluation explicitly as canonical Control-Time Events.
 
 ---
 
@@ -55,13 +56,13 @@ If the Queue contains pending outbound work and no new Market or Execution Event
 
 - Moving time-based dispatchability into Risk would blur policy and execution-control responsibilities.
 - Adding a hidden Queue loop or wall-clock-based runtime tick would weaken determinism and replayability.
-- The most promising direction is to introduce explicit Time Events as part of canonical processing input.
+- The most promising direction is to introduce explicit Control-Time Events as part of canonical processing input.
 
 ### Updated Hypotheses
 
 - Time should be modeled explicitly, not implicitly.
-- Time-based re-evaluation should be triggered by sparse, deterministic Time Events rather than periodic polling.
-- These Time Events should be injected into the Event Stream, just like Market and Execution Events.
+- Time-based re-evaluation should be triggered by sparse, deterministic Control-Time Events rather than periodic polling.
+- These Control-Time Events should be injected into the Event Stream, just like Market and Execution Events.
 
 ---
 
@@ -74,7 +75,7 @@ As a result, pending Queue work may remain unevaluated in quiet periods even tho
 
 ### Changes Proposed
 
-- Introduce explicit Time Events as part of Control Events.
+- Introduce explicit Control-Time Events as part of Control Events.
 - Use them only when Execution Control can derive a meaningful next processing deadline.
 - Keep Queue Processing inside canonical Event processing.
 - Do not introduce a separate runtime tick or autonomous Queue thread.
@@ -82,6 +83,7 @@ As a result, pending Queue work may remain unevaluated in quiet periods even tho
 ### Outcome
 
 This would preserve:
+
 - deterministic replay
 - explicit causal history
 - Backtesting / Live semantic parity
@@ -93,7 +95,7 @@ while allowing pending Queue work to be re-evaluated without depending solely on
 
 ## Open Questions
 
-- What is the exact canonical shape of the new Time Events?
-- How should scheduled Time Events be ordered relative to Market and Execution Events at identical timestamps?
+- What is the exact canonical shape of the new Control-Time Events?
+- How should scheduled Control-Time Events be ordered relative to Market and Execution Events at identical timestamps?
 - Should there be at most one outstanding Time Event per Execution Control scope?
-- How should these Time Events be injected into the Event Stream in Backtesting versus Live?
+- How should these Control-Time Events be injected into the Event Stream in Backtesting versus Live?

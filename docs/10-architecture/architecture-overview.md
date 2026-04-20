@@ -177,7 +177,7 @@ A central architectural goal of the Infrastructure is **semantic parity** betwee
 Both Runtimes run the same **Core Runtime** semantics:
 
 - **Event-driven, deterministic processing** (`State = f(Event Stream, Configuration)`)
-- Same **Intent → Risk → Execution Control → Venue Adapter** chain
+- Same **Intent ➝ Risk ➝ Execution Control ➝ Venue Adapter** chain
 - Same **Order lifecycle** beginning at submission
 - Same **Queue** semantics: derived execution-control substate, no independent tick
 

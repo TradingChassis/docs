@@ -78,25 +78,25 @@ flowchart TB
     inflight --> closed
 ```
 
-1. **Generated → Policy decided** — **Strategy** output is evaluated by the **Risk Engine** ([Infrastructure Flows](infrastructure-flows.md)).  
+1. **Generated ➝ Policy decided** — **Strategy** output is evaluated by the **Risk Engine** ([Infrastructure Flows](infrastructure-flows.md)).  
    - **Intent-related Event:** **IntentGenerated** may be recorded **if** canonical history requires visibility of generation.
 
 2. **Policy decided** — **Allowed** or **denied** only ([Logical Architecture](logical-architecture.md)).  
-   - **Denied** → **Closed**.  
+   - **Denied** ➝ **Closed**.  
    - **Intent-related Events:** **IntentAccepted** / **IntentRejected** **if** canonical history requires recording the policy outcome.
 
-3. **Policy allowed → Pending dispatch** — **Execution Control** merges **allowed** work into **derived Queue substate** ([State Model](../20-concepts/state-model.md)).  
+3. **Policy allowed ➝ Pending dispatch** — **Execution Control** merges **allowed** work into **derived Queue substate** ([State Model](../20-concepts/state-model.md)).  
    - Residency here is **execution-control substate** ([Queue Semantics](../20-concepts/queue-semantics.md)).  
    - **Queue Processing** runs **inside** the same **Event processing** as the rest of the step ([Infrastructure Flows](infrastructure-flows.md)); there is **no separate tick**.
 
-4. **Pending dispatch → Closed (superseded)** — While resident in that substate, reconciliation (e.g. [Intent Dominance](../20-concepts/intent-dominance.md)) may **replace** or **remove** this logical Intent in favor of a more effective command. **Supersession** is **terminal** for the superseded **Intent**’s arc and does **not** imply an **Order** state by itself.
+4. **Pending dispatch ➝ Closed (superseded)** — While resident in that substate, reconciliation (e.g. [Intent Dominance](../20-concepts/intent-dominance.md)) may **replace** or **remove** this logical Intent in favor of a more effective command. **Supersession** is **terminal** for the superseded **Intent**’s arc and does **not** imply an **Order** state by itself.
 
-5. **Pending dispatch → Dispatched** — **Queue Processing** selects this work for send; handoff to **Venue Adapter**.  
+5. **Pending dispatch ➝ Dispatched** — **Queue Processing** selects this work for send; handoff to **Venue Adapter**.  
    - **Intent-related Event:** **IntentDispatched** **if** canonical history requires recording dispatch.
 
-6. **Dispatched → Inflight** — Outbound request is active; **Execution Control** may **block** competing requests per **Order** key ([Intent Pipeline](intent-pipeline.md)). This is **Intent-centric** coordination, **not** the **Order lifecycle** definition.
+6. **Dispatched ➝ Inflight** — Outbound request is active; **Execution Control** may **block** competing requests per **Order** key ([Intent Pipeline](intent-pipeline.md)). This is **Intent-centric** coordination, **not** the **Order lifecycle** definition.
 
-7. **Inflight → Closed** — The **Intent**’s outbound arc is **done** for lifecycle purposes: protocol-level handling for this dispatch has reached a **terminal** point defined by defined rules (e.g. acknowledgement of execution outcome that **closes** this Intent’s obligation in derived Execution / execution-control projections).  
+7. **Inflight ➝ Closed** — The **Intent**’s outbound arc is **done** for lifecycle purposes: protocol-level handling for this dispatch has reached a **terminal** point defined by defined rules (e.g. acknowledgement of execution outcome that **closes** this Intent’s obligation in derived Execution / execution-control projections).  
    - Concrete **Order** states (accepted, filled, canceled, etc.) are defined in [Order Lifecycle](../20-concepts/order-lifecycle.md) and arise from **Execution Events**, not from Intent stages.
 
 **Not all stages emit Events:** internal steps such as **dominance**, **eligibility**, and **scheduling** remain **deterministic derivations** unless **explicitly** required on the **Event Stream** for canonical history (see [Terminology: Intent visibility](../00-guides/terminology.md#intent-visibility)).

@@ -16,7 +16,7 @@ Read sections **in order**. Each section assumes the ones before it.
 
 Dependency chain:
 
-**Event and ordering → State and derivation → Intent → Risk → Queue and Execution Control → Order**
+**Event and ordering ➝ State and derivation ➝ Intent ➝ Risk ➝ Queue and Execution Control ➝ Order**
 
 Supporting terms at the end assume the core definitions.
 
@@ -326,6 +326,6 @@ A **Flow** is a narrative or diagram of how information moves between parts of t
 
 A **Pipeline** is a staged description of processing. For example, the **intent pipeline** is a documented staging of
 
-**Strategy → Risk → Queue → Adapter**.
+**Strategy ➝ Risk ➝ Queue ➝ Adapter**.
 
 Stages map to the Core semantics defined in this document, not to separate sources of truth.

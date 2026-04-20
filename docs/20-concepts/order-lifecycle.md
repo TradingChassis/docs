@@ -63,7 +63,7 @@ An **Order** comes into existence in **Execution State** at **submission** in st
 
 ## Valid transitions
 
-**Entry transition** (`[*] → Submitted`): The **Order** enters **Execution State** at **submission**. `Submitted` is the first **Order** state. The corresponding dispatch-time stream record makes this entry part of canonical history. It is not created by any later **Venue** response.
+**Entry transition** (`[*] ➝ Submitted`): The **Order** enters **Execution State** at **submission**. `Submitted` is the first **Order** state. The corresponding dispatch-time stream record makes this entry part of canonical history. It is not created by any later **Venue** response.
 
 **Post-submission transitions** (`Submitted` onward): All subsequent state changes are triggered by **Execution Events** (Venue execution reports) processed in **Processing Order**. No post-submission transition occurs outside **Event processing**.
 

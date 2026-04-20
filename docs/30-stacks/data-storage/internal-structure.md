@@ -62,9 +62,9 @@ The storage classes are not stages in a sequential pipeline. They are **parallel
 
 However, some structural relationships exist:
 
-**Raw → Canonical progression.** Persistent Raw Storage holds the input material from which canonical datasets are eventually derived. A dataset moves from raw to canonical only through the Data Quality Stack's validation and promotion process. The Data Storage Stack provides both surfaces; it does not control or participate in the transition.
+**Raw ➝ Canonical progression.** Persistent Raw Storage holds the input material from which canonical datasets are eventually derived. A dataset moves from raw to canonical only through the Data Quality Stack's validation and promotion process. The Data Storage Stack provides both surfaces; it does not control or participate in the transition.
 
-**Canonical → Derived dependency.** Derived Storage may hold artifacts computed from canonical datasets. The relationship is downstream: derived artifacts depend on canonical inputs, but Canonical Storage does not depend on Derived Storage.
+**Canonical ➝ Derived dependency.** Derived Storage may hold artifacts computed from canonical datasets. The relationship is downstream: derived artifacts depend on canonical inputs, but Canonical Storage does not depend on Derived Storage.
 
 **Quarantine as a parallel outcome.** Quarantine Storage holds datasets that were candidates for Canonical Storage but did not pass quality assessment. It exists alongside Canonical Storage, not in sequence with it. A quarantined dataset is not "on its way" to Canonical Storage — it has been explicitly excluded.
 

@@ -33,7 +33,7 @@ The Live Stack is **not** part of the Data Platform. It does not capture raw dat
 
 ### Relationship to the Core Runtime
 
-The Live Stack executes the same Core Runtime that defines the Infrastructure's processing semantics — the same Event-driven processing model, the same Strategy → Risk → Execution Control → Venue Adapter chain, the same deterministic State derivation. The Live Stack provides the real-time operational context in which those semantics are applied to live market conditions and real Venue interactions.
+The Live Stack executes the same Core Runtime that defines the Infrastructure's processing semantics — the same Event-driven processing model, the same Strategy ➝ Risk ➝ Execution Control ➝ Venue Adapter chain, the same deterministic State derivation. The Live Stack provides the real-time operational context in which those semantics are applied to live market conditions and real Venue interactions.
 
 ### Operational importance
 

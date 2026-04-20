@@ -43,7 +43,7 @@ The Infrastructure requires an architectural boundary that separates **policy ad
 
 4. **The pipeline sequence is fixed.** The outbound processing chain follows a strict order:
 
-   `Strategy → Risk Engine → Queue → Queue Processing → Venue Adapter → Venue`
+   `Strategy ➝ Risk Engine ➝ Queue ➝ Queue Processing ➝ Venue Adapter ➝ Venue`
 
    Strategy produces Intents. Risk evaluates admissibility. The Queue holds allowed pending work. Queue Processing evaluates sendability and selects work for dispatch. The Venue Adapter translates and transmits. The Venue responds with Execution Events that re-enter the Event Stream.
 

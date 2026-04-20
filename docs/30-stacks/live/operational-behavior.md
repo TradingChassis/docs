@@ -22,7 +22,7 @@ Real Venue interaction is a continuous, bidirectional operational concern during
 
 **Outbound.** When the Core Runtime's processing chain produces dispatch decisions, the Venue Adapter translates them into Venue-specific API requests and transmits them to real Venues. These are real market actions — order submissions, modifications, and cancellations — with real financial consequences.
 
-**Inbound.** Venues respond with execution feedback: acknowledgements, fills, partial fills, rejections, and cancellations. This feedback is received by the Venue Adapter and surfaced as Execution Events that re-enter the Core Runtime's processing loop. Execution Events drive Order lifecycle transitions (`Submitted → Accepted → Partially Filled → Filled, or Submitted → Rejected`, etc.) and update Execution State.
+**Inbound.** Venues respond with execution feedback: acknowledgements, fills, partial fills, rejections, and cancellations. This feedback is received by the Venue Adapter and surfaced as Execution Events that re-enter the Core Runtime's processing loop. Execution Events drive Order lifecycle transitions (`Submitted ➝ Accepted ➝ Partially Filled ➝ Filled, or Submitted ➝ Rejected`, etc.) and update Execution State.
 
 The outbound-inbound cycle runs continuously during live operation. The Live Stack maintains active connections to real Venues throughout the session, handling the full spectrum of Venue responses as they arrive. Venue interaction is not a periodic batch operation — it is an ongoing, latency-sensitive part of the real-time processing loop.
 

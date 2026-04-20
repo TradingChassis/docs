@@ -96,7 +96,7 @@ When an **allowed** Intent enters execution-control substate, reconciliation (e.
 
 For example, if **Strategy** produces rapid successive updates for the same **Order**:
 
-`NEW → REPLACE → REPLACE → REPLACE → CANCEL`
+`NEW ➝ REPLACE ➝ REPLACE ➝ REPLACE ➝ CANCEL`
 
 Reconciliation collapses these to the single effective command:
 
@@ -159,7 +159,7 @@ This document defines the **conceptual pipeline path**. For the detailed semanti
 - [Terminology](../00-guides/terminology.md) — canonical terms.
 - [Logical Architecture](logical-architecture.md) — component boundaries and responsibilities.
 - [Infrastructure Flows](infrastructure-flows.md) — canonical **Runtime** sequencing of all pipeline stages within **Event processing**.
-- [Intent Lifecycle](intent-lifecycle.md) — **Intent** stage progression (`Generated → Policy decided → Pending dispatch → Dispatched → Inflight → Closed`).
+- [Intent Lifecycle](intent-lifecycle.md) — **Intent** stage progression (`Generated ➝ Policy decided ➝ Pending dispatch ➝ Dispatched ➝ Inflight ➝ Closed`).
 - [Order Lifecycle](../20-concepts/order-lifecycle.md) — **Order** evolution from **Submitted** onward (downstream from pipeline dispatch).
 - [Queue Processing](../20-concepts/queue-processing.md) — deterministic sendability evaluation rules.
 - [Queue Semantics](../20-concepts/queue-semantics.md) — Queue structure and identity model.

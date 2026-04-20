@@ -95,12 +95,12 @@ flowchart TB
 
 Key points for navigation:
 
-- **Events → State:** Every State transition is caused by an Event. State is `f(Event Stream, Configuration)`. → [Event Model](../20-concepts/event-model.md), [State Model](../20-concepts/state-model.md)
-- **Strategy:** Reads derived State projections; emits **Intents** (ephemeral commands, not Events, not Orders). → [Logical Architecture](../10-architecture/logical-architecture.md)
-- **Risk Engine:** Decides **policy admissibility only** (allowed / denied). Does not schedule, rate-limit, or gate. → [Logical Architecture](../10-architecture/logical-architecture.md)
-- **Queue + Queue Processing:** Implement **Execution Control only** — schedule and dispatch allowed work as part of deterministic Event processing; no separate runtime tick; Queue is derived substate, not a source of truth. → [Queue Semantics](../20-concepts/queue-semantics.md), [Queue Processing](../20-concepts/queue-processing.md)
-- **Orders:** Begin at submission. Queue residency and Risk acceptance are not Order states. → [Order Lifecycle](../20-concepts/order-lifecycle.md)
-- **Venue feedback:** Returns as Execution Events, advancing already-existing Orders. → [Event Model](../20-concepts/event-model.md), [Order Lifecycle](../20-concepts/order-lifecycle.md)
+- **Events ➝ State:** Every State transition is caused by an Event. State is `f(Event Stream, Configuration)`. ➝ [Event Model](../20-concepts/event-model.md), [State Model](../20-concepts/state-model.md)
+- **Strategy:** Reads derived State projections; emits **Intents** (ephemeral commands, not Events, not Orders). ➝ [Logical Architecture](../10-architecture/logical-architecture.md)
+- **Risk Engine:** Decides **policy admissibility only** (allowed / denied). Does not schedule, rate-limit, or gate. ➝ [Logical Architecture](../10-architecture/logical-architecture.md)
+- **Queue + Queue Processing:** Implement **Execution Control only** — schedule and dispatch allowed work as part of deterministic Event processing; no separate runtime tick; Queue is derived substate, not a source of truth. ➝ [Queue Semantics](../20-concepts/queue-semantics.md), [Queue Processing](../20-concepts/queue-processing.md)
+- **Orders:** Begin at submission. Queue residency and Risk acceptance are not Order states. ➝ [Order Lifecycle](../20-concepts/order-lifecycle.md)
+- **Venue feedback:** Returns as Execution Events, advancing already-existing Orders. ➝ [Event Model](../20-concepts/event-model.md), [Order Lifecycle](../20-concepts/order-lifecycle.md)
 
 For the full step-by-step sequence, see [Infrastructure Flows](../10-architecture/infrastructure-flows.md).
 
@@ -156,7 +156,7 @@ Detailed Stack descriptions: [Architecture Overview](../10-architecture/architec
 
 Backtesting and Live are two implementations of the **same Core Runtime semantics**.
 
-Both apply `State = f(Event Stream, Configuration)`, the same Intent → Risk → Execution Control → Dispatch chain, and the same Order lifecycle beginning at submission.
+Both apply `State = f(Event Stream, Configuration)`, the same Intent ➝ Risk ➝ Execution Control ➝ Dispatch chain, and the same Order lifecycle beginning at submission.
 
 Infrastructure differs; semantics do not:
 
@@ -166,4 +166,4 @@ Infrastructure differs; semantics do not:
 | Venue | Simulated | Real |
 | Operation mode | Batch experiments | Continuous |
 
-→ [Architecture Overview](../10-architecture/architecture-overview.md) · [Backtesting Stack](../30-stacks/backtesting/backtesting-overview.md) · [Live Stack](../30-stacks/live/live-overview.md)
+➝ [Architecture Overview](../10-architecture/architecture-overview.md) · [Backtesting Stack](../30-stacks/backtesting/backtesting-overview.md) · [Live Stack](../30-stacks/live/live-overview.md)

@@ -16,7 +16,7 @@ The Backtesting Stack **uses** the Core Runtime — it does not **define** it. T
 
 The Backtesting Stack belongs to the **Core Runtime** group:
 
-`Data Platform → [Canonical Storage] → Backtesting Stack → [Experiment Outputs] → Analysis Stack`
+`Data Platform ➝ [Canonical Storage] ➝ Backtesting Stack ➝ [Experiment Outputs] ➝ Analysis Stack`
 
 It sits downstream of **Canonical Storage** (consuming validated historical datasets) and upstream of the **Analysis Stack** (producing experiment results and artifacts for evaluation). It depends on:
 
@@ -27,7 +27,7 @@ The Backtesting Stack is **not** part of the Data Platform. It does not capture,
 
 ### Relationship to the Core Runtime
 
-The Backtesting Stack executes the same Core Runtime that the Live Stack executes — the same Event-driven processing model, the same Strategy → Risk → Execution Control → Venue Adapter chain, the same deterministic State derivation. The difference is the execution context: historical canonical datasets replace live Venue feeds, and a simulated Venue replaces a real one. The Core Runtime semantics do not change between Backtesting and Live; the Backtesting Stack provides the environment in which those semantics are applied to historical data.
+The Backtesting Stack executes the same Core Runtime that the Live Stack executes — the same Event-driven processing model, the same Strategy ➝ Risk ➝ Execution Control ➝ Venue Adapter chain, the same deterministic State derivation. The difference is the execution context: historical canonical datasets replace live Venue feeds, and a simulated Venue replaces a real one. The Core Runtime semantics do not change between Backtesting and Live; the Backtesting Stack provides the environment in which those semantics are applied to historical data.
 
 ### Relationship to Research
 

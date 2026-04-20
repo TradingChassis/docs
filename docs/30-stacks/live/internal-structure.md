@@ -48,7 +48,7 @@ Hosts and executes the Core Runtime for live trading — the same deterministic,
 Role:
 
 - Instantiate the Core Runtime with the session's Strategy, Configuration, and execution-control rules.
-- Process incoming Events (market data, Execution Events from Venue feedback) through the full Core Runtime chain: `Event intake → State derivation → Strategy evaluation → Risk → Execution Control → dispatch decisions`.
+- Process incoming Events (market data, Execution Events from Venue feedback) through the full Core Runtime chain: `Event intake ➝ State derivation ➝ Strategy evaluation ➝ Risk ➝ Execution Control ➝ dispatch decisions`.
 - Pass outbound work selected for dispatch to the Venue Connectivity Layer for transmission to real Venues.
 - Receive Execution Events (Venue feedback) from the Venue Connectivity Layer and feed them back into the processing loop.
 

@@ -18,7 +18,7 @@ The Backtesting Stack **uses** the Core Runtime; it does not **define** it. The 
 
 The Backtesting Stack belongs to the **Core Runtime** group:
 
-`Data Platform → [Canonical Storage] → Backtesting Stack → [Experiment Outputs] → Analysis Stack`
+`Data Platform ➝ [Canonical Storage] ➝ Backtesting Stack ➝ [Experiment Outputs] ➝ Analysis Stack`
 
 It sits downstream of **Canonical Storage** (consuming validated historical datasets as input) and upstream of the **Analysis Stack** (producing experiment results and artifacts for evaluation). It depends on:
 

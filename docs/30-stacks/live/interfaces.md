@@ -30,7 +30,7 @@ The Live Stack produces outputs in two directions: outbound toward real Venues, 
 
 ### Outbound execution
 
-The primary operational output. The Core Runtime's processing chain — `Strategy → Risk → Execution Control → Venue Adapter` — produces outbound execution requests (order submissions, modifications, cancellations) that are transmitted to real Venues through the Venue Adapter. These are real market actions with real financial consequences.
+The primary operational output. The Core Runtime's processing chain — `Strategy ➝ Risk ➝ Execution Control ➝ Venue Adapter` — produces outbound execution requests (order submissions, modifications, cancellations) that are transmitted to real Venues through the Venue Adapter. These are real market actions with real financial consequences.
 
 ### Execution feedback
 

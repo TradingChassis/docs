@@ -37,7 +37,7 @@ The Core Runtime is organized into four layered responsibilities with strict bou
 
 The canonical outbound processing sequence is:
 
-`Event → derived State → Strategy → Intent → Risk → Queue / Queue Processing → Venue Adapter → Venue`
+`Event ➝ derived State ➝ Strategy ➝ Intent ➝ Risk ➝ Queue / Queue Processing ➝ Venue Adapter ➝ Venue`
 
 Venue feedback re-enters the Infrastructure only as Events appended to the Event Stream. There is no path by which Venue responses update derived State without passing through Event processing.
 

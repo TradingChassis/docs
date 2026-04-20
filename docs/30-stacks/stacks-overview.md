@@ -76,13 +76,13 @@ Provides runtime observability for running infrastructure parts — collecting t
 
 The Stacks cooperate through defined data flows and integration surfaces. At overview level, the key relationships are:
 
-**Raw data capture → validation → canonical storage.** The Data Recording Stack captures raw market data. The Data Quality Stack validates and promotes it. The Data Storage Stack holds the resulting canonical datasets and all other persistent artifacts. This pipeline produces the reliable data foundation that the rest of the Infrastructure depends on.
+**Raw data capture ➝ validation ➝ canonical storage.** The Data Recording Stack captures raw market data. The Data Quality Stack validates and promotes it. The Data Storage Stack holds the resulting canonical datasets and all other persistent artifacts. This pipeline produces the reliable data foundation that the rest of the Infrastructure depends on.
 
-**Canonical data → runtime execution.** The Backtesting Stack and the Live Stack consume canonical datasets from the Data Storage Stack as inputs to Core Runtime execution. Both produce execution outputs — experiment results, run artifacts, execution records — that are persisted back to the Data Storage Stack's persistent surfaces.
+**Canonical data ➝ runtime execution.** The Backtesting Stack and the Live Stack consume canonical datasets from the Data Storage Stack as inputs to Core Runtime execution. Both produce execution outputs — experiment results, run artifacts, execution records — that are persisted back to the Data Storage Stack's persistent surfaces.
 
-**Persisted outputs → retrospective analysis.** The Analysis Stack consumes persisted outputs from the Data Storage Stack — experiment results from Backtesting, execution records from Live, canonical and derived datasets — and produces derived analytical artifacts. The Analysis Stack operates downstream of execution, not alongside it.
+**Persisted outputs ➝ retrospective analysis.** The Analysis Stack consumes persisted outputs from the Data Storage Stack — experiment results from Backtesting, execution records from Live, canonical and derived datasets — and produces derived analytical artifacts. The Analysis Stack operates downstream of execution, not alongside it.
 
-**Running infrastructures → runtime observability.** The Monitoring Stack receives telemetry and status signals from the Live Stack, the Backtesting Stack, and other running infrastructure parts during active execution. It provides operational visibility into what is happening while the Infrastructure is running.
+**Running infrastructures ➝ runtime observability.** The Monitoring Stack receives telemetry and status signals from the Live Stack, the Backtesting Stack, and other running infrastructure parts during active execution. It provides operational visibility into what is happening while the Infrastructure is running.
 
 **The Data Storage Stack as shared substrate.** The Data Storage Stack is not a sequential pipeline stage — it is a platform layer used by most other Stacks. Recording writes raw data to it. Quality promotes canonical data into it. Backtesting and Live read from it and write execution outputs to it. Analysis reads persisted outputs from it and writes derived artifacts back. The Data Storage Stack provides the persistent surfaces; it does not govern the semantic decisions of the Stacks that use it.
 

@@ -90,6 +90,6 @@ The distinction between "cannot send yet" and "must not send" is fundamental: th
 - [State Model](state-model.md) — Queue as execution-control substate within **Execution State**.
 - [Intent Dominance](intent-dominance.md) — rules governing which command is effective per order key.
 - [Queue Processing](queue-processing.md) — deterministic evaluation of sendability among Queue contents.
-- [Intent Lifecycle](../10-architecture/intent-lifecycle.md) — Intent stage progression through **Pending submission** → **Submitted** → **Inflight** → **Closed**.
+- [Intent Lifecycle](../10-architecture/intent-lifecycle.md) — Intent stage progression through **Pending submission** ➝ **Submitted** ➝ **Inflight** ➝ **Closed**.
 - [Intent Pipeline](../10-architecture/intent-pipeline.md) — submission as the boundary between Queue residency and Order existence.
 - [Order Lifecycle](order-lifecycle.md) — **Order** evolution from **Submitted** onward.

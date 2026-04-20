@@ -168,7 +168,7 @@ Three notions must stay separate:
 | Concern | What moves | Persistence |
 | -------- | ----------- | ----------- |
 | **Event flow** | **Events** in **Processing Order** | Immutable stream records; sole driver of **State transitions** |
-| **Intent processing** | Ephemeral **Intents** → **allowed/denied** → **Execution Control** → dispatch | **Intents** are not persistent; visibility via **Events** when required |
+| **Intent processing** | Ephemeral **Intents** ➝ **allowed/denied** ➝ **Execution Control** ➝ dispatch | **Intents** are not persistent; visibility via **Events** when required |
 | **Order evolution** | **Order** projections in **Execution State** | **Derived** from **Execution** (and where applicable **Intent-related**) **Events**; lifecycle **begins at submission** with state **Submitted** |
 
 **Intent lifecycle** and **Order lifecycle** documentation define stage names; this document only fixes **where** they fit in Runtime sequencing—not a merged lifecycle model.
@@ -206,7 +206,7 @@ There is **no** parallel path where **Venue** updates **State** without **Events
 3. **Risk vs Execution Control:** **Allowed / denied** only at **Risk**; **timing and ordering** only at **Queue Processing**.
 4. **Intent vs Event:** **Intents** are commands during a step; they are **not** Events. Stream updates use **Events** only **when** canonical history requires ([Terminology: Intent visibility](../00-guides/terminology.md#intent-visibility)).
 5. **Orders:** **Orders** are **derived** in **Execution State**; they **exist** from **submission** onward in state **Submitted** as projections; Strategy does **not** “send Orders” as primary objects— it sends **Intents**; the Infrastructure **dispatches** and **Venue** **Execution Events** refine **Order** state.
-6. **Determinism:** Same stream + Configuration → same derived State at each position (including execution-control substate).
+6. **Determinism:** Same stream + Configuration ➝ same derived State at each position (including execution-control substate).
 
 ---
 

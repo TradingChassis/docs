@@ -56,6 +56,8 @@ markdown_extensions:
   - attr_list
   - md_in_html
 
+  - pymdownx.highlight
+
   - pymdownx.tabbed:
       alternate_style: true
 
@@ -238,4 +240,4 @@ nav:
 
       - Development Logs:
           - Overview: 50-evolution/dev-logs/dev-logs-overview.md
-          - Time Events: 50-evolution/dev-logs/execution-control/introducing-time-events-for-execution-control.md
+          - Control-Time Events: 50-evolution/dev-logs/execution-control/introducing-time-events-for-execution-control.md

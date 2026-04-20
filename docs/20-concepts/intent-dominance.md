@@ -38,7 +38,7 @@ Capitalized terms are used as in [Terminology](../00-guides/terminology.md).
 A **Strategy** may generate a sequence of **Intents** targeting the same logical order key:
 
 ```
-NEW → REPLACE → REPLACE → CANCEL
+NEW ➝ REPLACE ➝ REPLACE ➝ CANCEL
 ```
 
 Rather than forwarding each command independently (which would produce redundant or conflicting execution requests), the Infrastructure collapses them. Dominance determines which command is the **current effective** pending action.

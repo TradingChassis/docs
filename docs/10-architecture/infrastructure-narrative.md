@@ -144,7 +144,7 @@ Determinism does not happen by accident. It requires that no component holds hid
 
 Backtesting and Live are two implementations of the same canonical model.
 
-Both Runtimes apply `State = f(Event Stream, Configuration)`, process the same `Strategy → Risk → Queue → Venue Adapter` chain, and maintain the same Order lifecycle beginning at submission.
+Both Runtimes apply `State = f(Event Stream, Configuration)`, process the same `Strategy ➝ Risk ➝ Queue ➝ Venue Adapter` chain, and maintain the same Order lifecycle beginning at submission.
 
 What differs is infrastructure: the source of the Event Stream (historical datasets vs live Venue feeds), the Venue implementation (simulated vs real), and the operational characteristics (batch experiments vs continuous operation). The semantic model does not differ.
 

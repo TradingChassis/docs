@@ -47,7 +47,7 @@ The **Core Runtime** is the deterministic, event-driven processing engine that a
 
 **Backtesting** and **Live** are two physical deployment configurations of the same Core Runtime. Both realize the same canonical processing chain:
 
-`Event Stream → State derivation → Strategy → Risk → Queue + Queue Processing → Venue Adapter → Venue`
+`Event Stream ➝ State derivation ➝ Strategy ➝ Risk ➝ Queue + Queue Processing ➝ Venue Adapter ➝ Venue`
 
 and both obey `State = f(Event Stream, Configuration)`. Physical differences — data source, Venue implementation, compute environment — do not alter this semantics.
 

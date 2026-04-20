@@ -124,7 +124,7 @@ See [Queue Processing](queue-processing.md) for execution-control evaluation rul
 | **Market semantics** | Preserved by **Event Time** carried in Events |
 | **Internal causality** | Defined by **Processing Order** (stream position) |
 | **State evolution** | Follows **Processing Order** strictly; no retroactive mutation |
-| **Determinism** | Same **Event Stream** + **Configuration** → same derived State at every position |
+| **Determinism** | Same **Event Stream** + **Configuration** ➝ same derived State at every position |
 | **Wall-clock independence** | Runtime timing must not define canonical Infrastructure behavior |
 
 ---
