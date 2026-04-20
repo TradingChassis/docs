@@ -9,7 +9,7 @@ and this project adheres to Semantic Versioning.
 
 ## [0.1.0] - 2026-03-07
 
-- Initial release of the Trading Engineering Architecture Knowledge Base
+- Initial release of the documentation
 - Established structured documentation layout under `docs/`
 - Introduced core sections for:
 
