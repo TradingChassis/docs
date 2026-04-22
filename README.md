@@ -1,6 +1,6 @@
 # TradingChassis — Trading Infrastructure Documentation
 
-This repository contains the architecture documentation for the TradingChassis trading infrastructure. It is the canonical reference for the infrastructure's concepts, architectural decisions, implementation-facing stack descriptions, and operational model.
+This repository contains the architecture documentation for TradingChassis's infrastructure. It is the canonical reference for the Infrastructure's concepts, architectural decisions, implementation-facing stack descriptions, and operational model.
 
 ---
 
