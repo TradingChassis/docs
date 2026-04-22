@@ -28,7 +28,7 @@ The repository is organized into six major sections:
 - **Concepts** (`20-concepts`) - canonical semantic models and invariants
 - **Stacks** (`30-stacks`) - implementation-facing stack overviews
 - **Operations** (`40-operations`) (work in progress) - monitoring, recovery, incident, and runbook-oriented material
-- **Evolution** (`50-evolution`) (work in progress) - roadmap, milestones, and development trajectory
+- **Evolution** (`50-evolution`) - roadmap, milestones, and development logs
 
 For a dedicated structure explanation, see [Documentation Structure](00-guides/documentation-structure.md).
 
