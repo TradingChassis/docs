@@ -1,4 +1,4 @@
-# System Flows
+# Infrastructure Flows
 
 ---
 
@@ -21,7 +21,7 @@ Canonical vocabulary applies throughout.
 
 The Infrastructure advances **only** through **deterministic Event processing**: each step applies **Events** from the **Event Stream** in **Processing Order** under **Configuration** and updates **derived State** (see [Time Model](../20-concepts/time-model.md)).
 
-There is **one** unified Runtime sequence for a given applied Event—**no** competing alternative flows. **Queue Processing** is **not** a second **loop**, **tick**, or **scheduler phase**; it is part of **the same** Event-processing step that updates Market, Execution (including **execution-control substate**), and System domains.
+There is **one** unified Runtime sequence for a given applied Event—**no** competing alternative flows. **Queue Processing** is **not** a second **loop**, **tick**, or **scheduler phase**; it is part of **the same** Event-processing step that updates Market, Execution (including **execution-control substate**), and Infrastructure domains.
 
 ```mermaid
 flowchart TB
@@ -73,7 +73,7 @@ The following is the **single canonical order** of stages when an **Event** is a
 
 The next **Event** is taken in **Processing Order** (stream position), not by **Event Time** alone.
 
-Sources include, per [Event Model](../20-concepts/event-model.md): **Market**, **Execution**, **Intent-related**, **System**, and **Control** categories—whatever the stream contains at that position.
+Sources include, per [Event Model](../20-concepts/event-model.md): **Market**, **Execution**, **Intent-related**, **Infrastructure**, and **Control** categories—whatever the stream contains at that position.
 
 ---
 
@@ -168,7 +168,7 @@ Three notions must stay separate:
 | Concern | What moves | Persistence |
 | -------- | ----------- | ----------- |
 | **Event flow** | **Events** in **Processing Order** | Immutable stream records; sole driver of **State transitions** |
-| **Intent processing** | Ephemeral **Intents** → **allowed/denied** → **Execution Control** → dispatch | **Intents** are not persistent; visibility via **Events** when required |
+| **Intent processing** | Ephemeral **Intents** ➝ **allowed/denied** ➝ **Execution Control** ➝ dispatch | **Intents** are not persistent; visibility via **Events** when required |
 | **Order evolution** | **Order** projections in **Execution State** | **Derived** from **Execution** (and where applicable **Intent-related**) **Events**; lifecycle **begins at submission** with state **Submitted** |
 
 **Intent lifecycle** and **Order lifecycle** documentation define stage names; this document only fixes **where** they fit in Runtime sequencing—not a merged lifecycle model.
@@ -202,11 +202,11 @@ There is **no** parallel path where **Venue** updates **State** without **Events
 ## Invariants of the flow
 
 1. **Single advancement mechanism:** Processing proceeds by applying the **Event Stream** under **Configuration**; **Queue Processing** is **inside** that mechanism, not beside it.
-2. **State derivation:** `State = f(Event Stream, Configuration)`; Components **read** projections, they do **not** own mutable system truth.
+2. **State derivation:** `State = f(Event Stream, Configuration)`; Components **read** projections, they do **not** own mutable infrastructure truth.
 3. **Risk vs Execution Control:** **Allowed / denied** only at **Risk**; **timing and ordering** only at **Queue Processing**.
 4. **Intent vs Event:** **Intents** are commands during a step; they are **not** Events. Stream updates use **Events** only **when** canonical history requires ([Terminology: Intent visibility](../00-guides/terminology.md#intent-visibility)).
 5. **Orders:** **Orders** are **derived** in **Execution State**; they **exist** from **submission** onward in state **Submitted** as projections; Strategy does **not** “send Orders” as primary objects— it sends **Intents**; the Infrastructure **dispatches** and **Venue** **Execution Events** refine **Order** state.
-6. **Determinism:** Same stream + Configuration → same derived State at each position (including execution-control substate).
+6. **Determinism:** Same stream + Configuration ➝ same derived State at each position (including execution-control substate).
 
 ---
 

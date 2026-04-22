@@ -1,6 +1,6 @@
 # Stacks Overview
 
-This section describes the Stacks that realize the Infrastructure's architecture as concrete, implementation-facing subsystems. Each Stack is a functional domain with defined responsibilities, interfaces, and boundaries.
+This section describes the Stacks that realize the Infrastructure's architecture as concrete, implementation-facing subinfrastructures. Each Stack is a functional domain with defined responsibilities, interfaces, and boundaries.
 
 ---
 
@@ -8,7 +8,7 @@ This section describes the Stacks that realize the Infrastructure's architecture
 
 The Stacks section explains how the Infrastructure is implemented. While the Concepts section defines the canonical models and invariants — the Event model, the State model, the Determinism model, the Order lifecycle, Queue semantics — the Stacks section describes the operational domains where those models are applied.
 
-Stack documents are **implementation-facing**. They describe what each subsystem does, what it consumes and produces, how it is structured internally, and how it behaves during operation. They are not canonical semantics documents — they do not define or redefine the core architecture model. They realize it.
+Stack documents are **implementation-facing**. They describe what each subinfrastructure does, what it consumes and produces, how it is structured internally, and how it behaves during operation. They are not canonical semantics documents — they do not define or redefine the core architecture model. They realize it.
 
 ---
 
@@ -33,7 +33,7 @@ Stacks responsible for executing the Core Runtime — running Strategies against
 
 ### Analysis and Monitoring
 
-Stacks responsible for making the Infrastructure's outputs interpretable and its runtime behavior visible. One Stack performs retrospective analysis on persisted outputs; the other provides runtime observability for running system parts.
+Stacks responsible for making the Infrastructure's outputs interpretable and its runtime behavior visible. One Stack performs retrospective analysis on persisted outputs; the other provides runtime observability for running infrastructure parts.
 
 - [Analysis Stack](analysis/analysis-overview.md)
 - [Monitoring Stack](monitoring/monitoring-overview.md)
@@ -64,11 +64,11 @@ Runs the Core Runtime in production — processing real-time market data, intera
 
 ### Analysis Stack
 
-Consumes persisted system outputs — experiment results, execution records, canonical datasets, derived data — and performs asynchronous, reproducible analysis on them to produce derived analytical artifacts, comparisons, and evaluation results. The Analysis Stack is retrospective: it operates on data that is already durably stored, on its own schedule, independently of the Stacks that produced its inputs. It does not observe running systems or provide operational monitoring.
+Consumes persisted infrastructure outputs — experiment results, execution records, canonical datasets, derived data — and performs asynchronous, reproducible analysis on them to produce derived analytical artifacts, comparisons, and evaluation results. The Analysis Stack is retrospective: it operates on data that is already durably stored, on its own schedule, independently of the Stacks that produced its inputs. It does not observe running infrastructures or provide operational monitoring.
 
 ### Monitoring Stack
 
-Provides runtime observability for running system parts — collecting telemetry, metrics, status signals, and health indicators from active Stacks, and exposing them as operational visibility surfaces, health views, and alert-oriented outputs. The Monitoring Stack is runtime-concurrent: it works alongside running systems while they are active, with strongest practical relevance for Live operation and Backtesting execution. It observes execution but does not participate in it and does not perform retrospective analysis of persisted results.
+Provides runtime observability for running infrastructure parts — collecting telemetry, metrics, status signals, and health indicators from active Stacks, and exposing them as operational visibility surfaces, health views, and alert-oriented outputs. The Monitoring Stack is runtime-concurrent: it works alongside running infrastructures while they are active, with strongest practical relevance for Live operation and Backtesting execution. It observes execution but does not participate in it and does not perform retrospective analysis of persisted results.
 
 ---
 
@@ -76,13 +76,13 @@ Provides runtime observability for running system parts — collecting telemetry
 
 The Stacks cooperate through defined data flows and integration surfaces. At overview level, the key relationships are:
 
-**Raw data capture → validation → canonical storage.** The Data Recording Stack captures raw market data. The Data Quality Stack validates and promotes it. The Data Storage Stack holds the resulting canonical datasets and all other persistent artifacts. This pipeline produces the reliable data foundation that the rest of the Infrastructure depends on.
+**Raw data capture ➝ validation ➝ canonical storage.** The Data Recording Stack captures raw market data. The Data Quality Stack validates and promotes it. The Data Storage Stack holds the resulting canonical datasets and all other persistent artifacts. This pipeline produces the reliable data foundation that the rest of the Infrastructure depends on.
 
-**Canonical data → runtime execution.** The Backtesting Stack and the Live Stack consume canonical datasets from the Data Storage Stack as inputs to Core Runtime execution. Both produce execution outputs — experiment results, run artifacts, execution records — that are persisted back to the Data Storage Stack's persistent surfaces.
+**Canonical data ➝ runtime execution.** The Backtesting Stack and the Live Stack consume canonical datasets from the Data Storage Stack as inputs to Core Runtime execution. Both produce execution outputs — experiment results, run artifacts, execution records — that are persisted back to the Data Storage Stack's persistent surfaces.
 
-**Persisted outputs → retrospective analysis.** The Analysis Stack consumes persisted outputs from the Data Storage Stack — experiment results from Backtesting, execution records from Live, canonical and derived datasets — and produces derived analytical artifacts. The Analysis Stack operates downstream of execution, not alongside it.
+**Persisted outputs ➝ retrospective analysis.** The Analysis Stack consumes persisted outputs from the Data Storage Stack — experiment results from Backtesting, execution records from Live, canonical and derived datasets — and produces derived analytical artifacts. The Analysis Stack operates downstream of execution, not alongside it.
 
-**Running systems → runtime observability.** The Monitoring Stack receives telemetry and status signals from the Live Stack, the Backtesting Stack, and other running system parts during active execution. It provides operational visibility into what is happening while the Infrastructure is running.
+**Running infrastructures ➝ runtime observability.** The Monitoring Stack receives telemetry and status signals from the Live Stack, the Backtesting Stack, and other running infrastructure parts during active execution. It provides operational visibility into what is happening while the Infrastructure is running.
 
 **The Data Storage Stack as shared substrate.** The Data Storage Stack is not a sequential pipeline stage — it is a platform layer used by most other Stacks. Recording writes raw data to it. Quality promotes canonical data into it. Backtesting and Live read from it and write execution outputs to it. Analysis reads persisted outputs from it and writes derived artifacts back. The Data Storage Stack provides the persistent surfaces; it does not govern the semantic decisions of the Stacks that use it.
 
@@ -140,5 +140,5 @@ The following boundaries are architecturally significant and must remain explici
 - **Recording is not Quality.** The Data Recording Stack captures raw data. The Data Quality Stack validates and promotes it. These are separate responsibilities with a defined handoff (Dataset Manifests).
 - **Quality is not Storage.** The Data Quality Stack makes promotion decisions. The Data Storage Stack provides the persistent substrate. Quality governs what enters Canonical Storage; Storage holds what Quality has promoted.
 - **Backtesting is not Live.** Both run the Core Runtime, but against different data sources, with different Venue interactions, and with different operational consequences. They share processing semantics but are distinct operational domains.
-- **Analysis is not Monitoring.** The Analysis Stack performs retrospective, asynchronous evaluation of persisted outputs. The Monitoring Stack provides runtime-concurrent observability of running systems. These are fundamentally different concerns — one looks back at what was stored; the other observes what is happening now.
+- **Analysis is not Monitoring.** The Analysis Stack performs retrospective, asynchronous evaluation of persisted outputs. The Monitoring Stack provides runtime-concurrent observability of running infrastructures. These are fundamentally different concerns — one looks back at what was stored; the other observes what is happening now.
 - **Execution Stacks are not the Monitoring Stack.** The Backtesting and Live Stacks emit observability signals, but the monitoring infrastructure itself — collection, aggregation, health evaluation, alerting, visibility — belongs to the Monitoring Stack. Even when a single tool combines execution and monitoring views, the architectural responsibilities remain distinct.

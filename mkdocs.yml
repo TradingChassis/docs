@@ -56,17 +56,13 @@ markdown_extensions:
   - attr_list
   - md_in_html
 
+  - pymdownx.highlight
+
   - pymdownx.tabbed:
       alternate_style: true
 
   - pymdownx.snippets:
       base_path: docs
-
-  - pymdownx.superfences:
-      custom_fences:
-        - name: mermaid
-          class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_code_format
 
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
@@ -100,7 +96,7 @@ nav:
 
   - Architecture:
       - Overview: 10-architecture/architecture-overview.md
-      - System Narrative: 10-architecture/system-narrative.md
+      - Infrastructure Narrative: 10-architecture/infrastructure-narrative.md
 
       - Structure:
           - Architecture Principles: 10-architecture/architecture-principles.md
@@ -108,25 +104,22 @@ nav:
           - Physical Architecture: 10-architecture/physical-architecture.md
 
       - Dynamics:
-          - System Flows: 10-architecture/system-flows.md
+          - Infrastructure Flows: 10-architecture/infrastructure-flows.md
           - Intent Pipeline: 10-architecture/intent-pipeline.md
           - Intent Lifecycle: 10-architecture/intent-lifecycle.md
 
       - ADR:
           - Overview: 10-architecture/adr/overview.md
 
-          # - System Foundations:
-          - Two-Axis Structure: 10-architecture/adr/system-foundations/ADR-001-two-axis-structure.md
-          - Canonical Storage: 10-architecture/adr/system-foundations/ADR-002-canonical-storage.md
-          - Event-Derived State Model: 10-architecture/adr/system-foundations/ADR-003-event-vs-state-model.md
+          - Two-Axis Structure: 10-architecture/adr/foundations/ADR-001-two-axis-structure.md
+          - Canonical Storage: 10-architecture/adr/foundations/ADR-002-canonical-storage.md
+          - Event-Derived State Model: 10-architecture/adr/foundations/ADR-003-event-vs-state-model.md
 
-          # - Execution Engine:
           - Outbound Queue: 10-architecture/adr/execution-engine/ADR-004-outbound-queue.md
           - Risk Validation: 10-architecture/adr/execution-engine/ADR-005-risk-validation.md
           - Explicit State Machines: 10-architecture/adr/execution-engine/ADR-006-explicit-state-machines.md
           - Layered Runtime Architecture: 10-architecture/adr/execution-engine/ADR-007-layered-runtime-architecture.md
 
-          # - Research Infrastructure:
           - hftbacktest as Simulated Venue: 10-architecture/adr/research-infrastructure/ADR-008-hftbacktest-as-venue.md
 
   - Concepts:
@@ -234,10 +227,11 @@ nav:
   #     - Runbooks:
   #         - Overview: 40-operations/runbooks/runbooks-overview.md
 
-  # - Evolution:
-  #     - Milestones: 50-evolution/milestones.md
-  #     - Roadmap: 50-evolution/roadmap.md
-  #     - Scaling Vision: 50-evolution/scaling-vision.md
+  - Evolution:
+      - Milestones: 50-evolution/milestones.md
+      - Roadmap: 50-evolution/roadmap.md
+      # - Scaling Vision: 50-evolution/scaling-vision.md
 
-  #     - Development Logs:
-  #         - Overview: 50-evolution/dev-logs/dev-logs-overview.md
+      - Development Logs:
+          - Overview: 50-evolution/dev-logs/dev-logs-overview.md
+          - Control-Time Events: 50-evolution/dev-logs/execution-control/introducing-time-events-for-execution-control.md

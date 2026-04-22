@@ -6,7 +6,7 @@ This document captures implementation-facing rationale and design considerations
 
 ## Why Monitoring Realization Matters
 
-The Monitoring Stack makes running system behavior visible. How that visibility is realized — how signals are instrumented, how telemetry is collected, how health is evaluated, how alerts are produced, how operational views are exposed — determines whether runtime Stacks are genuinely observable or merely nominally monitored.
+The Monitoring Stack makes running infrastructure behavior visible. How that visibility is realized — how signals are instrumented, how telemetry is collected, how health is evaluated, how alerts are produced, how operational views are exposed — determines whether runtime Stacks are genuinely observable or merely nominally monitored.
 
 A weak realization (e.g., unstructured log inspection, ad hoc health checks, alert rules that do not correspond to meaningful operational conditions) produces operational visibility that is unreliable, noisy, or incomplete. The implementation patterns described here are designed to make runtime observability structured, integrable, and operationally useful.
 
@@ -14,7 +14,7 @@ A weak realization (e.g., unstructured log inspection, ad hoc health checks, ale
 
 ## Realizing Runtime Observability
 
-Runtime observability begins with instrumentation: running system parts must emit signals that the Monitoring Stack can collect. The quality and structure of those signals determine the quality of the operational visibility the Monitoring Stack can provide.
+Runtime observability begins with instrumentation: running infrastructure parts must emit signals that the Monitoring Stack can collect. The quality and structure of those signals determine the quality of the operational visibility the Monitoring Stack can provide.
 
 **Instrumentation at the source.** Running Stacks — primarily the Live Stack and the Backtesting Stack — instrument their components to emit telemetry, metrics, status indicators, health responses, and error signals. Instrumentation is a responsibility of the emitting Stack; the Monitoring Stack provides the receiving infrastructure and integration surfaces, not the instrumentation logic itself.
 
@@ -26,7 +26,7 @@ Runtime observability begins with instrumentation: running system parts must emi
 
 No specific collection mechanism is architecturally required. The key implementation properties are:
 
-- Collection paths are **non-intrusive** — they do not alter the execution logic or runtime behavior of the observed systems.
+- Collection paths are **non-intrusive** — they do not alter the execution logic or runtime behavior of the observed infrastructures.
 - Collection is **continuous during execution** — signals are gathered while the Infrastructure is running, not retroactively after execution completes.
 - Collection supports **multiple signal types** — metrics, status, health, errors, and traces can coexist within the same integration infrastructure.
 
@@ -54,7 +54,7 @@ Alert-oriented monitoring transforms ongoing signal evaluation into actionable n
 
 **Alert severity and classification.** Alert outputs benefit from severity classification (e.g., critical, warning, informational) and condition classification (e.g., health degradation, threshold breach, error spike). Structured classification supports routing and prioritization without requiring human operators to triage raw signals.
 
-**Alert routing.** Alert-oriented outputs may be consumed through multiple channels — direct display on visibility surfaces, delivery to external notification systems, recording as alert artifacts. The implementation should support configurable routing so that alert delivery can be adapted to operational needs without changing alert evaluation logic.
+**Alert routing.** Alert-oriented outputs may be consumed through multiple channels — direct display on visibility surfaces, delivery to external notification infrastructures, recording as alert artifacts. The implementation should support configurable routing so that alert delivery can be adapted to operational needs without changing alert evaluation logic.
 
 **Alert lifecycle awareness.** Conditions that trigger alerts may resolve. The implementation should support tracking whether an alert condition is active or resolved, so that operational visibility surfaces reflect current conditions rather than accumulating stale alerts. Firing, acknowledgment, and resolution form a natural alert lifecycle that the implementation should respect.
 
@@ -90,10 +90,10 @@ Real products and platforms frequently combine monitoring, orchestration, execut
 
 **Implementation choices, not canonical semantics.** The collection patterns, aggregation strategies, alert structures, and visibility approaches described here are implementation-level concerns. They do not define or modify the Infrastructure's canonical Event, State, or lifecycle semantics.
 
-**Monitoring operates on runtime signals.** The implementation collects and processes signals from running system parts. It does not consume persisted analytical outputs, historical experiment results, or retrospective evaluation datasets.
+**Monitoring operates on runtime signals.** The implementation collects and processes signals from running infrastructure parts. It does not consume persisted analytical outputs, historical experiment results, or retrospective evaluation datasets.
 
 **Not retrospective analysis.** The Monitoring Stack's implementation is oriented around runtime-concurrent observation. It does not implement asynchronous evaluation of stored experiment results, cross-run comparison, or derived analytical artifact production. Those are Analysis Stack concerns.
 
 **No storage governance.** Where the Monitoring Stack persists monitoring records, it writes to available storage surfaces but does not manage their organization, retention policies, or access governance.
 
-**No deployment specification.** The patterns above describe design considerations and realization approaches. They do not prescribe specific metrics platforms, alerting systems, dashboard tools, or infrastructure configurations. Those belong in deployment documentation.
+**No deployment specification.** The patterns above describe design considerations and realization approaches. They do not prescribe specific metrics platforms, alerting infrastructures, dashboard tools, or infrastructure configurations. Those belong in deployment documentation.

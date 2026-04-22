@@ -13,7 +13,7 @@ Updated: {{ page.meta.updated }}
 
 ## Context
 
-A trading system must process a continuous stream of occurrences — market data updates, Venue execution reports, control signals — and maintain a coherent internal condition based on those occurrences. The architectural question is: **what is the authoritative representation of system history and current condition?**
+A trading infrastructure must process a continuous stream of occurrences — market data updates, Venue execution reports, control signals — and maintain a coherent internal condition based on those occurrences. The architectural question is: **what is the authoritative representation of infrastructure history and current condition?**
 
 Two fundamental approaches exist:
 
@@ -21,11 +21,11 @@ Two fundamental approaches exist:
 
 **Event stream as primary truth.** Occurrences are recorded as immutable Events in a canonical stream. State is a derived projection: a deterministic function of the Event stream and configuration. The stream is the Infrastructure's truth; current state is recomputable from it.
 
-The mutable-state-as-truth approach creates specific problems for a system that must be deterministic, replayable, and operationally auditable:
+The mutable-state-as-truth approach creates specific problems for a infrastructure that must be deterministic, replayable, and operationally auditable:
 
 - **Reconstruction is unreliable.** If state is the primary store, reconstructing historical state requires either complete snapshots at every point of interest or reverse-engineering state from incomplete logs. Neither is guaranteed to reproduce the exact condition the Infrastructure was in at a given moment.
 - **Replay is structurally unsupported.** Replaying the same inputs to reproduce the same outputs requires that all state evolution be accounted for by those inputs. When components mutate state directly — through ad hoc writes, hidden caches, timer-driven updates, or out-of-band corrections — the inputs alone are insufficient to reproduce the result.
-- **Backtesting and Live diverge.** If the Infrastructure permits state mutations outside the input-processing path, Backtesting (which replays historical inputs) cannot reproduce the state mutations that occurred during Live execution. The two Runtimes evaluate different systems.
+- **Backtesting and Live diverge.** If the Infrastructure permits state mutations outside the input-processing path, Backtesting (which replays historical inputs) cannot reproduce the state mutations that occurred during Live execution. The two Runtimes evaluate different infrastructures.
 - **Causality is ambiguous.** When multiple components can mutate state through different mechanisms, the question "why is the Infrastructure in this state?" has no single authoritative answer. Debugging requires correlating disparate mutation sources rather than reading a single ordered history.
 - **Consistency across domains is fragile.** Market State, Execution State, and Control State must remain mutually consistent. Direct mutation across domains without a single sequencing mechanism creates windows where one domain reflects an occurrence that another has not yet processed.
 
@@ -35,7 +35,7 @@ The Infrastructure requires deterministic behavior, exact replayability, and sem
 
 ## Decision
 
-**Events are the canonical record of system history. State is a deterministic projection of the Event Stream under Configuration. State is not primary truth.**
+**Events are the canonical record of infrastructure history. State is a deterministic projection of the Event Stream under Configuration. State is not primary truth.**
 
 Formally:
 
@@ -61,7 +61,7 @@ Derived State is organized into exactly three top-level domains:
 | ------ | -------------------- |
 | **Market State** | Market Events (order book updates, trades, market data) |
 | **Execution State** | Execution Events (Venue reports), Intent-related Events where canonical history requires them |
-| **Control State** | System Events, Control Events (configuration changes, operational signals) |
+| **Control State** | Infrastructure Events, Control Events (configuration changes, operational signals) |
 
 There is no fourth top-level domain. Execution-control substate (Queue contents, inflight tracking, rate-limit bookkeeping) is part of Execution State — derived, not independently authoritative.
 

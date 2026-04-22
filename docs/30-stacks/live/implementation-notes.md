@@ -6,7 +6,7 @@ This document captures implementation-facing rationale and design considerations
 
 ## Why Live Realization Matters
 
-The Live Stack operates at the boundary between the Infrastructure's deterministic processing model and the real market. Implementation choices here directly affect whether the Core Runtime's architectural guarantees — deterministic Event processing, structured lifecycle management, layered responsibility separation — are preserved through to real-time production execution.
+The Live Stack operates at the boundary between the Infrastructure's deterministic processing model and the real market. Implementation choices here directly affect whether the Core Runtime's architectural guarantees — deterministic Event processing, structured lifecycle management, layered responsibility separation — are preserved through to real-time production.
 
 A weak realization (e.g., Venue connectivity that bypasses the Venue Adapter boundary, execution records that are lost on failure, observability that is absent during critical conditions) undermines the Infrastructure's architectural integrity in the context where it matters most — real trading with real financial consequences.
 

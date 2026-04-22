@@ -16,7 +16,7 @@ It is the Infrastructure's point of contact with external Venue market-data sour
 
 The Data Recording Stack is part of the **Data Platform** — the first Stack in the Data Platform flow.
 
-`Data Recording → Data Quality → Data Storage`
+`Data Recording ➝ Data Quality ➝ Data Storage`
 
 It sits between **external Venue market-data sources** and the internal Data Platform. It is upstream of the Data Quality Stack, the Data Storage Stack, the Backtesting Stack, and the Analysis Stack.
 

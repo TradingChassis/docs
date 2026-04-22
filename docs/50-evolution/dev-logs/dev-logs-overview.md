@@ -11,9 +11,7 @@ The goal is not only to build, but to make thinking, problems, and decisions tra
 It serves three purposes:
 
 1. Make development decisions transparent
-
 2. Enable external feedback from knowledgeable people
-
 3. Create a long-term knowledge base
 
 ---
@@ -22,11 +20,9 @@ It serves three purposes:
 
 This approach is built around a minimal set of tools:
 
-- GitHub + MKDocs → source of truth (architecture, logs, decisions)
-
-- External short-form communication → discovery and external input
-
-- Direct conversations → deeper discussions (optional)
+- GitHub + MKDocs ➝ source of truth (architecture, logs, decisions)
+- External short-form communication ➝ discovery and external input
+- Direct conversations ➝ deeper discussions (optional)
 
 ---
 
@@ -35,42 +31,35 @@ This approach is built around a minimal set of tools:
 Development follows an iterative loop:
 
 1. A problem or unexpected behavior occurs
-
 2. The problem is documented in a Dev Log for the first time
-
 3. A concise version is shared externally
-
 4. Feedback or discussion may occur
-
 5. Insights are incorporated
-
 6. The relevant log is updated
 
 ---
 
 ## Principle
 
-> Dev Logs are not documentation of results
+> Dev Logs are not documentation of results  
 > They are documentation of thinking
 
 ---
 
 ## What are Dev Logs?
 
-Dev Logs document the evolution of specific problems or system behaviors over time.
+Dev Logs document the evolution of specific problems or infrastructure behaviors over time.
 
 Each log represents:
 
 - one problem
-
-- one system component
-
+- one infrastructure component
 - or one line of investigation
 
 It tracks the investigation of a specific problem over time.
 
 Each iteration represents a step in the reasoning process:
-observations → hypotheses → experiments → updated understanding.
+`observations ➝ hypotheses ➝ experiments ➝ updated understanding`.
 
 The goal is not to present a final solution, but to document how understanding evolves.
 
@@ -83,8 +72,10 @@ It is a living document and may evolve as the Infrastructure changes.
 
 Each Dev Log follows a consistent structure:
 
-```markdown
+```
 # [Problem Title]
+
+---
 
 ## Context
 Brief description of the context and where the problem occurs.
@@ -156,7 +147,7 @@ Remaining uncertainties or areas for further investigation.
 
 Dev Logs are organized by problem or topic:
 
-```plaintext
+```
 /dev-logs/
   latency-spikes/
     overview.md
@@ -175,15 +166,12 @@ Dev Logs are not linear tutorials.
 They should be read as:
 
 - investigation trails
-
 - evolving understanding
-
 - decision history
 
 Readers are encouraged to:
 
 - follow iterations step by step
-
 - focus on reasoning, not just outcomes
 
 ---
@@ -195,7 +183,6 @@ Some problems are shared externally in a condensed form.
 The goal is:
 
 - not exposure
-
 - but interaction with people who have relevant experience
 
 ---
@@ -207,5 +194,4 @@ Not all discussions or insights are fully public.
 Dev Logs reflect:
 
 - the technical evolution
-
 - not necessarily every external interaction

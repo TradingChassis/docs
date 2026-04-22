@@ -25,7 +25,7 @@ Canonical datasets arise **only** through the Data Quality Stack. There is no al
 
 The Data Quality Stack is part of the Data Platform, positioned between the Data Recording Stack and Canonical Storage:
 
-`Data Recording → Data Quality → Data Storage (Canonical Storage)`
+`Data Recording ➝ Data Quality ➝ Data Storage (Canonical Storage)`
 
 It sits downstream of the Data Recording Stack and upstream of the Backtesting Stack and the Analysis Stack. It controls the promotion boundary: raw recorded datasets on one side, canonical validated datasets on the other.
 

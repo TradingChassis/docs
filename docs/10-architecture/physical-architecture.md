@@ -13,7 +13,7 @@ While the [Logical Architecture](logical-architecture.md) defines conceptual com
 - how the Core Runtime's canonical semantics are preserved across deployment boundaries
 - how storage, transport, and observability infrastructure relate to the canonical model
 
-This document does **not** redefine the core semantics established in the concept documents. For Event semantics, State derivation, processing chain, and lifecycle definitions, see [Logical Architecture](logical-architecture.md), [System Flows](system-flows.md), and the concept documents listed in [Relationship to Other Documents](#relationship-to-other-documents).
+This document does **not** redefine the core semantics established in the concept documents. For Event semantics, State derivation, processing chain, and lifecycle definitions, see [Logical Architecture](logical-architecture.md), [Infrastructure Flows](infrastructure-flows.md), and the concept documents listed in [Relationship to Other Documents](#relationship-to-other-documents).
 
 Capitalized terms are used as in [Terminology](../00-guides/terminology.md).
 
@@ -47,7 +47,7 @@ The **Core Runtime** is the deterministic, event-driven processing engine that a
 
 **Backtesting** and **Live** are two physical deployment configurations of the same Core Runtime. Both realize the same canonical processing chain:
 
-`Event Stream → State derivation → Strategy → Risk → Queue + Queue Processing → Venue Adapter → Venue`
+`Event Stream ➝ State derivation ➝ Strategy ➝ Risk ➝ Queue + Queue Processing ➝ Venue Adapter ➝ Venue`
 
 and both obey `State = f(Event Stream, Configuration)`. Physical differences — data source, Venue implementation, compute environment — do not alter this semantics.
 
@@ -83,7 +83,7 @@ Typical responsibilities:
 
 In live trading mode, the node runs the **Core Runtime** connected to real Venues.
 
-The Core Runtime on the Live Node implements the full canonical processing chain ([System Flows](system-flows.md)):
+The Core Runtime on the Live Node implements the full canonical processing chain ([Infrastructure Flows](infrastructure-flows.md)):
 
 ```mermaid
 flowchart TB
@@ -132,7 +132,7 @@ Execution records (Order history, fills, positions) are written to **Canonical S
 
 ## Central Infrastructure Cluster
 
-The Central Infrastructure Cluster hosts Research workloads and system observability infrastructure. It is not latency-constrained and runs on scalable compute.
+The Central Infrastructure Cluster hosts Research workloads and observability infrastructure. It is not latency-constrained and runs on scalable compute.
 
 The cluster runs the **Core Runtime** in Backtesting configuration: same processing chain as Live, operating on historical Event Streams sourced from Canonical Storage, with a Simulated Venue in place of a real Venue.
 
@@ -161,7 +161,7 @@ The cluster is isolated from Live infrastructure. Backtesting workloads cannot i
 
 Persistent Data Storage connects all Runtimes holding canonical datasets and arbitrary persisted outputs.
 
-**Canonical Storage is not the runtime Event Stream.** During live execution, the Event Stream is the runtime stream managed by the Core Runtime on the Live Node. Canonical Storage holds promoted, validated datasets — historical market data, experiment results, and execution records — that Research systems consume. State reconstruction for Research is defined from those canonical datasets, not from a live storage read.
+**Canonical Storage is not the runtime Event Stream.** During live execution, the Event Stream is the runtime stream managed by the Core Runtime on the Live Node. Canonical Storage holds promoted, validated datasets — historical market data, experiment results, and execution records — that Research consumes. State reconstruction for Research is defined from those canonical datasets, not from a live storage read.
 
 Typical storage responsibilities:
 
@@ -284,7 +284,7 @@ Live infrastructure is operationally isolated from Backtesting infrastructure. E
 | Document | What it adds |
 | -------- | ------------ |
 | [Logical Architecture](logical-architecture.md) | Component responsibilities and semantic boundaries — the logical model this document physically realizes |
-| [System Flows](system-flows.md) | Step-by-step canonical runtime sequencing; the processing chain realized in both Live and Backtesting deployments |
+| [Infrastructure Flows](infrastructure-flows.md) | Step-by-step canonical runtime sequencing; the processing chain realized in both Live and Backtesting deployments |
 | [Architecture Overview](architecture-overview.md) | Top-level structural layers (Data Platform, Core Runtime, Analysis and Monitoring) |
 | [Event Model](../20-concepts/event-model.md) | Formal definition of Events and the Event Stream |
 | [State Model](../20-concepts/state-model.md) | `State = f(Event Stream, Configuration)` and State domains |

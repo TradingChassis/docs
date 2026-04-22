@@ -37,7 +37,7 @@ The Data Storage Stack conceptually encompasses the following primary storage cl
 | **Experiment / Artifact Storage** | Backtesting outputs, experiment results, evaluation artifacts |
 | **Execution Record Storage** | Execution records and operational artifacts from Live and Backtesting |
 
-These storage classes are **logically distinct**, regardless of whether they share physical infrastructure. A single object store or storage system may host multiple classes, but their logical boundaries — what each class contains, who writes to it, who reads from it — must remain explicit and stable.
+These storage classes are **logically distinct**, regardless of whether they share physical infrastructure. A single object store or storage infrastructure may host multiple classes, but their logical boundaries — what each class contains, who writes to it, who reads from it — must remain explicit and stable.
 
 ---
 

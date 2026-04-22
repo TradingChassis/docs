@@ -22,7 +22,7 @@ Real Venue interaction is a continuous, bidirectional operational concern during
 
 **Outbound.** When the Core Runtime's processing chain produces dispatch decisions, the Venue Adapter translates them into Venue-specific API requests and transmits them to real Venues. These are real market actions — order submissions, modifications, and cancellations — with real financial consequences.
 
-**Inbound.** Venues respond with execution feedback: acknowledgements, fills, partial fills, rejections, and cancellations. This feedback is received by the Venue Adapter and surfaced as Execution Events that re-enter the Core Runtime's processing loop. Execution Events drive Order lifecycle transitions (`Submitted → Accepted → Partially Filled → Filled, or Submitted → Rejected`, etc.) and update Execution State.
+**Inbound.** Venues respond with execution feedback: acknowledgements, fills, partial fills, rejections, and cancellations. This feedback is received by the Venue Adapter and surfaced as Execution Events that re-enter the Core Runtime's processing loop. Execution Events drive Order lifecycle transitions (`Submitted ➝ Accepted ➝ Partially Filled ➝ Filled, or Submitted ➝ Rejected`, etc.) and update Execution State.
 
 The outbound-inbound cycle runs continuously during live operation. The Live Stack maintains active connections to real Venues throughout the session, handling the full spectrum of Venue responses as they arrive. Venue interaction is not a periodic batch operation — it is an ongoing, latency-sensitive part of the real-time processing loop.
 
@@ -61,9 +61,9 @@ Operational control inputs are applied within the bounds of the Core Runtime's p
 
 ### Observability
 
-The Live Stack emits runtime telemetry throughout execution — execution throughput, order status, processing latency, error conditions, and system health indicators. The Monitoring Stack consumes this telemetry for real-time dashboards, alerting, and operational visibility.
+The Live Stack emits runtime telemetry throughout execution — execution throughput, order status, processing latency, error conditions, and infrastructure health indicators. The Monitoring Stack consumes this telemetry for real-time dashboards, alerting, and operational visibility.
 
-Observability is operationally critical for live trading. The Live Stack must remain observable at all times during execution so that operators can assess system health, detect anomalies, and make informed operational decisions. However, the Monitoring Stack owns the monitoring platform — the Live Stack's responsibility is to emit the telemetry that makes observability possible.
+Observability is operationally critical for live trading. The Live Stack must remain observable at all times during execution so that operators can assess infrastructure health, detect anomalies, and make informed operational decisions. However, the Monitoring Stack owns the monitoring platform — the Live Stack's responsibility is to emit the telemetry that makes observability possible.
 
 ---
 

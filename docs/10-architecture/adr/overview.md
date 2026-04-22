@@ -6,15 +6,15 @@
 
 Architecture Decision Records capture the **architectural decisions** that shape the Infrastructure — the problems that required a decision, what was decided, and why.
 
-System documentation (Architecture, Concepts, Stacks) defines **what the Infrastructure is**: its semantics, component boundaries, processing rules, and realization. ADRs complement that documentation by recording **why** the architecture takes the form it does — the pressures, trade-offs, and constraints that led to each decision.
+This documentation (Architecture, Concepts, Stacks) defines **what the Infrastructure is**: its semantics, component boundaries, processing rules, and realization. ADRs complement that documentation by recording **why** the architecture takes the form it does — the pressures, trade-offs, and constraints that led to each decision.
 
-ADRs are the authoritative source for architectural rationale. They are not duplicated in system docs, and system docs do not replace them.
+ADRs are the authoritative source for architectural rationale. They are not duplicated in architecture docs, and architecture docs do not replace them.
 
 ---
 
 ## How to read ADRs
 
-ADRs are **decision records**, not tutorials or system overviews. Each ADR follows a consistent structure:
+ADRs are **decision records**, not tutorials or infrastructure overviews. Each ADR follows a consistent structure:
 
 | Section | What it contains |
 | ------- | ---------------- |
@@ -27,19 +27,19 @@ ADRs are **decision records**, not tutorials or system overviews. Each ADR follo
 
 - **Understanding rationale.** When you need to know *why* the Infrastructure is structured a particular way, not just *what* it does.
 - **Evaluating changes.** Before proposing a change that affects an area covered by an ADR, read the ADR to understand the constraints and trade-offs that shaped the current design.
-- **Onboarding.** ADRs provide the reasoning layer that system documentation does not repeat. Reading them alongside architecture and concept documents gives a complete picture of the Infrastructure's design.
+- **Onboarding.** ADRs provide the reasoning layer that infrastructure documentation does not repeat. Reading them alongside architecture and concept documents gives a complete picture of the Infrastructure's design.
 
 ---
 
-## System Foundations
+## Infrastructure Foundations
 
 Decisions that establish the structural and semantic foundations of the Infrastructure.
 
 | ADR | Decision |
 | --- | -------- |
-| [ADR-001: Two-Axis Documentation and Architecture Structure](system-foundations/ADR-001-two-axis-structure.md) | Documentation and architecture are organized along two orthogonal axes — conceptual and implementation — with the conceptual axis authoritative over the implementation axis, preventing semantic drift. |
-| [ADR-002: Canonical Storage as Authoritative Dataset Layer](system-foundations/ADR-002-canonical-storage.md) | Validated datasets are promoted through a staged pipeline to an immutable Canonical Storage layer that all Stacks reference as the single authoritative dataset source — distinct from the Runtime Event Stream. |
-| [ADR-003: Event-Derived State Model](system-foundations/ADR-003-event-vs-state-model.md) | The Event Stream is canonical history; State is a deterministic projection of Event Stream and Configuration — not primary truth. This is the structural foundation for deterministic replay and Backtesting/Live parity. |
+| [ADR-001: Two-Axis Documentation and Architecture Structure](foundations/ADR-001-two-axis-structure.md) | Documentation and architecture are organized along two orthogonal axes — conceptual and implementation — with the conceptual axis authoritative over the implementation axis, preventing semantic drift. |
+| [ADR-002: Canonical Storage as Authoritative Dataset Layer](foundations/ADR-002-canonical-storage.md) | Validated datasets are promoted through a staged pipeline to an immutable Canonical Storage layer that all Stacks reference as the single authoritative dataset source — distinct from the Runtime Event Stream. |
+| [ADR-003: Event-Derived State Model](foundations/ADR-003-event-vs-state-model.md) | The Event Stream is canonical history; State is a deterministic projection of Event Stream and Configuration — not primary truth. This is the structural foundation for deterministic replay and Backtesting/Live parity. |
 
 ## Execution Engine
 
@@ -64,7 +64,7 @@ Decisions about tooling and infrastructure that support Strategy Research and Ba
 
 ## Relationship to other documentation
 
-ADRs and system documentation serve different roles:
+ADRs and infrastructure documentation serve different roles:
 
 | Documentation | Role |
 | ------------- | ---- |
@@ -73,4 +73,4 @@ ADRs and system documentation serve different roles:
 | **Stack documents** | Define how canonical models are realized in specific operational contexts — **how** it is built. |
 | **ADRs** | Record **why** the architecture takes its current form — the decisions, pressures, and trade-offs behind it. |
 
-System documents describe the current architecture without repeating decision rationale. ADRs record decision rationale without restating system definitions. The two are complementary; neither replaces the other.
+Infrastructure documents describe the current architecture without repeating decision rationale. ADRs record decision rationale without restating infrastructure definitions. The two are complementary; neither replaces the other.

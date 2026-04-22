@@ -9,11 +9,11 @@ and this project adheres to Semantic Versioning.
 
 ## [0.1.0] - 2026-03-07
 
-- Initial release of the Trading Engineering Architecture Knowledge Base
+- Initial release of the documentation
 - Established structured documentation layout under `docs/`
 - Introduced core sections for:
 
-  - system overview
+  - infrastructure overview
   - architecture
   - core concepts
   - architectural decisions
@@ -22,4 +22,4 @@ and this project adheres to Semantic Versioning.
   - experiments
   - long-term evolution
 - Added MkDocs + mike versioning setup for versioned documentation
-- Defined repository as the canonical reference for system architecture and design intent
+- Defined repository as the canonical reference for architecture and design intent

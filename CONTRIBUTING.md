@@ -1,8 +1,8 @@
 # Contributing
 
-Thank you for your interest in contributing to the Trading Engineering Architecture Knowledge Base.
+Thank you for your interest in contributing.
 
-This repository documents the architecture, concepts, and evolution of the Trading Engineering System.
+This repository documents the architecture, concepts, operations, and evolution.
 
 Contributions should improve clarity, correctness, and long-term maintainability of the documentation.
 
@@ -15,12 +15,12 @@ The goal is to keep the architecture explicit, deterministic, and understandable
 All contributions should follow the core architectural philosophy:
 
 - Determinism over convenience
-- Explicit system modeling
+- Explicit infrastructure modeling
 - Clear architectural boundaries
 - Traceable design decisions
-- Long-term system evolution
+- Long-term infrastructure evolution
 
-Avoid introducing ambiguous descriptions, undocumented assumptions, or unclear system behavior.
+Avoid introducing ambiguous descriptions, undocumented assumptions, or unclear behavior.
 
 Architecture documentation should explain why the Infrastructure exists in its current form, not only how it is implemented.
 
@@ -31,7 +31,7 @@ Architecture documentation should explain why the Infrastructure exists in its c
 Typical contributions include:
 
 - clarifying architectural concepts
-- improving system explanations
+- improving explanations
 - adding missing documentation
 - documenting architectural decisions
 - correcting inconsistencies

@@ -37,7 +37,7 @@ The Infrastructure maintains **Canonical Storage** as the authoritative validate
 
 2. **Dataset promotion is staged and explicit.** External data follows a defined promotion path before reaching Canonical Storage:
 
-    `raw → normalized → validated → canonical`
+    `raw ➝ normalized ➝ validated ➝ canonical`
 
     Data is first collected by the Data Recording Stack, then normalized and validated by the Data Quality Stack. Only datasets that pass validation are promoted to Canonical Storage. Unpromoted data does not enter the canonical layer.
 
@@ -49,7 +49,7 @@ The Infrastructure maintains **Canonical Storage** as the authoritative validate
 
 ### What Canonical Storage is not
 
-**Canonical Storage is not the Runtime Event Stream.** The Event Stream is the canonical record of system history for runtime semantics — deterministic replay, State derivation (`State = f(Event Stream, Configuration)`), and Processing Order are defined from Events, not from storage datasets. Canonical Storage provides validated persistent datasets (market data, experiment results, Research artifacts) that the Core Runtime and Analysis consume. These are complementary but distinct: the Event Stream governs runtime causality; Canonical Storage governs dataset authority.
+**Canonical Storage is not the Runtime Event Stream.** The Event Stream is the canonical record of infrastructure history for runtime semantics — deterministic replay, State derivation (`State = f(Event Stream, Configuration)`), and Processing Order are defined from Events, not from storage datasets. Canonical Storage provides validated persistent datasets (market data, experiment results, Research artifacts) that the Core Runtime and Analysis consume. These are complementary but distinct: the Event Stream governs runtime causality; Canonical Storage governs dataset authority.
 
 **Canonical Storage is not generic persistent storage.** It is specifically the layer for validated, promoted, immutable datasets with defined provenance. Scratch storage, intermediate processing artifacts, and unpromoted raw data are not part of Canonical Storage.
 
@@ -71,7 +71,7 @@ The Infrastructure maintains **Canonical Storage** as the authoritative validate
 
 ## Trade-offs
 
-**Canonical Storage requires promotion infrastructure.** The staged promotion model (raw → normalized → validated → canonical) requires data pipelines, validation rules, and metadata management. This is infrastructure that must be built and maintained. The alternative — allowing Stacks to access unvalidated or ad hoc data directly — eliminates this infrastructure but reintroduces the duplication, inconsistency, and provenance problems the decision is designed to prevent.
+**Canonical Storage requires promotion infrastructure.** The staged promotion model (raw ➝ normalized ➝ validated ➝ canonical) requires data pipelines, validation rules, and metadata management. This is infrastructure that must be built and maintained. The alternative — allowing Stacks to access unvalidated or ad hoc data directly — eliminates this infrastructure but reintroduces the duplication, inconsistency, and provenance problems the decision is designed to prevent.
 
 **Immutability increases storage volume.** Dataset corrections and re-validations produce new versions rather than replacing existing ones. Over time, multiple versions of the same logical dataset accumulate. This is a storage cost, but it is also what makes it possible to determine exactly which dataset version was used for any past experiment or operation.
 
@@ -79,4 +79,4 @@ The Infrastructure maintains **Canonical Storage** as the authoritative validate
 
 ## Summary
 
-The Infrastructure maintains Canonical Storage as the authoritative validated dataset layer. Datasets reach this layer only through staged promotion (`raw → normalized → validated → canonical`) and are immutable after promotion. All Stacks that consume validated data reference Canonical Storage as the single authoritative source. Canonical Storage is distinct from the Runtime Event Stream: the Event Stream governs runtime causality and State derivation; Canonical Storage governs persistent dataset authority across Stacks. This decision ensures reproducible inputs, consistent cross-stack data, traceable provenance, and explicit data boundaries between Stacks.
+The Infrastructure maintains Canonical Storage as the authoritative validated dataset layer. Datasets reach this layer only through staged promotion (`raw ➝ normalized ➝ validated ➝ canonical`) and are immutable after promotion. All Stacks that consume validated data reference Canonical Storage as the single authoritative source. Canonical Storage is distinct from the Runtime Event Stream: the Event Stream governs runtime causality and State derivation; Canonical Storage governs persistent dataset authority across Stacks. This decision ensures reproducible inputs, consistent cross-stack data, traceable provenance, and explicit data boundaries between Stacks.

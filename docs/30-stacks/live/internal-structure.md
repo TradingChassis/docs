@@ -48,7 +48,7 @@ Hosts and executes the Core Runtime for live trading — the same deterministic,
 Role:
 
 - Instantiate the Core Runtime with the session's Strategy, Configuration, and execution-control rules.
-- Process incoming Events (market data, Execution Events from Venue feedback) through the full Core Runtime chain: `Event intake → State derivation → Strategy evaluation → Risk → Execution Control → dispatch decisions`.
+- Process incoming Events (market data, Execution Events from Venue feedback) through the full Core Runtime chain: `Event intake ➝ State derivation ➝ Strategy evaluation ➝ Risk ➝ Execution Control ➝ dispatch decisions`.
 - Pass outbound work selected for dispatch to the Venue Connectivity Layer for transmission to real Venues.
 - Receive Execution Events (Venue feedback) from the Venue Connectivity Layer and feed them back into the processing loop.
 
@@ -94,7 +94,7 @@ Emits runtime telemetry, execution metrics, and operational signals for consumpt
 
 Role:
 
-- Emit execution throughput, order status, processing latency, error conditions, and system health indicators during live execution.
+- Emit execution throughput, order status, processing latency, error conditions, and infrastructure health indicators during live execution.
 - Provide the telemetry surface that the Monitoring Stack consumes for real-time dashboards, alerting, and operational visibility.
 
 The Observability Integration Surface makes live execution observable without the Live Stack owning the monitoring infrastructure. The Monitoring Stack provides the platform; the Live Stack provides the telemetry.

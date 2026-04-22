@@ -11,7 +11,7 @@ It specifies **lifecycle stages**, **valid transitions**, and **terminal states*
 - define **Intent** lifecycle ([Intent Lifecycle](../10-architecture/intent-lifecycle.md));
 - restate formal **Event** or **State** semantics ([Event Model](../20-concepts/event-model.md), [State Model](../20-concepts/state-model.md));
 - replace the canonical glossary ([Terminology](../00-guides/terminology.md));
-- restate full **Runtime** sequencing ([System Flows](../10-architecture/system-flows.md)) or component boundaries ([Logical Architecture](../10-architecture/logical-architecture.md)).
+- restate full **Runtime** sequencing ([Infrastructure Flows](../10-architecture/infrastructure-flows.md)) or component boundaries ([Logical Architecture](../10-architecture/logical-architecture.md)).
 
 Capitalized terms are used as in [Terminology](../00-guides/terminology.md).
 
@@ -63,7 +63,7 @@ An **Order** comes into existence in **Execution State** at **submission** in st
 
 ## Valid transitions
 
-**Entry transition** (`[*] → Submitted`): The **Order** enters **Execution State** at **submission**. `Submitted` is the first **Order** state. The corresponding dispatch-time stream record makes this entry part of canonical history. It is not created by any later **Venue** response.
+**Entry transition** (`[*] ➝ Submitted`): The **Order** enters **Execution State** at **submission**. `Submitted` is the first **Order** state. The corresponding dispatch-time stream record makes this entry part of canonical history. It is not created by any later **Venue** response.
 
 **Post-submission transitions** (`Submitted` onward): All subsequent state changes are triggered by **Execution Events** (Venue execution reports) processed in **Processing Order**. No post-submission transition occurs outside **Event processing**.
 
@@ -99,7 +99,7 @@ Once an **Order** enters a **terminal** state, no further lifecycle transitions 
 | Terminal state | Description |
 | -------------- | ----------- |
 | **Filled** | Fully executed; no remaining open quantity. |
-| **Cancelled** | Terminated before full execution (by system request or Venue-side action). |
+| **Cancelled** | Terminated before full execution (by infrastructure request or Venue-side action). |
 | **Rejected** | Not accepted by the Venue after submission. |
 
 ---
@@ -142,4 +142,4 @@ This property holds identically across **Backtesting** and **Live** Runtimes whe
 - [Event Model](../20-concepts/event-model.md), [State Model](../20-concepts/state-model.md) — formal **Event** and **State** semantics; **Execution State** definition.
 - [Intent Lifecycle](../10-architecture/intent-lifecycle.md) — **Intent** command progression (distinct and upstream from this lifecycle).
 - [Intent Pipeline](../10-architecture/intent-pipeline.md) — submission boundary and how dispatch triggers **Order** creation.
-- [Logical Architecture](../10-architecture/logical-architecture.md), [System Flows](../10-architecture/system-flows.md) — component boundaries and Runtime sequencing.
+- [Logical Architecture](../10-architecture/logical-architecture.md), [Infrastructure Flows](../10-architecture/infrastructure-flows.md) — component boundaries and Runtime sequencing.

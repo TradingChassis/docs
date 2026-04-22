@@ -1,6 +1,6 @@
 # Scope and Role
 
-The Analysis Stack provides the infrastructure and components required to consume persisted system outputs and artifacts, perform asynchronous and reproducible analysis on them, and produce derived analytical artifacts, comparisons, and evaluation results.
+The Analysis Stack provides the infrastructure and components required to consume persisted infrastructure outputs and artifacts, perform asynchronous and reproducible analysis on them, and produce derived analytical artifacts, comparisons, and evaluation results.
 
 ---
 
@@ -53,7 +53,7 @@ The Analysis Stack is responsible for:
 
 The Analysis Stack is **not** responsible for:
 
-- **Ongoing operational monitoring, alerting, or runtime health tracking.** Real-time operational visibility, incident-oriented observation, and runtime alerting are operational monitoring concerns, not analytical ones. The Analysis Stack is retrospective and asynchronous; it does not observe running systems in real time.
+- **Ongoing operational monitoring, alerting, or runtime health tracking.** Real-time operational visibility, incident-oriented observation, and runtime alerting are operational monitoring concerns, not analytical ones. The Analysis Stack is retrospective and asynchronous; it does not observe running infrastructures in real time.
 - **Core Runtime semantic definitions.** The Event model, State model, Determinism model, Intent lifecycle, Order lifecycle, Risk semantics, Queue semantics, and all canonical processing rules are defined in architecture and concept documents. The Analysis Stack does not define or modify them.
 - **Backtesting or Live execution.** The Analysis Stack consumes the outputs of these Stacks; it does not execute Strategies, process Events, or interact with Venues.
 - **Raw Venue data capture.** Recording raw market data is a Data Recording Stack responsibility.
@@ -64,7 +64,7 @@ The Analysis Stack is **not** responsible for:
 
 ## Why the Stack Matters
 
-The Analysis Stack is the point at which persisted system outputs become actionable knowledge. Experiment results, execution records, and canonical datasets are raw material — they carry information, but they do not by themselves answer questions about Strategy quality, execution effectiveness, or the relationship between Research expectations and Live outcomes.
+The Analysis Stack is the point at which persisted infrastructure outputs become actionable knowledge. Experiment results, execution records, and canonical datasets are raw material — they carry information, but they do not by themselves answer questions about Strategy quality, execution effectiveness, or the relationship between Research expectations and Live outcomes.
 
 The Analysis Stack provides the infrastructure to ask and answer those questions: to compare experiments, to evaluate performance, to identify discrepancies between what Research predicted and what Live execution produced, and to produce derived artifacts that make the Infrastructure's behavior measurable and interpretable.
 

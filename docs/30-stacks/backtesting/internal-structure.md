@@ -77,7 +77,7 @@ Role:
 - Instantiate the Core Runtime with the run's Strategy, Configuration, and execution-control rules.
 - Feed historical Events from the Historical Input Feeder into the Core Runtime's processing loop.
 - Provide the **Simulated Venue** — the simulated execution environment behind the Venue Adapter boundary that generates realistic execution feedback (fills, acknowledgements, rejections) from historical data.
-- Execute the complete Core Runtime processing chain: Event intake → State derivation → Strategy evaluation → Risk → Execution Control → Venue Adapter → Simulated Venue → Execution Events back into the stream.
+- Execute the complete Core Runtime processing chain: Event intake ➝ State derivation ➝ Strategy evaluation ➝ Risk ➝ Execution Control ➝ Venue Adapter ➝ Simulated Venue ➝ Execution Events back into the stream.
 - Ensure that determinism is preserved throughout execution — the same inputs and Configuration produce identical State, dispatch decisions, and Order lifecycle outcomes at every Processing Order position.
 
 The Runtime Execution Harness is where the Core Runtime actually runs. The Simulated Venue is integral to this harness — without it, the processing loop has no execution feedback and cannot produce Order lifecycle outcomes. The harness executes the Core Runtime's semantics faithfully; it does not modify them.

@@ -1,4 +1,4 @@
-# System Narrative
+# Infrastructure Narrative
 
 ---
 
@@ -6,7 +6,7 @@
 
 The Infrastructure Narrative provides architectural context for the trading infrastructure described in this documentation.
 
-While the concept documents define the formal models governing System behavior (Events, State, Time, Determinism), this document explains the broader architectural motivation and tells the **story of how the Infrastructure works** from Event recording through State derivation, Strategy decision, policy evaluation, Execution Control, and Venue feedback.
+While the concept documents define the formal models governing behavior (Events, State, Time, Determinism), this document explains the broader architectural motivation and tells the **story of how the Infrastructure works** from Event recording through State derivation, Strategy decision, policy evaluation, Execution Control, and Venue feedback.
 
 This document is intentionally narrative in style. Normative definitions and invariants belong in the concept documents it references; this document makes the overall model coherent, readable, and grounded.
 
@@ -14,7 +14,7 @@ This document is intentionally narrative in style. Normative definitions and inv
 
 ## Problem Space
 
-Modern trading systems must simultaneously satisfy several competing requirements:
+Modern trading infrastructure must simultaneously satisfy several competing requirements:
 
 - **reproducibility** of Research results
 - **deterministic behavior** under identical inputs
@@ -22,9 +22,9 @@ Modern trading systems must simultaneously satisfy several competing requirement
 - **operational safety** under Live Execution conditions
 - **scalable recording** and Analysis of market data
 
-A trading architecture may evolve organically, possibly resulting in systems where Research diverges significantly from Live trading. Such divergence leads to Strategies behaving differently in simulation than in production, making Research results unreliable as predictors of Live behavior.
+A trading architecture may evolve organically, possibly resulting in infrastructures where Research diverges significantly from Live trading. Such divergence leads to Strategies behaving differently in simulation than in production, making Research results unreliable as predictors of Live behavior.
 
-This System addresses the problem by enforcing a **unified conceptual model** across all Runtimes. Backtesting and Live Execution share the same Core Runtime semantics. The Infrastructure guarantees that if a Strategy behaves a certain way against a given Event Stream in Backtesting, it will behave the same way against the same Event Stream in Live — because the processing model is identical.
+This Infrastructure addresses the problem by enforcing a **unified conceptual model** across all Runtimes. Backtesting and Live Execution share the same Core Runtime semantics. The Infrastructure guarantees that if a Strategy behaves a certain way against a given Event Stream in Backtesting, it will behave the same way against the same Event Stream in Live — because the processing model is identical.
 
 ---
 
@@ -46,7 +46,7 @@ Because of this, the infrastructure must accurately reproduce the interaction be
 
 ---
 
-## System Scope
+## Infrastructure Scope
 
 The Infrastructure provides the infrastructure required to support trading Research and Live Execution.
 
@@ -60,7 +60,7 @@ Its responsibilities include:
 
 The Infrastructure deliberately does not define Strategies. Strategy logic is an external Component that reads State projections and emits commands into the Infrastructure through well-defined interfaces.
 
-Venues represent system boundaries: the Infrastructure sends outbound requests to Venues and ingests their responses as Events.
+Venues represent infrastructure boundaries: the Infrastructure sends outbound requests to Venues and ingests their responses as Events.
 
 ---
 
@@ -76,7 +76,7 @@ When the Infrastructure applies an Event, it derives updated **State**:
 
 `State = f(Event Stream, Configuration)`
 
-State is not a mutable store owned by any Component. It is a **deterministic projection** of the Event Stream and Configuration, recomputable at any point by replaying the Event Stream and Configuration from the beginning. No Component holds parallel mutable truth. The Event Stream, together with Configuration, is the only authoritative source of System history.
+State is not a mutable store owned by any Component. It is a **deterministic projection** of the Event Stream and Configuration, recomputable at any point by replaying the Event Stream and Configuration from the beginning. No Component holds parallel mutable truth. The Event Stream, together with Configuration, is the only authoritative source of history.
 
 State is organized into three domains: **Market State** (current market conditions), **Execution State** (Orders, fills, positions, and execution-control substate), and **Control State** (operational flags and Runtime signals). These three domains together constitute the full derived condition of the Infrastructure at any Event Stream position.
 
@@ -100,7 +100,7 @@ Where a policy decision must be part of the canonical record (for replay or audi
 
 ### Execution Control: Queue and Queue Processing
 
-An allowed Intent does not go directly to the Venue. It enters **Execution Control** — the **Queue** and **Queue Processing** subsystem — which schedules and transmits allowed work.
+An allowed Intent does not go directly to the Venue. It enters **Execution Control** — **Queue** and **Queue Processing** — which schedule and transmit allowed work.
 
 The **Queue** is **derived execution-control substate** within **Execution State**: a projection of current effective pending outbound work, recomputable from the Event Stream and Configuration ([Queue Semantics](../20-concepts/queue-semantics.md)).
 
@@ -144,7 +144,7 @@ Determinism does not happen by accident. It requires that no component holds hid
 
 Backtesting and Live are two implementations of the same canonical model.
 
-Both Runtimes apply `State = f(Event Stream, Configuration)`, process the same `Strategy → Risk → Queue → Venue Adapter` chain, and maintain the same Order lifecycle beginning at submission.
+Both Runtimes apply `State = f(Event Stream, Configuration)`, process the same `Strategy ➝ Risk ➝ Queue ➝ Venue Adapter` chain, and maintain the same Order lifecycle beginning at submission.
 
 What differs is infrastructure: the source of the Event Stream (historical datasets vs live Venue feeds), the Venue implementation (simulated vs real), and the operational characteristics (batch experiments vs continuous operation). The semantic model does not differ.
 
@@ -158,7 +158,7 @@ This document tells the architectural story. For normative definitions, precise 
 
 - [Terminology](../00-guides/terminology.md) — canonical definitions of all terms used here
 - [Logical Architecture](logical-architecture.md) — component responsibilities and hard boundaries
-- [System Flows](system-flows.md) — step-by-step canonical Runtime sequencing
+- [Infrastructure Flows](infrastructure-flows.md) — step-by-step canonical Runtime sequencing
 - [Event Model](../20-concepts/event-model.md) — formal definition of Events and the Event Stream
 - [State Model](../20-concepts/state-model.md) — `State = f(Event Stream, Configuration)` and State domains
 - [Intent Lifecycle](intent-lifecycle.md) — Intent stages from generation to terminal disposition

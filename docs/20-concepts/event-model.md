@@ -35,7 +35,7 @@ Events **do not** “mutate State” as an extra mechanism: **State Transitions*
 
 ## What Events record
 
-Events exist to capture **observable occurrences**, **externally supplied feedback**, and **decisions or outcomes that must be part of canonical system history** so that:
+Events exist to capture **observable occurrences**, **externally supplied feedback**, and **decisions or outcomes that must be part of canonical infrastructure history** so that:
 
 - replay reproduces the same derived State; and
 - audit and debugging can rely on a single ordered history.
@@ -84,12 +84,12 @@ They primarily drive **Execution State**, including the **Order** as a **derived
 
 | Concept | Role |
 | ------- | ---- |
-| **Intent-related Event** | System-recorded outcome of **intent / policy / dispatch** pipeline when required for canonical history (origin: System recording, not the Venue’s book). |
+| **Intent-related Event** | Infrastructure-recorded outcome of **intent / policy / dispatch** pipeline when required for canonical history (origin: Infrastructure recording, not the Venue’s book). |
 | **Execution Event** | **External execution feedback** (origin: Venue or execution path) that updates Order and related Execution State. |
 
-### System Events
+### Infrastructure Events
 
-**System Events** record internal or operational facts that must affect **System State** (e.g. configuration changes, operational signals that are part of canonical history as defined by the Infrastructure).
+**Infrastructure Events** record internal or operational facts that must affect **Infrastructure State** (e.g. configuration changes, operational signals that are part of canonical history as defined by the Infrastructure).
 
 They are not a catch-all for every internal computation; see [Derivations that are not Events](#derivations-that-are-not-events).
 
@@ -110,10 +110,10 @@ They are not a catch-all for every internal computation; see [Derivations that a
 | Venue or historical market feed | Market Events |
 | Venue or simulated execution path | Execution Events |
 | Runtime / Core when canonical history requires an intent-processing outcome | Intent-related Events |
-| Internal subsystems (when modeled as stream inputs) | System Events |
+| Internal subinfrastructures (when modeled as stream inputs) | Infrastructure Events |
 | Orchestration or Runtime controllers (when modeled as stream inputs) | Control Events |
 
-Each **logical** source may append Events according to System rules; **Processing Order** of the **merged** stream is authoritative for State.
+Each **logical** source may append Events according to Infrastructure rules; **Processing Order** of the **merged** stream is authoritative for State.
 
 ---
 
@@ -126,7 +126,7 @@ flowchart LR
     Market["Market Events"]
     IntentRelated["Intent-related Events"]
     Execution["Execution Events"]
-    System["System Events"]
+    Infrastructure["Infrastructure Events"]
     Control["Control Events"]
 
     Stream["Event Stream + Configuration"]
@@ -135,7 +135,7 @@ flowchart LR
     Market --> Stream
     IntentRelated --> Stream
     Execution --> Stream
-    System --> Stream
+    Infrastructure --> Stream
     Control --> Stream
 
     Stream --> State
@@ -165,7 +165,7 @@ During Runtime, Events are applied **one at a time** in stream order. Each appli
 
 Applying an Event may:
 
-- advance Market, Execution (including **execution-control substate** derived as part of Execution State—see [Terminology: Queue](../00-guides/terminology.md#queue)), and System domains;
+- advance Market, Execution (including **execution-control substate** derived as part of Execution State—see [Terminology: Queue](../00-guides/terminology.md#queue)), and Infrastructure domains;
 - trigger Strategy evaluation, which produces **Intents** (not Events);
 - record **new Events** when canonical history requires (e.g. intent-processing outcomes, appended **before** those outcomes may affect downstream State in replay).
 

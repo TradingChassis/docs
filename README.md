@@ -8,11 +8,11 @@ This repository contains the architecture documentation for the TradingChassis t
 
 The goal of this repository is to make the structure, reasoning, and constraints of the Infrastructure explicit and durable. It captures:
 
-- canonical system concepts and semantic models
+- canonical infrastructure concepts and semantic models
 - architectural boundaries and design decisions
 - implementation-facing stack realizations
 - operational behavior and runtime model
-- system evolution context
+- infrastructure evolution context
 
 Documentation here is organized to remain accurate over time by separating what the Infrastructure is *conceptually* from how it is *realized* in implementation.
 
@@ -22,8 +22,8 @@ Documentation here is organized to remain accurate over time by separating what 
 
 This documentation is intended for:
 
-- system architects and quantitative developers working on or reasoning about the Infrastructure
-- infrastructure and platform engineers who need to understand subsystem boundaries
+- infrastructure architects and quantitative developers working on or reasoning about the Infrastructure
+- infrastructure and platform engineers who need to understand subinfrastructure boundaries
 - contributors who need shared vocabulary and design context before making changes
 
 ---
@@ -58,9 +58,9 @@ The documentation is numbered to encode reading flow from foundational orientati
 | Section           | Role                                                                                                                                                                                                                          |
 | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `00-guides`       | Entry point — architecture map, documentation structure, terminology, and philosophy. Start here.                                                                                                                             |
-| `10-architecture` | System-level architecture views, logical and physical structure, system flows, and Architecture Decision Records (ADRs).                                                                                                      |
+| `10-architecture` | Infrastructure-level architecture views, logical and physical structure, infrastructure flows, and Architecture Decision Records (ADRs).                                                                                                      |
 | `20-concepts`     | Canonical semantic definitions — the Event model, State model, Determinism model, Time model, Order lifecycle, Queue semantics, and related invariants. This is the authoritative source for exact meaning.                   |
-| `30-stacks`       | Implementation-facing realizations of the conceptual model, organized by Stack. Stack documents describe what each subsystem does, how it is structured, and what its boundaries are, without redefining canonical semantics. |
+| `30-stacks`       | Implementation-facing realizations of the conceptual model, organized by Stack. Stack documents describe what each subinfrastructure does, how it is structured, and what its boundaries are, without redefining canonical semantics. |
 | `40-operations`   | Operational model, monitoring, recovery, and runbook-facing material.                                                                                                                                                         |
 | `50-evolution`    | Roadmap, milestones, and development history.                                                                                                                                                                                 |
 
@@ -167,4 +167,4 @@ In brief:
 
 Documentation content is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) unless otherwise stated.
 
-> This repository documents system architecture and engineering concepts. It does not constitute financial advice.
+> This repository documents infrastructure architecture and engineering concepts. It does not constitute financial advice.

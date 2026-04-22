@@ -42,10 +42,10 @@ The Intent lifecycle defines the progression of an ephemeral command from Strate
 | **Policy decided** | Risk has classified the command as allowed or denied. |
 | **Pending dispatch** | Allowed and held in derived execution-control substate (Queue), awaiting selection. |
 | **Dispatched** | Handed to the Venue Adapter for outbound transmission. |
-| **Inflight** | Outbound request is outstanding; System awaits completion. |
+| **Inflight** | Outbound request is outstanding; awaiting completion. |
 | **Closed** | Terminal — no further progression for this Intent arc. |
 
-**Terminal outcomes:** Policy rejection (denied → Closed), supersession by dominance (Pending dispatch → Closed), or completion after dispatch (Inflight → Closed).
+**Terminal outcomes:** Policy rejection (denied ➝ Closed), supersession by dominance (Pending dispatch ➝ Closed), or completion after dispatch (Inflight ➝ Closed).
 
 The Intent lifecycle is a **pre-submission** state machine. No Order exists during any Intent stage. The boundary between the two lifecycles is **submission**: the moment the Venue Adapter transmits the outbound request.
 

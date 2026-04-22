@@ -12,7 +12,7 @@ This document does **not**:
 
 - restate formal **Event** or **State** semantics ([Event Model](event-model.md), [State Model](state-model.md));
 - replace the canonical glossary ([Terminology](../00-guides/terminology.md));
-- restate full **Runtime** sequencing ([System Flows](../10-architecture/system-flows.md)) or component boundaries ([Logical Architecture](../10-architecture/logical-architecture.md));
+- restate full **Runtime** sequencing ([Infrastructure Flows](../10-architecture/infrastructure-flows.md)) or component boundaries ([Logical Architecture](../10-architecture/logical-architecture.md));
 - define **Queue** structure or **dominance** algorithms ([Queue Semantics](queue-semantics.md), [Intent Dominance](intent-dominance.md));
 - define **Intent** lifecycle stages ([Intent Lifecycle](../10-architecture/intent-lifecycle.md)) or **Order** lifecycle ([Order Lifecycle](order-lifecycle.md)).
 
@@ -33,7 +33,7 @@ Its role is strictly bounded:
 
 Queue Processing **never** re-runs policy. It operates only on work that **Risk** has already **allowed**; it cannot reinstate **denied** Intents and cannot admit new Intents on its own.
 
-**Queue Processing is not a separate runtime tick, autonomous loop, or independently clocked scheduler.** It is a **deterministic computation** executed as part of **Event processing**—the same sequential step that updates **Market State**, **Execution State**, and **Control State** also evaluates and advances **execution-control substate** ([System Flows](../10-architecture/system-flows.md)).
+**Queue Processing is not a separate runtime tick, autonomous loop, or independently clocked scheduler.** It is a **deterministic computation** executed as part of **Event processing**—the same sequential step that updates **Market State**, **Execution State**, and **Control State** also evaluates and advances **execution-control substate** ([Infrastructure Flows](../10-architecture/infrastructure-flows.md)).
 
 ---
 
@@ -104,19 +104,19 @@ There is **no** separate "wakeup event type" required to trigger Queue Processin
 
 ## Relationship to Risk, Queue, and Execution State
 
-**Risk Engine → Queue Processing boundary:**
+**Risk Engine ➝ Queue Processing boundary:**
 
 - **Risk** evaluates **admissibility** of each **Intent** as it arises during Strategy evaluation, before Queue residency. **Risk** produces **allowed** or **denied** only.
 - **Queue Processing** evaluates **sendability** of already-**allowed** work.
 - There is **no** feedback path where Queue Processing sends work back to **Risk** for re-evaluation of policy.
 
-**Queue (derived substate) → Queue Processing:**
+**Queue (derived substate) ➝ Queue Processing:**
 
 - The **Queue** is **derived execution-control substate**, fully recomputable from **Event Stream + Configuration** ([State Model](state-model.md)).
 - Queue Processing reads this substate; it **does not** own it as independent truth.
 - Outcomes of Queue Processing (dispatch decisions, inflight slot consumption) are reflected in **Execution State** derivation going forward, consistent with **Event processing**.
 
-**Queue Processing → Execution State and Order lifecycle:**
+**Queue Processing ➝ Execution State and Order lifecycle:**
 
 - When Queue Processing selects an Intent for dispatch, the **Venue Adapter** transmits the request. **At dispatch**, an **Order** enters **Execution State** at **Submitted**—this is the entry point of the **Order lifecycle** ([Order Lifecycle](order-lifecycle.md)). The **Order** exists from this moment, before any **Venue** response arrives.
 - Subsequent **Venue** responses enter the **Event Stream** as **Execution Events** and **evolve the already-existing Order** (e.g. from **Submitted** to **Accepted**, **Filled**, **Rejected**, or **Cancelled**). **Venue** responses do **not** create the **Order** for the first time; they advance it.
@@ -127,7 +127,7 @@ There is **no** separate "wakeup event type" required to trigger Queue Processin
 
 1. **Execution Control** only: Queue Processing decides **when** to send among **allowed** work; it does **not** decide **whether** work is admissible (that is **Risk**).
 2. **Derived inputs only:** All inputs are projections of **Event Stream + Configuration**; Queue Processing holds no independent authoritative state.
-3. **Part of Event processing:** Queue Processing is a **deterministic computation** within the canonical **Event processing** step—**not** a separate tick, loop, or independently clocked subsystem.
+3. **Part of Event processing:** Queue Processing is a **deterministic computation** within the canonical **Event processing** step—**not** a separate tick, loop, or independently clocked subinfrastructure.
 4. **Determinism:** Given identical **Event Stream** and **Configuration**, Queue Processing produces identical dispatch decisions at every **Processing Order** position.
 5. **No unnecessary Events:** Dominance, eligibility, inflight gating, scheduling, and rate-limit bookkeeping are **internal derivations**; they **do not** require separate **Event types** unless canonical history explicitly demands records for replay or audit.
 6. **Sequencing after Risk:** Queue Processing always operates on work that **Risk** has already **allowed** in the current or prior processing steps; it **never** precedes or replaces **Risk** evaluation for newly generated **Intents**.
@@ -139,8 +139,8 @@ There is **no** separate "wakeup event type" required to trigger Queue Processin
 
 - [Terminology](../00-guides/terminology.md) — canonical terms, including **Intent visibility** and execution-control definitions.
 - [Logical Architecture](../10-architecture/logical-architecture.md) — component boundaries; Queue Processing responsibility defined there.
-- [System Flows](../10-architecture/system-flows.md) — canonical sequencing of Queue Processing within **Event processing**.
-- [Intent Lifecycle](../10-architecture/intent-lifecycle.md) — Intent stage progression through `Pending dispatch → Dispatched → Inflight → Closed`.
+- [Infrastructure Flows](../10-architecture/infrastructure-flows.md) — canonical sequencing of Queue Processing within **Event processing**.
+- [Intent Lifecycle](../10-architecture/intent-lifecycle.md) — Intent stage progression through `Pending dispatch ➝ Dispatched ➝ Inflight ➝ Closed`.
 - [Intent Pipeline](../10-architecture/intent-pipeline.md) — submission boundary and dispatch-triggered **Order** creation.
 - [Order Lifecycle](order-lifecycle.md) — **Order** evolution from **Submitted** onward.
 - [Queue Semantics](queue-semantics.md) — Queue structure and admission rules (not Queue Processing evaluation).

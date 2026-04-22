@@ -62,9 +62,9 @@ The storage classes are not stages in a sequential pipeline. They are **parallel
 
 However, some structural relationships exist:
 
-**Raw → Canonical progression.** Persistent Raw Storage holds the input material from which canonical datasets are eventually derived. A dataset moves from raw to canonical only through the Data Quality Stack's validation and promotion process. The Data Storage Stack provides both surfaces; it does not control or participate in the transition.
+**Raw ➝ Canonical progression.** Persistent Raw Storage holds the input material from which canonical datasets are eventually derived. A dataset moves from raw to canonical only through the Data Quality Stack's validation and promotion process. The Data Storage Stack provides both surfaces; it does not control or participate in the transition.
 
-**Canonical → Derived dependency.** Derived Storage may hold artifacts computed from canonical datasets. The relationship is downstream: derived artifacts depend on canonical inputs, but Canonical Storage does not depend on Derived Storage.
+**Canonical ➝ Derived dependency.** Derived Storage may hold artifacts computed from canonical datasets. The relationship is downstream: derived artifacts depend on canonical inputs, but Canonical Storage does not depend on Derived Storage.
 
 **Quarantine as a parallel outcome.** Quarantine Storage holds datasets that were candidates for Canonical Storage but did not pass quality assessment. It exists alongside Canonical Storage, not in sequence with it. A quarantined dataset is not "on its way" to Canonical Storage — it has been explicitly excluded.
 
@@ -74,7 +74,7 @@ However, some structural relationships exist:
 
 ## Internal Structural Boundaries
 
-**Logical separation is mandatory.** Each storage class must remain logically distinct, even when multiple classes share the same physical storage system. A dataset's storage-class membership must be unambiguous: a dataset in Persistent Raw Storage is raw; a dataset in Canonical Storage is canonical; a dataset in Quarantine Storage is quarantined. These classifications must not be blurred by shared infrastructure.
+**Logical separation is mandatory.** Each storage class must remain logically distinct, even when multiple classes share the same physical storage infrastructure. A dataset's storage-class membership must be unambiguous: a dataset in Persistent Raw Storage is raw; a dataset in Canonical Storage is canonical; a dataset in Quarantine Storage is quarantined. These classifications must not be blurred by shared infrastructure.
 
 **No semantic processing.** The Data Storage Stack's internal structure organizes and separates persistent data. It does not validate, normalize, promote, quarantine, or transform data. Those are responsibilities of other Stacks. The internal structure provides the durable surfaces on which those Stacks' decisions are stored.
 

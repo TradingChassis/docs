@@ -15,7 +15,7 @@ Updated: {{ page.meta.updated }}
 
 Strategy produces Intents — ephemeral commands expressing desired trading actions — during Event processing. A Strategy may generate multiple Intents targeting the same logical order key in rapid succession:
 
-`NEW → REPLACE → REPLACE → CANCEL`
+`NEW ➝ REPLACE ➝ REPLACE ➝ CANCEL`
 
 If every Intent were forwarded directly to the Venue Adapter as an outbound request, the Infrastructure would produce unstable execution behavior:
 
@@ -63,9 +63,9 @@ The Queue holds **effective reconciled allowed pending outbound work** — at mo
 
 ### Boundaries
 
-**Risk → Queue boundary.** Risk evaluates each Intent for policy admissibility (allowed / denied). Risk does not schedule, order, gate, or rate-limit outbound work. Those are exclusively execution-control responsibilities implemented by Queue and Queue Processing.
+**Risk ➝ Queue boundary.** Risk evaluates each Intent for policy admissibility (allowed / denied). Risk does not schedule, order, gate, or rate-limit outbound work. Those are exclusively execution-control responsibilities implemented by Queue and Queue Processing.
 
-**Queue → Order lifecycle boundary.** Queue residency is pre-submission. No Order exists in Execution State during Queue residency. An Order comes into existence at submission — when Queue Processing selects work for dispatch and the Venue Adapter transmits the outbound request. After submission, Order state evolves through Execution Events; it is not governed by Queue mechanics.
+**Queue ➝ Order lifecycle boundary.** Queue residency is pre-submission. No Order exists in Execution State during Queue residency. An Order comes into existence at submission — when Queue Processing selects work for dispatch and the Venue Adapter transmits the outbound request. After submission, Order state evolves through Execution Events; it is not governed by Queue mechanics.
 
 ---
 
@@ -85,7 +85,7 @@ The Queue holds **effective reconciled allowed pending outbound work** — at mo
 
 ## Trade-offs
 
-**The Queue does not preserve intermediate Strategy intent history.** By design, only the effective command per logical order key is retained. A sequence `NEW → REPLACE → REPLACE → CANCEL` produces `CANCEL` in execution-control substate; the intermediate replaces are not individually visible in the Queue. Where visibility of superseded commands is needed for replay or audit, the canonical mechanism is Intent-related Events recorded on the stream when required — not Queue-level retention.
+**The Queue does not preserve intermediate Strategy intent history.** By design, only the effective command per logical order key is retained. A sequence `NEW ➝ REPLACE ➝ REPLACE ➝ CANCEL` produces `CANCEL` in execution-control substate; the intermediate replaces are not individually visible in the Queue. Where visibility of superseded commands is needed for replay or audit, the canonical mechanism is Intent-related Events recorded on the stream when required — not Queue-level retention.
 
 **Execution-control rules add derivation complexity.** Dominance, inflight gating, rate-limit evaluation, and eligibility are deterministic functions applied at every relevant processing step. This is more complex than direct pass-through, but direct pass-through cannot provide the stability and determinism guarantees the Infrastructure requires.
 

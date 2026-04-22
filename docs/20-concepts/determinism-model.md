@@ -122,7 +122,7 @@ Determinism enables:
 
 | Capability | How determinism enables it |
 | ---------- | -------------------------- |
-| **Reproducible Backtesting** | Same Event Stream + Configuration → same derived State and decisions |
+| **Reproducible Backtesting** | Same Event Stream + Configuration ➝ same derived State and decisions |
 | **Failure recovery** | State can be reconstructed by replaying the Event Stream from any known position |
 | **Debugging and Analysis** | Any historical execution can be reproduced precisely for inspection |
 | **Backtesting / Live semantic parity** | Both Runtimes apply the same deterministic processing rules; infrastructure differs but semantics are identical |

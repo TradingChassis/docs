@@ -1,13 +1,13 @@
 # TradingChassis Documentation
 
-This documentation is the technical reference for a deterministic, event-driven trading system.
+This documentation is the technical reference for a deterministic, event-driven trading infrastructure.
 
 It focuses on architecture, semantics, implementation structure, and operations.  
 It does not focus on proprietary strategy logic or alpha design.
 
 ---
 
-## What this system is
+## What this infrastructure is
 
 At a high level, the Infrastructure is designed for:
 
@@ -15,7 +15,7 @@ At a high level, the Infrastructure is designed for:
 - Research and Backtesting grounded in the same conceptual model as Live operation
 - explicit separation of architecture concerns (semantics, runtime architecture, stack realization, operations)
 
-For the architecture map of the full system, start with [Architecture Map](00-guides/architecture-map.md).
+For the architecture map of the full infrastructure, start with [Architecture Map](00-guides/architecture-map.md).
 
 ---
 
@@ -24,11 +24,11 @@ For the architecture map of the full system, start with [Architecture Map](00-gu
 The repository is organized into six major sections:
 
 - **Guides** (`00-guides`) - orientation, terminology, and navigation aids
-- **Architecture** (`10-architecture`) - system-level structure, boundaries, and ADRs
+- **Architecture** (`10-architecture`) - structure, boundaries, and ADRs
 - **Concepts** (`20-concepts`) - canonical semantic models and invariants
 - **Stacks** (`30-stacks`) - implementation-facing stack overviews
 - **Operations** (`40-operations`) (work in progress) - monitoring, recovery, incident, and runbook-oriented material
-- **Evolution** (`50-evolution`) (work in progress) - roadmap, milestones, and development trajectory
+- **Evolution** (`50-evolution`) - roadmap, milestones, and development logs
 
 For a dedicated structure explanation, see [Documentation Structure](00-guides/documentation-structure.md).
 
@@ -39,13 +39,13 @@ For a dedicated structure explanation, see [Documentation Structure](00-guides/d
 ### Understand the Infrastructure conceptually
 
 1. [Architecture Map](00-guides/architecture-map.md)
-2. [System Narrative](10-architecture/system-narrative.md)
+2. [Infrastructure Narrative](10-architecture/infrastructure-narrative.md)
 3. [Architecture Overview](10-architecture/architecture-overview.md)
 
 ### Understand runtime architecture
 
 1. [Logical Architecture](10-architecture/logical-architecture.md)
-2. [System Flows](10-architecture/system-flows.md)
+2. [Infrastructure Flows](10-architecture/infrastructure-flows.md)
 3. [Physical Architecture](10-architecture/physical-architecture.md)
 4. [Architecture Principles](10-architecture/architecture-principles.md)
 
@@ -62,7 +62,7 @@ For a dedicated structure explanation, see [Documentation Structure](00-guides/d
 ### Find implementation, stack details and operations material
  
 1. relevant stack section under [Stacks](30-stacks/stacks-overview.md)
-2. related ADRs under [Architecture](10-architecture/adr/system-foundations/ADR-001-two-axis-structure.md)
+2. related ADRs under [Architecture](10-architecture/adr/foundations/ADR-001-two-axis-structure.md)
 3. monitoring / recovery / incident and runbook documents under [Operations](40-operations/operations-overview.md)
 
 ---

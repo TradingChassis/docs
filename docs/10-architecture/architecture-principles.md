@@ -22,7 +22,7 @@ The Infrastructure is event-driven in a strict sense: not merely that it reacts 
 
 This principle makes behavior fully observable: every State transition has a corresponding Event in the Event Stream that explains it.
 
-→ [Event Model](../20-concepts/event-model.md), [Invariants: E1](../20-concepts/invariants.md)
+➝ [Event Model](../20-concepts/event-model.md), [Invariants: E1](../20-concepts/invariants.md)
 
 ---
 
@@ -34,13 +34,13 @@ Formally: `State = f(Event Stream, Configuration)`. State is a projection recomp
 
 This principle eliminates a class of consistency bugs where a component's internal state disagrees with what the Event Stream would derive. There is one canonical answer at any Event Stream position, and it is always the derived one.
 
-→ [State Model](../20-concepts/state-model.md), [Determinism Model](../20-concepts/determinism-model.md)
+➝ [State Model](../20-concepts/state-model.md), [Determinism Model](../20-concepts/determinism-model.md)
 
 ---
 
 ## P3 — No hidden mutable truth
 
-**All data that influences canonical System behavior must be part of the Event Stream or explicit versioned Configuration. Hidden stores, caches, and out-of-band writes that affect derived State are forbidden.**
+**All data that influences canonical behavior must be part of the Event Stream or explicit versioned Configuration. Hidden stores, caches, and out-of-band writes that affect derived State are forbidden.**
 
 This principle is the enforcement mechanism behind P2. It rules out:
 
@@ -50,7 +50,7 @@ This principle is the enforcement mechanism behind P2. It rules out:
 
 Queue contents, Order projections, and all execution-control substate are **derived** — recomputable, not primary. A Runtime that cannot reconstruct its State by replaying the Event Stream has violated this principle.
 
-→ [Determinism Model](../20-concepts/determinism-model.md), [Invariants: D3](../20-concepts/invariants.md)
+➝ [Determinism Model](../20-concepts/determinism-model.md), [Invariants: D3](../20-concepts/invariants.md)
 
 ---
 
@@ -62,7 +62,7 @@ Determinism is not a property that holds approximately or under normal condition
 
 Determinism is the basis for reproducible Research, reliable failure recovery by replay, and trusted equivalence between Backtesting and Live results.
 
-→ [Determinism Model](../20-concepts/determinism-model.md), [Invariants: D1–D4](../20-concepts/invariants.md)
+➝ [Determinism Model](../20-concepts/determinism-model.md), [Invariants: D1–D4](../20-concepts/invariants.md)
 
 ---
 
@@ -79,7 +79,7 @@ This principle has two direct consequences:
 
 Processing Order is what makes the Infrastructure's causal history unambiguous. Without it, the same set of Events could produce different State depending on when they were applied in real time — breaking both determinism and replayability.
 
-→ [Time Model](../20-concepts/time-model.md), [Determinism Model](../20-concepts/determinism-model.md), [Invariants: E4](../20-concepts/invariants.md)
+➝ [Time Model](../20-concepts/time-model.md), [Determinism Model](../20-concepts/determinism-model.md), [Invariants: E4](../20-concepts/invariants.md)
 
 ---
 
@@ -87,13 +87,13 @@ Processing Order is what makes the Infrastructure's causal history unambiguous. 
 
 **The Risk Engine decides admissibility only. Queue and Queue Processing decide execution timing and ordering only. Neither crosses into the other's domain.**
 
-Policy (Risk) answers: *Is this Intent allowed under System rules?* The answer is binary: **allowed** or **denied**. Risk does not decide when to send, in what order, whether rate limits permit transmission, or whether inflight constraints block the request.
+Policy (Risk) answers: *Is this Intent allowed under the given rules?* The answer is binary: **allowed** or **denied**. Risk does not decide when to send, in what order, whether rate limits permit transmission, or whether inflight constraints block the request.
 
 Execution Control (Queue + Queue Processing) answers: *Of the allowed work, what can be dispatched in this step, and in what order?* Execution Control does not re-evaluate policy and cannot reinstate denied Intents.
 
 This separation ensures that safety constraints (policy) and operational efficiency (scheduling) remain independently auditable, independently evolvable, and cannot silently compensate for each other's failures.
 
-→ [Logical Architecture](logical-architecture.md), [Queue Processing](../20-concepts/queue-processing.md)
+➝ [Logical Architecture](logical-architecture.md), [Queue Processing](../20-concepts/queue-processing.md)
 
 ---
 
@@ -107,7 +107,7 @@ An Order comes into existence in Execution State at **submission**. `Submitted` 
 
 Collapsing these lifecycles produces documentation and implementation ambiguity about when the Infrastructure is committed to an outbound action and what can be revoked before that commitment.
 
-→ [Intent Lifecycle](intent-lifecycle.md), [Order Lifecycle](../20-concepts/order-lifecycle.md)
+➝ [Intent Lifecycle](intent-lifecycle.md), [Order Lifecycle](../20-concepts/order-lifecycle.md)
 
 ---
 
@@ -117,9 +117,9 @@ Collapsing these lifecycles produces documentation and implementation ambiguity 
 
 Every advancement of Queue state, every dispatch decision, and every re-evaluation of eligibility, inflight status, and rate limits happens within the same sequential Event-processing step that updates all derived State. There is one advancement mechanism: the Event Stream.
 
-This principle ensures that Queue Processing decisions are deterministic, replayable, and free of timing-dependent behavior. A system with a separate scheduler tick cannot guarantee that Backtesting produces the same dispatch decisions as Live.
+This principle ensures that Queue Processing decisions are deterministic, replayable, and free of timing-dependent behavior. A module with a separate scheduler tick cannot guarantee that Backtesting produces the same dispatch decisions as Live.
 
-→ [Queue Processing](../20-concepts/queue-processing.md), [System Flows](system-flows.md), [Invariants: EC2](../20-concepts/invariants.md)
+➝ [Queue Processing](../20-concepts/queue-processing.md), [Infrastructure Flows](infrastructure-flows.md), [Invariants: EC2](../20-concepts/invariants.md)
 
 ---
 
@@ -127,13 +127,13 @@ This principle ensures that Queue Processing decisions are deterministic, replay
 
 **Backtesting and Live are two infrastructure configurations of the same Core Runtime model. The semantic model does not differ between them.**
 
-Both Runtimes apply `State = f(Event Stream, Configuration)`, process the same `Strategy → Risk → Queue → Venue Adapter` chain, maintain the same Order lifecycle beginning at submission, and treat Queue as derived execution-control substate.
+Both Runtimes apply `State = f(Event Stream, Configuration)`, process the same `Strategy ➝ Risk ➝ Queue ➝ Venue Adapter` chain, maintain the same Order lifecycle beginning at submission, and treat Queue as derived execution-control substate.
 
 What differs is infrastructure: data source (historical vs live), Venue (simulated vs real), and operational mode (batch vs continuous). The semantic model — the rules that govern State derivation, dispatch decisions, and lifecycle transitions — is identical.
 
-This principle is the architectural basis for trusting Backtesting results as predictors of Live behavior. If the two Runtimes diverged semantically, Research would evaluate a different system than the one deployed in production.
+This principle is the architectural basis for trusting Backtesting results as predictors of Live behavior. If the two Runtimes diverged semantically, Research would evaluate different than the one deployed in production.
 
-→ [Architecture Overview](architecture-overview.md), [System Narrative](system-narrative.md)
+➝ [Architecture Overview](architecture-overview.md), [Infrastructure Narrative](infrastructure-narrative.md)
 
 ---
 
@@ -149,13 +149,13 @@ Strategies operating at coarser granularity use projections of the same data. Th
 
 ## P11 — Extend at boundaries; preserve the Core
 
-**The Core Runtime — Event processing, State derivation, Strategy evaluation, Risk, and Execution Control — evolves slowly and only for fundamental improvements. Extension points exist at system boundaries: Venue Adapters, data recording connectors, simulated Venues, and Strategy modules.**
+**The Core Runtime — Event processing, State derivation, Strategy evaluation, Risk, and Execution Control — evolves slowly and only for fundamental improvements. Extension points exist at infrastructure boundaries: Venue Adapters, data recording connectors, simulated Venues, and Strategy modules.**
 
 The Core Runtime implements the canonical rules that all other architecture depends on. Changes to it are high-consequence and must be evaluated against every principle above. Boundary components (Adapters, connectors, Strategy logic) can be added or replaced without modifying Core semantics.
 
 This principle allows the Infrastructure to support new Venues, asset classes, and trading styles without re-litigating foundational semantic decisions.
 
-→ [Logical Architecture](logical-architecture.md)
+➝ [Logical Architecture](logical-architecture.md)
 
 ---
 
@@ -163,7 +163,7 @@ This principle allows the Infrastructure to support new Venues, asset classes, a
 
 **Strategy, Risk, Execution Control, and Venue Adapter are distinct components with hard responsibility boundaries. These boundaries are intentional and structural — not incidental to the current implementation.**
 
-The processing chain — `Strategy → Risk → Queue + Queue Processing → Venue Adapter` — is not a monolith that happens to have named stages. Each component has a defined responsibility, communicates through specified interfaces, and makes no assumptions about the internals of adjacent components. Strategy emits Intents without knowledge of dispatch scheduling. Risk evaluates admissibility without knowing dispatch order. Execution Control schedules allowed work without re-evaluating policy. The Venue Adapter translates protocol without deciding policy or scheduling.
+The processing chain — `Strategy ➝ Risk ➝ Queue + Queue Processing ➝ Venue Adapter` — is not a monolith that happens to have named stages. Each component has a defined responsibility, communicates through specified interfaces, and makes no assumptions about the internals of adjacent components. Strategy emits Intents without knowledge of dispatch scheduling. Risk evaluates admissibility without knowing dispatch order. Execution Control schedules allowed work without re-evaluating policy. The Venue Adapter translates protocol without deciding policy or scheduling.
 
 This separation carries concrete architectural consequences:
 
@@ -171,11 +171,11 @@ This separation carries concrete architectural consequences:
 - **Testability.** Each component can be verified against its defined contract without instantiating the full processing chain.
 - **Runtime portability.** The same component definitions apply in Backtesting and Live (P9). Swapping a simulated Venue for a real one changes only the Venue boundary — not the components upstream of it.
 - **Reduced coupling.** No component holds knowledge of another's internal state. Coupling is limited to defined interfaces: Intents from Strategy to Risk, allowed Intents to Execution Control, dispatch decisions to the Venue Adapter.
-- **Localized reasoning.** Each component can be analyzed against its contract in isolation. Failures are traceable to specific boundaries rather than requiring full-system diagnosis.
+- **Localized reasoning.** Each component can be analyzed against its contract in isolation. Failures are traceable to specific boundaries rather than requiring full diagnosis.
 
 This principle generalizes what P6 establishes for Policy vs Execution Control: the entire processing chain maintains strict responsibility separation, and that separation is a first-class architectural commitment.
 
-→ [Logical Architecture](logical-architecture.md), [Architecture Overview](architecture-overview.md)
+➝ [Logical Architecture](logical-architecture.md), [Architecture Overview](architecture-overview.md)
 
 ---
 
@@ -190,7 +190,7 @@ These principles are enforced by the formal rules in the concept documents:
 | P5 | [Time Model](../20-concepts/time-model.md), [Determinism Model](../20-concepts/determinism-model.md) |
 | P6 | [Logical Architecture](logical-architecture.md), [Queue Processing](../20-concepts/queue-processing.md) |
 | P7 | [Intent Lifecycle](intent-lifecycle.md), [Order Lifecycle](../20-concepts/order-lifecycle.md) |
-| P8 | [Queue Processing](../20-concepts/queue-processing.md), [System Flows](system-flows.md) |
-| P9 | [Architecture Overview](architecture-overview.md), [System Narrative](system-narrative.md) |
+| P8 | [Queue Processing](../20-concepts/queue-processing.md), [Infrastructure Flows](infrastructure-flows.md) |
+| P9 | [Architecture Overview](architecture-overview.md), [Infrastructure Narrative](infrastructure-narrative.md) |
 | P10, P11 | [Architecture Overview](architecture-overview.md), [Logical Architecture](logical-architecture.md) |
 | P12 | [Logical Architecture](logical-architecture.md), [Architecture Overview](architecture-overview.md) |

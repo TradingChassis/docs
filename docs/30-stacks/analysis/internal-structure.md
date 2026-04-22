@@ -6,7 +6,7 @@ This document defines the logical internal structure of the Analysis Stack: its 
 
 ## Structural Overview
 
-The Analysis Stack decomposes into a set of logical capabilities that together accomplish one task: consuming persisted system outputs and artifacts, performing asynchronous and reproducible analysis on them, and producing derived analytical artifacts that are themselves persistable, traceable, and versioned.
+The Analysis Stack decomposes into a set of logical capabilities that together accomplish one task: consuming persisted infrastructure outputs and artifacts, performing asynchronous and reproducible analysis on them, and producing derived analytical artifacts that are themselves persistable, traceable, and versioned.
 
 The internal flow moves through five stages:
 
@@ -28,7 +28,7 @@ flowchart TB
     end
 ```
 
-All capabilities operate on persisted data — the Analysis Stack does not interact with running systems or transient runtime state. Its internal structure is oriented around asynchronous, reproducible analytical work on durable artifacts.
+All capabilities operate on persisted data — the Analysis Stack does not interact with running infrastructures or transient runtime state. Its internal structure is oriented around asynchronous, reproducible analytical work on durable artifacts.
 
 ---
 
@@ -57,7 +57,7 @@ Role:
 - Execute analysis asynchronously and independently of the Stacks that produced the input artifacts.
 - Support parameterized analysis — the same analysis logic applied across different input sets, time periods, or configurations.
 
-The Analysis Runner is the computational core of the stack. It performs the analytical work that transforms persisted inputs into evaluative outputs. It does not interact with running systems — it operates entirely on loaded artifacts.
+The Analysis Runner is the computational core of the stack. It performs the analytical work that transforms persisted inputs into evaluative outputs. It does not interact with running infrastructures — it operates entirely on loaded artifacts.
 
 ### Comparison Engine
 

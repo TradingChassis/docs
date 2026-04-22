@@ -91,7 +91,7 @@ All internal evolution is **event-driven**. Time observations may be carried ins
 
 ## Time-dependent behavior and deterministic replay
 
-Some System behaviors are **conceptually time-dependent**—for example, rate-limit capacity recovery or the re-eligibility of pending outbound work after a delay.
+Some Infrastructure behaviors are **conceptually time-dependent**—for example, rate-limit capacity recovery or the re-eligibility of pending outbound work after a delay.
 
 Such behavior must be expressed in a way that remains **compatible with deterministic replay** under identical **Event Stream** and **Configuration**.
 
@@ -124,8 +124,8 @@ See [Queue Processing](queue-processing.md) for execution-control evaluation rul
 | **Market semantics** | Preserved by **Event Time** carried in Events |
 | **Internal causality** | Defined by **Processing Order** (stream position) |
 | **State evolution** | Follows **Processing Order** strictly; no retroactive mutation |
-| **Determinism** | Same **Event Stream** + **Configuration** → same derived State at every position |
-| **Wall-clock independence** | Runtime timing must not define canonical System behavior |
+| **Determinism** | Same **Event Stream** + **Configuration** ➝ same derived State at every position |
+| **Wall-clock independence** | Runtime timing must not define canonical Infrastructure behavior |
 
 ---
 
@@ -149,7 +149,7 @@ The same temporal model applies in both Runtimes.
 
 | Runtime | How Processing Order is established |
 | ------- | ----------------------------------- |
-| **Live** | Emerges from real-time Event delivery in arrival order under System recording rules |
+| **Live** | Emerges from real-time Event delivery in arrival order under Infrastructure recording rules |
 | **Backtesting** | Reconstructed deterministically from historical datasets under the same ordering rules |
 
 In both contexts, **State Transitions** depend solely on **Processing Order**, and time-dependent behavior is expressed through **Events** and **Configuration** rather than through runtime timing.

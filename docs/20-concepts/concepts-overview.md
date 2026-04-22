@@ -24,7 +24,7 @@ An **Event** is an **immutable record of an occurrence** that the Infrastructure
 
 Events are not commands. They record what has observably occurred: market data, execution feedback, control signals, intent-processing outcomes where canonical history requires them.
 
-→ [Event Model](event-model.md)
+➝ [Event Model](event-model.md)
 
 ### Event Stream
 
@@ -32,7 +32,7 @@ The **Event Stream** is the **canonical, totally ordered sequence** of Events th
 
 **Event Time** (the external timestamp inside an Event) is metadata. It does not define Processing Order.
 
-→ [Event Model](event-model.md) · [Time Model](time-model.md)
+➝ [Event Model](event-model.md) · [Time Model](time-model.md)
 
 ### Configuration
 
@@ -40,7 +40,7 @@ The **Event Stream** is the **canonical, totally ordered sequence** of Events th
 
 Configuration must not change silently during processing. Any Configuration change that affects derived State must be represented as an explicit versioned input consistent with canonical history.
 
-→ [Terminology: Configuration](../00-guides/terminology.md#configuration)
+➝ [Terminology: Configuration](../00-guides/terminology.md#configuration)
 
 ---
 
@@ -54,7 +54,7 @@ Configuration must not change silently during processing. Any Configuration chan
 
 State is **not** a mutable store owned by components. It is a **deterministic projection**: recomputable by replaying the Event Stream under the same Configuration. Components read projections of State; they do not own it as independent truth.
 
-→ [State Model](state-model.md)
+➝ [State Model](state-model.md)
 
 ### State Domains
 
@@ -68,7 +68,7 @@ Derived State is organized into **three** top-level domains:
 
 The **Queue** (execution-control substate) is part of **Execution State**. It is **not** a fourth top-level domain.
 
-→ [State Model](state-model.md)
+➝ [State Model](state-model.md)
 
 ---
 
@@ -84,7 +84,7 @@ Three normative distinctions define what an Intent is not:
 
 Where the Infrastructure must record an Intent-processing outcome for canonical history (e.g. a policy decision, a dispatch), that record appears as an **Intent-related Event**, not as the Intent itself.
 
-→ [Terminology: Intent](../00-guides/terminology.md#intent) · [Intent Lifecycle](../10-architecture/intent-lifecycle.md)
+➝ [Terminology: Intent](../00-guides/terminology.md#intent) · [Intent Lifecycle](../10-architecture/intent-lifecycle.md)
 
 ---
 
@@ -94,7 +94,7 @@ The **Risk Engine** is the **policy layer only**. It evaluates each Intent and p
 
 Risk does **not** schedule transmission, apply rate limits, manage inflight gating, or decide send timing. Those responsibilities belong exclusively to **Execution Control**.
 
-→ [Logical Architecture: Risk Engine](../10-architecture/logical-architecture.md#risk-engine)
+➝ [Logical Architecture: Risk Engine](../10-architecture/logical-architecture.md#risk-engine)
 
 ---
 
@@ -112,7 +112,7 @@ The Queue is:
 - **not** a fourth top-level State domain — it is substate within Execution State
 - **not** a buffer of raw Strategy emissions — it holds only effective reconciled pending work
 
-→ [Queue Semantics](queue-semantics.md)
+➝ [Queue Semantics](queue-semantics.md)
 
 ### Queue Processing
 
@@ -122,7 +122,7 @@ It decides, for the current processing step, which reconciled allowed Intents ma
 
 Internal Queue Processing derivations — dominance, eligibility, inflight gating, scheduling — are **not** separate Events unless canonical history explicitly requires them.
 
-→ [Queue Processing](queue-processing.md) · [Intent Dominance](intent-dominance.md)
+➝ [Queue Processing](queue-processing.md) · [Intent Dominance](intent-dominance.md)
 
 ---
 
@@ -134,7 +134,7 @@ An **Order** is a **derived entity in Execution State**. It represents the Infra
 
 After submission, Order state evolves exclusively through **Execution Events**. Venue acknowledgements, fills, rejections, and cancellations advance an already-existing Order; they do not create it.
 
-→ [Order Lifecycle](order-lifecycle.md)
+➝ [Order Lifecycle](order-lifecycle.md)
 
 ---
 
@@ -151,7 +151,7 @@ This requires:
 
 Determinism applies equally to **Backtesting** and **Live**. Infrastructure differs; the semantic model does not.
 
-→ [Determinism Model](determinism-model.md) · [Invariants](invariants.md)
+➝ [Determinism Model](determinism-model.md) · [Invariants](invariants.md)
 
 ---
 
@@ -201,7 +201,7 @@ Concept documents are best read in dependency order:
 2. [Event Model](event-model.md) — Events and the Event Stream
 3. [State Model](state-model.md) — `State = f(Event Stream, Configuration)`; State domains
 4. [Determinism Model](determinism-model.md) — what determinism requires and what breaks it
-5. [Invariants](invariants.md) — non-negotiable system-wide constraints
+5. [Invariants](invariants.md) — non-negotiable infrastructure-wide constraints
 6. [Order Lifecycle](order-lifecycle.md) — Order from submission to terminal state
 7. [Intent Dominance](intent-dominance.md) — deterministic reconciliation of pending pre-submission work
 8. [Queue Semantics](queue-semantics.md) — Queue as derived execution-control substate

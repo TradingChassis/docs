@@ -85,13 +85,13 @@ Derived State must not depend on wall-clock time, scheduler timing, thread inter
 
 Derived State is grouped into **exactly three** top-level conceptual domains.
 
-Together they constitute the full System State. **No fourth top-level domain** (such as “Queue state”) exists.
+Together they constitute the full Infrastructure State. **No fourth top-level domain** (such as “Queue state”) exists.
 
 | Domain | Role |
 | ------ | ---- |
 | **Market State** | Observed market conditions (e.g. order book, trades, derived market indicators) derived from **Market Events** (see [Event Model](event-model.md)). |
 | **Execution State** | Trading and execution projection: **Orders**, fills, positions, balances, and related status; includes **execution-control substate** (see below). |
-| **Control State** | Runtime configuration, control, and operational flags derived from **System Events** and **Control Events**. |
+| **Control State** | Runtime configuration, control, and operational flags derived from **Infrastructure Events** and **Control Events**. |
 
 ### Execution State and event kinds
 
@@ -110,7 +110,7 @@ The **Queue**—pending **allowed** outbound work after reconciliation, together
 
 **Normative rules:**
 
-1. The Queue is **not** a **fourth top-level State domain**. It is **part of Execution State** (or equivalently: a well-defined substructure of the single derived State whose top-level domains are Market, Execution, System).
+1. The Queue is **not** a **fourth top-level State domain**. It is **part of Execution State** (or equivalently: a well-defined substructure of the single derived State whose top-level domains are Market, Execution, Infrastructure).
 
 2. The Queue is **not** a second source of truth. It must be **recomputable** from **Event Stream + Configuration** and the deterministic execution-control rules (see [Terminology: Queue](../00-guides/terminology.md#queue)).
 

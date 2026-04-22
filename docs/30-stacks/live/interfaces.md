@@ -30,7 +30,7 @@ The Live Stack produces outputs in two directions: outbound toward real Venues, 
 
 ### Outbound execution
 
-The primary operational output. The Core Runtime's processing chain — `Strategy → Risk → Execution Control → Venue Adapter` — produces outbound execution requests (order submissions, modifications, cancellations) that are transmitted to real Venues through the Venue Adapter. These are real market actions with real financial consequences.
+The primary operational output. The Core Runtime's processing chain — `Strategy ➝ Risk ➝ Execution Control ➝ Venue Adapter` — produces outbound execution requests (order submissions, modifications, cancellations) that are transmitted to real Venues through the Venue Adapter. These are real market actions with real financial consequences.
 
 ### Execution feedback
 
@@ -49,7 +49,7 @@ These records are written to the Data Storage Stack's persistent surfaces — pr
 
 ### Observability outputs
 
-Runtime telemetry, execution metrics, and operational signals emitted during live execution. These are consumed by the Monitoring Stack for real-time visibility into trading activity and system health. Observability outputs are a supporting interface of the Live Stack, not its primary output.
+Runtime telemetry, execution metrics, and operational signals emitted during live execution. These are consumed by the Monitoring Stack for real-time visibility into trading activity and infrastructure health. Observability outputs are a supporting interface of the Live Stack, not its primary output.
 
 ---
 
@@ -87,7 +87,7 @@ Provides the persistent surfaces for the Live Stack's durable outputs. The Live 
 
 ### Monitoring Stack
 
-Provides the observability and operational visibility platform. The Live Stack emits runtime telemetry — execution throughput, order status, error conditions, system health indicators — that the Monitoring Stack consumes, processes, and presents. The Monitoring Stack is a separate Stack; the Live Stack supports observable execution without owning the monitoring infrastructure.
+Provides the observability and operational visibility platform. The Live Stack emits runtime telemetry — execution throughput, order status, error conditions, infrastructure health indicators — that the Monitoring Stack consumes, processes, and presents. The Monitoring Stack is a separate Stack; the Live Stack supports observable execution without owning the monitoring infrastructure.
 
 ### Analysis Stack
 
