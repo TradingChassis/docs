@@ -40,12 +40,12 @@ These **stages** describe the **Intent** alone. They **do not** name **Execution
 | ----- | ------- |
 | **Generated** | Strategy has emitted the command for the current processing context. |
 | **Policy decided** | **Risk** has classified the command as **allowed** or **denied** (policy only). |
-| **Pending dispatch** | **Allowed** and represented in **derived execution-control substate** (Queue), awaiting selection for send. |
+| **Pending dispatch** | **Allowed** and represented in **derived Execution Control substate** (Queue), awaiting selection for send. |
 | **Dispatched** | Handed to the **Venue Adapter** for outbound I/O in this processing arc. |
 | **Inflight** | Outbound request for this arc is outstanding; awaiting protocol-level completion relevant to this dispatch. |
 | **Closed** | Terminal: no further progression for **this** Intent’s logical arc. |
 
-A separate stage: **Eligible**. **Eligibility**—whether an Intent in **Pending dispatch** may be selected this step—is a **deterministic execution-control derivation** ([Terminology: Queue Processing](../00-guides/terminology.md#queue-processing)). It is **not** a mandatory named lifecycle state and does **not** by itself require an **Event** unless **canonical history** explicitly requires recording it ([Terminology: Intent visibility](../00-guides/terminology.md#intent-visibility)).
+A separate stage: **Eligible**. **Eligibility**—whether an Intent in **Pending dispatch** may be selected this step—is a **deterministic Execution Control derivation** ([Terminology: Queue Processing](../00-guides/terminology.md#queue-processing)). It is **not** a mandatory named lifecycle state and does **not** by itself require an **Event** unless **canonical history** explicitly requires recording it ([Terminology: Intent visibility](../00-guides/terminology.md#intent-visibility)).
 
 Similarly, **rate-limit** and **wakeup** readiness are **derivations** inside **Execution Control**, **not** additional lifecycle stages.
 
@@ -86,7 +86,7 @@ flowchart TB
    - **Intent-related Events:** **IntentAccepted** / **IntentRejected** **if** canonical history requires recording the policy outcome.
 
 3. **Policy allowed ➝ Pending dispatch** — **Execution Control** merges **allowed** work into **derived Queue substate** ([State Model](../20-concepts/state-model.md)).  
-   - Residency here is **execution-control substate** ([Queue Semantics](../20-concepts/queue-semantics.md)).  
+   - Residency here is **Execution Control substate** ([Queue Semantics](../20-concepts/queue-semantics.md)).  
    - **Queue Processing** runs **inside** the same **Event processing** as the rest of the step ([Infrastructure Flows](infrastructure-flows.md)); there is **no separate tick**.
 
 4. **Pending dispatch ➝ Closed (superseded)** — While resident in that substate, reconciliation (e.g. [Intent Dominance](../20-concepts/intent-dominance.md)) may **replace** or **remove** this logical Intent in favor of a more effective command. **Supersession** is **terminal** for the superseded **Intent**’s arc and does **not** imply an **Order** state by itself.
@@ -96,7 +96,7 @@ flowchart TB
 
 6. **Dispatched ➝ Inflight** — Outbound request is active; **Execution Control** may **block** competing requests per **Order** key ([Intent Pipeline](intent-pipeline.md)). This is **Intent-centric** coordination, **not** the **Order lifecycle** definition.
 
-7. **Inflight ➝ Closed** — The **Intent**’s outbound arc is **done** for lifecycle purposes: protocol-level handling for this dispatch has reached a **terminal** point defined by defined rules (e.g. acknowledgement of execution outcome that **closes** this Intent’s obligation in derived Execution / execution-control projections).  
+7. **Inflight ➝ Closed** — The **Intent**’s outbound arc is **done** for lifecycle purposes: protocol-level handling for this dispatch has reached a **terminal** point defined by defined rules (e.g. acknowledgement of execution outcome that **closes** this Intent’s obligation in derived Execution / Execution Control projections).  
    - Concrete **Order** states (accepted, filled, canceled, etc.) are defined in [Order Lifecycle](../20-concepts/order-lifecycle.md) and arise from **Execution Events**, not from Intent stages.
 
 **Not all stages emit Events:** internal steps such as **dominance**, **eligibility**, and **scheduling** remain **deterministic derivations** unless **explicitly** required on the **Event Stream** for canonical history (see [Terminology: Intent visibility](../00-guides/terminology.md#intent-visibility)).
@@ -110,7 +110,7 @@ An **Intent** ends in exactly one **terminal** class:
 | Outcome | Description |
 | ------- | ----------- |
 | **Policy rejection** | **Denied** by **Risk**; never enters **Pending dispatch**. |
-| **Superseded** | Removed or replaced in **execution-control substate** before **Dispatched** (e.g. [Intent Dominance](../20-concepts/intent-dominance.md)); no longer an active outbound command for that arc. |
+| **Superseded** | Removed or replaced in **Execution Control substate** before **Dispatched** (e.g. [Intent Dominance](../20-concepts/intent-dominance.md)); no longer an active outbound command for that arc. |
 | **Closed after dispatch** | **Dispatched** (when that occurs) and processed through **Inflight** to lifecycle **Closed** per defined rules; the **Intent** arc is finished. **Order** and position projections may continue to evolve under **Order lifecycle** independently. |
 
 Terminal outcomes for Intents **must not** be conflated with **Order** terminal states (fully filled, canceled at Venue, etc.—see [Order Lifecycle](../20-concepts/order-lifecycle.md)).
@@ -127,7 +127,7 @@ Terminal outcomes for Intents **must not** be conflated with **Order** terminal 
 
 ## Dominance and transmission stability
 
-**Intent dominance** and similar reconciliation apply to work **resident in Pending dispatch** (derived **Queue** substate). After handoff to the **Venue Adapter** (**Dispatched**), execution-control reconciliation **does not** retroactively replace the transmitted command for that send. This boundary matches the separation between **pre-dispatch** reconciliation and **stable** outbound requests (see [Intent Pipeline](intent-pipeline.md)).
+**Intent dominance** and similar reconciliation apply to work **resident in Pending dispatch** (derived **Queue** substate). After handoff to the **Venue Adapter** (**Dispatched**), Execution Control reconciliation **does not** retroactively replace the transmitted command for that send. This boundary matches the separation between **pre-dispatch** reconciliation and **stable** outbound requests (see [Intent Pipeline](intent-pipeline.md)).
 
 ---
 
@@ -136,7 +136,7 @@ Terminal outcomes for Intents **must not** be conflated with **Order** terminal 
 1. **Intent is a command** — **Ephemeral** Strategy output; **not** an **Event** and **not** an **Order**.
 2. **Visibility** — Lifecycle progression that must appear in **canonical history** is reflected via **Intent-related Events** and **State** derivation, not via a parallel mutable Intent store ([Event Model](../20-concepts/event-model.md)).
 3. **Policy vs Execution Control** — **Risk** sets **allowed / denied** only; **transmission timing**, **ordering**, **inflight** gating, and **rate-compliant** sequencing are **Queue Processing** only ([Logical Architecture](logical-architecture.md)).
-4. **Queue is derived** — **Pending dispatch** is **execution-control substate**, **not** a fourth top-level State domain and **not** a second source of truth ([State Model](../20-concepts/state-model.md)).
+4. **Queue is derived** — **Pending dispatch** is **Execution Control substate**, **not** a fourth top-level State domain and **not** a second source of truth ([State Model](../20-concepts/state-model.md)).
 5. **No separate tick** — Progression through stages occurs **within deterministic Event processing** ([Infrastructure Flows](infrastructure-flows.md)).
 6. **Derivations ≠ lifecycle states** — **Eligibility**, **scheduling**, and similar rules **do not** add mandatory named stages or **Events** **unless** canonical history explicitly requires them.
 7. **Order lifecycle is separate** — **Order** evolution after **submission** (state **Submitted**) is defined in [Order Lifecycle](../20-concepts/order-lifecycle.md), not here.

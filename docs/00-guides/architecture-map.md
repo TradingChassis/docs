@@ -34,6 +34,7 @@ For a brief semantic introduction to each core concept, see [Concepts Overview](
 | What is the step-by-step runtime sequence? | [Infrastructure Flows](../10-architecture/infrastructure-flows.md) |
 | How does an Intent move from Strategy to Venue? | [Intent Pipeline](../10-architecture/intent-pipeline.md) |
 | What is the Infrastructure's top-level structure and layer organization? | [Architecture Overview](../10-architecture/architecture-overview.md) |
+| What is the Runtime boundary for control-time scheduling? | [Logical Architecture: Runtime boundary](../10-architecture/logical-architecture.md#runtime-boundary) · [Architecture Principles: P13](../10-architecture/architecture-principles.md#p13-the-core-derives-obligations-the-runtime-injects-canonical-events) |
 
 ### Lifecycle semantics
 
@@ -165,5 +166,6 @@ Infrastructure differs; semantics do not:
 | Market data | Historical datasets | Live Venue feeds |
 | Venue | Simulated | Real |
 | Operation mode | Batch experiments | Continuous |
+| Control Scheduling Obligation realization | Simulated time / event-timeline orchestration | Real-time waiting and injection at deadline |
 
 ➝ [Architecture Overview](../10-architecture/architecture-overview.md) · [Backtesting Stack](../30-stacks/backtesting/backtesting-overview.md) · [Live Stack](../30-stacks/live/live-overview.md)

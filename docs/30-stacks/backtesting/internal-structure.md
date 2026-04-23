@@ -74,7 +74,7 @@ Hosts and executes the Core Runtime for a single Backtesting run, including the 
 
 Role:
 
-- Instantiate the Core Runtime with the run's Strategy, Configuration, and execution-control rules.
+- Instantiate the Core Runtime with the run's Strategy, Configuration, and Execution Control rules.
 - Feed historical Events from the Historical Input Feeder into the Core Runtime's processing loop.
 - Provide the **Simulated Venue** — the simulated execution environment behind the Venue Adapter boundary that generates realistic execution feedback (fills, acknowledgements, rejections) from historical data.
 - Execute the complete Core Runtime processing chain: Event intake ➝ State derivation ➝ Strategy evaluation ➝ Risk ➝ Execution Control ➝ Venue Adapter ➝ Simulated Venue ➝ Execution Events back into the stream.
@@ -131,6 +131,6 @@ For parameter sweeps and batch runs, steps 2–6 repeat for each variation, coor
 
 **No storage governance.** The Artifact Writer writes to the Data Storage Stack's persistent surfaces but does not manage those surfaces. Storage organization, retention, and access are Data Storage Stack responsibilities.
 
-**No Core Runtime semantic processing.** Internal capabilities such as the Experiment Controller, Run Orchestrator, Result Collector, and Artifact Writer operate around the Core Runtime — configuring it, feeding it, and capturing its outputs. They do not participate in Event processing, State derivation, or execution-control logic. That processing occurs entirely within the Runtime Execution Harness through the Core Runtime itself.
+**No Core Runtime semantic processing.** Internal capabilities such as the Experiment Controller, Run Orchestrator, Result Collector, and Artifact Writer operate around the Core Runtime — configuring it, feeding it, and capturing its outputs. They do not participate in Event processing, State derivation, or Execution Control logic. That processing occurs entirely within the Runtime Execution Harness through the Core Runtime itself.
 
 **Logical structure, not deployment specification.** The capabilities described here are logical roles. They may be realized as separate services, stages within a pipeline, or modules within a single application. Physical deployment topology is not specified by this document.

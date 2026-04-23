@@ -139,7 +139,7 @@ Any mutable store that tracks "time since last decision" or "Events since last e
 | [Infrastructure Flows](../10-architecture/infrastructure-flows.md) | Defines Strategy evaluation as step 3 of the processing sequence; Strategy "emits zero or more Intents" per step |
 | [Determinism Model](determinism-model.md) | Defines what breaks determinism; wall-clock-dependent branching and hidden mutable state are the relevant failure modes here |
 | [Invariants](invariants.md) | E1 (Events sole source of State transitions), E4 (Processing Order), D2 (no wall-clock-dependent branching), D3 (no hidden mutable state) |
-| [Queue Processing](queue-processing.md) | Downstream execution-control cadence; distinct from decision cadence and outside the scope of this document |
+| [Queue Processing](queue-processing.md) | Downstream Execution Control cadence; distinct from decision cadence and outside the scope of this document |
 
 ---
 

@@ -78,7 +78,7 @@ When the Infrastructure applies an Event, it derives updated **State**:
 
 State is not a mutable store owned by any Component. It is a **deterministic projection** of the Event Stream and Configuration, recomputable at any point by replaying the Event Stream and Configuration from the beginning. No Component holds parallel mutable truth. The Event Stream, together with Configuration, is the only authoritative source of history.
 
-State is organized into three domains: **Market State** (current market conditions), **Execution State** (Orders, fills, positions, and execution-control substate), and **Control State** (operational flags and Runtime signals). These three domains together constitute the full derived condition of the Infrastructure at any Event Stream position.
+State is organized into three domains: **Market State** (current market conditions), **Execution State** (Orders, fills, positions, and Execution Control substate), and **Control State** (operational flags and Runtime signals). These three domains together constitute the full derived condition of the Infrastructure at any Event Stream position.
 
 ### Strategy and Intents
 
@@ -94,7 +94,7 @@ Every Intent is evaluated by the **Risk Engine** before anything further happens
 
 The answer is binary: **allowed** or **denied**. An allowed Intent proceeds; a denied Intent does not.
 
-The Risk Engine does **not** decide when to send the Intent, in what order, or whether current rate limits permit transmission. Those are execution-control questions, not policy questions. Risk stops at admissibility. The boundary between policy and Execution Control is strict, and the Infrastructure enforces it.
+The Risk Engine does **not** decide when to send the Intent, in what order, or whether current rate limits permit transmission. Those are Execution Control questions, not policy questions. Risk stops at admissibility. The boundary between policy and Execution Control is strict, and the Infrastructure enforces it.
 
 Where a policy decision must be part of the canonical record (for replay or audit), the outcome appears as an **Intent-related Event** on the Event Stream.
 
@@ -102,11 +102,11 @@ Where a policy decision must be part of the canonical record (for replay or audi
 
 An allowed Intent does not go directly to the Venue. It enters **Execution Control** — **Queue** and **Queue Processing** — which schedule and transmit allowed work.
 
-The **Queue** is **derived execution-control substate** within **Execution State**: a projection of current effective pending outbound work, recomputable from the Event Stream and Configuration ([Queue Semantics](../20-concepts/queue-semantics.md)).
+The **Queue** is **derived Execution Control substate** within **Execution State**: a projection of current effective pending outbound work, recomputable from the Event Stream and Configuration ([Queue Semantics](../20-concepts/queue-semantics.md)).
 
 **Queue Processing** runs as a deterministic computation **within Event processing**. There is no separate runtime tick, no background scheduling loop, no independent clock. When the Infrastructure processes an Event, that same processing step also evaluates the Queue: it applies dominance rules (ensuring at most one effective pending command per logical Order key), checks inflight status, evaluates rate limits, and selects which allowed commands may be dispatched in this step.
 
-The result is that every execution-control decision is a pure, deterministic function of the current Event Stream and Configuration. Given the same inputs, the Infrastructure will always produce the same dispatch decisions at the same Event Stream position.
+The result is that every Execution Control decision is a pure, deterministic function of the current Event Stream and Configuration. Given the same inputs, the Infrastructure will always produce the same dispatch decisions at the same Event Stream position.
 
 ### Orders begin at submission
 
@@ -163,6 +163,6 @@ This document tells the architectural story. For normative definitions, precise 
 - [State Model](../20-concepts/state-model.md) — `State = f(Event Stream, Configuration)` and State domains
 - [Intent Lifecycle](intent-lifecycle.md) — Intent stages from generation to terminal disposition
 - [Order Lifecycle](../20-concepts/order-lifecycle.md) — Order stages from submission onward
-- [Queue Semantics](../20-concepts/queue-semantics.md) — Queue as derived execution-control substate
-- [Queue Processing](../20-concepts/queue-processing.md) — deterministic execution-control evaluation
+- [Queue Semantics](../20-concepts/queue-semantics.md) — Queue as derived Execution Control substate
+- [Queue Processing](../20-concepts/queue-processing.md) — deterministic Execution Control evaluation
 - [Determinism Model](../20-concepts/determinism-model.md) — what determinism requires and what breaks it

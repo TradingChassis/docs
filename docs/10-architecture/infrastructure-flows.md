@@ -21,7 +21,7 @@ Canonical vocabulary applies throughout.
 
 The Infrastructure advances **only** through **deterministic Event processing**: each step applies **Events** from the **Event Stream** in **Processing Order** under **Configuration** and updates **derived State** (see [Time Model](../20-concepts/time-model.md)).
 
-There is **one** unified Runtime sequence for a given applied Event—**no** competing alternative flows. **Queue Processing** is **not** a second **loop**, **tick**, or **scheduler phase**; it is part of **the same** Event-processing step that updates Market, Execution (including **execution-control substate**), and Infrastructure domains.
+There is **one** unified Runtime sequence for a given applied Event—**no** competing alternative flows. **Queue Processing** is **not** a second **loop**, **tick**, or **scheduler phase**; it is part of **the same** Event-processing step that updates Market, Execution (including **Execution Control substate**), and Infrastructure domains.
 
 ```mermaid
 flowchart TB
@@ -34,7 +34,7 @@ flowchart TB
         ST["Strategy evaluation"]
         IG["Intent generation"]
         RK["Risk decision policy only"]
-        QU["Queue update execution-control substate"]
+        QU["Queue update Execution Control substate"]
         QP["Queue Processing deterministic Execution Control"]
         DS["Dispatch via Venue Adapter"]
     end
@@ -82,7 +82,7 @@ Sources include, per [Event Model](../20-concepts/event-model.md): **Market**, *
 The **Event** is applied. **Derived State** becomes `f(stream_prefix, Configuration)` at the new position.
 
 - **State** includes **Market State**, **Execution State**, and **Control State**.
-- **Queue** (execution-control **substate**) is part of **Execution State** derivation, **not** a fourth top-level domain ([State Model](../20-concepts/state-model.md)).
+- **Queue** (Execution Control **substate**) is part of **Execution State** derivation, **not** a fourth top-level domain ([State Model](../20-concepts/state-model.md)).
 
 No Component **mutates** truth outside this step.
 
@@ -115,11 +115,11 @@ If **canonical history** requires a visible policy outcome, it appears through *
 
 ---
 
-### 6. Queue update / execution-control substate update
+### 6. Queue update / Execution Control substate update
 
-For **allowed** Intents, the **Queue** (derived **execution-control substate**) is updated: reconciliation (e.g. [Intent Dominance](../20-concepts/intent-dominance.md)), effective pending outbound work, and related bookkeeping as defined under **Configuration**.
+For **allowed** Intents, the **Queue** (derived **Execution Control substate**) is updated: reconciliation (e.g. [Intent Dominance](../20-concepts/intent-dominance.md)), effective pending outbound work, and related bookkeeping as defined under **Configuration**.
 
-The **Queue** is **derived execution-control substate** ([Queue Semantics](../20-concepts/queue-semantics.md)).
+The **Queue** is **derived Execution Control substate** ([Queue Semantics](../20-concepts/queue-semantics.md)).
 
 ---
 
@@ -183,7 +183,7 @@ Three notions must stay separate:
 - **when** and **in what order** that work is **dispatched**, subject to inflight and rate rules;
 - deterministic reconciliation steps that do not duplicate **Risk** policy.
 
-**Risk** stops at **admissibility**. “Cannot send yet” is an **execution-control** outcome built from derived substate and rules, **not** a third Risk verdict.
+**Risk** stops at **admissibility**. “Cannot send yet” is an **Execution Control** outcome built from derived substate and rules, **not** a third Risk verdict.
 
 ---
 
@@ -206,7 +206,7 @@ There is **no** parallel path where **Venue** updates **State** without **Events
 3. **Risk vs Execution Control:** **Allowed / denied** only at **Risk**; **timing and ordering** only at **Queue Processing**.
 4. **Intent vs Event:** **Intents** are commands during a step; they are **not** Events. Stream updates use **Events** only **when** canonical history requires ([Terminology: Intent visibility](../00-guides/terminology.md#intent-visibility)).
 5. **Orders:** **Orders** are **derived** in **Execution State**; they **exist** from **submission** onward in state **Submitted** as projections; Strategy does **not** “send Orders” as primary objects— it sends **Intents**; the Infrastructure **dispatches** and **Venue** **Execution Events** refine **Order** state.
-6. **Determinism:** Same stream + Configuration ➝ same derived State at each position (including execution-control substate).
+6. **Determinism:** Same stream + Configuration ➝ same derived State at each position (including Execution Control substate).
 
 ---
 

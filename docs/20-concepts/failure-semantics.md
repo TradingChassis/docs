@@ -90,7 +90,7 @@ This conservative treatment is **state-invisible**: a denied or indeterminate In
 
 Execution Control failures occur during **Queue Processing**: inability to evaluate the Queue, corrupted derivation of inflight state, or failures in applying dominance, eligibility, or rate-limit rules.
 
-**Semantic constraint:** The **Queue** is **derived execution-control substate** — not an independent source of truth ([Queue Semantics](queue-semantics.md)). A transient failure in Execution Control that leaves the Queue in an uncertain state does not permanently corrupt canonical **State**, because the Queue is fully recomputable from the **Event Stream** and **Configuration**. The Queue holds no authoritative state that cannot be recovered by re-derivation.
+**Semantic constraint:** The **Queue** is **derived Execution Control substate** — not an independent source of truth ([Queue Semantics](queue-semantics.md)). A transient failure in Execution Control that leaves the Queue in an uncertain state does not permanently corrupt canonical **State**, because the Queue is fully recomputable from the **Event Stream** and **Configuration**. The Queue holds no authoritative state that cannot be recovered by re-derivation.
 
 A failure in Queue Processing that prevents dispatch in a given step means work remains in **Pending dispatch** for the next processing step. No hidden fallback state is created; the next step re-derives the Queue correctly.
 

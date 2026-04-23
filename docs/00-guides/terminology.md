@@ -120,7 +120,7 @@ Derived State is grouped into **three** conceptual domains:
 
 These three domains together constitute to the full State.
 
-**Normative rule:** There is **no** separate top-level State domain for the Queue. Queue-related data is **derived execution-control substate** and is part of the derivation of Execution State (or of the single derived State that includes Execution Control), not a fourth peer domain.
+**Normative rule:** There is **no** separate top-level State domain for the Queue. Queue-related data is **derived Execution Control substate** and is part of the derivation of Execution State (or of the single derived State that includes Execution Control), not a fourth peer domain.
 
 ---
 
@@ -138,7 +138,7 @@ A **State Transition** is a deterministic change to derived State caused by proc
 
 ## Determinism
 
-The Infrastructure is **deterministic** if and only if: for identical Event Stream and identical Configuration, all derived State (including execution-control substate) is identical at every Processing Order position.
+The Infrastructure is **deterministic** if and only if: for identical Event Stream and identical Configuration, all derived State (including Execution Control substate) is identical at every Processing Order position.
 
 Derived behavior must not depend on:
 
@@ -188,12 +188,12 @@ The **Risk Engine** is the **policy layer** only.
 
 ## Queue
 
-The **Queue** is **derived state**: the data structure (or equivalent projection) that holds **allowed** outbound Intents that are not yet fully completed from an execution-control perspective, after reconciliation rules (e.g. dominance) are applied.
+The **Queue** is **derived state**: the data structure (or equivalent projection) that holds **allowed** outbound Intents that are not yet fully completed from an Execution Control perspective, after reconciliation rules (e.g. dominance) are applied.
 
 **Normative rules:**
 
-1. The Queue is **not** a second source of truth. It is recomputable from Event Stream + Configuration together with the deterministic execution-control rules.
-2. The Queue is **execution-control substate**, not a fourth top-level State domain (see [State domains](#state-domains)).
+1. The Queue is **not** a second source of truth. It is recomputable from Event Stream + Configuration together with the deterministic Execution Control rules.
+2. The Queue is **Execution Control substate**, not a fourth top-level State domain (see [State domains](#state-domains)).
 3. The Queue stores **effective** pending outbound work (e.g. at most one reconciled command per logical order key), not a redundant copy of every raw Strategy emission.
 
 ---
@@ -205,7 +205,7 @@ The **Queue** is **derived state**: the data structure (or equivalent projection
 **Normative rules:**
 
 1. Queue Processing implements **Execution Control** only, not policy. It assumes Intents are already risk-allowed unless the model explicitly re-validates against derived limits that are themselves State.
-2. There is **no separate runtime tick.** Queue Processing is **part of deterministic Event processing**—the same sequential application of Events that advances Market, Execution, and Infrastructure domains also advances execution-control substate and dispatch decisions.
+2. There is **no separate runtime tick.** Queue Processing is **part of deterministic Event processing**—the same sequential application of Events that advances Market, Execution, and Infrastructure domains also advances Execution Control substate and dispatch decisions.
 3. Dominance, eligibility, and scheduling are **internal deterministic derivations** within that processing unless canonical history explicitly requires additional Events ([Intent visibility](#intent-visibility)).
 
 ---
@@ -225,7 +225,7 @@ An **Order** is a **derived entity** in **Execution State**.
 **Normative rules:**
 
 1. Orders exist only as projections maintained while processing the Event Stream; they are not a separate source of truth.
-2. The **Order lifecycle begins at submission** with state **Submitted**—the stage at which the Infrastructure represents an outbound request as submitted and awaiting Venue acknowledgement or further execution Events. Prior stages are Intent and execution-control derivation, not a persisted Order entity.
+2. The **Order lifecycle begins at submission** with state **Submitted**—the stage at which the Infrastructure represents an outbound request as submitted and awaiting Venue acknowledgement or further execution Events. Prior stages are Intent and Execution Control derivation, not a persisted Order entity.
 3. Orders evolve only through Events (e.g. acknowledgements, fills, cancellations, rejections).
 
 ---
@@ -244,7 +244,7 @@ The **Order lifecycle** is the defined set of states and transitions an Order ma
 
 ## Infrastructure principle
 
-**All** derived State—including Market, Execution (including Orders and execution-control substate), and Infrastructure domains—is produced **only** by processing the Event Stream under Configuration.
+**All** derived State—including Market, Execution (including Orders and Execution Control substate), and Infrastructure domains—is produced **only** by processing the Event Stream under Configuration.
 
 No Component may mutate State outside this mechanism.
 
@@ -272,9 +272,38 @@ Strategies do not interact directly with Venues, Queues, or Risk outcomes except
 
 ## Runtime
 
-A **Runtime** is an environment in which the Core processes Events (e.g. Backtesting Runtime, Live Runtime).
+A **Runtime** is an environment in which the Core processes Events (e.g. Backtesting Runtime, Live Runtime). It supplies canonical input to the Core and realizes external-to-Core obligations required to preserve semantic parity across Backtesting and Live.
 
-Different Runtimes share the same **semantic** model; they differ in data sources, Venue implementation, and infrastructure.
+This includes market/Execution input delivery and, where required, realization of control-time scheduling obligations as explicit Control Events.
+
+Runtimes share the same **semantic** model; they differ in data sources, Venue implementation, and infrastructure.
+
+## Control Scheduling Obligation
+
+A **Control Scheduling Obligation** is a non-canonical, runtime-facing obligation derived by the Core when current **State** and **Configuration** together imply a future relevant control-time re-evaluation point—specifically, when pending allowed outbound work exists and a future moment is implied at which **Execution Control** conditions may change.
+
+**Normative rules:**
+
+1. A Control Scheduling Obligation is **not** a canonical **Event** and does not enter the **Event Stream**. It produces no **State Transition**.
+2. It is derived as a pure function of current **State** and **Configuration**. The Core does not perform wall-clock-driven mutations to derive it.
+3. It is **not** a periodic tick, a background loop, or a polling signal. It arises only when specific conditions in **State + Configuration** imply a future deadline-style re-evaluation point.
+4. The obligation is a signal to the **Runtime**. The canonical record appears only when the **Runtime** injects the corresponding **Control-Time Event** into the **Event Stream**.
+
+---
+
+## Control-Time Event
+
+A **Control-Time Event** is the canonical **Event** injected into the **Event Stream** by the **Runtime** when a **Control Scheduling Obligation** is realized.
+
+**Normative rules:**
+
+1. A Control-Time Event **is** a canonical **Event**. Once injected, it is processed identically to any other **Event**: **State** is derived, **Strategy** may read the new **State** and emit **Intents**, **Risk** evaluates admissibility of any resulting **Intents**, and **Queue Processing** performs **Execution Control**.
+2. A Control-Time Event does not originate from a **Venue** or **Venue Adapter**. It is not a **Venue** Event and is not part of **Venue** semantics.
+3. Control-Time Events are **sparse and deadline-style**: each is injected only when a **Control Scheduling Obligation** has been derived from specific **State + Configuration** conditions, not periodically or on an independent timer.
+4. A Control-Time Event belongs to **Control State** semantics. It does not alter the role of the **Risk Engine** (which remains policy only) and does not make **Queue Processing** autonomous.
+5. Determinism is preserved: identical **Event Stream** (including all injected Control-Time Events) combined with identical **Configuration** produces identical derived **State** at every **Processing Order** position.
+
+---
 
 ## Backtesting
 

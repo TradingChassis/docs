@@ -35,19 +35,19 @@ Given an identical **Event Stream**, identical **Configuration**, and the same *
 
 ---
 
-## execution-control invariants
+## Execution Control invariants
 
-**EC1 — The Queue is derived execution-control substate.**
+**EC1 — The Queue is derived Execution Control substate.**
 The **Queue** is a deterministic projection of **Event Stream + Configuration**, not an independent source of truth. It is part of **Execution State** and is not a fourth top-level State domain. Any apparent **Queue** content must be recomputably derivable by replay.
 
 **EC2 — Queue Processing is part of Event processing.**
-There is no separate runtime tick, background timer, or autonomous loop that advances execution-control state. **Queue Processing** runs as a deterministic step within canonical **Event processing** only.
+There is no separate runtime tick, background timer, or autonomous loop that advances Execution Control State. **Queue Processing** runs as a deterministic step within canonical **Event processing** only.
 
-**EC3 — execution-control derivations must not introduce independent authoritative state.**
+**EC3 — Execution Control derivations must not introduce independent authoritative state.**
 Dominance, eligibility, inflight gating, scheduling evaluation, and rate-limit bookkeeping are deterministic functions of current derived **State** and **Configuration**. None may maintain a primary store that is not recomputable from **Event Stream + Configuration**.
 
 **EC4 — At most one effective pending command per logical order key.**
-For every logical order key, the execution-control substate holds at most one effective pending outbound command. Superseded commands are eliminated by dominance before any new command is dispatched.
+For every logical order key, the Execution Control substate holds at most one effective pending outbound command. Superseded commands are eliminated by dominance before any new command is dispatched.
 
 Formally: `∀ key: count(effective_pending(key)) ≤ 1`
 
@@ -56,8 +56,11 @@ For every logical order key, at most one outbound request may be inflight at any
 
 Formally: `∀ key: count(inflight(key)) ≤ 1`
 
-**EC6 — execution-control derivations are not canonical Events unless history requires them.**
+**EC6 — Execution Control derivations are not canonical Events unless history requires them.**
 Dominance resolution, eligibility changes, scheduling decisions, and inflight-gating evaluations must not produce **Events** in the canonical stream unless there is an explicit requirement that they be part of replayable history. Internal derivation must remain internal.
+
+**EC7 — Control Scheduling Obligations are non-canonical; Control-Time Events are canonical once injected.**
+A **Control Scheduling Obligation** derived by the Core from current **State** and **Configuration** is a non-canonical, runtime-facing signal. It does not enter the **Event Stream**, produces no **State Transition**, and does not advance Execution Control State by itself. The corresponding canonical record is a **Control-Time Event** injected by the **Runtime**, which is then processed within **Event processing** identically to any other **Event**. The derivation of the obligation is a pure function of **State + Configuration**; the injected **Control-Time Event** is part of the canonical **Event Stream** and is subject to `State = f(Event Stream, Configuration)`.
 
 ---
 
@@ -67,7 +70,7 @@ Dominance resolution, eligibility changes, scheduling decisions, and inflight-ga
 An **Intent** is produced by **Strategy** as an ephemeral command. It is not appended to the **Event Stream** as an **Intent** object. Where **Intent** processing must be visible in canonical history, that visibility is recorded through specific **Intent-related Events**, not by persisting the **Intent** itself.
 
 **L2 — Intent lifecycle and Order lifecycle are distinct.**
-**Intent** lifecycle covers command creation through policy decision and execution-control disposition. **Order** lifecycle begins at submission. One is not a stage of the other; the two lifecycles must not be collapsed.
+**Intent** lifecycle covers command creation through policy decision and Execution Control disposition. **Order** lifecycle begins at submission. One is not a stage of the other; the two lifecycles must not be collapsed.
 
 **L3 — Order lifecycle begins at submission.**
 `Submitted` is the first **Order** state. **Queue** residency, **Risk** acceptance, and **Venue** acknowledgment do not constitute **Order** creation. An **Order** comes into existence in **Execution State** at the moment of submission; that moment is part of canonical history.
@@ -83,7 +86,7 @@ No stage of the **Intent** lifecycle (Generated, Policy decided, Queue-resident,
 ## Risk invariants
 
 **R1 — All Intents must pass through the Risk layer before Queue admission.**
-An **Intent** that has not received a policy decision from the **Risk Engine** must not enter the execution-control **Queue**. There is no path from **Strategy** to **Queue** that bypasses **Risk**.
+An **Intent** that has not received a policy decision from the **Risk Engine** must not enter the Execution Control **Queue**. There is no path from **Strategy** to **Queue** that bypasses **Risk**.
 
 **R2 — Risk determines admissibility only.**
 The **Risk Engine** makes a binary policy decision: allowed or denied. It does not schedule outbound work, set transmission timing, manage inflight state, or apply rate limits. Those responsibilities belong exclusively to **Queue Processing**.
@@ -124,8 +127,8 @@ A component that detects an invariant violation must halt further processing, em
 - [State Model](state-model.md) — `State = f(Event Stream, Configuration)`; State domains.
 - [Time Model](time-model.md) — Processing Order as causal axis; Event Time as metadata.
 - [Determinism Model](determinism-model.md) — formal definition of determinism and what breaks it.
-- [Queue Semantics](queue-semantics.md) — Queue as derived execution-control substate.
-- [Queue Processing](queue-processing.md) — deterministic execution-control evaluation within Event processing.
+- [Queue Semantics](queue-semantics.md) — Queue as derived Execution Control substate.
+- [Queue Processing](queue-processing.md) — deterministic Execution Control evaluation within Event processing.
 - [Intent Lifecycle](../10-architecture/intent-lifecycle.md) — Intent lifecycle stages and terminal outcomes.
 - [Order Lifecycle](order-lifecycle.md) — Order lifecycle starting at submission.
 - [Intent Dominance](intent-dominance.md) — deterministic reconciliation of pending pre-submission work.

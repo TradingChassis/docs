@@ -6,7 +6,7 @@
 
 This document defines the **outbound Intent pipeline** as a **conceptual transformation path**: the sequence of stages through which a **Strategy**-produced **Intent** passes before becoming an outbound submission to a **Venue**.
 
-The pipeline is **not** an independent runtime engine and **not** a second source of truth. It is the **conceptual view** of how an **Intent** command flows through **policy decision**, **execution-control handling**, and **dispatch** as part of deterministic **Event processing** ([Infrastructure Flows](infrastructure-flows.md)).
+The pipeline is **not** an independent runtime engine and **not** a second source of truth. It is the **conceptual view** of how an **Intent** command flows through **policy decision**, **Execution Control handling**, and **dispatch** as part of deterministic **Event processing** ([Infrastructure Flows](infrastructure-flows.md)).
 
 This document does **not**:
 
@@ -42,7 +42,7 @@ The outbound Intent pipeline has **five** conceptual stages. Each stage has a si
 flowchart TB
     strategy["Strategy\nIntents"]
     risk["Risk Engine\nPolicy decision"]
-    queue["Queue\nDerived execution-control substate"]
+    queue["Queue\nDerived Execution Control substate"]
     qp["Queue Processing\nSendability evaluation"]
     adapter["Venue Adapter\nProtocol translation and I/O"]
     venue["Venue"]
@@ -59,7 +59,7 @@ flowchart TB
 | ----- | -------------- |
 | **Strategy** | Reads derived **State** projections; produces **Intents** (commands). |
 | **Risk Engine** | Evaluates each **Intent** for **policy admissibility** (allowed / denied). |
-| **Queue** | Holds **derived execution-control substate**: reconciled **allowed** pending outbound work. |
+| **Queue** | Holds **derived Execution Control substate**: reconciled **allowed** pending outbound work. |
 | **Queue Processing** | Evaluates **sendability** among pending work; applies eligibility, inflight gating, ordering, rate-limit rules. |
 | **Venue Adapter** | Translates selected work into **Venue**-specific requests; surfaces **Venue** responses as **Events**. |
 
@@ -84,15 +84,15 @@ The pipeline enforces a strict separation between **two** independent control pl
 
 ## Derived Queue and dispatch readiness
 
-### The Queue as derived execution-control substate
+### The Queue as derived Execution Control substate
 
-The **Queue** is **derived execution-control substate**: a projection within **Execution State** that holds the current effective pending outbound work per logical order key, recomputable from **Event Stream + Configuration** ([Queue Semantics](../20-concepts/queue-semantics.md)).
+The **Queue** is **derived Execution Control substate**: a projection within **Execution State** that holds the current effective pending outbound work per logical order key, recomputable from **Event Stream + Configuration** ([Queue Semantics](../20-concepts/queue-semantics.md)).
 
 Because the **Queue** is derived, its contents are **reconstructible** by replay—the **Event Stream** remains canonical.
 
 ### Reconciliation at Queue admission
 
-When an **allowed** Intent enters execution-control substate, reconciliation (e.g. [Intent Dominance](../20-concepts/intent-dominance.md)) is applied: the Queue holds **at most one effective command** per logical order key. Redundant or superseded commands are collapsed before dispatch.
+When an **allowed** Intent enters Execution Control substate, reconciliation (e.g. [Intent Dominance](../20-concepts/intent-dominance.md)) is applied: the Queue holds **at most one effective command** per logical order key. Redundant or superseded commands are collapsed before dispatch.
 
 For example, if **Strategy** produces rapid successive updates for the same **Order**:
 
@@ -143,7 +143,7 @@ The pipeline's role ends at dispatch. Everything from **Submitted** onward is go
 
 The reconciliation and control mechanisms of the pipeline provide **structural protection** against unstable execution behavior as a natural consequence of the derivation rules—not through ad hoc filters:
 
-- **No duplicate requests:** at most one effective command per order key is held in execution-control substate.
+- **No duplicate requests:** at most one effective command per order key is held in Execution Control substate.
 - **No replace storms:** successive replaces collapse to the most recent effective replace.
 - **No cancel storms:** multiple cancels for the same order key collapse to a single cancel.
 - **No concurrent conflicts:** inflight gating ensures at most one outstanding request per order key.

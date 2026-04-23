@@ -128,7 +128,7 @@ A bounded State projection maintained as a snapshot for efficiency must produce 
 
 - A snapshot anchor used to bootstrap State must be **explicitly versioned and fixed** for its processing scope. Using a live read of current state as an anchor introduces non-determinism.
 
-- The **Queue**, Order projections, and execution-control substate are themselves derived views ([Queue Semantics](queue-semantics.md)). They must obey the same constraints as any derived projection: recomputable, Event-driven, not independently authoritative.
+- The **Queue**, Order projections, and Execution Control substate are themselves derived views ([Queue Semantics](queue-semantics.md)). They must obey the same constraints as any derived projection: recomputable, Event-driven, not independently authoritative.
 
 - Snapshot recording that would require bypassing **Event processing** to update derived State is architecturally invalid regardless of operational convenience.
 

@@ -32,7 +32,7 @@ The Infrastructure models two primary lifecycle domains as explicit state machin
 
 ### Intent lifecycle
 
-The Intent lifecycle defines the progression of an ephemeral command from Strategy output through policy decision, execution-control residency, dispatch, and terminal disposition.
+The Intent lifecycle defines the progression of an ephemeral command from Strategy output through policy decision, Execution Control residency, dispatch, and terminal disposition.
 
 **Stages:**
 
@@ -40,7 +40,7 @@ The Intent lifecycle defines the progression of an ephemeral command from Strate
 | ----- | ------- |
 | **Generated** | Strategy has emitted the command. |
 | **Policy decided** | Risk has classified the command as allowed or denied. |
-| **Pending dispatch** | Allowed and held in derived execution-control substate (Queue), awaiting selection. |
+| **Pending dispatch** | Allowed and held in derived Execution Control substate (Queue), awaiting selection. |
 | **Dispatched** | Handed to the Venue Adapter for outbound transmission. |
 | **Inflight** | Outbound request is outstanding; awaiting completion. |
 | **Closed** | Terminal — no further progression for this Intent arc. |
@@ -74,7 +74,7 @@ Intent lifecycle and Order lifecycle must not be collapsed. No Intent stage is a
 
 ### Execution-control mechanisms are not separate lifecycle state machines
 
-Queue residency, dominance, eligibility, inflight gating, rate-limit evaluation, and scheduling are **execution-control derivations** within Event processing. They are important mechanisms that govern how Intents progress through the Intent lifecycle (specifically through the Pending dispatch stage), but they are not elevated as separate top-level lifecycle state machines alongside Intent and Order. They operate within the Intent lifecycle's execution-control stages, and they are derived from Event Stream + Configuration — not independently authoritative.
+Queue residency, dominance, eligibility, inflight gating, rate-limit evaluation, and scheduling are **Execution Control derivations** within Event processing. They are important mechanisms that govern how Intents progress through the Intent lifecycle (specifically through the Pending dispatch stage), but they are not elevated as separate top-level lifecycle state machines alongside Intent and Order. They operate within the Intent lifecycle's Execution Control stages, and they are derived from Event Stream + Configuration — not independently authoritative.
 
 ---
 
@@ -88,7 +88,7 @@ Queue residency, dominance, eligibility, inflight gating, rate-limit evaluation,
 
 **Deterministic replay covers both lifecycles.** Because both state machines advance only through Event processing (Intent-related Events for the Intent lifecycle where canonical history requires them; Execution Events for the Order lifecycle), replay of the same Event Stream under the same Configuration reproduces identical lifecycle state at every Processing Order position.
 
-**Execution-control logic is scoped within the Intent lifecycle.** Queue Processing, dominance, inflight gating, and rate-limit evaluation operate within the Pending dispatch stage of the Intent lifecycle. They do not form a parallel lifecycle with their own state machine. This keeps the overall lifecycle model simple: two explicit state machines with a clear boundary, and execution-control derivations scoped within one of them.
+**Execution-control logic is scoped within the Intent lifecycle.** Queue Processing, dominance, inflight gating, and rate-limit evaluation operate within the Pending dispatch stage of the Intent lifecycle. They do not form a parallel lifecycle with their own state machine. This keeps the overall lifecycle model simple: two explicit state machines with a clear boundary, and Execution Control derivations scoped within one of them.
 
 ---
 
@@ -102,4 +102,4 @@ Queue residency, dominance, eligibility, inflight gating, rate-limit evaluation,
 
 ## Summary
 
-The Infrastructure models Intent lifecycle and Order lifecycle as two explicit, non-overlapping state machines separated at submission. The Intent lifecycle covers command progression from Strategy output through policy, execution control, and dispatch. The Order lifecycle covers execution progression from submission through Venue feedback to terminal disposition. Queue Processing and related execution-control mechanisms operate within the Intent lifecycle, not as separate top-level state machines. All lifecycle transitions are driven by Event processing, making both lifecycles deterministic and replayable.
+The Infrastructure models Intent lifecycle and Order lifecycle as two explicit, non-overlapping state machines separated at submission. The Intent lifecycle covers command progression from Strategy output through policy, execution control, and dispatch. The Order lifecycle covers execution progression from submission through Venue feedback to terminal disposition. Queue Processing and related Execution Control mechanisms operate within the Intent lifecycle, not as separate top-level state machines. All lifecycle transitions are driven by Event processing, making both lifecycles deterministic and replayable.

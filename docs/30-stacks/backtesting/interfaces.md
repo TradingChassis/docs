@@ -20,7 +20,7 @@ Definitions that specify what a Backtesting run should execute:
 
 - **Strategy definitions / Strategy code** — the Strategy logic to be evaluated.
 - **Experiment configuration** — which canonical datasets to use, which time periods to cover, which instruments to include.
-- **Run configuration** — runtime parameters, Configuration settings, and execution-control rules applied to the Core Runtime for this run.
+- **Run configuration** — runtime parameters, Configuration settings, and Execution Control rules applied to the Core Runtime for this run.
 - **Parameter sets** — parameter variations for batch runs and parameter sweeps.
 - **Scenario definitions** — where applicable, structured scenario specifications that define particular experimental conditions.
 
@@ -57,7 +57,7 @@ The Backtesting Stack **uses** the Core Runtime as its execution kernel. The Cor
 The interface between the Backtesting Stack and the Core Runtime is:
 
 - The Backtesting Stack supplies **historical Events** (derived from canonical datasets) and **Configuration** to the Core Runtime.
-- The Core Runtime processes those Events deterministically and produces State, dispatch decisions, and execution-control outcomes.
+- The Core Runtime processes those Events deterministically and produces State, dispatch decisions, and Execution Control outcomes.
 - The simulated Venue (behind the Venue Adapter boundary) generates execution feedback that re-enters the Core Runtime as Execution Events, completing the processing loop.
 - The Backtesting Stack captures the Core Runtime's outputs — derived State, Order lifecycle progression, dispatch history, and all processing outcomes — as the basis for experiment results and artifacts.
 
