@@ -72,74 +72,72 @@ It is a living document and may evolve as the Infrastructure changes.
 
 Each Dev Log follows a consistent structure:
 
-```
-# [Problem Title]
+    # [Problem Title]
 
----
+    ---
 
-## Context
-Brief description of the context and where the problem occurs.
+    ## Context
+    Brief description of the context and where the problem occurs.
 
----
+    ---
 
-## Iteration 1 – Initial Observation
+    ## Iteration 1 – Initial Observation
 
-### Problem
-What is happening?
+    ### Problem
+    What is happening?
 
-### Observations
-Observed behavior, metrics, anomalies.
+    ### Observations
+    Observed behavior, metrics, anomalies.
 
-### Initial Hypotheses
-Possible causes of the problem.
+    ### Initial Hypotheses
+    Possible causes of the problem.
 
----
+    ---
 
-## Iteration 2 – Investigation
+    ## Iteration 2 – Investigation
 
-### Actions Taken
-Tests performed or changes applied.
+    ### Actions Taken
+    Tests performed or changes applied.
 
-### Results
-Observed outcomes of the actions.
+    ### Results
+    Observed outcomes of the actions.
 
-### Updated Hypotheses
-Refined understanding based on results.
+    ### Updated Hypotheses
+    Refined understanding based on results.
 
----
+    ---
 
-## Iteration 3 – External Input (optional)
+    ## Iteration 3 – External Input (optional)
 
-### Input
-Relevant external insights or suggestions.
+    ### Input
+    Relevant external insights or suggestions.
 
-### Interpretation
-Impact on current understanding.
+    ### Interpretation
+    Impact on current understanding.
 
----
+    ---
 
-## Iteration 4 – Current Understanding
+    ## Iteration 4 – Current Understanding
 
-### Root Cause (if identified)
-Underlying cause of the problem.
+    ### Root Cause (if identified)
+    Underlying cause of the problem.
 
-### Changes Applied
-Modifications to the Infrastructure.
+    ### Changes Applied
+    Modifications to the Infrastructure.
 
-### Outcome
-Resulting behavior after changes.
+    ### Outcome
+    Resulting behavior after changes.
 
----
+    ---
 
-## Iteration 5 – ...
-...
+    ## Iteration 5 – ...
+    ...
 
----
+    ---
 
-## Open Questions (optional)
+    ## Open Questions (optional)
 
-Remaining uncertainties or areas for further investigation.
-```
+    Remaining uncertainties or areas for further investigation.
 
 ---
 
@@ -147,13 +145,11 @@ Remaining uncertainties or areas for further investigation.
 
 Dev Logs are organized by problem or topic:
 
-```
-/dev-logs/
-  latency-spikes/
-    overview.md
-  order-routing/
-    overview.md
-```
+    /dev-logs/
+      latency-spikes/
+        overview.md
+      order-routing/
+        overview.md
 
 Each file contains the full lifecycle of a problem.
 
