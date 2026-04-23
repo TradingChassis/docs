@@ -181,7 +181,7 @@ The **Risk Engine** is the **policy layer** only.
 **Normative rules:**
 
 1. It answers whether a given Intent is **allowed** or **denied** under policy (limits, kill-switch, parameter validity, etc.).
-2. It does **not** schedule transmission, order Queue contents, apply dominance, enforce rate limits for send timing, or manage inflight gating. That is **Execution Control** (see [Execution Control](#Execution Control)).
+2. It does **not** schedule transmission, order Queue contents, apply dominance, enforce rate limits for send timing, or manage inflight gating. That is **Execution Control** (see [Execution Control](#execution-control)).
 3. Allowed/denied outcomes that must appear in canonical history are reflected via Events and thence in derived State; the Risk Engine does not hold parallel authoritative state.
 
 ---

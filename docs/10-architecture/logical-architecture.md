@@ -44,7 +44,8 @@ At the logical layer, the following Components cooperate:
 
 | Component | One-line role |
 | --------- | ------------- |
-| **Runtime / Core** (conceptual envelope) | Applies the Event Stream, derives State, and invokes the other logical Components in the order implied by processing rules—not defined procedurally here. |
+| **Core** | The deterministic event-driven engine: applies the **Event Stream**, derives **State**, and invokes the processing chain components in the order implied by processing rules. May derive **Control Scheduling Obligations** as non-canonical, runtime-facing signals when current **State + Configuration** imply a future relevant control-time re-evaluation point; these are not canonical Events and produce no **State Transition** by themselves. |
+| **Runtime** | The execution context surrounding the Core: supplies canonical inputs (market data, **Execution Events**) and realizes external-to-Core obligations—including injecting **Control-Time Events** into the **Event Stream** when a **Control Scheduling Obligation** is realized (see [Runtime boundary](#runtime-boundary)). |
 | **Strategy** | Produces **Intents** from read-only views of derived State. |
 | **Risk Engine** | Decides **policy admissibility** of each Intent (**allowed** / **denied**). |
 | **Queue** | Holds **Execution Control substate**: reconciled **allowed** pending outbound work (derived). |
@@ -121,6 +122,30 @@ An **Order** is **not** a Strategy-owned control object; it is a **projection** 
 
 ---
 
+### Runtime boundary
+
+The **Core** is purely event-driven. All its behavior is the deterministic result of processing canonical **Events** in **Processing Order**. The Core performs no hidden wall-clock-driven State mutations.
+
+The **Runtime** is the surrounding execution context. It supplies the Event Stream to the Core and is responsible for realizing any external obligations that the Core derives but cannot fulfill internally.
+
+**Control-time obligation realization:**
+
+1. The Core may derive a **Control Scheduling Obligation** when current **State + Configuration** imply a future relevant control-time re-evaluation point—specifically, when pending allowed outbound work exists and a future moment is implied at which **Execution Control** conditions may change. This derivation is non-canonical: it produces no **State Transition** and does not enter the **Event Stream**.
+2. The obligation is a runtime-facing boundary artifact. The Runtime realizes the obligation externally to the Core—when the implied deadline arrives, the Runtime injects a canonical **Control-Time Event** into the **Event Stream**.
+3. The Core then processes the **Control-Time Event** normally: **State** is derived, **Strategy** may read new **State** and emit **Intents**, **Risk** evaluates admissibility of any resulting **Intents**, and **Queue Processing** performs **Execution Control**.
+4. **Control-Time Events** are **Control State** semantics. They do not originate from the **Venue** or **Venue Adapter**.
+
+**How the Runtime realizes the obligation differs by deployment; the Core is not aware of the difference:**
+
+| Runtime | Obligation realization mechanism |
+| ------- | -------------------------------- |
+| **Live** | Real-time waiting; the runtime control scheduling mechanism tracks the derived obligation and injects the **Control-Time Event** into the live stream at the appropriate moment. |
+| **Backtesting** | Simulated time / event-timeline orchestration; the Backtesting Runtime injects the **Control-Time Event** at the corresponding simulated-time position in the historical **Event Stream**. |
+
+The Core receives a canonical **Control-Time Event** through the **Event Stream** in both Runtimes and processes it identically.
+
+---
+
 ### Venue Adapter
 
 **Responsibilities:**
@@ -132,6 +157,7 @@ An **Order** is **not** a Strategy-owned control object; it is a **projection** 
 
 - The Adapter **does not** decide **policy** (**Risk**) or **Execution Control** (**Queue Processing**).
 - The Adapter **does not** own derived State; it **reads** what Execution Control hands off and **writes** the Infrastructure only through **Events** (or through mechanisms that append **Events**).
+- The Adapter **does not** inject **Control-Time Events** into the **Event Stream**. **Control-Time Events** are injected by the **Runtime** upon realization of a **Control Scheduling Obligation** and are not **Venue**-originated Events.
 
 ---
 
@@ -173,7 +199,7 @@ flowchart TB
 
 **Reading:**
 
-- **Events** (from Venue, control, infrastructure, and recorded outcomes where required) advance **derived State** through **Event processing**.
+- **Events** (from Venue, control, infrastructure, recorded outcomes where required, and **Control-Time Events** injected by the Runtime upon realization of a **Control Scheduling Obligation**) advance **derived State** through **Event processing**.
 - **Strategy** reads State and produces **Intents**.
 - **Risk** filters Intents by **policy** only.
 - **Queue** and **Queue Processing** apply **Execution Control** to **allowed** work.

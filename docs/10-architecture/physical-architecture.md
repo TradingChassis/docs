@@ -118,6 +118,8 @@ flowchart TB
 | **Queue + Queue Processing** | Implements Execution Control within the same Event-processing step; schedules dispatch from allowed pending work; no separate runtime tick |
 | **Venue Adapter** | Translates outbound dispatch decisions to Venue protocol; surfaces Venue responses as canonical Events |
 
+**Control Scheduling Obligations on the Live Node.** When the Core derives a **Control Scheduling Obligation** during live execution, the Live Runtime includes a runtime control scheduling mechanism that tracks the obligation and injects the corresponding **Control-Time Event** into the live Event Stream when the implied deadline is reached. The Core then processes this Event normally within the standard processing chain. This mechanism is external to the Core; the Core performs no hidden wall-clock-driven mutations. Control-Time Events are Control State semantics; they are not produced by the Venue Adapter.
+
 **Order lifecycle at the Live Node:** An **Order** comes into existence in **Execution State** at submission. The Venue Adapter transmits the outbound request; the Order lifecycle begins from that point. Venue responses (fills, rejections, cancellations) return as **Execution Events**, which advance the already-existing Order through its lifecycle. Orders do not begin at Venue acknowledgment — they begin at submission.
 
 Execution records (Order history, fills, positions) are written to **Canonical Storage** for analysis and audit.
@@ -134,7 +136,7 @@ Execution records (Order history, fills, positions) are written to **Canonical S
 
 The Central Infrastructure Cluster hosts Research workloads and observability infrastructure. It is not latency-constrained and runs on scalable compute.
 
-The cluster runs the **Core Runtime** in Backtesting configuration: same processing chain as Live, operating on historical Event Streams sourced from Canonical Storage, with a Simulated Venue in place of a real Venue.
+The cluster runs the **Core Runtime** in Backtesting configuration: same processing chain as Live, operating on historical Event Streams sourced from Canonical Storage, with a Simulated Venue in place of a real Venue. When the Core derives a **Control Scheduling Obligation** during Backtesting, the Backtesting Runtime realizes it through event-timeline orchestration — injecting the corresponding **Control-Time Event** at the appropriate simulated-time position in the historical Event Stream — rather than through real-time waiting. This preserves canonical semantic parity with Live: both Runtimes inject the same canonical **Control-Time Events** into the Event Stream, and the Core processes them identically.
 
 Typical responsibilities:
 
@@ -267,7 +269,7 @@ Latency-sensitive components — live market data capture and Live Core Runtime 
 
 ### Semantic equivalence across deployments
 
-Backtesting and Live use the same Core Runtime code and canonical processing rules. Physical differences (data source, Venue, environment) do not alter the runtime semantics. A Strategy evaluated in Backtesting is evaluated against the same logical processing model it will encounter in Live.
+Backtesting and Live use the same Core Runtime code and canonical processing rules. Physical differences (data source, Venue, environment, and how the Runtime realizes **Control Scheduling Obligations**) do not alter the runtime semantics. Both Runtimes inject the same canonical **Control-Time Events** into the Event Stream and the Core processes them identically: through event-timeline orchestration in Backtesting and through real-time waiting and injection in Live. A Strategy evaluated in Backtesting is evaluated against the same logical processing model it will encounter in Live.
 
 ### Shared storage, separate runtime truth
 

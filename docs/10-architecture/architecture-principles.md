@@ -119,6 +119,8 @@ Every advancement of Queue state, every dispatch decision, and every re-evaluati
 
 This principle ensures that Queue Processing decisions are deterministic, replayable, and free of timing-dependent behavior. A module with a separate scheduler tick cannot guarantee that Backtesting produces the same dispatch decisions as Live.
 
+**Control-Time Events and P8.** Where current State and Configuration imply a future relevant control-time re-evaluation point, the Core may derive a **Control Scheduling Obligation**. The Runtime realizes this obligation by injecting a **Control-Time Event** into the Event Stream. This is consistent with P8: the Control-Time Event is a canonical stream Event processed within Event processing, not a background timer, polling loop, or independent scheduling mechanism. The Core performs no hidden wall-clock mutations; the canonical record exists only once the Event is injected and processed in Processing Order.
+
 ➝ [Queue Processing](../20-concepts/queue-processing.md), [Infrastructure Flows](infrastructure-flows.md), [Invariants: EC2](../20-concepts/invariants.md)
 
 ---
@@ -129,7 +131,7 @@ This principle ensures that Queue Processing decisions are deterministic, replay
 
 Both Runtimes apply `State = f(Event Stream, Configuration)`, process the same `Strategy ➝ Risk ➝ Queue ➝ Venue Adapter` chain, maintain the same Order lifecycle beginning at submission, and treat Queue as derived Execution Control substate.
 
-What differs is infrastructure: data source (historical vs live), Venue (simulated vs real), and operational mode (batch vs continuous). The semantic model — the rules that govern State derivation, dispatch decisions, and lifecycle transitions — is identical.
+What differs is infrastructure: data source (historical vs live), Venue (simulated vs real), operational mode (batch vs continuous), and how the Runtime realizes **Control Scheduling Obligations** (event-timeline orchestration in Backtesting vs real-time waiting and injection in Live). The semantic model — the rules that govern State derivation, dispatch decisions, and lifecycle transitions — is identical. Both Runtimes inject the same canonical **Control-Time Events** into the Event Stream and the Core processes them identically.
 
 This principle is the architectural basis for trusting Backtesting results as predictors of Live behavior. If the two Runtimes diverged semantically, Research would evaluate different than the one deployed in production.
 
@@ -179,6 +181,22 @@ This principle generalizes what P6 establishes for Policy vs Execution Control: 
 
 ---
 
+## P13 — The Core derives obligations; the Runtime injects canonical Events
+
+**The Core performs no hidden wall-clock-driven State mutations. When State and Configuration imply a future relevant control-time re-evaluation point, the Core derives a Control Scheduling Obligation—a non-canonical signal—and the Runtime realizes that obligation by injecting a Control-Time Event into the Event Stream.**
+
+The Core is purely event-driven. All its behavior results from processing canonical Events in Processing Order. It does not monitor wall-clock time and does not advance State through background mechanisms.
+
+The Runtime is the surrounding execution context. Where the Core derives a **Control Scheduling Obligation**, the Runtime realizes it externally: through event-timeline orchestration in Backtesting, or through real-time waiting and injection at the appropriate moment in Live. The Core then processes the injected **Control-Time Event** normally within Event processing. This injection preserves determinism: the same Event Stream (including injected Control-Time Events) under the same Configuration always produces the same derived State.
+
+The Venue Adapter handles Venue protocol I/O only. It is not the origin of Control-Time Events, which are Control State semantics, not Venue semantics.
+
+This principle ensures that all semantically significant control-time behavior is observable in the canonical Event Stream, free of hidden Runtime state, and replayable identically across Backtesting and Live.
+
+➝ [Logical Architecture: Runtime boundary](logical-architecture.md#runtime-boundary), [Terminology: Control Scheduling Obligation](../00-guides/terminology.md#control-scheduling-obligation), [Terminology: Control-Time Event](../00-guides/terminology.md#control-time-event)
+
+---
+
 ## Relationship to other documents
 
 These principles are enforced by the formal rules in the concept documents:
@@ -194,3 +212,4 @@ These principles are enforced by the formal rules in the concept documents:
 | P9 | [Architecture Overview](architecture-overview.md), [Infrastructure Narrative](infrastructure-narrative.md) |
 | P10, P11 | [Architecture Overview](architecture-overview.md), [Logical Architecture](logical-architecture.md) |
 | P12 | [Logical Architecture](logical-architecture.md), [Architecture Overview](architecture-overview.md) |
+| P13 | [Logical Architecture: Runtime boundary](logical-architecture.md#runtime-boundary), [Determinism Model](../20-concepts/determinism-model.md), [Invariants: EC7](../20-concepts/invariants.md) |

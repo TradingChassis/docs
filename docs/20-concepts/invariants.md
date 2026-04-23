@@ -12,7 +12,7 @@ This document does not describe architecture, implementation, or process. For th
 
 Capitalized terms are used as in [Terminology](../00-guides/terminology.md).
 
-Invariants are grouped by theme: [Event and State](#event-and-state-invariants) · [Execution Control](#Execution Control-invariants) · [Lifecycle](#lifecycle-invariants) · [Risk](#risk-invariants) · [Determinism](#determinism-invariants).
+Invariants are grouped by theme: [Event and State](#event-and-state-invariants) · [Execution Control](#execution-control-invariants) · [Lifecycle](#lifecycle-invariants) · [Risk](#risk-invariants) · [Determinism](#determinism-invariants).
 
 ---
 
