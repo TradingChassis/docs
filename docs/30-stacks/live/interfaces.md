@@ -16,7 +16,7 @@ Real-time market data is the Live Stack's operational basis. The stack does not 
 
 ### Configuration and Strategy definitions
 
-The Strategy code to be executed and the Configuration under which the Core Runtime operates — execution-control rules, Risk policy parameters, and other settings. These are supplied at startup or through controlled operational updates and define the processing behavior for the current live session.
+The Strategy code to be executed and the Configuration under which the Core Runtime operates — Execution Control rules, Risk policy parameters, and other settings. These are supplied at startup or through controlled operational updates and define the processing behavior for the current live session.
 
 ### Operational control inputs
 
@@ -71,7 +71,7 @@ The Live Stack **uses** the Core Runtime as its execution kernel. The Core Runti
 The interface between the Live Stack and the Core Runtime is:
 
 - The Live Stack supplies **real-time Events** (from live Venue market-data feeds and Execution Events from Venue feedback) and **Configuration** to the Core Runtime.
-- The Core Runtime processes those Events deterministically and produces State, dispatch decisions, and execution-control outcomes.
+- The Core Runtime processes those Events deterministically and produces State, dispatch decisions, and Execution Control outcomes.
 - Outbound work selected for dispatch is transmitted through the Venue Adapter to real Venues.
 - Venue feedback returns as Execution Events, closing the processing loop.
 

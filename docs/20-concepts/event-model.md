@@ -53,7 +53,7 @@ Examples of what may be recorded (non-exhaustive, illustrative):
 
 ## Event categories
 
-Events are grouped below by **semantic role**. Categories are **not** a runtime stack and **not** execution-control mechanics; they classify **what** the Event records for derivation of [State](state-model.md).
+Events are grouped below by **semantic role**. Categories are **not** a runtime stack and **not** Execution Control mechanics; they classify **what** the Event records for derivation of [State](state-model.md).
 
 ### Market Events
 
@@ -97,6 +97,14 @@ They are not a catch-all for every internal computation; see [Derivations that a
 
 **Control Events** record **control signals** that affect how the Runtime applies the stream or how derived State must interpret it (e.g. session boundaries, replay markers, checkpoints, shutdown triggers), when such signals are modeled as stream inputs.
 
+**Control-Time Events** are a recognized sub-category of Control Events. A **Control-Time Event** is injected into the Event Stream by the Runtime when a **Control Scheduling Obligation** is realized: that is, when current State and Configuration imply a future relevant control-time re-evaluation point for Execution Control (see [Terminology: Control-Time Event](../00-guides/terminology.md#control-time-event)).
+
+**Normative distinctions for Control-Time Events:**
+
+- They originate from the **Runtime**, not from a **Venue** or **Venue Adapter**. They are not Market Events or Execution Events.
+- They are **sparse and deadline-style**: each corresponds to a specific obligation derived from State + Configuration, not to a periodic timer or background loop.
+- Once injected, they are processed identically to any other Event: State is derived, Strategy may emit Intents, Risk evaluates admissibility, and Queue Processing performs Execution Control within that processing step.
+
 ---
 
 ## Event sources
@@ -111,6 +119,7 @@ They are not a catch-all for every internal computation; see [Derivations that a
 | Venue or simulated execution path | Execution Events |
 | Runtime / Core when canonical history requires an intent-processing outcome | Intent-related Events |
 | Internal subinfrastructures (when modeled as stream inputs) | Infrastructure Events |
+| Runtime (when realizing a Control Scheduling Obligation) | Control-Time Events (a sub-category of Control Events) |
 | Orchestration or Runtime controllers (when modeled as stream inputs) | Control Events |
 
 Each **logical** source may append Events according to Infrastructure rules; **Processing Order** of the **merged** stream is authoritative for State.
@@ -165,7 +174,7 @@ During Runtime, Events are applied **one at a time** in stream order. Each appli
 
 Applying an Event may:
 
-- advance Market, Execution (including **execution-control substate** derived as part of Execution State—see [Terminology: Queue](../00-guides/terminology.md#queue)), and Infrastructure domains;
+- advance Market, Execution (including **Execution Control substate** derived as part of Execution State—see [Terminology: Queue](../00-guides/terminology.md#queue)), and Infrastructure domains;
 - trigger Strategy evaluation, which produces **Intents** (not Events);
 - record **new Events** when canonical history requires (e.g. intent-processing outcomes, appended **before** those outcomes may affect downstream State in replay).
 

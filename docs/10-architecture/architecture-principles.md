@@ -46,9 +46,9 @@ This principle is the enforcement mechanism behind P2. It rules out:
 
 - private component state that shadows derived State and feeds future decisions;
 - Configuration changes that take effect silently without being part of the canonical input;
-- execution-control bookkeeping (inflight tracking, rate-limit state, Queue contents) maintained as authoritative primary stores outside the derivation path.
+- Execution Control bookkeeping (inflight tracking, rate-limit state, Queue contents) maintained as authoritative primary stores outside the derivation path.
 
-Queue contents, Order projections, and all execution-control substate are **derived** — recomputable, not primary. A Runtime that cannot reconstruct its State by replaying the Event Stream has violated this principle.
+Queue contents, Order projections, and all Execution Control substate are **derived** — recomputable, not primary. A Runtime that cannot reconstruct its State by replaying the Event Stream has violated this principle.
 
 ➝ [Determinism Model](../20-concepts/determinism-model.md), [Invariants: D3](../20-concepts/invariants.md)
 
@@ -58,7 +58,7 @@ Queue contents, Order projections, and all execution-control substate are **deri
 
 **Given identical Event Stream and identical Configuration, the Infrastructure must produce identical State at every stream position — without exception, across all domains, and across all Runtimes.**
 
-Determinism is not a property that holds approximately or under normal conditions. It holds always: for Market State, Execution State (including Orders and execution-control substate), and Control State. Any behavior that depends on wall-clock time, OS scheduling, thread interleaving, or Runtime timing violates this principle.
+Determinism is not a property that holds approximately or under normal conditions. It holds always: for Market State, Execution State (including Orders and Execution Control substate), and Control State. Any behavior that depends on wall-clock time, OS scheduling, thread interleaving, or Runtime timing violates this principle.
 
 Determinism is the basis for reproducible Research, reliable failure recovery by replay, and trusted equivalence between Backtesting and Live results.
 
@@ -113,7 +113,7 @@ Collapsing these lifecycles produces documentation and implementation ambiguity 
 
 ## P8 — Execution Control runs within Event processing; there is no separate tick
 
-**Queue Processing is a deterministic computation executed as part of canonical Event processing. There is no independent scheduling loop, background timer, or runtime tick that advances execution-control state outside Event processing.**
+**Queue Processing is a deterministic computation executed as part of canonical Event processing. There is no independent scheduling loop, background timer, or runtime tick that advances Execution Control State outside Event processing.**
 
 Every advancement of Queue state, every dispatch decision, and every re-evaluation of eligibility, inflight status, and rate limits happens within the same sequential Event-processing step that updates all derived State. There is one advancement mechanism: the Event Stream.
 
@@ -127,7 +127,7 @@ This principle ensures that Queue Processing decisions are deterministic, replay
 
 **Backtesting and Live are two infrastructure configurations of the same Core Runtime model. The semantic model does not differ between them.**
 
-Both Runtimes apply `State = f(Event Stream, Configuration)`, process the same `Strategy ➝ Risk ➝ Queue ➝ Venue Adapter` chain, maintain the same Order lifecycle beginning at submission, and treat Queue as derived execution-control substate.
+Both Runtimes apply `State = f(Event Stream, Configuration)`, process the same `Strategy ➝ Risk ➝ Queue ➝ Venue Adapter` chain, maintain the same Order lifecycle beginning at submission, and treat Queue as derived Execution Control substate.
 
 What differs is infrastructure: data source (historical vs live), Venue (simulated vs real), and operational mode (batch vs continuous). The semantic model — the rules that govern State derivation, dispatch decisions, and lifecycle transitions — is identical.
 

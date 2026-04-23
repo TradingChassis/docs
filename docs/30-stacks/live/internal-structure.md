@@ -47,7 +47,7 @@ Hosts and executes the Core Runtime for live trading — the same deterministic,
 
 Role:
 
-- Instantiate the Core Runtime with the session's Strategy, Configuration, and execution-control rules.
+- Instantiate the Core Runtime with the session's Strategy, Configuration, and Execution Control rules.
 - Process incoming Events (market data, Execution Events from Venue feedback) through the full Core Runtime chain: `Event intake ➝ State derivation ➝ Strategy evaluation ➝ Risk ➝ Execution Control ➝ dispatch decisions`.
 - Pass outbound work selected for dispatch to the Venue Connectivity Layer for transmission to real Venues.
 - Receive Execution Events (Venue feedback) from the Venue Connectivity Layer and feed them back into the processing loop.
@@ -124,6 +124,6 @@ Steps 1–3 form the continuous real-time execution loop. Steps 4–5 operate al
 
 **No monitoring ownership.** The Observability Integration Surface emits telemetry. The Monitoring Stack consumes and presents it. The Live Stack does not own dashboards, alerting infrastructure, or monitoring configuration.
 
-**No Core Runtime semantic processing outside the harness.** Capabilities such as the Live Market Input Handler, Venue Connectivity Layer, Operational Control Surface, Execution Record Writer, and Observability Integration Surface operate around the Core Runtime. They do not participate in Event processing, State derivation, or execution-control logic. That processing occurs entirely within the Runtime Execution Harness through the Core Runtime itself.
+**No Core Runtime semantic processing outside the harness.** Capabilities such as the Live Market Input Handler, Venue Connectivity Layer, Operational Control Surface, Execution Record Writer, and Observability Integration Surface operate around the Core Runtime. They do not participate in Event processing, State derivation, or Execution Control logic. That processing occurs entirely within the Runtime Execution Harness through the Core Runtime itself.
 
 **Logical structure, not deployment specification.** The capabilities described here are logical roles. They may be realized as separate processes, modules within a single application, or distributed services. Physical deployment topology is not specified by this document.

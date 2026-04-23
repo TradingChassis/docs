@@ -58,7 +58,7 @@ This decision selects the simulated Venue implementation for Backtesting. It doe
 
 **The full processing loop operates in Backtesting.** Because hftbacktest sits behind the Venue Adapter boundary and produces realistic execution feedback, the complete chain — Strategy emits Intents, Risk evaluates admissibility, Execution Control schedules dispatch, Venue Adapter transmits, simulated Venue responds, Execution Events derive Order state — runs in Backtesting as it does in Live. Strategy evaluation covers the entire outbound path, not a truncated approximation.
 
-**Backtesting/Live parity is preserved at the architectural boundary.** The Core Runtime operates identically in both Runtimes. The only difference is the Venue implementation behind the Adapter. This means that architectural assumptions validated in Backtesting (component boundaries, lifecycle transitions, execution-control behavior) hold in Live without requiring separate verification of the processing path.
+**Backtesting/Live parity is preserved at the architectural boundary.** The Core Runtime operates identically in both Runtimes. The only difference is the Venue implementation behind the Adapter. This means that architectural assumptions validated in Backtesting (component boundaries, lifecycle transitions, Execution Control behavior) hold in Live without requiring separate verification of the processing path.
 
 **Microstructure-sensitive Research is supported.** hftbacktest models order book matching, queue priority effects, and partial fills. Strategies that depend on order book dynamics can be evaluated under conditions that approximate real Venue behavior, rather than under simplified fill assumptions that would mask microstructure-dependent effects.
 

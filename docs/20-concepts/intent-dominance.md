@@ -4,7 +4,7 @@
 
 ## Purpose and scope
 
-This document defines **Intent dominance**: the deterministic reconciliation rule that maintains **at most one effective outbound command** per logical order key in **execution-control substate** (the Queue).
+This document defines **Intent dominance**: the deterministic reconciliation rule that maintains **at most one effective outbound command** per logical order key in **Execution Control substate** (the Queue).
 
 When **Strategy** generates multiple **Intents** targeting the same logical order key in succession, dominance determines which command is the **current effective** pending work. Superseded commands are collapsed before dispatch.
 
@@ -22,14 +22,14 @@ Capitalized terms are used as in [Terminology](../00-guides/terminology.md).
 
 ## What dominance is
 
-**Intent dominance** is a **deterministic derivation** over current **execution-control substate** and **Configuration**. It is not a separate runtime phase, a separate Event type, or an independent source of truth.
+**Intent dominance** is a **deterministic derivation** over current **Execution Control substate** and **Configuration**. It is not a separate runtime phase, a separate Event type, or an independent source of truth.
 
 **Normative rules:**
 
-1. Dominance is computed as part of **Event processing**—specifically, as part of the execution-control substate update that occurs when an **allowed** Intent is admitted ([Queue Semantics](queue-semantics.md)).
+1. Dominance is computed as part of **Event processing**—specifically, as part of the Execution Control substate update that occurs when an **allowed** Intent is admitted ([Queue Semantics](queue-semantics.md)).
 2. Dominance **does not** require a separate **Event** for each supersession unless **canonical history** explicitly requires recording the outcome for replay or audit ([Terminology: Intent visibility](../00-guides/terminology.md#intent-visibility)).
-3. Dominance applies **only to pre-submission pending work** in execution-control substate. It has **no** effect on **Intents** already **Dispatched** or **Inflight** ([Intent Lifecycle](../10-architecture/intent-lifecycle.md)), and it does **not** retroactively alter **Order** state after **submission** ([Order Lifecycle](order-lifecycle.md)).
-4. The result of dominance is that the **Queue** holds **at most one effective command** per logical order key at any time. This is a property of derived execution-control substate, not a mutation of independent truth.
+3. Dominance applies **only to pre-submission pending work** in Execution Control substate. It has **no** effect on **Intents** already **Dispatched** or **Inflight** ([Intent Lifecycle](../10-architecture/intent-lifecycle.md)), and it does **not** retroactively alter **Order** state after **submission** ([Order Lifecycle](order-lifecycle.md)).
+4. The result of dominance is that the **Queue** holds **at most one effective command** per logical order key at any time. This is a property of derived Execution Control substate, not a mutation of independent truth.
 
 ---
 
@@ -49,7 +49,7 @@ The result for the sequence above is:
 CANCEL
 ```
 
-Only the effective command is dispatched. This is a **deterministic function** of the incoming command and the current execution-control substate under **Configuration**—not a separate step with its own clock or state store.
+Only the effective command is dispatched. This is a **deterministic function** of the incoming command and the current Execution Control substate under **Configuration**—not a separate step with its own clock or state store.
 
 ---
 
@@ -79,7 +79,7 @@ This ordering reflects the **semantic strength** of each command in terms of out
 - **REPLACE** requests modification of an existing Order at the Venue. It supersedes a pending creation command for the same key.
 - **NEW** requests creation of an Order at the Venue. It does not override a pending modification or termination command.
 
-**Normative clarification:** A `CANCEL` Intent in execution-control substate is a **pending request to cancel**, not a completed Order termination. Whether the Order is actually cancelled depends on subsequent **Execution Events** from the **Venue** after dispatch ([Order Lifecycle](order-lifecycle.md)).
+**Normative clarification:** A `CANCEL` Intent in Execution Control substate is a **pending request to cancel**, not a completed Order termination. Whether the Order is actually cancelled depends on subsequent **Execution Events** from the **Venue** after dispatch ([Order Lifecycle](order-lifecycle.md)).
 
 ---
 
@@ -106,7 +106,7 @@ The matrix is a **deterministic function** of existing substate and incoming com
 
 ## Pre-submission scope
 
-Dominance applies **only to work in execution-control substate** (pre-submission pending commands). This boundary is strict:
+Dominance applies **only to work in Execution Control substate** (pre-submission pending commands). This boundary is strict:
 
 1. Once an Intent has been **Dispatched** to the **Venue Adapter**, it is no longer subject to dominance. The outbound request is stable from that point.
 2. After **submission**, an **Order** exists in **Execution State** at **Submitted** ([Order Lifecycle](order-lifecycle.md)). Its subsequent evolution is driven by **Execution Events** from the **Venue**, not by dominance.
@@ -116,7 +116,7 @@ Dominance applies **only to work in execution-control substate** (pre-submission
 
 ## Queue minimality
 
-As a consequence of dominance, the **Queue** (execution-control substate) is always **minimal**:
+As a consequence of dominance, the **Queue** (Execution Control substate) is always **minimal**:
 
 - **At most one** effective command per logical order key at any time.
 - **No** accumulation of superseded or redundant commands.

@@ -63,10 +63,10 @@ Derived State is organized into **three** top-level domains:
 | Domain | What it covers |
 | ------ | -------------- |
 | **Market State** | Market conditions derived from market-related Events |
-| **Execution State** | Orders, fills, positions, balances, and execution-control substate |
+| **Execution State** | Orders, fills, positions, balances, and Execution Control substate |
 | **Control State** | Runtime control flags, configuration status, and operational signals |
 
-The **Queue** (execution-control substate) is part of **Execution State**. It is **not** a fourth top-level domain.
+The **Queue** (Execution Control substate) is part of **Execution State**. It is **not** a fourth top-level domain.
 
 ➝ [State Model](state-model.md)
 
@@ -104,7 +104,7 @@ Risk does **not** schedule transmission, apply rate limits, manage inflight gati
 
 ### Queue
 
-The **Queue** is **derived execution-control substate** within **Execution State**. It holds allowed pending outbound commands after reconciliation (e.g. dominance).
+The **Queue** is **derived Execution Control substate** within **Execution State**. It holds allowed pending outbound commands after reconciliation (e.g. dominance).
 
 The Queue is:
 
@@ -119,6 +119,8 @@ The Queue is:
 **Queue Processing** is a **deterministic computation within Event processing** — not a separate runtime tick, background loop, or independently clocked phase. It runs as part of the same sequential step that updates all derived State.
 
 It decides, for the current processing step, which reconciled allowed Intents may be dispatched and in what order, subject to inflight rules and rate rules from Configuration.
+
+Where current State and Configuration imply a future relevant control-time re-evaluation point (e.g. pending allowed outbound work exists and a rate-limit window will recover), the Core may derive a **Control Scheduling Obligation** — a non-canonical, runtime-facing signal that produces no State Transition. The Runtime realizes this obligation by injecting a **Control-Time Event** into the Event Stream. That Event is canonical, is processed within Event processing, and triggers Queue Processing in the same way as any other Event. Control-Time Events are sparse and deadline-style; they are Control State semantics and do not originate from a Venue.
 
 Internal Queue Processing derivations — dominance, eligibility, inflight gating, scheduling — are **not** separate Events unless canonical history explicitly requires them.
 
@@ -146,8 +148,9 @@ This requires:
 
 - **No hidden state** outside Event Stream + Configuration
 - **No out-of-band State mutations** by any component
-- **No separate runtime tick** that advances execution-control state independently of Event processing
+- **No separate runtime tick** that advances Execution Control State independently of Event processing
 - **No wall-clock-dependent branching** in canonical logic
+- **No hidden wall-clock mutation inside the Core**: a Control Scheduling Obligation (derived from State + Configuration) is non-canonical and produces no State Transition; the canonical record is a Control-Time Event injected by the Runtime and present in the Event Stream
 
 Determinism applies equally to **Backtesting** and **Live**. Infrastructure differs; the semantic model does not.
 
@@ -204,5 +207,5 @@ Concept documents are best read in dependency order:
 5. [Invariants](invariants.md) — non-negotiable infrastructure-wide constraints
 6. [Order Lifecycle](order-lifecycle.md) — Order from submission to terminal state
 7. [Intent Dominance](intent-dominance.md) — deterministic reconciliation of pending pre-submission work
-8. [Queue Semantics](queue-semantics.md) — Queue as derived execution-control substate
+8. [Queue Semantics](queue-semantics.md) — Queue as derived Execution Control substate
 9. [Queue Processing](queue-processing.md) — selecting allowed work for dispatch

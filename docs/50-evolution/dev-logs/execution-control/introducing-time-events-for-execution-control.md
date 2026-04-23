@@ -15,9 +15,9 @@ Updated: {{ page.meta.updated }}
 
 The Core Runtime is modeled as a deterministic event-driven system.
 
-Queue Processing currently runs only as part of Event processing. This keeps the model deterministic and avoids hidden runtime ticks, but it also means that pending execution-control work may remain unevaluated when no new external Events arrive.
+Queue Processing currently runs only as part of Event processing. This keeps the model deterministic and avoids hidden runtime ticks, but it also means that pending Execution Control work may remain unevaluated when no new external Events arrive.
 
-This becomes problematic when the Queue contains allowed but not yet dispatchable work that should be retried once execution-control constraints (such as rate capacity) allow it again.
+This becomes problematic when the Queue contains allowed but not yet dispatchable work that should be retried once Execution Control constraints (such as rate capacity) allow it again.
 
 The goal is to preserve deterministic replay and Backtesting/Live semantic parity while removing unnecessary dependence on external Market or Execution Events for Queue re-evaluation.
 
@@ -54,7 +54,7 @@ If the Queue contains pending outbound work and no new Market or Execution Event
 
 ### Results
 
-- Moving time-based dispatchability into Risk would blur policy and execution-control responsibilities.
+- Moving time-based dispatchability into Risk would blur policy and Execution Control responsibilities.
 - Adding a hidden Queue loop or wall-clock-based runtime tick would weaken determinism and replayability.
 - The most promising direction is to introduce explicit Control-Time Events as part of canonical processing input.
 
@@ -70,7 +70,7 @@ If the Queue contains pending outbound work and no new Market or Execution Event
 
 ### Root Cause
 
-The current model is semantically clean but overly dependent on external Event arrival for execution-control progress.
+The current model is semantically clean but overly dependent on external Event arrival for Execution Control progress.
 As a result, pending Queue work may remain unevaluated in quiet periods even though it would become dispatchable under deterministic rate / inflight rules.
 
 ### Changes Proposed

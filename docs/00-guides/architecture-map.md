@@ -49,7 +49,7 @@ For a brief semantic introduction to each core concept, see [Concepts Overview](
 | -------- | -------- |
 | What is the Queue? Is it a source of truth? | [Queue Semantics](../20-concepts/queue-semantics.md) |
 | How does Queue Processing select work for dispatch? | [Queue Processing](../20-concepts/queue-processing.md) |
-| What is Execution Control and how does it differ from Risk? | [Terminology: Execution Control](terminology.md#execution-control) · [Logical Architecture](../10-architecture/logical-architecture.md) |
+| What is Execution Control and how does it differ from Risk? | [Terminology: Execution Control](terminology.md#Execution Control) · [Logical Architecture](../10-architecture/logical-architecture.md) |
 
 ### Determinism and correctness
 

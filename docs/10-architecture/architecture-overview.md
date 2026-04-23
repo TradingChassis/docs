@@ -122,7 +122,7 @@ flowchart TB
 
 **Risk.** The Risk Engine decides **admissibility only** (allowed / denied). It does not schedule transmission, apply rate limits, or manage inflight gating. Those responsibilities belong exclusively to **Execution Control** (Queue + Queue Processing).
 
-**Queue and Execution Control.** The Queue is **derived execution-control substate** within **Execution State** — not a fourth top-level domain, not a source of truth, and fully recomputable from **Event Stream + Configuration** ([Queue Semantics](../20-concepts/queue-semantics.md)). Queue Processing runs as a deterministic computation **within Event processing** — there is no separate runtime tick.
+**Queue and Execution Control.** The Queue is **derived Execution Control substate** within **Execution State** — not a fourth top-level domain, not a source of truth, and fully recomputable from **Event Stream + Configuration** ([Queue Semantics](../20-concepts/queue-semantics.md)). Queue Processing runs as a deterministic computation **within Event processing** — there is no separate runtime tick.
 
 **Orders.** An **Order** is a derived entity in **Execution State**. The Order lifecycle **begins at submission** (`Submitted` is the first Order state). Queue residency, Risk acceptance, and Intent generation do not constitute an Order. After submission, Order state evolves through **Execution Events** from the Venue. The Intent lifecycle and Order lifecycle are distinct.
 
@@ -179,7 +179,7 @@ Both Runtimes run the same **Core Runtime** semantics:
 - **Event-driven, deterministic processing** (`State = f(Event Stream, Configuration)`)
 - Same **Intent ➝ Risk ➝ Execution Control ➝ Venue Adapter** chain
 - Same **Order lifecycle** beginning at submission
-- Same **Queue** semantics: derived execution-control substate, no independent tick
+- Same **Queue** semantics: derived Execution Control substate, no independent tick
 
 Infrastructure differs between the two Runtimes; semantics do not:
 

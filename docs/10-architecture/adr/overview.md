@@ -47,9 +47,9 @@ Decisions governing the Core Runtime's execution pipeline — how Intents are pr
 
 | ADR | Decision |
 | --- | -------- |
-| [ADR-004: Derived Execution-Control Queue](execution-engine/ADR-004-outbound-queue.md) | Outbound work is reconciled through a derived execution-control Queue that holds at most one effective command per logical order key, using dominance, inflight gating, and rate-limited dispatch within deterministic Event processing. |
-| [ADR-005: Mandatory Risk Validation Before Execution Control](execution-engine/ADR-005-risk-validation.md) | Every Intent must pass through the Risk Engine — a mandatory policy gate deciding admissibility only (allowed / denied) — before entering execution-control substate. Risk does not manage dispatch timing or scheduling. |
-| [ADR-006: Explicit Lifecycle State Machines](execution-engine/ADR-006-explicit-state-machines.md) | Intent lifecycle and Order lifecycle are modeled as two explicit, non-overlapping state machines separated at submission, with execution-control mechanisms operating within the Intent lifecycle rather than as separate top-level state machines. |
+| [ADR-004: Derived Execution-Control Queue](execution-engine/ADR-004-outbound-queue.md) | Outbound work is reconciled through a derived Execution Control Queue that holds at most one effective command per logical order key, using dominance, inflight gating, and rate-limited dispatch within deterministic Event processing. |
+| [ADR-005: Mandatory Risk Validation Before Execution Control](execution-engine/ADR-005-risk-validation.md) | Every Intent must pass through the Risk Engine — a mandatory policy gate deciding admissibility only (allowed / denied) — before entering Execution Control substate. Risk does not manage dispatch timing or scheduling. |
+| [ADR-006: Explicit Lifecycle State Machines](execution-engine/ADR-006-explicit-state-machines.md) | Intent lifecycle and Order lifecycle are modeled as two explicit, non-overlapping state machines separated at submission, with Execution Control mechanisms operating within the Intent lifecycle rather than as separate top-level state machines. |
 | [ADR-007: Layered Runtime Architecture of the Core](execution-engine/ADR-007-layered-runtime-architecture.md) | The Core Runtime is organized into four layered responsibilities — Strategy, Risk, Execution Control, Venue Adapter — each answering exactly one control question (what / whether / when / how) with strict boundaries. |
 
 ## Research Infrastructure

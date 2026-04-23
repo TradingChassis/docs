@@ -99,7 +99,7 @@ Such behavior must be expressed in a way that remains **compatible with determin
 
 1. **Time observations that affect State must enter as Events or as Configuration.** If a timestamp or elapsed-time computation is needed for a State transition, it must be carried in an **Event** already on the stream (e.g. as a field of an existing **Execution** or **Control Event**) or encoded in **Configuration**-level rules—not derived from a private wall-clock read at runtime.
 2. **Rate-limit rules and capacity recovery must be expressed as deterministic functions of prior stream history and Configuration.** For example, a token-bucket rule whose replenishment rate is defined in **Configuration** and whose consumption is tracked through prior **Events** is fully deterministic and replayable. An independent timer that fires outside **Event processing** is not.
-3. **Wakeups and delayed reevaluations must not introduce unnecessary extra Event types.** Where a future processing obligation exists (e.g. re-evaluate outbound Queue after rate-limit window expires), it must be tied to an **Event** that naturally occurs at that time (e.g. a market update, an execution report, a control signal)—or to a minimal scheduled record already defined in the stream semantics—not to ad hoc timer Events invented solely for scheduling.
+3. **Future re-evaluation obligations must be expressed through canonical Events.** Where current **State** and **Configuration** imply a future relevant control-time re-evaluation point—such as a rate-limit window that will recover while allowed outbound work remains pending—the Core may derive a **Control Scheduling Obligation** (see [Terminology: Control Scheduling Obligation](../00-guides/terminology.md#control-scheduling-obligation)). This obligation is non-canonical: it does not enter the **Event Stream** and produces no **State Transition** by itself. The **Runtime** realizes the obligation by injecting a **Control-Time Event** into the **Event Stream** at the appropriate future position (see [Terminology: Control-Time Event](../00-guides/terminology.md#control-time-event)). The Core does **not** perform hidden wall-clock-driven State mutations; canonical State change arises only from processing injected **Events** in **Processing Order**.
 
 ---
 
@@ -109,11 +109,13 @@ Such behavior must be expressed in a way that remains **compatible with determin
 
 **Normative rules:**
 
-1. There is **no** separate runtime tick that advances execution-control state independently of **Event processing**.
-2. Queue Processing is reevaluated whenever an **Event** advances the **Processing Order** position in a way that is relevant to Execution Control (e.g. an **Execution Event** clearing an inflight slot, a market update, a control signal).
-3. Time-dependent execution-control constraints (e.g. rate limits) are enforced through deterministic rules applied during **Event processing**, not through background timers that mutate state outside the stream.
+1. There is **no** separate runtime tick that advances Execution Control State independently of **Event processing**.
+2. Queue Processing is reevaluated whenever an **Event** advances the **Processing Order** position in a way that is relevant to Execution Control (e.g. an **Execution Event** clearing an inflight slot, a market update, a **Control-Time Event**).
+3. Time-dependent Execution Control constraints (e.g. rate limits) are enforced through deterministic rules applied during **Event processing**, not through background timers that mutate state outside the stream.
+4. Where current **State** and **Configuration** imply a future relevant control-time re-evaluation point, the Core may derive a **Control Scheduling Obligation**—a non-canonical, runtime-facing signal that produces no **State Transition**. The **Runtime** realizes this obligation by injecting a **Control-Time Event** into the **Event Stream**. That Event is then processed within **Event processing** exactly as any other **Event**.
+5. **Control-Time Events** are **sparse and deadline-style**: each corresponds to a specific obligation derived from **State + Configuration**, not to a periodic timer, polling loop, or background callback. They are **Control State** semantics, not **Venue** semantics.
 
-See [Queue Processing](queue-processing.md) for execution-control evaluation rules.
+See [Queue Processing](queue-processing.md) for Execution Control evaluation rules.
 
 ---
 
@@ -137,7 +139,7 @@ Given:
 - identical **Configuration**;
 - the same **Processing Order**;
 
-the Infrastructure must produce **identical State Transitions** at every stream position, including all execution-control derivations.
+the Infrastructure must produce **identical State Transitions** at every stream position, including all Execution Control derivations.
 
 The **Event Stream** and **Configuration** together constitute the canonical input. No private runtime state, wall-clock read, or scheduler timing may influence replay outcomes.
 
@@ -161,4 +163,4 @@ In both contexts, **State Transitions** depend solely on **Processing Order**, a
 - [Terminology](../00-guides/terminology.md) — canonical terms including **Event Time**, **Processing Order**, and **State Transition**.
 - [Event Model](event-model.md) — how Events carry **Event Time** as metadata; **Processing Order** as the canonical sequence.
 - [State Model](state-model.md) — `State = f(Event Stream, Configuration)`; State Transitions in Processing Order.
-- [Queue Processing](queue-processing.md) — execution-control reevaluation as part of **Event processing**, not a separate tick.
+- [Queue Processing](queue-processing.md) — Execution Control reevaluation as part of **Event processing**, not a separate tick.

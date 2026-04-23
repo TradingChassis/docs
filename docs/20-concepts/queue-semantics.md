@@ -20,12 +20,12 @@ Capitalized terms are used as in [Terminology](../00-guides/terminology.md).
 
 ## What the Queue is
 
-The **Queue** is **derived execution-control substate**: a projection within **Execution State** that holds **allowed** pending outbound work, maintained deterministically from the **Event Stream** and **Configuration**.
+The **Queue** is **derived Execution Control substate**: a projection within **Execution State** that holds **allowed** pending outbound work, maintained deterministically from the **Event Stream** and **Configuration**.
 
 **Normative rules:**
 
-1. The **Queue** is **not** a source of truth. Its contents are fully **recomputable** by replaying the **Event Stream** under the same **Configuration** and execution-control rules.
-2. The **Queue** is **not** a fourth top-level **State domain**. It is **execution-control substate** within **Execution State** ([State Model](state-model.md)).
+1. The **Queue** is **not** a source of truth. Its contents are fully **recomputable** by replaying the **Event Stream** under the same **Configuration** and Execution Control rules.
+2. The **Queue** is **not** a fourth top-level **State domain**. It is **Execution Control substate** within **Execution State** ([State Model](state-model.md)).
 3. The **Queue** is **not** a Strategy buffer, a desired-state store, or an independent decision center. It holds **effective** reconciled pending outbound work only.
 4. **Queue** state does **not** exist outside **Event processing**. No Queue update occurs except as a deterministic consequence of processing an **Event** under **Configuration**.
 
@@ -59,7 +59,7 @@ The **Queue** therefore remains **minimal**, **conflict-free**, and **determinis
 
 ## Admission
 
-An **allowed** Intent—one that **Risk** has classified as **allowed**—enters execution-control substate (the **Queue**) for scheduling by **Queue Processing**.
+An **allowed** Intent—one that **Risk** has classified as **allowed**—enters Execution Control substate (the **Queue**) for scheduling by **Queue Processing**.
 
 **Normative boundaries:**
 
@@ -86,8 +86,8 @@ The distinction between "cannot send yet" and "must not send" is fundamental: th
 ## Relationship to other documents
 
 - [Terminology](../00-guides/terminology.md) — canonical terms.
-- [Logical Architecture](../10-architecture/logical-architecture.md) — Queue as a logical component; Risk vs. execution-control separation.
-- [State Model](state-model.md) — Queue as execution-control substate within **Execution State**.
+- [Logical Architecture](../10-architecture/logical-architecture.md) — Queue as a logical component; Risk vs. Execution Control separation.
+- [State Model](state-model.md) — Queue as Execution Control substate within **Execution State**.
 - [Intent Dominance](intent-dominance.md) — rules governing which command is effective per order key.
 - [Queue Processing](queue-processing.md) — deterministic evaluation of sendability among Queue contents.
 - [Intent Lifecycle](../10-architecture/intent-lifecycle.md) — Intent stage progression through **Pending submission** ➝ **Submitted** ➝ **Inflight** ➝ **Closed**.

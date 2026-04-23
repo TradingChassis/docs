@@ -30,7 +30,7 @@ The logical layer assumes the following (see foundational documents for detail):
 
 1. **State** is fully **derived** from **Event Stream + Configuration**; **Events** are the **only** source of **State transitions**.
 2. An **Intent** is an ephemeral **command**, **not** an Event and **not** persistent; intent-processing outcomes become visible through **Events** when **canonical history** requires it.
-3. **Risk** is the **policy layer only**. **Queue** and **Queue Processing** implement **Execution Control** only. The **Queue** is **derived execution-control substate**, not a second source of truth.
+3. **Risk** is the **policy layer only**. **Queue** and **Queue Processing** implement **Execution Control** only. The **Queue** is **derived Execution Control substate**, not a second source of truth.
 4. **Queue Processing** is part of **deterministic Event processing**—there is **no** separate Runtime **tick** or **loop** owned by the Queue as an autonomous subinfrastructure.
 5. An **Order** is a **derived entity** in **Execution State**; its lifecycle **begins at submission** with state **Submitted**. Strategy does not **own** Orders as primary control objects.
 
@@ -47,7 +47,7 @@ At the logical layer, the following Components cooperate:
 | **Runtime / Core** (conceptual envelope) | Applies the Event Stream, derives State, and invokes the other logical Components in the order implied by processing rules—not defined procedurally here. |
 | **Strategy** | Produces **Intents** from read-only views of derived State. |
 | **Risk Engine** | Decides **policy admissibility** of each Intent (**allowed** / **denied**). |
-| **Queue** | Holds **execution-control substate**: reconciled **allowed** pending outbound work (derived). |
+| **Queue** | Holds **Execution Control substate**: reconciled **allowed** pending outbound work (derived). |
 | **Queue Processing** | Computes **Execution Control**: eligibility, ordering, inflight gating, rate-compliant timing—**within** Event processing. |
 | **Venue Adapter** | **Protocol translation** and **external I/O** to or from the **Venue**. |
 | **Venue** | **Infrastructure boundary**: external or simulated execution environment. |
@@ -97,12 +97,12 @@ An **Order** is **not** a Strategy-owned control object; it is a **projection** 
 
 **Responsibilities:**
 
-- Materialize **derived execution-control substate**: effective pending outbound work for **allowed** Intents after reconciliation (e.g. dominance), as defined under Configuration.
+- Materialize **derived Execution Control substate**: effective pending outbound work for **allowed** Intents after reconciliation (e.g. dominance), as defined under Configuration.
 
 **Normative boundaries:**
 
 - The Queue is **not** a fourth top-level **State domain**; it is **substate** of **Execution State** ([State Model](../20-concepts/state-model.md)).
-- The Queue is **not** a **second source of truth**; it must be **recomputable** from **Event Stream + Configuration** and deterministic execution-control rules.
+- The Queue is **not** a **second source of truth**; it must be **recomputable** from **Event Stream + Configuration** and deterministic Execution Control rules.
 - The Queue is **not** an autonomous decision center; it **stores** reconciled **allowed** work, not policy verdicts and not arbitrary Strategy history.
 
 ---
@@ -185,7 +185,7 @@ Feedback closes when Venue (and related) **Events** are applied—**State** upda
 
 ## Determinism (logical layer)
 
-**Logical** determinism means: given the same **Event Stream**, **Configuration**, and **Strategy** logic, derived **State** (including **execution-control substate**) is identical at each **Processing Order** position.
+**Logical** determinism means: given the same **Event Stream**, **Configuration**, and **Strategy** logic, derived **State** (including **Execution Control substate**) is identical at each **Processing Order** position.
 
 Components **must not** introduce behavior that depends on wall-clock time, OS scheduling, or hidden mutable stores outside **Event Stream + Configuration** and the formal derivation rules.
 

@@ -69,15 +69,15 @@ There is no fourth top-level domain. Execution-control substate (Queue contents,
 
 ## Consequences
 
-**Deterministic replay is a structural property, not an aspiration.** Because State is fully determined by Event Stream + Configuration, and because no mutation path exists outside Event processing, replay of the same stream under the same Configuration is guaranteed to produce the same State at every position. This holds for all State domains including execution-control substate.
+**Deterministic replay is a structural property, not an aspiration.** Because State is fully determined by Event Stream + Configuration, and because no mutation path exists outside Event processing, replay of the same stream under the same Configuration is guaranteed to produce the same State at every position. This holds for all State domains including Execution Control substate.
 
 **Backtesting and Live share the same derivation model.** Both Runtimes apply the same `State = f(Event Stream, Configuration)` rule. Infrastructure differs (historical vs live inputs, simulated vs real Venue); the derivation semantics do not. This equivalence is a direct consequence of the event-derived model — it is not achievable if either Runtime permits state mutations outside the Event processing path.
 
-**All derived entities are projections, not independent truth.** Orders, positions, Queue contents, and execution-control bookkeeping exist only as projections maintained during Event processing. None is an authoritative store that can diverge from the Event Stream. This rules out designs where, for example, a Queue maintains its own truth independently of the derivation path, or where Order state is updated through a mechanism other than processing Execution Events.
+**All derived entities are projections, not independent truth.** Orders, positions, Queue contents, and Execution Control bookkeeping exist only as projections maintained during Event processing. None is an authoritative store that can diverge from the Event Stream. This rules out designs where, for example, a Queue maintains its own truth independently of the derivation path, or where Order state is updated through a mechanism other than processing Execution Events.
 
 **Processing Order is the causal axis.** Because State derivation is sequential over the Event Stream, the strict ordering of Events — Processing Order — defines the Infrastructure's internal causal history. Event Time is preserved as external metadata but does not determine when an Event is applied. This eliminates timing-dependent ambiguity in state evolution.
 
-**No separate runtime tick.** All advancement of State — including execution-control substate — occurs within Event processing. There is no background timer, polling loop, or autonomous scheduler that advances State independently. This follows directly from the decision: if State is derived from the Event Stream, anything that changes State outside Event processing introduces a mutation path that the stream cannot account for.
+**No separate runtime tick.** All advancement of State — including Execution Control substate — occurs within Event processing. There is no background timer, polling loop, or autonomous scheduler that advances State independently. This follows directly from the decision: if State is derived from the Event Stream, anything that changes State outside Event processing introduces a mutation path that the stream cannot account for.
 
 **Failure recovery by replay.** State after a failure can be reconstructed from the Event Stream without relying on snapshots or parallel mutable stores. Snapshots, if used, are a pure optimization — they must not contradict what replay would produce.
 

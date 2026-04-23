@@ -90,7 +90,7 @@ Together they constitute the full Infrastructure State. **No fourth top-level do
 | Domain | Role |
 | ------ | ---- |
 | **Market State** | Observed market conditions (e.g. order book, trades, derived market indicators) derived from **Market Events** (see [Event Model](event-model.md)). |
-| **Execution State** | Trading and execution projection: **Orders**, fills, positions, balances, and related status; includes **execution-control substate** (see below). |
+| **Execution State** | Trading and execution projection: **Orders**, fills, positions, balances, and related status; includes **Execution Control substate** (see below). |
 | **Control State** | Runtime configuration, control, and operational flags derived from **Infrastructure Events** and **Control Events**. |
 
 ### Execution State and event kinds
@@ -104,17 +104,17 @@ The exact mapping from event type to projection is defined by the derivation rul
 
 ---
 
-## execution-control substate (Queue)
+## Execution Control substate (Queue)
 
-The **Queue**—pending **allowed** outbound work after reconciliation, together with data needed for **Execution Control**—is **derived execution-control substate**.
+The **Queue**—pending **allowed** outbound work after reconciliation, together with data needed for **Execution Control**—is **derived Execution Control substate**.
 
 **Normative rules:**
 
 1. The Queue is **not** a **fourth top-level State domain**. It is **part of Execution State** (or equivalently: a well-defined substructure of the single derived State whose top-level domains are Market, Execution, Infrastructure).
 
-2. The Queue is **not** a second source of truth. It must be **recomputable** from **Event Stream + Configuration** and the deterministic execution-control rules (see [Terminology: Queue](../00-guides/terminology.md#queue)).
+2. The Queue is **not** a second source of truth. It must be **recomputable** from **Event Stream + Configuration** and the deterministic Execution Control rules (see [Terminology: Queue](../00-guides/terminology.md#queue)).
 
-3. **Queue Processing** runs **within** deterministic **Event processing**—there is **no separate runtime tick**. Advancing execution-control substate is part of applying Events in **Processing Order** (see [Terminology: Queue Processing](../00-guides/terminology.md#queue-processing)).
+3. **Queue Processing** runs **within** deterministic **Event processing**—there is **no separate runtime tick**. Advancing Execution Control substate is part of applying Events in **Processing Order** (see [Terminology: Queue Processing](../00-guides/terminology.md#queue-processing)).
 
 ---
 
@@ -126,7 +126,7 @@ An **Order** is a **derived entity** in **Execution State**.
 
 1. Orders are **not** authoritative objects stored independently of the Event Stream. They exist only as **projections** maintained while applying the derivation function.
 
-2. The **Order lifecycle begins at submission** with state **Submitted**: the stage at which the Infrastructure represents an outbound request as **submitted** and awaiting Venue acknowledgement or further **Execution Events**. Stages before that are **Intent** and execution-control derivation, not a persisted **Order** entity in this sense.
+2. The **Order lifecycle begins at submission** with state **Submitted**: the stage at which the Infrastructure represents an outbound request as **submitted** and awaiting Venue acknowledgement or further **Execution Events**. Stages before that are **Intent** and Execution Control derivation, not a persisted **Order** entity in this sense.
 
 3. Orders evolve **only** through **Events** (e.g. acknowledgements, fills, cancellations, rejections), in **Processing Order**.
 
@@ -153,7 +153,7 @@ Different consumers read the **same** underlying derived State but may use **doc
 | -------- | -------------------- |
 | **Strategy** | Market and Execution projections relevant to decisions; emits **Intents** only. |
 | **Risk Engine** | Projections needed for **policy** evaluation; does not schedule or reorder outbound execution. |
-| **Queue Processing** | execution-control substate and related Execution projections; **Execution Control** only, not policy. |
+| **Queue Processing** | Execution Control substate and related Execution projections; **Execution Control** only, not policy. |
 
 Projections do not create alternate truths; they are **read patterns** over one deterministic derived State.
 
@@ -173,7 +173,7 @@ flowchart LR
     Transitions --> State
 ```
 
-Each application yields deterministic updates to **Market State**, **Execution State** (including execution-control substate and **Orders**), and **Control State**, as defined by the derivation rules.
+Each application yields deterministic updates to **Market State**, **Execution State** (including Execution Control substate and **Orders**), and **Control State**, as defined by the derivation rules.
 
 ---
 

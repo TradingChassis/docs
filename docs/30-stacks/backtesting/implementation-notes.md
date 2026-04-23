@@ -60,7 +60,7 @@ A reproducible run definition must capture:
 
 - **Canonical dataset reference** — a stable identifier for the exact dataset version used (Venue, Feed, Time Window, dataset version or promotion identifier).
 - **Strategy definition** — the Strategy code or a versioned reference to it.
-- **Configuration** — all Configuration parameters that the Core Runtime uses during processing, including execution-control rules, Risk policy parameters, and any other settings.
+- **Configuration** — all Configuration parameters that the Core Runtime uses during processing, including Execution Control rules, Risk policy parameters, and any other settings.
 - **Run parameters** — any additional parameters that vary across sweep dimensions.
 
 The run definition should be **serializable and storable** — it can be persisted alongside the run's results so that the experiment can be audited, reproduced, or extended later. A stored run definition and the corresponding canonical dataset should be sufficient to reproduce the run's outputs exactly.
