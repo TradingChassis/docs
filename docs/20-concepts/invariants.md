@@ -129,6 +129,6 @@ A component that detects an invariant violation must halt further processing, em
 - [Determinism Model](determinism-model.md) — formal definition of determinism and what breaks it.
 - [Queue Semantics](queue-semantics.md) — Queue as derived Execution Control substate.
 - [Queue Processing](queue-processing.md) — deterministic Execution Control evaluation within Event processing.
-- [Intent Lifecycle](../10-architecture/intent-lifecycle.md) — Intent lifecycle stages and terminal outcomes.
+- [Intent Lifecycle](intent-lifecycle.md) — Intent lifecycle stages and terminal outcomes.
 - [Order Lifecycle](order-lifecycle.md) — Order lifecycle starting at submission.
 - [Intent Dominance](intent-dominance.md) — deterministic reconciliation of pending pre-submission work.

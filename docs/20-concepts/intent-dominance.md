@@ -28,7 +28,7 @@ Capitalized terms are used as in [Terminology](../00-guides/terminology.md).
 
 1. Dominance is computed as part of **Event processing**—specifically, as part of the Execution Control substate update that occurs when an **allowed** Intent is admitted ([Queue Semantics](queue-semantics.md)).
 2. Dominance **does not** require a separate **Event** for each supersession unless **canonical history** explicitly requires recording the outcome for replay or audit ([Terminology: Intent visibility](../00-guides/terminology.md#intent-visibility)).
-3. Dominance applies **only to pre-submission pending work** in Execution Control substate. It has **no** effect on **Intents** already **Dispatched** or **Inflight** ([Intent Lifecycle](../10-architecture/intent-lifecycle.md)), and it does **not** retroactively alter **Order** state after **submission** ([Order Lifecycle](order-lifecycle.md)).
+3. Dominance applies **only to pre-submission pending work** in Execution Control substate. It has **no** effect on **Intents** already **Dispatched** or **Inflight** ([Intent Lifecycle](intent-lifecycle.md)), and it does **not** retroactively alter **Order** state after **submission** ([Order Lifecycle](order-lifecycle.md)).
 4. The result of dominance is that the **Queue** holds **at most one effective command** per logical order key at any time. This is a property of derived Execution Control substate, not a mutation of independent truth.
 
 ---
@@ -131,6 +131,6 @@ This property follows from the deterministic application of dominance rules with
 - [Terminology](../00-guides/terminology.md) — canonical terms, including **Intent visibility**.
 - [Queue Semantics](queue-semantics.md) — Queue identity, admission, and what the Queue contains.
 - [Queue Processing](queue-processing.md) — deterministic evaluation of sendability among Queue contents.
-- [Intent Lifecycle](../10-architecture/intent-lifecycle.md) — Intent stage progression; dominance applies only up to **Dispatched**.
+- [Intent Lifecycle](intent-lifecycle.md) — Intent stage progression; dominance applies only up to **Dispatched**.
 - [Intent Pipeline](../10-architecture/intent-pipeline.md) — submission boundary; dominance scope ends here.
 - [Order Lifecycle](order-lifecycle.md) — **Order** evolution from **Submitted** onward; dominance does not apply after submission.

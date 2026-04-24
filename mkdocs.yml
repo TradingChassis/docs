@@ -110,7 +110,6 @@ nav:
       - Dynamics:
           - Infrastructure Flows: 10-architecture/infrastructure-flows.md
           - Intent Pipeline: 10-architecture/intent-pipeline.md
-          - Intent Lifecycle: 10-architecture/intent-lifecycle.md
 
       - ADR:
           - Overview: 10-architecture/adr/overview.md
@@ -137,6 +136,7 @@ nav:
           - Invariants: 20-concepts/invariants.md
 
       - Domain Behavior:
+          - Intent Lifecycle: 20-concepts/intent-lifecycle.md
           - Order Lifecycle: 20-concepts/order-lifecycle.md
           - Intent Dominance: 20-concepts/intent-dominance.md
 

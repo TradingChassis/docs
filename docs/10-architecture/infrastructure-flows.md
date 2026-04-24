@@ -11,7 +11,7 @@ It explains **causal order** and **what runs when** in the canonical model. It d
 - redefine terms ([Terminology](../00-guides/terminology.md));
 - restate formal **Event** or **State** rules ([Event Model](../20-concepts/event-model.md), [State Model](../20-concepts/state-model.md));
 - restate component boundaries ([Logical Architecture](logical-architecture.md));
-- replace **Intent lifecycle** or **Order lifecycle** documents ([Intent Lifecycle](intent-lifecycle.md), [Order Lifecycle](../20-concepts/order-lifecycle.md)).
+- replace **Intent lifecycle** or **Order lifecycle** documents ([Intent Lifecycle](../20-concepts/intent-lifecycle.md), [Order Lifecycle](../20-concepts/order-lifecycle.md)).
 
 Canonical vocabulary applies throughout.
 

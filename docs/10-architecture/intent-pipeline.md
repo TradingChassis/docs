@@ -13,7 +13,7 @@ This document does **not**:
 - restate formal **Event** or **State** semantics ([Event Model](../20-concepts/event-model.md), [State Model](../20-concepts/state-model.md));
 - replace the canonical glossary ([Terminology](../00-guides/terminology.md));
 - replace component responsibility definitions ([Logical Architecture](logical-architecture.md));
-- replace lifecycle definitions ([Intent Lifecycle](intent-lifecycle.md), [Order Lifecycle](../20-concepts/order-lifecycle.md));
+- replace lifecycle definitions ([Intent Lifecycle](../20-concepts/intent-lifecycle.md), [Order Lifecycle](../20-concepts/order-lifecycle.md));
 - replace Queue Processing evaluation rules ([Queue Processing](../20-concepts/queue-processing.md)).
 
 Capitalized terms are used as in [Terminology](../00-guides/terminology.md).
@@ -125,7 +125,7 @@ Queue Processing is part of **deterministic Event processing**—**not** a separ
 
 **At dispatch:**
 
-- the **Intent** lifecycle enters **Dispatched** then **Inflight** ([Intent Lifecycle](intent-lifecycle.md));
+- the **Intent** lifecycle enters **Dispatched** then **Inflight** ([Intent Lifecycle](../20-concepts/intent-lifecycle.md));
 - the **Venue Adapter** transmits the outbound request;
 - the **Order** comes into existence in **Execution State** at **Submitted**—this is the **entry point** of the **Order lifecycle** ([Order Lifecycle](../20-concepts/order-lifecycle.md)).
 
@@ -159,7 +159,7 @@ This document defines the **conceptual pipeline path**. For the detailed semanti
 - [Terminology](../00-guides/terminology.md) — canonical terms.
 - [Logical Architecture](logical-architecture.md) — component boundaries and responsibilities.
 - [Infrastructure Flows](infrastructure-flows.md) — canonical **Runtime** sequencing of all pipeline stages within **Event processing**.
-- [Intent Lifecycle](intent-lifecycle.md) — **Intent** stage progression (`Generated ➝ Policy decided ➝ Pending dispatch ➝ Dispatched ➝ Inflight ➝ Closed`).
+- [Intent Lifecycle](../20-concepts/intent-lifecycle.md) — **Intent** stage progression (`Generated ➝ Policy decided ➝ Pending dispatch ➝ Dispatched ➝ Inflight ➝ Closed`).
 - [Order Lifecycle](../20-concepts/order-lifecycle.md) — **Order** evolution from **Submitted** onward (downstream from pipeline dispatch).
 - [Queue Processing](../20-concepts/queue-processing.md) — deterministic sendability evaluation rules.
 - [Queue Semantics](../20-concepts/queue-semantics.md) — Queue structure and identity model.

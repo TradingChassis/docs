@@ -8,7 +8,7 @@ This document defines the **lifecycle of Orders only**: how an **Order** evolves
 
 It specifies **lifecycle stages**, **valid transitions**, and **terminal states**. It does **not**:
 
-- define **Intent** lifecycle ([Intent Lifecycle](../10-architecture/intent-lifecycle.md));
+- define **Intent** lifecycle ([Intent Lifecycle](intent-lifecycle.md));
 - restate formal **Event** or **State** semantics ([Event Model](../20-concepts/event-model.md), [State Model](../20-concepts/state-model.md));
 - replace the canonical glossary ([Terminology](../00-guides/terminology.md));
 - restate full **Runtime** sequencing ([Infrastructure Flows](../10-architecture/infrastructure-flows.md)) or component boundaries ([Logical Architecture](../10-architecture/logical-architecture.md)).
@@ -44,7 +44,7 @@ Each **Order** is identified by a stable **Order ID** assigned by the Core when 
 
 An **Order** comes into existence in **Execution State** at **submission** in state **Submitted**: the point at which the Infrastructure represents an outbound request as **submitted** and is awaiting **Venue** acknowledgement or further **Execution Events**.
 
-**Prior stages**—such as **Intent** command creation, **Risk** policy evaluation, and **Queue Processing** / **Execution Control**—belong to the **Intent lifecycle** ([Intent Lifecycle](../10-architecture/intent-lifecycle.md)), **not** to this lifecycle. The **Order** lifecycle **begins** only at **Submission**.
+**Prior stages**—such as **Intent** command creation, **Risk** policy evaluation, and **Queue Processing** / **Execution Control**—belong to the **Intent lifecycle** ([Intent Lifecycle](intent-lifecycle.md)), **not** to this lifecycle. The **Order** lifecycle **begins** only at **Submission**.
 
 ---
 
@@ -106,7 +106,7 @@ Once an **Order** enters a **terminal** state, no further lifecycle transitions 
 
 ## Relationship to Intents and Execution State
 
-- **Intent lifecycle precedes Order lifecycle.** When an **Intent** arc reaches **Dispatched**, the outbound request is transmitted. **At dispatch**, the **Order** enters **Submitted** in **Execution State**. The **Intent** arc then **closes** ([Intent Lifecycle](../10-architecture/intent-lifecycle.md)); the **Order** lifecycle continues independently from **Submitted** forward. Subsequent **Venue** responses arrive as **Execution Events** and evolve the already-existing **Order**—they do **not** create the **Order** for the first time.
+- **Intent lifecycle precedes Order lifecycle.** When an **Intent** arc reaches **Dispatched**, the outbound request is transmitted. **At dispatch**, the **Order** enters **Submitted** in **Execution State**. The **Intent** arc then **closes** ([Intent Lifecycle](intent-lifecycle.md)); the **Order** lifecycle continues independently from **Submitted** forward. Subsequent **Venue** responses arrive as **Execution Events** and evolve the already-existing **Order**—they do **not** create the **Order** for the first time.
 - **Replace** and **Cancel** Intents may target an **existing** Order: their dispatch and completion do **not** restart the **Order lifecycle** from **Submitted**; they produce **Execution Events** that transition the existing **Order** state (e.g. a modify acknowledgement or a **Cancelled** terminal state).
 - **Order** state is part of **Execution State** ([State Model](../20-concepts/state-model.md)), which also includes **fills**, **positions**, and **balances**. **Order** transitions are a specific class of **State Transitions** within that domain.
 - **Orders** are **not** owned by **Strategy** as primary control objects. Strategy reads **Execution State** projections (which include current **Order** states) and produces **Intents** ([Logical Architecture](../10-architecture/logical-architecture.md)).
@@ -140,6 +140,6 @@ This property holds identically across **Backtesting** and **Live** Runtimes whe
 
 - [Terminology](../00-guides/terminology.md) — canonical terms.
 - [Event Model](../20-concepts/event-model.md), [State Model](../20-concepts/state-model.md) — formal **Event** and **State** semantics; **Execution State** definition.
-- [Intent Lifecycle](../10-architecture/intent-lifecycle.md) — **Intent** command progression (distinct and upstream from this lifecycle).
+- [Intent Lifecycle](intent-lifecycle.md) — **Intent** command progression (distinct and upstream from this lifecycle).
 - [Intent Pipeline](../10-architecture/intent-pipeline.md) — submission boundary and how dispatch triggers **Order** creation.
 - [Logical Architecture](../10-architecture/logical-architecture.md), [Infrastructure Flows](../10-architecture/infrastructure-flows.md) — component boundaries and Runtime sequencing.

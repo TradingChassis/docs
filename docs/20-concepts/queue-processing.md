@@ -14,7 +14,7 @@ This document does **not**:
 - replace the canonical glossary ([Terminology](../00-guides/terminology.md));
 - restate full **Runtime** sequencing ([Infrastructure Flows](../10-architecture/infrastructure-flows.md)) or component boundaries ([Logical Architecture](../10-architecture/logical-architecture.md));
 - define **Queue** structure or **dominance** algorithms ([Queue Semantics](queue-semantics.md), [Intent Dominance](intent-dominance.md));
-- define **Intent** lifecycle stages ([Intent Lifecycle](../10-architecture/intent-lifecycle.md)) or **Order** lifecycle ([Order Lifecycle](order-lifecycle.md)).
+- define **Intent** lifecycle stages ([Intent Lifecycle](intent-lifecycle.md)) or **Order** lifecycle ([Order Lifecycle](order-lifecycle.md)).
 
 Capitalized terms are used as in [Terminology](../00-guides/terminology.md).
 
@@ -62,7 +62,7 @@ Before evaluating eligibility, the Queue substate holds at most one **effective*
 
 ### 2. State validity
 
-An Intent remaining in **Pending dispatch** substate is valid only if current derived State is consistent with its execution: the referenced Order (if any) must still exist in a compatible state and the Intent must not have been superseded since admission. Invalid pending work is **not** dispatched; it is treated as **Closed** in the Intent lifecycle sense ([Intent Lifecycle](../10-architecture/intent-lifecycle.md)).
+An Intent remaining in **Pending dispatch** substate is valid only if current derived State is consistent with its execution: the referenced Order (if any) must still exist in a compatible state and the Intent must not have been superseded since admission. Invalid pending work is **not** dispatched; it is treated as **Closed** in the Intent lifecycle sense ([Intent Lifecycle](intent-lifecycle.md)).
 
 ### 3. Inflight gating
 
@@ -82,7 +82,7 @@ Eligibility is a **derived predicate** over current State—not a separate named
 
 ### 6. Dispatch selection
 
-Queue Processing selects the maximal sendable prefix of the candidate set given remaining rate capacity and inflight slots. Selected Intents are handed to the **Venue Adapter** for transmission; their status transitions from **Pending dispatch** to **Dispatched** in the Intent lifecycle ([Intent Lifecycle](../10-architecture/intent-lifecycle.md)).
+Queue Processing selects the maximal sendable prefix of the candidate set given remaining rate capacity and inflight slots. Selected Intents are handed to the **Venue Adapter** for transmission; their status transitions from **Pending dispatch** to **Dispatched** in the Intent lifecycle ([Intent Lifecycle](intent-lifecycle.md)).
 
 ---
 
@@ -140,7 +140,7 @@ Where current **State** and **Configuration** imply a future relevant control-ti
 - [Terminology](../00-guides/terminology.md) — canonical terms, including **Intent visibility** and Execution Control definitions.
 - [Logical Architecture](../10-architecture/logical-architecture.md) — component boundaries; Queue Processing responsibility defined there.
 - [Infrastructure Flows](../10-architecture/infrastructure-flows.md) — canonical sequencing of Queue Processing within **Event processing**.
-- [Intent Lifecycle](../10-architecture/intent-lifecycle.md) — Intent stage progression through `Pending dispatch ➝ Dispatched ➝ Inflight ➝ Closed`.
+- [Intent Lifecycle](intent-lifecycle.md) — Intent stage progression through `Pending dispatch ➝ Dispatched ➝ Inflight ➝ Closed`.
 - [Intent Pipeline](../10-architecture/intent-pipeline.md) — submission boundary and dispatch-triggered **Order** creation.
 - [Order Lifecycle](order-lifecycle.md) — **Order** evolution from **Submitted** onward.
 - [Queue Semantics](queue-semantics.md) — Queue structure and admission rules (not Queue Processing evaluation).
