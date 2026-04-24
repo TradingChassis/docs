@@ -1,0 +1,6 @@
+{#-
+  Dual SVG logos: visibility is toggled in extra.css via [data-md-color-scheme].
+  Paths use | url so builds work under mike version prefixes (/latest/, /0.1.0/, …).
+-#}
+<img class="tc-logo tc-logo--light" src="{{ 'assets/tc_logo_light.png' | url }}" alt="{{ config.site_name | e }}" decoding="async" loading="eager">
+<img class="tc-logo tc-logo--dark" src="{{ 'assets/tc_logo_dark.png' | url }}" alt="{{ config.site_name | e }}" decoding="async" loading="eager">
