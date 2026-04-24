@@ -40,7 +40,7 @@ For a brief semantic introduction to each core concept, see [Concepts Overview](
 
 | Question | Document |
 | -------- | -------- |
-| What is an Intent? What lifecycle stages does it pass through? | [Intent Lifecycle](../10-architecture/intent-lifecycle.md) |
+| What is an Intent? What lifecycle stages does it pass through? | [Intent Lifecycle](../20-concepts/intent-lifecycle.md) |
 | When does an Order begin? What states can it reach? | [Order Lifecycle](../20-concepts/order-lifecycle.md) |
 | How are concurrent Intents for the same order key reconciled? | [Intent Dominance](../20-concepts/intent-dominance.md) |
 

@@ -107,7 +107,7 @@ An Order comes into existence in Execution State at **submission**. `Submitted` 
 
 Collapsing these lifecycles produces documentation and implementation ambiguity about when the Infrastructure is committed to an outbound action and what can be revoked before that commitment.
 
-➝ [Intent Lifecycle](intent-lifecycle.md), [Order Lifecycle](../20-concepts/order-lifecycle.md)
+➝ [Intent Lifecycle](../20-concepts/intent-lifecycle.md), [Order Lifecycle](../20-concepts/order-lifecycle.md)
 
 ---
 
@@ -207,7 +207,7 @@ These principles are enforced by the formal rules in the concept documents:
 | P4 | [Determinism Model](../20-concepts/determinism-model.md) |
 | P5 | [Time Model](../20-concepts/time-model.md), [Determinism Model](../20-concepts/determinism-model.md) |
 | P6 | [Logical Architecture](logical-architecture.md), [Queue Processing](../20-concepts/queue-processing.md) |
-| P7 | [Intent Lifecycle](intent-lifecycle.md), [Order Lifecycle](../20-concepts/order-lifecycle.md) |
+| P7 | [Intent Lifecycle](../20-concepts/intent-lifecycle.md), [Order Lifecycle](../20-concepts/order-lifecycle.md) |
 | P8 | [Queue Processing](../20-concepts/queue-processing.md), [Infrastructure Flows](infrastructure-flows.md) |
 | P9 | [Architecture Overview](architecture-overview.md), [Infrastructure Narrative](infrastructure-narrative.md) |
 | P10, P11 | [Architecture Overview](architecture-overview.md), [Logical Architecture](logical-architecture.md) |

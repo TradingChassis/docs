@@ -161,7 +161,7 @@ This document tells the architectural story. For normative definitions, precise 
 - [Infrastructure Flows](infrastructure-flows.md) — step-by-step canonical Runtime sequencing
 - [Event Model](../20-concepts/event-model.md) — formal definition of Events and the Event Stream
 - [State Model](../20-concepts/state-model.md) — `State = f(Event Stream, Configuration)` and State domains
-- [Intent Lifecycle](intent-lifecycle.md) — Intent stages from generation to terminal disposition
+- [Intent Lifecycle](../20-concepts/intent-lifecycle.md) — Intent stages from generation to terminal disposition
 - [Order Lifecycle](../20-concepts/order-lifecycle.md) — Order stages from submission onward
 - [Queue Semantics](../20-concepts/queue-semantics.md) — Queue as derived Execution Control substate
 - [Queue Processing](../20-concepts/queue-processing.md) — deterministic Execution Control evaluation

@@ -84,7 +84,7 @@ Three normative distinctions define what an Intent is not:
 
 Where the Infrastructure must record an Intent-processing outcome for canonical history (e.g. a policy decision, a dispatch), that record appears as an **Intent-related Event**, not as the Intent itself.
 
-➝ [Terminology: Intent](../00-guides/terminology.md#intent) · [Intent Lifecycle](../10-architecture/intent-lifecycle.md)
+➝ [Terminology: Intent](../00-guides/terminology.md#intent) · [Intent Lifecycle](intent-lifecycle.md)
 
 ---
 
