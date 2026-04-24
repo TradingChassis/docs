@@ -79,7 +79,7 @@ Once the Core Runtime and supporting tooling existed, the focus moved to formali
 
 ---
 
-## March 2026 - April 2026
+## March 2026 – April 2026
 
 ### Canonical Model Consolidation
 
