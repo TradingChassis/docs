@@ -27,7 +27,7 @@ An **Event** is an **immutable**, **canonical** record of an occurrence that the
 1. **Occurrence, not command.** An Event records that something **has occurred** or **has been decided** for canonical history (e.g. external market update, Venue execution report, recorded policy outcome, control signal). It does not substitute for an **Intent**, which is an ephemeral **command** (see [Terminology: Intent](../00-guides/terminology.md#intent)).
 2. **Sole driver of State transitions.** **Events are the only source of State transitions.** No change to derived State occurs except by processing an Event under **Configuration**.
 3. **Immutability.** After append (or equivalent canonical creation), an Event must not be modified.
-4. **Ordering.** Events are applied strictly in **Processing Order** as realized by their position in the **Event Stream** (see [Event Stream](#event-Event Stream)).
+4. **Ordering.** Events are applied strictly in **Processing Order** as realized by their position in the **Event Stream** (see [Event Stream](#event-stream)).
 
 Events **do not** “mutate State” as an extra mechanism: **State Transitions** are the **result** of deterministically applying an Event to the State derived from all prior Events and Configuration.
 
