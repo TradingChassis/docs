@@ -4384,7 +4384,7 @@
 <h1 id="ingest-frequency-vs-decision-frequency">Ingest Frequency vs Decision Frequency</h1>
 <hr />
 <h2 id="purpose">Purpose</h2>
-<p>This document explains the distinction between <strong>ingest frequency</strong> and <strong>decision frequency</strong> in the Infrastructure and how both remain grounded in the canonical event-driven model.</p>
+<p>This document explains the distinction between <strong>ingest frequency</strong> and <strong>decision frequency</strong> in the infrastructure and how both remain grounded in the canonical event-driven model.</p>
 <p>It establishes:</p>
 <ul>
 <li>what each concept means at a semantic level;</li>
@@ -4411,17 +4411,17 @@
 <hr />
 <h2 id="core-distinction-ingest-frequency-vs-decision-frequency">Core distinction: ingest frequency vs decision frequency</h2>
 <h3 id="ingest-frequency">Ingest frequency</h3>
-<p><strong>Ingest frequency</strong> is the rate at which <strong>Events</strong> enter the <strong>Event Stream</strong> and are processed by the Infrastructure. It reflects the arrival rate of external occurrences — market data updates, execution reports, control signals — as represented by their <strong>Processing Order</strong> positions in the stream.</p>
-<p>Every Event in the stream is applied in <strong>Processing Order</strong>. Each applied Event updates derived <strong>State</strong>. Ingest frequency therefore sets the rate at which derived <strong>State</strong> is updated.</p>
+<p><strong>Ingest frequency</strong> is the rate at which <strong>Events</strong> enter the <strong>Event Stream</strong> and are processed by the infrastructure. It reflects the arrival rate of external occurrences — market data updates, execution reports, control signals — as represented by their <strong>Processing Order</strong> positions in the Event Stream.</p>
+<p>Every Event in the Event Stream is applied in <strong>Processing Order</strong>. Each applied Event updates derived <strong>State</strong>. Ingest frequency therefore sets the rate at which derived <strong>State</strong> is updated.</p>
 <h3 id="decision-frequency">Decision frequency</h3>
-<p><strong>Decision frequency</strong> is the rate at which <strong>Strategy</strong> is evaluated — i.e., the rate at which the Infrastructure invokes Strategy to read derived <strong>State</strong> and potentially emit <strong>Intents</strong>.</p>
+<p><strong>Decision frequency</strong> is the rate at which <strong>Strategy</strong> is evaluated — i.e., the rate at which the infrastructure invokes Strategy to read derived <strong>State</strong> and potentially emit <strong>Intents</strong>.</p>
 <p>Strategy evaluation does <strong>not</strong> occur on every Event. Strategy emits zero or more <strong>Intents</strong> per evaluation, and evaluation itself occurs on a subset of processing steps. That subset is determined by semantic relevance: which Events, under which derived State conditions, warrant Strategy being consulted.</p>
 <h3 id="the-relationship">The relationship</h3>
 <p>Ingest frequency and decision frequency are <strong>independent</strong> of each other. A infrastructure may process thousands of Events per second (high ingest frequency) while Strategy evaluates on only a fraction of those processing steps (lower decision frequency).</p>
 <p>This follows from the model: Strategy produces commands only when relevant conditions exist, not on every State update.</p>
 <hr />
 <h2 id="relationship-to-event-processing-and-state-derivation">Relationship to Event processing and State derivation</h2>
-<p>All Events in the <strong>Event Stream</strong> are processed in <strong>Processing Order</strong> regardless of whether any given Event triggers Strategy evaluation. Derived <strong>State</strong> is updated at every stream position:</p>
+<p>All Events in the <strong>Event Stream</strong> are processed in <strong>Processing Order</strong> regardless of whether any given Event triggers Strategy evaluation. Derived <strong>State</strong> is updated at every Event Stream position:</p>
 <p><code>State(n) = f(Event Stream[0..n], Configuration)</code></p>
 <p>This means that between Strategy evaluations, derived <strong>State</strong> continues to advance through every processed Event. When Strategy next evaluates, it reads <strong>fully current derived State</strong> — a projection that reflects all Events up to and including the triggering Event. No State is stale; no Event is skipped for the purposes of State derivation.</p>
 <p>Strategy evaluation is a <strong>step that may or may not occur within a given processing step</strong>, not a parallel process running at its own rate. Whether it occurs is a semantic property of the current Event and current derived State under <strong>Configuration</strong> — not a property of wall-clock time.</p>
@@ -4451,9 +4451,9 @@
 <h2 id="compatibility-with-replayability-and-determinism">Compatibility with replayability and determinism</h2>
 <p>Reduced decision cadence is compatible with determinism and replayability if and only if the trigger for Strategy evaluation is itself a <strong>deterministic function of Event Stream + Configuration</strong>.</p>
 <p><strong>If it is:</strong></p>
-<p>Replay of the same Event Stream under the same Configuration produces Strategy evaluation at identical stream positions. Decision frequency is a property of the replay input — not of the environment in which replay runs. Backtesting and Live will reach the same decision points at the same stream positions, since both apply the same triggering logic to equivalent Event Streams.</p>
+<p>Replay of the same Event Stream under the same Configuration produces Strategy evaluation at identical Event Stream positions. Decision frequency is a property of the replay input — not of the environment in which replay runs. Backtesting and Live will reach the same decision points at the same Event Stream positions, since both apply the same triggering logic to equivalent Event Streams.</p>
 <p><strong>If it is not:</strong></p>
-<p>If Strategy evaluation is triggered by wall-clock time or any mechanism outside the Event Stream, two replays of the same stream may evaluate Strategy at different positions, producing different Intents and ultimately different derived State. This breaks determinism.</p>
+<p>If Strategy evaluation is triggered by wall-clock time or any mechanism outside the Event Stream, two replays of the same Event Stream may evaluate Strategy at different positions, producing different Intents and ultimately different derived State. This breaks determinism.</p>
 <p><strong>Normative statement:</strong> Decision frequency must be expressed as a property of the Event Stream and Configuration. It must not be an independent time-based property of the runtime environment.</p>
 <hr />
 <h2 id="constraints-and-non-goals">Constraints and non-goals</h2>
@@ -4461,14 +4461,14 @@
 <p><strong>I1 — Strategy evaluation must not be driven by an independent clock.</strong>
 No timer, scheduler, or wall-clock interval may serve as the authority for when Strategy is evaluated. The only valid trigger is the occurrence of a specific Event or a specific derived State condition, both of which are determined by the Event Stream and Configuration.</p>
 <p><strong>I2 — Derived State must be current at the point of Strategy evaluation.</strong>
-When Strategy evaluates, it reads derived State that is up to date through the triggering Event's <strong>Processing Order</strong> position. The Infrastructure must not present Strategy with a stale State projection from a prior position as if it were current.</p>
+When Strategy evaluates, it reads derived State that is up to date through the triggering Event's <strong>Processing Order</strong> position. The infrastructure must not present Strategy with a stale State projection from a prior position as if it were current.</p>
 <p><strong>I3 — Decision cadence must not alter Processing Order.</strong>
 Reduced decision frequency does not imply that non-triggering Events are held back, batched, or reordered. Every Event is applied in <strong>Processing Order</strong> and updates derived State. Decision cadence only affects when Strategy is consulted — not how Events are sequenced.</p>
 <p><strong>I4 — Hidden state tracking decision timing is forbidden.</strong>
 Any mutable store that tracks "time since last decision" or "Events since last evaluation" outside of derived State is hidden mutable truth (<a href="../invariants/">Invariants: D3</a>). Where such tracking is needed, it must be maintained as derived State — a value computed from the Event Stream and Configuration.</p>
 <h3 id="non-goals">Non-goals</h3>
 <ul>
-<li>This document does not define which specific Event categories trigger Strategy evaluation in the Infrastructure. That is a Configuration-level implementation choice.</li>
+<li>This document does not define which specific Event categories trigger Strategy evaluation in the infrastructure. That is a Configuration-level implementation choice.</li>
 <li>This document does not prescribe minimum or maximum decision frequencies. These are Strategy-specific and context-specific design decisions.</li>
 <li>This document does not address how Queue Processing, Risk evaluation, or Venue Adapter pacing relate to ingest frequency. Those concerns are addressed in their respective documents.</li>
 </ul>
@@ -4488,7 +4488,7 @@ Any mutable store that tracks "time since last decision" or "Events since last e
 </tr>
 <tr>
 <td><a href="../state-model/">State Model</a></td>
-<td>Defines <code>State = f(Event Stream, Configuration)</code>; State is updated at every stream position regardless of decision frequency</td>
+<td>Defines <code>State = f(Event Stream, Configuration)</code>; State is updated at every Event Stream position regardless of decision frequency</td>
 </tr>
 <tr>
 <td><a href="../../10-architecture/infrastructure-flows/">Infrastructure Flows</a></td>

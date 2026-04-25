@@ -4355,16 +4355,16 @@
 <p>This document defines the logical internal structure of the Data Storage Stack: its primary storage classes, their roles, and the structural relationships between them.</p>
 <hr />
 <h2 id="structural-overview">Structural Overview</h2>
-<p>The Data Storage Stack is not a processing pipeline. Its internal structure is a <strong>logical storage organization</strong> — a set of persistent storage classes, each with a defined role, that together provide the Infrastructure's durable substrate.</p>
-<p>The key structural principle is <strong>logical separation</strong>. Each storage class holds a distinct category of persisted data, has defined writers and readers, and carries a stable meaning within the Infrastructure. These classes are logically distinct regardless of whether they share physical infrastructure. The Data Storage Stack's internal structure is the arrangement of these classes and the boundaries between them.</p>
+<p>The Data Storage Stack is not a processing pipeline. Its internal structure is a <strong>logical storage organization</strong> — a set of persistent storage classes, each with a defined role, that together provide the infrastructure's durable substrate.</p>
+<p>The key structural principle is <strong>logical separation</strong>. Each storage class holds a distinct category of persisted data, has defined writers and readers, and carries a stable meaning within the infrastructure. These classes are logically distinct regardless of whether they share physical infrastructure. The Data Storage Stack's internal structure is the arrangement of these classes and the boundaries between them.</p>
 <hr />
 <h2 id="primary-storage-classes">Primary Storage Classes</h2>
 <h3 id="persistent-raw-storage">Persistent Raw Storage</h3>
 <p>Holds raw recorded datasets as produced by the Data Recording Stack — Venue market-data messages with source and timing metadata, partitioned by Venue, Feed, and Time Window, written without transformation or normalization.</p>
-<p><strong>Role:</strong> Durable retention of the Infrastructure's raw empirical record before any quality assessment or canonical promotion has occurred.</p>
+<p><strong>Role:</strong> Durable retention of the infrastructure's raw empirical record before any quality assessment or canonical promotion has occurred.</p>
 <h3 id="canonical-storage">Canonical Storage</h3>
 <p>Holds validated, normalized datasets promoted by the Data Quality Stack. Canonical datasets have passed integrity, completeness, and consistency assessment and have been transformed into canonical form.</p>
-<p><strong>Role:</strong> The authoritative validated dataset layer for the Infrastructure. Canonical Storage is the persistent surface from which Backtesting, Analysis, and other downstream consumers read validated Research inputs.</p>
+<p><strong>Role:</strong> The authoritative validated dataset layer for the infrastructure. Canonical Storage is the persistent surface from which Backtesting, Analysis, and other downstream consumers read validated Research inputs.</p>
 <h3 id="derived-storage">Derived Storage</h3>
 <p>Holds datasets and artifacts derived from canonical data, execution records, or other persisted sources — for example, aggregated statistics, computed features, or analytical outputs produced by the Analysis Stack or other processing.</p>
 <p><strong>Role:</strong> Durable retention of computed or derived artifacts that are distinct from both raw recordings and canonical datasets.</p>

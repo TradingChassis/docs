@@ -4309,13 +4309,13 @@
 <p>How that environment is realized determines whether the stack delivers on its central requirements: deterministic execution, reproducible experiments, efficient sweep exploration, and durable result persistence. A weak realization — non-reproducible run definitions, lost artifacts, non-deterministic infrastructure effects — undermines the value of the Core Runtime's determinism guarantee, because the guarantee holds at the semantic level but is not preserved through to Research output.</p>
 <hr />
 <h2 id="realizing-historical-runtime-execution">Realizing Historical Runtime Execution</h2>
-<p>The Core Runtime processes Events deterministically in Processing Order. In Backtesting, the Event stream is constructed from canonical datasets rather than arriving from live Venue feeds. The implementation must bridge canonical persistent data and the Core Runtime's Event-processing model without introducing non-determinism.</p>
-<p><strong>Canonical dataset materialization.</strong> Canonical datasets are stored in Canonical Storage as validated, normalized dataset files partitioned by Venue, Feed, and Time Window. The Historical Input Feeder reads these files and produces the historical Event stream in the Processing Order the Core Runtime expects. This materialization step must be deterministic: the same canonical dataset must always produce the same Event stream in the same order.</p>
-<p><strong>Simulated Venue realization.</strong> The Simulated Venue sits behind the Venue Adapter boundary and generates execution feedback from historical data. Its behavior must also be deterministic: given the same historical input data and the same sequence of outbound requests, it must produce identical execution feedback. The current realization uses hftbacktest for this purpose, as documented in ADR-008. The surrounding infrastructure — Event processing, State derivation, Strategy evaluation, Risk, Execution Control, the Venue Adapter itself — remains implemented within the Infrastructure.</p>
+<p>The Core Runtime processes Events deterministically in Processing Order. In Backtesting, the Event Stream is constructed from canonical datasets rather than arriving from live Venue feeds. The implementation must bridge canonical persistent data and the Core Runtime's Event-processing model without introducing non-determinism.</p>
+<p><strong>Canonical dataset materialization.</strong> Canonical datasets are stored in Canonical Storage as validated, normalized dataset files partitioned by Venue, Feed, and Time Window. The Historical Input Feeder reads these files and produces the historical Event Stream in the Processing Order the Core Runtime expects. This materialization step must be deterministic: the same canonical dataset must always produce the same Event Stream in the same order.</p>
+<p><strong>Simulated Venue realization.</strong> The Simulated Venue sits behind the Venue Adapter boundary and generates execution feedback from historical data. Its behavior must also be deterministic: given the same historical input data and the same sequence of outbound requests, it must produce identical execution feedback. The current realization uses hftbacktest for this purpose, as documented in ADR-008. The surrounding infrastructure — Event processing, State derivation, Strategy evaluation, Risk, Execution Control, the Venue Adapter itself — remains implemented within the infrastructure.</p>
 <p><strong>Determinism preservation through infrastructure.</strong> The Core Runtime is deterministic by design, but the execution environment can introduce non-determinism if not carefully controlled. Implementation must ensure that:</p>
 <ul>
 <li>Thread scheduling, process ordering, and resource contention do not affect Event processing order.</li>
-<li>Timestamp sources used within the processing loop are derived from the Event stream (Processing Order), not from wall-clock time.</li>
+<li>Timestamp sources used within the processing loop are derived from the Event Stream (Processing Order), not from wall-clock time.</li>
 <li>No hidden mutable state outside the Event processing path influences run outcomes.</li>
 </ul>
 <p>These are implementation-level constraints that preserve the Core Runtime's determinism guarantee through to Research output.</p>
@@ -4372,7 +4372,7 @@
 <p>The Backtesting Stack may integrate with the Monitoring Stack for operational observability during execution. Typical concerns include:</p>
 <ul>
 <li><strong>Run status and progress</strong> — which runs are pending, executing, completed, or failed within a batch or sweep.</li>
-<li><strong>Execution throughput</strong> — how fast the Core Runtime is processing the historical Event stream (events per second, time-to-completion estimates).</li>
+<li><strong>Execution throughput</strong> — how fast the Core Runtime is processing the historical Event Stream (events per second, time-to-completion estimates).</li>
 <li><strong>Resource utilization</strong> — compute, memory, and I/O consumption during execution.</li>
 <li><strong>Error and failure visibility</strong> — runs that fail or produce unexpected outcomes should be visible promptly.</li>
 </ul>

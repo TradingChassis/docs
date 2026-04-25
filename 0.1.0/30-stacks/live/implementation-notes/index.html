@@ -4322,8 +4322,8 @@
 <p>This document captures implementation-facing rationale and design considerations for the Live Stack: how real-time runtime execution is realized in practice, how Venue connectivity and operational control are integrated, and what patterns support execution-record persistence and observability.</p>
 <hr />
 <h2 id="why-live-realization-matters">Why Live Realization Matters</h2>
-<p>The Live Stack operates at the boundary between the Infrastructure's deterministic processing model and the real market. Implementation choices here directly affect whether the Core Runtime's architectural guarantees — deterministic Event processing, structured lifecycle management, layered responsibility separation — are preserved through to real-time production.</p>
-<p>A weak realization (e.g., Venue connectivity that bypasses the Venue Adapter boundary, execution records that are lost on failure, observability that is absent during critical conditions) undermines the Infrastructure's architectural integrity in the context where it matters most — real trading with real financial consequences.</p>
+<p>The Live Stack operates at the boundary between the infrastructure's deterministic processing model and the real market. Implementation choices here directly affect whether the Core Runtime's architectural guarantees — deterministic Event processing, structured lifecycle management, layered responsibility separation — are preserved through to real-time production.</p>
+<p>A weak realization (e.g., Venue connectivity that bypasses the Venue Adapter boundary, execution records that are lost on failure, observability that is absent during critical conditions) undermines the infrastructure's architectural integrity in the context where it matters most — real trading with real financial consequences.</p>
 <p>The implementation patterns described here are designed to ensure that the Live Stack's realization preserves the Core Runtime's processing model while meeting the operational demands of production trading.</p>
 <hr />
 <h2 id="realizing-real-time-runtime-execution">Realizing Real-Time Runtime Execution</h2>
@@ -4354,7 +4354,7 @@
 <p>The Operational Control Surface must be realized as a reliable, accessible interface through which operators and operational tooling can interact with the live trading session. Implementation patterns include:</p>
 <ul>
 <li><strong>Control channels.</strong> API endpoints, command-line interfaces, or message-based control surfaces that accept session lifecycle commands (start, stop), trading controls (enable, disable, kill-switch), and Configuration updates.</li>
-<li><strong>State visibility.</strong> Exposing current session state — trading status, active Strategy, active Configuration, connection status — so that operators can assess the Infrastructure's condition before issuing control commands.</li>
+<li><strong>State visibility.</strong> Exposing current session state — trading status, active Strategy, active Configuration, connection status — so that operators can assess the infrastructure's condition before issuing control commands.</li>
 <li><strong>Control safety.</strong> Ensuring that control actions are applied reliably and that their effects are reflected in the Core Runtime's processing state. A kill-switch activation, for example, must reliably prevent further outbound dispatch — not merely signal an intent to stop.</li>
 </ul>
 <hr />
@@ -4363,7 +4363,7 @@
 <p><strong>Write-as-produced.</strong> Execution records — order submissions, Venue acknowledgements, fills, rejections, position updates, dispatch metadata — should be persisted as they are produced during execution. This ensures that a durable record exists even if the session terminates unexpectedly.</p>
 <p><strong>Storage surface usage.</strong> Records are written to the Data Storage Stack's <strong>Execution Record Storage</strong> surface. The implementation writes to this surface but does not manage its organization, retention, or access policies. The writing pattern should be compatible with the storage surface's expected access model (e.g., append-oriented writes, partitioned by session or time window).</p>
 <p><strong>Traceability.</strong> Each persisted record should carry sufficient context to be traceable — which session produced it, which Strategy and Configuration were in effect, which Venue interaction it relates to. This linkage is what makes post-hoc analysis by the Analysis Stack meaningful rather than a disconnected collection of records.</p>
-<p><strong>Failure resilience.</strong> The persistence path must be robust against transient storage failures. If a write fails, the implementation should buffer and retry rather than silently dropping execution records. The durable record of live execution is not optional — it is the mechanism by which the Infrastructure retains knowledge of what it did in production.</p>
+<p><strong>Failure resilience.</strong> The persistence path must be robust against transient storage failures. If a write fails, the implementation should buffer and retry rather than silently dropping execution records. The durable record of live execution is not optional — it is the mechanism by which the infrastructure retains knowledge of what it did in production.</p>
 <hr />
 <h2 id="monitoring-and-observability-integration">Monitoring and Observability Integration</h2>
 <p>The Live Stack emits telemetry for consumption by the Monitoring Stack. Implementation concerns include:</p>

@@ -4311,10 +4311,10 @@
 Updated: 2026-04-01</p>
 <hr />
 <h2 id="context">Context</h2>
-<p>The Infrastructure's architecture comprises two fundamentally different kinds of knowledge:</p>
+<p>The infrastructure's architecture comprises two fundamentally different kinds of knowledge:</p>
 <ol>
 <li>
-<p><strong>Semantic models</strong> — formal definitions of Events, State, Processing Order, Determinism, Intents, Orders, Execution Control, and the invariants that govern them. These define what the Infrastructure <em>is</em> and how it <em>behaves</em> at a logical level. They are stable across all Runtimes, all Venues, and all deployment configurations.</p>
+<p><strong>Semantic models</strong> — formal definitions of Events, State, Processing Order, Determinism, Intents, Orders, Execution Control, and the invariants that govern them. These define what the infrastructure <em>is</em> and how it <em>behaves</em> at a logical level. They are stable across all Runtimes, all Venues, and all deployment configurations.</p>
 </li>
 <li>
 <p><strong>Implementation structures</strong> — concrete Stacks, deployment topologies, technology choices, operational procedures, and infrastructure constraints. These define how the semantic models are <em>realized</em> in specific contexts. They change as infrastructure evolves, as new Venues are added, or as operational requirements shift.</p>
@@ -4327,19 +4327,19 @@ Updated: 2026-04-01</p>
 <li>Semantic invariants (determinism, Processing Order, <code>State = f(Event Stream, Configuration)</code>) become unclear when interleaved with Stack-specific discussion of how a particular Runtime realizes them.</li>
 <li>The boundary between "what must hold everywhere" and "what applies to this Stack" erodes, making it impossible to determine from the documentation alone whether a proposed change is semantic (affecting all Runtimes) or implementation-local.</li>
 </ul>
-<p>The core risk is <strong>semantic drift</strong>: the canonical model loses its authority as implementation detail accumulates around it, and the question "is this a rule of the Infrastructure or a property of this Stack?" becomes unanswerable.</p>
+<p>The core risk is <strong>semantic drift</strong>: the canonical model loses its authority as implementation detail accumulates around it, and the question "is this a rule of the infrastructure or a property of this Stack?" becomes unanswerable.</p>
 <p>This risk is not hypothetical. Trading infrastructures that grow organically tend to produce documentation where the same concept is restated differently in each Stack's context, subtle contradictions accumulate, and no single document is definitively authoritative for a given rule.</p>
 <hr />
 <h2 id="decision">Decision</h2>
-<p>The Infrastructure's documentation and architecture are organized along <strong>two orthogonal axes</strong>.</p>
+<p>The infrastructure's documentation and architecture are organized along <strong>two orthogonal axes</strong>.</p>
 <h3 id="conceptual-axis">Conceptual Axis</h3>
-<p>Documents on this axis define the Infrastructure's <strong>semantic foundation</strong>: the formal models, invariants, and behavioral rules that hold across all Runtimes and all implementations.</p>
+<p>Documents on this axis define the infrastructure's <strong>semantic foundation</strong>: the formal models, invariants, and behavioral rules that hold across all Runtimes and all implementations.</p>
 <p>This axis comprises:</p>
 <ul>
 <li><strong>Concept documents</strong> — Time Model, Event Model, State Model, Determinism Model, Invariants, Queue Semantics, Queue Processing, Intent Dominance, Order Lifecycle, Failure Semantics, Snapshot-Driven Inputs, Ingest vs Decision Frequency</li>
 <li><strong>Architectural semantics</strong> — Logical Architecture, Infrastructure Flows, Intent Pipeline, Intent Lifecycle, Architecture Principles</li>
 </ul>
-<p>Documents on the conceptual axis <strong>must not</strong> depend on or assume any specific Stack, deployment topology, technology choice, or operational procedure. They define what is true of the Infrastructure regardless of how it is deployed.</p>
+<p>Documents on the conceptual axis <strong>must not</strong> depend on or assume any specific Stack, deployment topology, technology choice, or operational procedure. They define what is true of the infrastructure regardless of how it is deployed.</p>
 <h3 id="implementation-axis">Implementation Axis</h3>
 <p>Documents on this axis define <strong>how the conceptual models are realized</strong> in specific operational contexts.</p>
 <p>This axis comprises:</p>
@@ -4362,7 +4362,7 @@ Updated: 2026-04-01</p>
 <hr />
 <h2 id="trade-offs">Trade-offs</h2>
 <p><strong>Bridging documents require editorial judgment.</strong> Documents that span both axes — Architecture Overview, Infrastructure Narrative, Physical Architecture — require case-by-case decisions about which content is semantic and which is implementation-specific. This boundary is not always obvious and demands ongoing discipline.</p>
-<p><strong>Stack documentation is less self-contained.</strong> A reader approaching the Infrastructure from a single Stack must follow references to concept documents for semantic rules rather than finding everything restated locally. This is the intended trade-off: self-containedness at the Stack level would reintroduce the duplication and drift that this decision prevents.</p>
+<p><strong>Stack documentation is less self-contained.</strong> A reader approaching the infrastructure from a single Stack must follow references to concept documents for semantic rules rather than finding everything restated locally. This is the intended trade-off: self-containedness at the Stack level would reintroduce the duplication and drift that this decision prevents.</p>
 <hr />
 <h2 id="summary">Summary</h2>
 <p>The documentation is structured along two orthogonal axes — conceptual and implementation — with an asymmetric authority relationship: the conceptual axis defines semantic rules; the implementation axis conforms to them.</p>

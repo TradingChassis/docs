@@ -4350,7 +4350,7 @@
 <h1 id="time-model">Time Model</h1>
 <hr />
 <h2 id="purpose-and-scope">Purpose and scope</h2>
-<p>The <strong>Time Model</strong> defines how temporal ordering and causality are represented within the Infrastructure.</p>
+<p>The <strong>Time Model</strong> defines how temporal ordering and causality are represented within the infrastructure.</p>
 <p>It specifies:</p>
 <ul>
 <li>which <strong>temporal domains</strong> exist and what they mean;</li>
@@ -4361,7 +4361,7 @@
 <p>This document does <strong>not</strong> redefine <strong>Event</strong> semantics, <strong>State</strong> derivation, or <strong>Queue</strong> semantics; it provides the temporal foundation that those models rely on. Capitalized terms are used as in <a href="../../00-guides/terminology/">Terminology</a>.</p>
 <hr />
 <h2 id="temporal-domains">Temporal domains</h2>
-<p>The Infrastructure distinguishes two temporal domains. They represent different aspects of reality and must not be conflated.</p>
+<p>The infrastructure distinguishes two temporal domains. They represent different aspects of reality and must not be conflated.</p>
 <table>
 <thead>
 <tr>
@@ -4395,21 +4395,21 @@
 <p><strong>Normative rules:</strong></p>
 <ol>
 <li><strong>Event Time is metadata carried by an Event.</strong> It describes external semantics; it does not cause State changes by itself.</li>
-<li><strong>Event Time does not determine Processing Order.</strong> Two Events with the same Event Time are still ordered by their <strong>stream position</strong> (<a href="../event-model/">Event Model</a>).</li>
-<li><strong>Venue timestamps never override internal ordering.</strong> Processing Order is always determined by stream position under the Infrastructure's processing rules.</li>
+<li><strong>Event Time does not determine Processing Order.</strong> Two Events with the same Event Time are still ordered by their <strong>Event Stream position</strong> (<a href="../event-model/">Event Model</a>).</li>
+<li><strong>Venue timestamps never override internal ordering.</strong> Processing Order is always determined by Event Stream position under the infrastructure's processing rules.</li>
 </ol>
 <hr />
 <h2 id="processing-order">Processing Order</h2>
 <p><strong>Processing Order</strong> is the strict, total internal ordering of Events within the <strong>Event Stream</strong>. It is the <strong>sole</strong> determinant of how <strong>State Transitions</strong> are applied.</p>
 <p><strong>Normative rules:</strong></p>
 <ol>
-<li><strong>State Transitions occur strictly in Processing Order.</strong> No transition occurs before, after, or outside the sequential application of Events in stream order.</li>
-<li>Processing Order is <strong>independent of Event Time.</strong> A later-arriving Event that carries an earlier Event Time is still processed in its stream position; it does not retroactively mutate prior derived State.</li>
+<li><strong>State Transitions occur strictly in Processing Order.</strong> No transition occurs before, after, or outside the sequential application of Events in Event Stream order.</li>
+<li>Processing Order is <strong>independent of Event Time.</strong> A later-arriving Event that carries an earlier Event Time is still processed in its Event Stream position; it does not retroactively mutate prior derived State.</li>
 <li>Processing Order is <strong>not</strong> determined by wall-clock time, thread scheduling, or OS timers. It is determined by the logical ordering rules applied to the <strong>Event Stream</strong> under <strong>Configuration</strong>.</li>
 </ol>
 <p><strong>Typical realizations of Processing Order:</strong></p>
 <ul>
-<li>monotonic sequence identifiers assigned at stream recording;</li>
+<li>monotonic sequence identifiers assigned at Event Stream recording;</li>
 <li>deterministic replay indices from historical datasets;</li>
 <li>causal ordering rules defined in <strong>Configuration</strong>.</li>
 </ul>
@@ -4417,7 +4417,7 @@
 <h2 id="temporal-separation">Temporal separation</h2>
 <p><strong>Event Time</strong> and <strong>Processing Order</strong> are not guaranteed to align.</p>
 <p>Network latency, buffering, feed jitter, replay from historical data, or ordering rules may introduce divergence between when an Event occurred externally and when it is processed internally.</p>
-<p>This separation is <strong>intentional and explicitly modeled</strong>. The Infrastructure preserves external market semantics through <strong>Event Time</strong> (carried in Events) while guaranteeing deterministic internal behavior through <strong>Processing Order</strong>.</p>
+<p>This separation is <strong>intentional and explicitly modeled</strong>. The infrastructure preserves external market semantics through <strong>Event Time</strong> (carried in Events) while guaranteeing deterministic internal behavior through <strong>Processing Order</strong>.</p>
 <hr />
 <h2 id="causality-rule">Causality rule</h2>
 <p>Every <strong>State Transition</strong> must be caused by a <strong>single processed Event</strong> in <strong>Processing Order</strong>.</p>
@@ -4431,12 +4431,12 @@
 <p>All internal evolution is <strong>event-driven</strong>. Time observations may be carried inside <strong>Events</strong> (as <strong>Event Time</strong> or as data fields), but they do not bypass <strong>Processing Order</strong> as the causal mechanism.</p>
 <hr />
 <h2 id="time-dependent-behavior-and-deterministic-replay">Time-dependent behavior and deterministic replay</h2>
-<p>Some Infrastructure behaviors are <strong>conceptually time-dependent</strong>—for example, rate-limit capacity recovery or the re-eligibility of pending outbound work after a delay.</p>
+<p>Some infrastructure behaviors are <strong>conceptually time-dependent</strong>—for example, rate-limit capacity recovery or the re-eligibility of pending outbound work after a delay.</p>
 <p>Such behavior must be expressed in a way that remains <strong>compatible with deterministic replay</strong> under identical <strong>Event Stream</strong> and <strong>Configuration</strong>.</p>
 <p><strong>Normative rules:</strong></p>
 <ol>
-<li><strong>Time observations that affect State must enter as Events or as Configuration.</strong> If a timestamp or elapsed-time computation is needed for a State transition, it must be carried in an <strong>Event</strong> already on the stream (e.g. as a field of an existing <strong>Execution</strong> or <strong>Control Event</strong>) or encoded in <strong>Configuration</strong>-level rules—not derived from a private wall-clock read at runtime.</li>
-<li><strong>Rate-limit rules and capacity recovery must be expressed as deterministic functions of prior stream history and Configuration.</strong> For example, a token-bucket rule whose replenishment rate is defined in <strong>Configuration</strong> and whose consumption is tracked through prior <strong>Events</strong> is fully deterministic and replayable. An independent timer that fires outside <strong>Event processing</strong> is not.</li>
+<li><strong>Time observations that affect State must enter as Events or as Configuration.</strong> If a timestamp or elapsed-time computation is needed for a State transition, it must be carried in an <strong>Event</strong> already on the Event Stream (e.g. as a field of an existing <strong>Execution</strong> or <strong>Control Event</strong>) or encoded in <strong>Configuration</strong>-level rules—not derived from a private wall-clock read at runtime.</li>
+<li><strong>Rate-limit rules and capacity recovery must be expressed as deterministic functions of prior Event Stream history and Configuration.</strong> For example, a token-bucket rule whose replenishment rate is defined in <strong>Configuration</strong> and whose consumption is tracked through prior <strong>Events</strong> is fully deterministic and replayable. An independent timer that fires outside <strong>Event processing</strong> is not.</li>
 <li><strong>Future re-evaluation obligations must be expressed through canonical Events.</strong> Where current <strong>State</strong> and <strong>Configuration</strong> imply a future relevant control-time re-evaluation point—such as a rate-limit window that will recover while allowed outbound work remains pending—the Core may derive a <strong>Control Scheduling Obligation</strong> (see <a href="../../00-guides/terminology/#control-scheduling-obligation">Terminology: Control Scheduling Obligation</a>). This obligation is non-canonical: it does not enter the <strong>Event Stream</strong> and produces no <strong>State Transition</strong> by itself. The <strong>Runtime</strong> realizes the obligation by injecting a <strong>Control-Time Event</strong> into the <strong>Event Stream</strong> at the appropriate future position (see <a href="../../00-guides/terminology/#control-time-event">Terminology: Control-Time Event</a>). The Core does <strong>not</strong> perform hidden wall-clock-driven State mutations; canonical State change arises only from processing injected <strong>Events</strong> in <strong>Processing Order</strong>.</li>
 </ol>
 <hr />
@@ -4446,7 +4446,7 @@
 <ol>
 <li>There is <strong>no</strong> separate runtime tick that advances Execution Control State independently of <strong>Event processing</strong>.</li>
 <li>Queue Processing is reevaluated whenever an <strong>Event</strong> advances the <strong>Processing Order</strong> position in a way that is relevant to Execution Control (e.g. an <strong>Execution Event</strong> clearing an inflight slot, a market update, a <strong>Control-Time Event</strong>).</li>
-<li>Time-dependent Execution Control constraints (e.g. rate limits) are enforced through deterministic rules applied during <strong>Event processing</strong>, not through background timers that mutate state outside the stream.</li>
+<li>Time-dependent Execution Control constraints (e.g. rate limits) are enforced through deterministic rules applied during <strong>Event processing</strong>, not through background timers that mutate state outside the Event Stream.</li>
 <li>Where current <strong>State</strong> and <strong>Configuration</strong> imply a future relevant control-time re-evaluation point, the Core may derive a <strong>Control Scheduling Obligation</strong>—a non-canonical, runtime-facing signal that produces no <strong>State Transition</strong>. The <strong>Runtime</strong> realizes this obligation by injecting a <strong>Control-Time Event</strong> into the <strong>Event Stream</strong>. That Event is then processed within <strong>Event processing</strong> exactly as any other <strong>Event</strong>.</li>
 <li><strong>Control-Time Events</strong> are <strong>sparse and deadline-style</strong>: each corresponds to a specific obligation derived from <strong>State + Configuration</strong>, not to a periodic timer, polling loop, or background callback. They are <strong>Control State</strong> semantics, not <strong>Venue</strong> semantics.</li>
 </ol>
@@ -4467,7 +4467,7 @@
 </tr>
 <tr>
 <td><strong>Internal causality</strong></td>
-<td>Defined by <strong>Processing Order</strong> (stream position)</td>
+<td>Defined by <strong>Processing Order</strong> (Event Stream position)</td>
 </tr>
 <tr>
 <td><strong>State evolution</strong></td>
@@ -4479,7 +4479,7 @@
 </tr>
 <tr>
 <td><strong>Wall-clock independence</strong></td>
-<td>Runtime timing must not define canonical Infrastructure behavior</td>
+<td>Runtime timing must not define canonical infrastructure behavior</td>
 </tr>
 </tbody>
 </table>
@@ -4491,7 +4491,7 @@
 <li>identical <strong>Configuration</strong>;</li>
 <li>the same <strong>Processing Order</strong>;</li>
 </ul>
-<p>the Infrastructure must produce <strong>identical State Transitions</strong> at every stream position, including all Execution Control derivations.</p>
+<p>the infrastructure must produce <strong>identical State Transitions</strong> at every Event Stream position, including all Execution Control derivations.</p>
 <p>The <strong>Event Stream</strong> and <strong>Configuration</strong> together constitute the canonical input. No private runtime state, wall-clock read, or scheduler timing may influence replay outcomes.</p>
 <hr />
 <h2 id="live-and-backtesting-contexts">Live and Backtesting contexts</h2>
@@ -4506,7 +4506,7 @@
 <tbody>
 <tr>
 <td><strong>Live</strong></td>
-<td>Emerges from real-time Event delivery in arrival order under Infrastructure recording rules</td>
+<td>Emerges from real-time Event delivery in arrival order under infrastructure recording rules</td>
 </tr>
 <tr>
 <td><strong>Backtesting</strong></td>

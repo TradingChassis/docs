@@ -4430,8 +4430,8 @@
 <p>Canonical vocabulary applies throughout.</p>
 <hr />
 <h2 id="runtime-flow-overview">Runtime flow overview</h2>
-<p>The Infrastructure advances <strong>only</strong> through <strong>deterministic Event processing</strong>: each step applies <strong>Events</strong> from the <strong>Event Stream</strong> in <strong>Processing Order</strong> under <strong>Configuration</strong> and updates <strong>derived State</strong> (see <a href="../../20-concepts/time-model/">Time Model</a>).</p>
-<p>There is <strong>one</strong> unified Runtime sequence for a given applied Event—<strong>no</strong> competing alternative flows. <strong>Queue Processing</strong> is <strong>not</strong> a second <strong>loop</strong>, <strong>tick</strong>, or <strong>scheduler phase</strong>; it is part of <strong>the same</strong> Event-processing step that updates Market, Execution (including <strong>Execution Control substate</strong>), and Infrastructure domains.</p>
+<p>The infrastructure advances <strong>only</strong> through <strong>deterministic Event processing</strong>: each step applies <strong>Events</strong> from the <strong>Event Stream</strong> in <strong>Processing Order</strong> under <strong>Configuration</strong> and updates <strong>derived State</strong> (see <a href="../../20-concepts/time-model/">Time Model</a>).</p>
+<p>There is <strong>one</strong> unified Runtime sequence for a given applied Event—<strong>no</strong> competing alternative flows. <strong>Queue Processing</strong> is <strong>not</strong> a second <strong>loop</strong>, <strong>tick</strong>, or <strong>scheduler phase</strong>; it is part of <strong>the same</strong> Event-processing step that updates Market, Execution (including <strong>Execution Control substate</strong>), and infrastructure domains.</p>
 <pre class="mermaid"><code>flowchart TB
     subgraph intake["1. Event intake"]
         E0["Next Event in Processing Order"]
@@ -4465,17 +4465,17 @@
     DS --&gt; VN
     VN --&gt; ER
     ER --&gt; E0</code></pre>
-<p>The diagram is <strong>logical</strong> sequencing within processing, not a second concurrent pipeline. <strong>Feedback</strong> closes the loop when <strong>Events</strong> re-enter the stream; the next advance is again <strong>Event-driven</strong>.</p>
+<p>The diagram is <strong>logical</strong> sequencing within processing, not a second concurrent pipeline. <strong>Feedback</strong> closes the loop when <strong>Events</strong> re-enter the Event Stream; the next advance is again <strong>Event-driven</strong>.</p>
 <p>If a step has nothing to do (e.g. no <strong>Intents</strong>, or no outbound work selected), the <strong>order</strong> of stages is unchanged; those substeps are <strong>vacuous</strong> for that application. Causal order <strong>when</strong> work exists is always as listed.</p>
 <hr />
 <h2 id="end-to-end-event-driven-sequence">End-to-end event-driven sequence</h2>
 <p>The following is the <strong>single canonical order</strong> of stages when an <strong>Event</strong> is applied (names are descriptive; formal semantics remain in foundational docs).</p>
 <h3 id="1-event-intake">1. Event intake</h3>
-<p>The next <strong>Event</strong> is taken in <strong>Processing Order</strong> (stream position), not by <strong>Event Time</strong> alone.</p>
-<p>Sources include, per <a href="../../20-concepts/event-model/">Event Model</a>: <strong>Market</strong>, <strong>Execution</strong>, <strong>Intent-related</strong>, <strong>Infrastructure</strong>, and <strong>Control</strong> categories—whatever the stream contains at that position.</p>
+<p>The next <strong>Event</strong> is taken in <strong>Processing Order</strong> (Event Stream position), not by <strong>Event Time</strong> alone.</p>
+<p>Sources include, per <a href="../../20-concepts/event-model/">Event Model</a>: <strong>Market</strong>, <strong>Execution</strong>, <strong>Intent-related</strong>, and <strong>Control</strong> categories—whatever the Event Stream contains at that position.</p>
 <hr />
 <h3 id="2-state-derivation">2. State derivation</h3>
-<p>The <strong>Event</strong> is applied. <strong>Derived State</strong> becomes <code>f(stream_prefix, Configuration)</code> at the new position.</p>
+<p>The <strong>Event</strong> is applied. <strong>State</strong> becomes <code>f(Event Stream, Configuration)</code> at the new position.</p>
 <ul>
 <li><strong>State</strong> includes <strong>Market State</strong>, <strong>Execution State</strong>, and <strong>Control State</strong>.</li>
 <li><strong>Queue</strong> (Execution Control <strong>substate</strong>) is part of <strong>Execution State</strong> derivation, <strong>not</strong> a fourth top-level domain (<a href="../../20-concepts/state-model/">State Model</a>).</li>
@@ -4518,7 +4518,7 @@
 <p><strong>Dispatch</strong> may occur only after <strong>Execution Control</strong> selects it; <strong>Risk</strong> has already <strong>allowed</strong> the underlying Intent.</p>
 <hr />
 <h3 id="9-venue-feedback">9. Venue feedback</h3>
-<p>The <strong>Venue</strong> returns execution feedback. The Adapter surfaces this so it can enter the stream as <strong>Execution Events</strong> (and similar), per <a href="../../20-concepts/event-model/">Event Model</a>—not to be confused with ephemeral <strong>Intents</strong>.</p>
+<p>The <strong>Venue</strong> returns execution feedback. The Adapter surfaces this so it can enter the Event Stream as <strong>Execution Events</strong> (and similar), per <a href="../../20-concepts/event-model/">Event Model</a>—not to be confused with ephemeral <strong>Intents</strong>.</p>
 <hr />
 <h3 id="10-event-re-entry-into-the-event-stream">10. Event re-entry into the Event Stream</h3>
 <p>Feedback (and any other required records) is appended or merged into the <strong>Event Stream</strong> according to Processing rules so that the next application step sees a <strong>canonical</strong> history.</p>
@@ -4538,7 +4538,7 @@
 <tr>
 <td><strong>Event flow</strong></td>
 <td><strong>Events</strong> in <strong>Processing Order</strong></td>
-<td>Immutable stream records; sole driver of <strong>State transitions</strong></td>
+<td>Immutable Event Stream records; sole driver of <strong>State transitions</strong></td>
 </tr>
 <tr>
 <td><strong>Intent processing</strong></td>
@@ -4578,8 +4578,8 @@
 <li><strong>State derivation:</strong> <code>State = f(Event Stream, Configuration)</code>; Components <strong>read</strong> projections, they do <strong>not</strong> own mutable infrastructure truth.</li>
 <li><strong>Risk vs Execution Control:</strong> <strong>Allowed / denied</strong> only at <strong>Risk</strong>; <strong>timing and ordering</strong> only at <strong>Queue Processing</strong>.</li>
 <li><strong>Intent vs Event:</strong> <strong>Intents</strong> are commands during a step; they are <strong>not</strong> Events. Stream updates use <strong>Events</strong> only <strong>when</strong> canonical history requires (<a href="../../00-guides/terminology/#intent-visibility">Terminology: Intent visibility</a>).</li>
-<li><strong>Orders:</strong> <strong>Orders</strong> are <strong>derived</strong> in <strong>Execution State</strong>; they <strong>exist</strong> from <strong>submission</strong> onward in state <strong>Submitted</strong> as projections; Strategy does <strong>not</strong> “send Orders” as primary objects— it sends <strong>Intents</strong>; the Infrastructure <strong>dispatches</strong> and <strong>Venue</strong> <strong>Execution Events</strong> refine <strong>Order</strong> state.</li>
-<li><strong>Determinism:</strong> Same stream + Configuration ➝ same derived State at each position (including Execution Control substate).</li>
+<li><strong>Orders:</strong> <strong>Orders</strong> are <strong>derived</strong> in <strong>Execution State</strong>; they <strong>exist</strong> from <strong>submission</strong> onward in state <strong>Submitted</strong> as projections; Strategy does <strong>not</strong> “send Orders” as primary objects— it sends <strong>Intents</strong>; the infrastructure <strong>dispatches</strong> and <strong>Venue</strong> <strong>Execution Events</strong> refine <strong>Order</strong> state.</li>
+<li><strong>Determinism:</strong> Same Event Stream + Configuration ➝ same derived State at each position (including Execution Control substate).</li>
 </ol>
 <hr />
 <h2 id="relationship-to-other-documents">Relationship to other documents</h2>

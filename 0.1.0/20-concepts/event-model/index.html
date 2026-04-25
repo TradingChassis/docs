@@ -1615,17 +1615,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#infrastructure-events" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Infrastructure Events
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#control-events" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4389,7 +4378,7 @@
 <h1 id="event-model">Event Model</h1>
 <hr />
 <h2 id="purpose-and-scope">Purpose and scope</h2>
-<p>The <strong>Event Model</strong> is the formal definition of <strong>Events</strong> in the Infrastructure.</p>
+<p>The <strong>Event Model</strong> is the formal definition of <strong>Events</strong> in the infrastructure.</p>
 <p>It specifies:</p>
 <ul>
 <li>what qualifies as an Event;</li>
@@ -4400,13 +4389,13 @@
 <p>The Event Model rests on the <a href="../time-model/">Time Model</a>: <strong>Event Time</strong> and <strong>Processing Order</strong> are distinct; internal causality follows <strong>Processing Order</strong>, not Event Time.</p>
 <hr />
 <h2 id="what-an-event-is">What an Event is</h2>
-<p>An <strong>Event</strong> is an <strong>immutable</strong>, <strong>canonical</strong> record of an occurrence that the Infrastructure treats as input when advancing derived State.</p>
+<p>An <strong>Event</strong> is an <strong>immutable</strong>, <strong>canonical</strong> record of an occurrence that the infrastructure treats as input when advancing derived State.</p>
 <p><strong>Normative properties:</strong></p>
 <ol>
 <li><strong>Occurrence, not command.</strong> An Event records that something <strong>has occurred</strong> or <strong>has been decided</strong> for canonical history (e.g. external market update, Venue execution report, recorded policy outcome, control signal). It does not substitute for an <strong>Intent</strong>, which is an ephemeral <strong>command</strong> (see <a href="../../00-guides/terminology/#intent">Terminology: Intent</a>).</li>
 <li><strong>Sole driver of State transitions.</strong> <strong>Events are the only source of State transitions.</strong> No change to derived State occurs except by processing an Event under <strong>Configuration</strong>.</li>
 <li><strong>Immutability.</strong> After append (or equivalent canonical creation), an Event must not be modified.</li>
-<li><strong>Ordering.</strong> Events are applied strictly in <strong>Processing Order</strong> as realized by their position in the <strong>Event Stream</strong> (see <a href="#event-stream">Event Stream</a>).</li>
+<li><strong>Ordering.</strong> Events are applied strictly in <strong>Processing Order</strong> as realized by their position in the <strong>Event Stream</strong> (see <a href="#event-Event Stream">Event Stream</a>).</li>
 </ol>
 <p>Events <strong>do not</strong> “mutate State” as an extra mechanism: <strong>State Transitions</strong> are the <strong>result</strong> of deterministically applying an Event to the State derived from all prior Events and Configuration.</p>
 <hr />
@@ -4418,17 +4407,17 @@
 </ul>
 <p>Examples of what may be recorded (non-exhaustive, illustrative):</p>
 <ul>
-<li>a market trade or book update as observed by the Infrastructure;</li>
+<li>a market trade or book update as observed by the infrastructure;</li>
 <li>a Venue execution report (acknowledgement, fill, rejection, cancel confirmation);</li>
 <li>an outcome of intent processing <strong>where canonical history requires it</strong> (see <a href="#intent-related-events">Intent-related Events</a> and <a href="../../00-guides/terminology/#intent-visibility">Terminology: Intent visibility</a>);</li>
 <li>a configuration or control signal that must affect derived State.</li>
 </ul>
-<p><strong>Normative rule:</strong> An <strong>Intent</strong> is <strong>not</strong> an Event. Strategy output is an <strong>Intent</strong> (command). The Infrastructure makes intent processing <strong>visible</strong> only through <strong>Events</strong> when required for canonical history—not by treating the command itself as an Event.</p>
+<p><strong>Normative rule:</strong> An <strong>Intent</strong> is <strong>not</strong> an Event. Strategy output is an <strong>Intent</strong> (command). The infrastructure makes intent processing <strong>visible</strong> only through <strong>Events</strong> when required for canonical history—not by treating the command itself as an Event.</p>
 <hr />
 <h2 id="event-categories">Event categories</h2>
 <p>Events are grouped below by <strong>semantic role</strong>. Categories are <strong>not</strong> a runtime stack and <strong>not</strong> Execution Control mechanics; they classify <strong>what</strong> the Event records for derivation of <a href="../state-model/">State</a>.</p>
 <h3 id="market-events">Market Events</h3>
-<p><strong>Market Events</strong> record changes or observations in a market (e.g. trades, order book updates, snapshots, price ticks) as <strong>inputs</strong> to the Infrastructure from a Venue or from historical datasets aligned with that semantics.</p>
+<p><strong>Market Events</strong> record changes or observations in a market (e.g. trades, order book updates, snapshots, price ticks) as <strong>inputs</strong> to the infrastructure from a Venue or from historical datasets aligned with that semantics.</p>
 <p>They primarily drive <strong>Market State</strong> (see <a href="../state-model/">State Model</a>).</p>
 <h3 id="intent-related-events">Intent-related Events</h3>
 <p><strong>Intent-related Events</strong> record <strong>outcomes</strong> of processing <strong>Intents</strong>—the ephemeral <strong>commands</strong> produced when Strategy runs during Event processing—<strong>only where canonical history requires</strong> (see <a href="../../00-guides/terminology/#intent-visibility">Terminology: Intent visibility</a>).</p>
@@ -4453,7 +4442,7 @@
 </tbody>
 </table>
 <h3 id="execution-events">Execution Events</h3>
-<p><strong>Execution Events</strong> record <strong>Venue-side</strong> (or simulated Venue) <strong>responses and reports</strong> concerning requests the Infrastructure has sent: e.g. order accepted, rejected, partially or fully filled, cancel confirmed.</p>
+<p><strong>Execution Events</strong> record <strong>Venue-side</strong> (or simulated Venue) <strong>responses and reports</strong> concerning requests the infrastructure has sent: e.g. order accepted, rejected, partially or fully filled, cancel confirmed.</p>
 <p>They primarily drive <strong>Execution State</strong>, including the <strong>Order</strong> as a <strong>derived</strong> entity and its lifecycle after <strong>submission</strong> in state <strong>Submitted</strong> (see <a href="../../00-guides/terminology/#order">Terminology: Order</a>).</p>
 <p><strong>Normative distinction:</strong></p>
 <table>
@@ -4466,7 +4455,7 @@
 <tbody>
 <tr>
 <td><strong>Intent-related Event</strong></td>
-<td>Infrastructure-recorded outcome of <strong>intent / policy / dispatch</strong> pipeline when required for canonical history (origin: Infrastructure recording, not the Venue’s book).</td>
+<td>Infrastructure-recorded outcome of <strong>intent / policy / dispatch</strong> pipeline when required for canonical history (origin: infrastructure recording, not the Venue’s book).</td>
 </tr>
 <tr>
 <td><strong>Execution Event</strong></td>
@@ -4474,11 +4463,8 @@
 </tr>
 </tbody>
 </table>
-<h3 id="infrastructure-events">Infrastructure Events</h3>
-<p><strong>Infrastructure Events</strong> record internal or operational facts that must affect <strong>Infrastructure State</strong> (e.g. configuration changes, operational signals that are part of canonical history as defined by the Infrastructure).</p>
-<p>They are not a catch-all for every internal computation; see <a href="#derivations-that-are-not-events">Derivations that are not Events</a>.</p>
 <h3 id="control-events">Control Events</h3>
-<p><strong>Control Events</strong> record <strong>control signals</strong> that affect how the Runtime applies the stream or how derived State must interpret it (e.g. session boundaries, replay markers, checkpoints, shutdown triggers), when such signals are modeled as stream inputs.</p>
+<p><strong>Control Events</strong> record <strong>control signals</strong> that affect how the Runtime applies the Event Stream or how derived State must interpret it (e.g. session boundaries, replay markers, checkpoints, shutdown triggers), when such signals are modeled as Event Stream inputs.</p>
 <p><strong>Control-Time Events</strong> are a recognized sub-category of Control Events. A <strong>Control-Time Event</strong> is injected into the Event Stream by the Runtime when a <strong>Control Scheduling Obligation</strong> is realized: that is, when current State and Configuration imply a future relevant control-time re-evaluation point for Execution Control (see <a href="../../00-guides/terminology/#control-time-event">Terminology: Control-Time Event</a>).</p>
 <p><strong>Normative distinctions for Control-Time Events:</strong></p>
 <ul>
@@ -4488,7 +4474,7 @@
 </ul>
 <hr />
 <h2 id="event-sources">Event sources</h2>
-<p><strong>Normative clarification:</strong> <strong>Strategies do not emit Events.</strong> Strategies produce <strong>Intents</strong> during processing triggered by prior Events. <strong>Intent-related Events</strong> (when used) are <strong>recorded</strong> by the Infrastructure as outcomes of that processing, not “Strategy-originated Event” in the sense of the Intent payload.</p>
+<p><strong>Normative clarification:</strong> <strong>Strategies do not emit Events.</strong> Strategies produce <strong>Intents</strong> during processing triggered by prior Events. <strong>Intent-related Events</strong> (when used) are <strong>recorded</strong> by the infrastructure as outcomes of that processing, not “Strategy-originated Event” in the sense of the Intent payload.</p>
 <p><strong>Typical sources of Events</strong> (who or what introduces a new Event into the canonical history):</p>
 <table>
 <thead>
@@ -4511,20 +4497,16 @@
 <td>Intent-related Events</td>
 </tr>
 <tr>
-<td>Internal subinfrastructures (when modeled as stream inputs)</td>
-<td>Infrastructure Events</td>
-</tr>
-<tr>
 <td>Runtime (when realizing a Control Scheduling Obligation)</td>
 <td>Control-Time Events (a sub-category of Control Events)</td>
 </tr>
 <tr>
-<td>Orchestration or Runtime controllers (when modeled as stream inputs)</td>
+<td>Orchestration or Runtime controllers (when modeled as Event Stream inputs)</td>
 <td>Control Events</td>
 </tr>
 </tbody>
 </table>
-<p>Each <strong>logical</strong> source may append Events according to Infrastructure rules; <strong>Processing Order</strong> of the <strong>merged</strong> stream is authoritative for State.</p>
+<p>Each <strong>logical</strong> source may append Events according to infrastructure rules; <strong>Processing Order</strong> of the <strong>merged</strong> Event Stream is authoritative for State.</p>
 <hr />
 <h2 id="event-stream">Event Stream</h2>
 <p>The <strong>Event Stream</strong> is the canonical <strong>totally ordered</strong> sequence of Events the Runtime applies.</p>
@@ -4532,40 +4514,38 @@
     Market["Market Events"]
     IntentRelated["Intent-related Events"]
     Execution["Execution Events"]
-    Infrastructure["Infrastructure Events"]
     Control["Control Events"]
 
     Stream["Event Stream + Configuration"]
     State["State"]
 
     Market --&gt; Stream
-    IntentRelated --&gt; Stream
     Execution --&gt; Stream
-    Infrastructure --&gt; Stream
+    IntentRelated --&gt; Stream
     Control --&gt; Stream
 
     Stream --&gt; State</code></pre>
 <p><strong>Normative rules:</strong></p>
 <ol>
 <li>The Event Stream <strong>materializes Processing Order</strong> (see <a href="../time-model/">Time Model</a>).</li>
-<li><strong>State is fully derived from Event Stream + Configuration.</strong> The stream is the authoritative historical input for derivation; Configuration supplies static or versioned rules and parameters as defined by the Infrastructure.</li>
+<li><strong>State is fully derived from Event Stream + Configuration.</strong> The Event Stream is the authoritative historical input for derivation; Configuration supplies static or versioned rules and parameters as defined by the infrastructure.</li>
 <li><strong>No State mutation outside Event processing.</strong> No Component may update derived State except by applying the next Event (or equivalently, the formal reduce step defined for that Event) under Configuration.</li>
 </ol>
 <hr />
 <h2 id="event-ordering">Event ordering</h2>
 <p>Events are processed <strong>strictly</strong> in the order they occupy in the Event Stream.</p>
-<p>If two Events share the same <strong>Event Time</strong>, <strong>Processing Order</strong> is still defined solely by <strong>stream position</strong>, not by Venue timestamp.</p>
+<p>If two Events share the same <strong>Event Time</strong>, <strong>Processing Order</strong> is still defined solely by <strong>Event Stream position</strong>, not by Venue timestamp.</p>
 <p>The Event Stream is the <strong>canonical</strong> ordering of Events for causality and replay.</p>
 <hr />
 <h2 id="event-processing">Event processing</h2>
-<p>During Runtime, Events are applied <strong>one at a time</strong> in stream order. Each applied Event yields <strong>deterministic State Transitions</strong> (possibly zero or more updates within a single formal transition step, as defined by the State Model), consistent with <a href="../../00-guides/terminology/#state-transition">Terminology: State Transition</a>.</p>
+<p>During Runtime, Events are applied <strong>one at a time</strong> in Event Stream order. Each applied Event yields <strong>deterministic State Transitions</strong> (possibly zero or more updates within a single formal transition step, as defined by the State Model), consistent with <a href="../../00-guides/terminology/#state-transition">Terminology: State Transition</a>.</p>
 <p>Applying an Event may:</p>
 <ul>
-<li>advance Market, Execution (including <strong>Execution Control substate</strong> derived as part of Execution State—see <a href="../../00-guides/terminology/#queue">Terminology: Queue</a>), and Infrastructure domains;</li>
+<li>advance Market, Execution (including <strong>Execution Control substate</strong> derived as part of Execution State—see <a href="../../00-guides/terminology/#queue">Terminology: Queue</a>), and infrastructure domains;</li>
 <li>trigger Strategy evaluation, which produces <strong>Intents</strong> (not Events);</li>
 <li>record <strong>new Events</strong> when canonical history requires (e.g. intent-processing outcomes, appended <strong>before</strong> those outcomes may affect downstream State in replay).</li>
 </ul>
-<p><strong>Normative rule:</strong> <strong>Queue</strong> and <strong>Queue Processing</strong> are <strong>derived Execution Control</strong>, not a separate source of truth and not a separate Event category. They do not appear as “Queue Events” in this model unless the Infrastructure explicitly defines certain records as Events for canonical history; internal reconciliation, eligibility, and scheduling are otherwise <strong>derivations during processing</strong> (see <a href="../../00-guides/terminology/#queue-processing">Terminology: Queue Processing</a>).</p>
+<p><strong>Normative rule:</strong> <strong>Queue</strong> and <strong>Queue Processing</strong> are <strong>derived Execution Control</strong>, not a separate source of truth and not a separate Event category. They do not appear as “Queue Events” in this model unless the infrastructure explicitly defines certain records as Events for canonical history; internal reconciliation, eligibility, and scheduling are otherwise <strong>derivations during processing</strong> (see <a href="../../00-guides/terminology/#queue-processing">Terminology: Queue Processing</a>).</p>
 <hr />
 <h2 id="derivations-that-are-not-events">Derivations that are not Events</h2>
 <p><strong>Normative rule:</strong> <strong>Internal deterministic derivations</strong>—including dominance reconciliation, eligibility, scheduling order among allowed work, and rate-limit bookkeeping—<strong>do not</strong> generate separate Events <strong>unless</strong> explicit canonical history requires such records.</p>

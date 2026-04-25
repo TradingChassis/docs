@@ -4356,7 +4356,7 @@
 <hr />
 <h2 id="what-the-outbound-intent-pipeline-represents">What the outbound Intent pipeline represents</h2>
 <p>The outbound Intent pipeline is the conceptual path that describes <strong>how</strong> an <strong>Intent</strong>—an ephemeral <strong>command</strong> produced by <strong>Strategy</strong>—is transformed into a stable, rate-compliant, sequenced outbound request handed to a <strong>Venue</strong>.</p>
-<p>Rather than forwarding every generated <strong>Intent</strong> directly to the <strong>Venue</strong>, the Infrastructure applies a <strong>reconciliation and control</strong> process before dispatch. This prevents structural execution instabilities such as:</p>
+<p>Rather than forwarding every generated <strong>Intent</strong> directly to the <strong>Venue</strong>, the infrastructure applies a <strong>reconciliation and control</strong> process before dispatch. This prevents structural execution instabilities such as:</p>
 <ul>
 <li>duplicate requests targeting the same <strong>Order</strong>;</li>
 <li>replace or cancel storms from high-frequency <strong>Strategy</strong> output;</li>
@@ -4457,7 +4457,7 @@
 <li><strong>Rate-limit compliance</strong>: outbound capacity is available under Configuration rules.</li>
 <li><strong>Ordering</strong>: deterministic ordering among multiple eligible commands.</li>
 </ul>
-<p>These are <strong>internal deterministic derivations</strong> over derived State. They do <strong>not</strong> require separate canonical <strong>Event</strong> types unless the Infrastructure explicitly requires records for replay or audit (<a href="../../00-guides/terminology/#intent-visibility">Terminology: Intent visibility</a>).</p>
+<p>These are <strong>internal deterministic derivations</strong> over derived State. They do <strong>not</strong> require separate canonical <strong>Event</strong> types unless the infrastructure explicitly requires records for replay or audit (<a href="../../00-guides/terminology/#intent-visibility">Terminology: Intent visibility</a>).</p>
 <p>Queue Processing is part of <strong>deterministic Event processing</strong>—<strong>not</strong> a separate tick or autonomous scheduler loop (<a href="../infrastructure-flows/">Infrastructure Flows</a>).</p>
 <hr />
 <h2 id="submission-boundary-and-order-emergence">Submission boundary and Order emergence</h2>
@@ -4468,7 +4468,7 @@
 <li>the <strong>Venue Adapter</strong> transmits the outbound request;</li>
 <li>the <strong>Order</strong> comes into existence in <strong>Execution State</strong> at <strong>Submitted</strong>—this is the <strong>entry point</strong> of the <strong>Order lifecycle</strong> (<a href="../../20-concepts/order-lifecycle/">Order Lifecycle</a>).</li>
 </ul>
-<p><strong>The Order exists from the moment of dispatch</strong>, not from any later Venue response. The Infrastructure records a <strong>Submitted</strong> representation as soon as the outbound request is transmitted.</p>
+<p><strong>The Order exists from the moment of dispatch</strong>, not from any later Venue response. The infrastructure records a <strong>Submitted</strong> representation as soon as the outbound request is transmitted.</p>
 <p><strong>After dispatch</strong>, the <strong>Venue</strong> processes the request and returns responses. These responses enter the <strong>Event Stream</strong> as <strong>Execution Events</strong> and <strong>evolve the existing Order</strong> through subsequent lifecycle stages (e.g. <strong>Accepted</strong>, <strong>Filled</strong>, <strong>Rejected</strong>, <strong>Cancelled</strong>). Venue acknowledgement does <strong>not</strong> create the Order for the first time—it advances an Order that already exists in <strong>Submitted</strong> state.</p>
 <p><strong>Pre-dispatch stages</strong>—Intent command creation, Risk policy evaluation, Queue residency, and Queue Processing evaluation—belong entirely to the <strong>Intent lifecycle</strong>. <strong>No Order</strong> exists in <strong>Execution State</strong> during those stages.</p>
 <p>The pipeline's role ends at dispatch. Everything from <strong>Submitted</strong> onward is governed by the <strong>Order lifecycle</strong> and <strong>Execution Events</strong>.</p>

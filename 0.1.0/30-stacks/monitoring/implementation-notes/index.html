@@ -4320,7 +4320,7 @@
 <p>No specific collection mechanism is architecturally required. The key implementation properties are:</p>
 <ul>
 <li>Collection paths are <strong>non-intrusive</strong> — they do not alter the execution logic or runtime behavior of the observed infrastructures.</li>
-<li>Collection is <strong>continuous during execution</strong> — signals are gathered while the Infrastructure is running, not retroactively after execution completes.</li>
+<li>Collection is <strong>continuous during execution</strong> — signals are gathered while the infrastructure is running, not retroactively after execution completes.</li>
 <li>Collection supports <strong>multiple signal types</strong> — metrics, status, health, errors, and traces can coexist within the same integration infrastructure.</li>
 </ul>
 <hr />
@@ -4352,7 +4352,7 @@
 <p><strong>Documentation clarity.</strong> When a single tool serves multiple architectural roles, implementation documentation should identify which capabilities are considered Monitoring Stack responsibilities and which belong to other Stacks. This prevents the Monitoring Stack's scope from expanding implicitly to encompass everything a multi-purpose tool can do.</p>
 <hr />
 <h2 id="implementation-boundaries">Implementation Boundaries</h2>
-<p><strong>Implementation choices, not canonical semantics.</strong> The collection patterns, aggregation strategies, alert structures, and visibility approaches described here are implementation-level concerns. They do not define or modify the Infrastructure's canonical Event, State, or lifecycle semantics.</p>
+<p><strong>Implementation choices, not canonical semantics.</strong> The collection patterns, aggregation strategies, alert structures, and visibility approaches described here are implementation-level concerns. They do not define or modify the infrastructure's canonical Event, State, or lifecycle semantics.</p>
 <p><strong>Monitoring operates on runtime signals.</strong> The implementation collects and processes signals from running infrastructure parts. It does not consume persisted analytical outputs, historical experiment results, or retrospective evaluation datasets.</p>
 <p><strong>Not retrospective analysis.</strong> The Monitoring Stack's implementation is oriented around runtime-concurrent observation. It does not implement asynchronous evaluation of stored experiment results, cross-run comparison, or derived analytical artifact production. Those are Analysis Stack concerns.</p>
 <p><strong>No storage governance.</strong> Where the Monitoring Stack persists monitoring records, it writes to available storage surfaces but does not manage their organization, retention policies, or access governance.</p>

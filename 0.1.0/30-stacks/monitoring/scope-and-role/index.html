@@ -3788,12 +3788,12 @@
   <a href="#position-in-the-infrastructure" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Position in the Infrastructure
+        Position in the infrastructure
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Position in the Infrastructure">
+    <nav class="md-nav" aria-label="Position in the infrastructure">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -4314,7 +4314,7 @@
 <p>The Monitoring Stack exists to make running infrastructure behavior visible. Runtime Stacks — most prominently the Live Stack and the Backtesting Stack — produce telemetry, metrics, status signals, and health indicators as they execute. The Monitoring Stack provides the technical infrastructure to collect these signals, expose them as operational visibility surfaces, and support health- and alert-oriented monitoring that keeps running infrastructure parts diagnosable and operationally trackable.</p>
 <p>The Monitoring Stack is <strong>runtime-concurrent</strong> in character. It works alongside running infrastructure parts while they are active. Its concern is what is happening now — the operational state of running processes, the health of executing components, the status of active workflows, and the detection of runtime conditions that require attention. Its value is in ongoing observation, not in after-the-fact interpretation.</p>
 <hr />
-<h2 id="position-in-the-infrastructure">Position in the Infrastructure</h2>
+<h2 id="position-in-the-infrastructure">Position in the infrastructure</h2>
 <p>The Monitoring Stack belongs to the <strong>Analysis and Monitoring</strong> group. It works alongside running infrastructure parts rather than defining their execution semantics:</p>
 <pre class="mermaid"><code>flowchart LR
     LS["Live Stack"] --&gt; TMS["telemetry, metrics, status, health"]
@@ -4354,7 +4354,7 @@
 <hr />
 <h2 id="why-the-stack-matters">Why the Stack Matters</h2>
 <p>The Monitoring Stack is the layer that makes running infrastructure behavior visible, diagnosable, and operationally trackable. Without it, runtime Stacks may still execute, but they do so without structured operational visibility — health conditions go undetected, degradations proceed without awareness, and runtime issues become discoverable only through their downstream consequences rather than through timely observation.</p>
-<p>The Monitoring Stack ensures that while the Infrastructure is running, its operational state is accessible, its health is assessable, and conditions that require attention are surfaced through appropriate monitoring and alerting surfaces.</p>
+<p>The Monitoring Stack ensures that while the infrastructure is running, its operational state is accessible, its health is assessable, and conditions that require attention are surfaced through appropriate monitoring and alerting surfaces.</p>
 
 
 

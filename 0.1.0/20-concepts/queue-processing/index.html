@@ -4445,7 +4445,7 @@
 </tr>
 <tr>
 <td><strong>Rate-capacity projection</strong></td>
-<td>Remaining outbound capacity at this processing position, derived from rate rules and prior stream history under <strong>Configuration</strong></td>
+<td>Remaining outbound capacity at this processing position, derived from rate rules and prior Event Stream history under <strong>Configuration</strong></td>
 </tr>
 <tr>
 <td><strong>Ordering / priority rules</strong></td>
@@ -4453,7 +4453,7 @@
 </tr>
 </tbody>
 </table>
-<p>Because all inputs are derived from <strong>Event Stream + Configuration</strong>, the output of Queue Processing is also deterministic: identical stream history and Configuration always produce the same transmission decisions at the same stream position.</p>
+<p>Because all inputs are derived from <strong>Event Stream + Configuration</strong>, the output of Queue Processing is also deterministic: identical Event Stream history and Configuration always produce the same transmission decisions at the same Event Stream position.</p>
 <hr />
 <h2 id="deterministic-evaluation-rules">Deterministic evaluation rules</h2>
 <p>Within a single processing step, Queue Processing applies the following rules in order. Each rule is a <strong>pure function</strong> of current derived State; none requires a separate <strong>Event</strong> unless <strong>canonical history</strong> explicitly demands recording the outcome (<a href="../../00-guides/terminology/#intent-visibility">Terminology: Intent visibility</a>).</p>
@@ -4464,8 +4464,8 @@
 <h3 id="3-inflight-gating">3. Inflight gating</h3>
 <p>At most one outbound request per logical order key may be <strong>inflight</strong> at a time. Queue Processing reads the inflight projection from <strong>Execution State</strong>: if a request for the same order key is already inflight, no further request for that key is dispatched in this step regardless of eligibility.</p>
 <h3 id="4-rate-limit-evaluation">4. Rate-limit evaluation</h3>
-<p>Queue Processing reads the <strong>rate-capacity projection</strong> derived from prior stream history under Configuration (e.g. token-bucket rules, outbound counts against Venue limits). If dispatching the next eligible Intent would exceed available capacity, that Intent <strong>remains in Pending dispatch</strong> and is re-evaluated in a future processing step.</p>
-<p>Rate-limit state is <strong>derived</strong> from the <strong>Event Stream</strong> and Configuration. Rate limits and capacity recovery <strong>must not</strong> introduce unnecessary separate <strong>Event types</strong> (<a href="../../00-guides/terminology/#intent-visibility">Terminology</a>); where a capacity change is relevant to determinism, it is expressed through deterministic rules tied to <strong>Processing Order</strong> and existing stream history.</p>
+<p>Queue Processing reads the <strong>rate-capacity projection</strong> derived from prior Event Stream history under Configuration (e.g. token-bucket rules, outbound counts against Venue limits). If dispatching the next eligible Intent would exceed available capacity, that Intent <strong>remains in Pending dispatch</strong> and is re-evaluated in a future processing step.</p>
+<p>Rate-limit state is <strong>derived</strong> from the <strong>Event Stream</strong> and Configuration. Rate limits and capacity recovery <strong>must not</strong> introduce unnecessary separate <strong>Event types</strong> (<a href="../../00-guides/terminology/#intent-visibility">Terminology</a>); where a capacity change is relevant to determinism, it is expressed through deterministic rules tied to <strong>Processing Order</strong> and existing Event Stream history.</p>
 <h3 id="5-eligibility-and-ordering">5. Eligibility and ordering</h3>
 <p>Among work that passes the above gates, Queue Processing applies <strong>ordering rules</strong> from Configuration (e.g. priority by Intent type, FIFO within priority, order-level sequencing) to produce a <strong>deterministic</strong> ordered candidate set for this step.</p>
 <p>Eligibility is a <strong>derived predicate</strong> over current State—not a separate named lifecycle state that requires its own <strong>Event</strong> unless canonical history demands it.</p>

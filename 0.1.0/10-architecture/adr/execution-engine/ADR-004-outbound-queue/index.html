@@ -4302,11 +4302,11 @@ Updated: 2026-04-01</p>
 <h2 id="context">Context</h2>
 <p>Strategy produces Intents — ephemeral commands expressing desired trading actions — during Event processing. A Strategy may generate multiple Intents targeting the same logical order key in rapid succession:</p>
 <p><code>NEW ➝ REPLACE ➝ REPLACE ➝ CANCEL</code></p>
-<p>If every Intent were forwarded directly to the Venue Adapter as an outbound request, the Infrastructure would produce unstable execution behavior:</p>
+<p>If every Intent were forwarded directly to the Venue Adapter as an outbound request, the infrastructure would produce unstable execution behavior:</p>
 <ul>
 <li><strong>Duplicate requests.</strong> Multiple <code>NEW</code> commands for the same logical order key would produce duplicate submissions.</li>
 <li><strong>Replace and cancel storms.</strong> Rapid successive modifications or cancellations would generate bursts of conflicting requests to the Venue.</li>
-<li><strong>Concurrent conflicts.</strong> Overlapping inflight requests for the same order key would produce ambiguous Venue-side state — the Infrastructure could not determine which request the Venue is processing.</li>
+<li><strong>Concurrent conflicts.</strong> Overlapping inflight requests for the same order key would produce ambiguous Venue-side state — the infrastructure could not determine which request the Venue is processing.</li>
 <li><strong>Strategy-dependent stability.</strong> Outbound execution stability would depend on how frequently and in what order Strategy generates commands, coupling execution behavior to Strategy implementation detail.</li>
 </ul>
 <p>These problems require a mechanism between Risk evaluation and Venue dispatch that reconciles outbound work before transmission. The mechanism must:</p>
@@ -4319,7 +4319,7 @@ Updated: 2026-04-01</p>
 <p>The mechanism must also respect the separation between policy and execution control: Risk decides whether an Intent is <strong>allowed</strong>; the outbound mechanism decides <strong>when and in what order</strong> allowed work is dispatched. These are distinct responsibilities.</p>
 <hr />
 <h2 id="decision">Decision</h2>
-<p>The Infrastructure implements an outbound Queue as <strong>derived Execution Control substate</strong> within Execution State.</p>
+<p>The infrastructure implements an outbound Queue as <strong>derived Execution Control substate</strong> within Execution State.</p>
 <p>The Queue holds <strong>effective reconciled allowed pending outbound work</strong> — at most one command per logical order key — and is maintained deterministically from the Event Stream and Configuration. It is not a raw event history of Strategy output, not a second source of truth, and not a fourth top-level State domain.</p>
 <h3 id="core-rules">Core rules</h3>
 <ol>
@@ -4346,7 +4346,7 @@ Updated: 2026-04-01</p>
 <p><strong>Execution control runs within Event processing.</strong> Queue updates, dominance, eligibility, inflight gating, scheduling, and dispatch selection are deterministic computations within the canonical Event-processing step. There is no separate runtime tick, background timer, or autonomous scheduler.</p>
 </li>
 <li>
-<p><strong>Dominance, eligibility, and scheduling are internal derivations.</strong> These computations do not produce separate Events in the canonical stream unless canonical history explicitly requires recording the outcome for replay or audit.</p>
+<p><strong>Dominance, eligibility, and scheduling are internal derivations.</strong> These computations do not produce separate Events in the canonical Event Stream unless canonical history explicitly requires recording the outcome for replay or audit.</p>
 </li>
 </ol>
 <h3 id="boundaries">Boundaries</h3>
@@ -4356,16 +4356,16 @@ Updated: 2026-04-01</p>
 <h2 id="consequences">Consequences</h2>
 <p><strong>Strategy is decoupled from outbound transmission.</strong> Strategy produces Intents at whatever frequency its logic requires. The Queue absorbs rapid successive commands and collapses them to the minimal effective outbound work. Execution stability does not depend on Strategy command frequency or ordering.</p>
 <p><strong>Outbound traffic is structurally stable.</strong> Dominance prevents duplicate and redundant requests. Inflight gating prevents concurrent conflicts for the same order key. Rate limiting prevents bursts that exceed Venue constraints. These properties hold by construction, not by Strategy discipline.</p>
-<p><strong>All Execution Control decisions are deterministic and replayable.</strong> Because the Queue is derived from Event Stream + Configuration and all Execution Control computations run within Event processing, replay of the same stream under the same Configuration produces identical dispatch decisions at every Processing Order position. Backtesting and Live evaluate the same Execution Control logic.</p>
+<p><strong>All Execution Control decisions are deterministic and replayable.</strong> Because the Queue is derived from Event Stream + Configuration and all Execution Control computations run within Event processing, replay of the same Event Stream under the same Configuration produces identical dispatch decisions at every Processing Order position. Backtesting and Live evaluate the same Execution Control logic.</p>
 <p><strong>The Queue is not an independent truth layer.</strong> It does not accumulate a history of Strategy emissions. It does not hold state that the Event Stream cannot reproduce. Components that need Execution Control information read it as a projection of derived State, not as an authoritative parallel store.</p>
 <p><strong>Superseded Intents are collapsed, not silently lost.</strong> Dominance collapses intermediate commands before dispatch — this is the intended behavior, not data loss. Where an intent-processing outcome must be part of canonical history (for replay or audit), it is recorded as an Intent-related Event per the intent-visibility rules, not by retaining raw Strategy output in the Queue.</p>
 <hr />
 <h2 id="trade-offs">Trade-offs</h2>
-<p><strong>The Queue does not preserve intermediate Strategy intent history.</strong> By design, only the effective command per logical order key is retained. A sequence <code>NEW ➝ REPLACE ➝ REPLACE ➝ CANCEL</code> produces <code>CANCEL</code> in Execution Control substate; the intermediate replaces are not individually visible in the Queue. Where visibility of superseded commands is needed for replay or audit, the canonical mechanism is Intent-related Events recorded on the stream when required — not Queue-level retention.</p>
-<p><strong>Execution-control rules add derivation complexity.</strong> Dominance, inflight gating, rate-limit evaluation, and eligibility are deterministic functions applied at every relevant processing step. This is more complex than direct pass-through, but direct pass-through cannot provide the stability and determinism guarantees the Infrastructure requires.</p>
+<p><strong>The Queue does not preserve intermediate Strategy intent history.</strong> By design, only the effective command per logical order key is retained. A sequence <code>NEW ➝ REPLACE ➝ REPLACE ➝ CANCEL</code> produces <code>CANCEL</code> in Execution Control substate; the intermediate replaces are not individually visible in the Queue. Where visibility of superseded commands is needed for replay or audit, the canonical mechanism is Intent-related Events recorded on the Event Stream when required — not Queue-level retention.</p>
+<p><strong>Execution-control rules add derivation complexity.</strong> Dominance, inflight gating, rate-limit evaluation, and eligibility are deterministic functions applied at every relevant processing step. This is more complex than direct pass-through, but direct pass-through cannot provide the stability and determinism guarantees the infrastructure requires.</p>
 <hr />
 <h2 id="summary">Summary</h2>
-<p>The Infrastructure uses a derived Execution Control Queue that reconciles allowed pending outbound work to at most one effective command per logical order key. The Queue is Execution Control substate within Execution State — derived, not independently authoritative. Dominance, inflight gating, and rate-limited dispatch ensure stable, deterministic outbound behavior. All Execution Control computation runs within Event processing; there is no separate tick. Queue residency is pre-submission; Orders begin at dispatch.</p>
+<p>The infrastructure uses a derived Execution Control Queue that reconciles allowed pending outbound work to at most one effective command per logical order key. The Queue is Execution Control substate within Execution State — derived, not independently authoritative. Dominance, inflight gating, and rate-limited dispatch ensure stable, deterministic outbound behavior. All Execution Control computation runs within Event processing; there is no separate tick. Queue residency is pre-submission; Orders begin at dispatch.</p>
 
 
 

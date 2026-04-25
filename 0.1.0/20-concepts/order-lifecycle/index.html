@@ -4350,11 +4350,11 @@
 <p>Capitalized terms are used as in <a href="../../00-guides/terminology/">Terminology</a>.</p>
 <hr />
 <h2 id="what-an-order-represents">What an Order represents</h2>
-<p>An <strong>Order</strong> is a <strong>derived entity</strong> in <strong>Execution State</strong>: the Infrastructure's execution-level representation of a submitted outbound action, created at <strong>dispatch</strong> and subsequently evolved through <strong>canonical Execution Events</strong>.</p>
+<p>An <strong>Order</strong> is a <strong>derived entity</strong> in <strong>Execution State</strong>: the infrastructure's execution-level representation of a submitted outbound action, created at <strong>dispatch</strong> and subsequently evolved through <strong>canonical Execution Events</strong>.</p>
 <p><strong>Normative rules:</strong></p>
 <ol>
 <li>An <strong>Order</strong> is <strong>not</strong> an <strong>Intent</strong> and <strong>not</strong> a stage in the <strong>Intent lifecycle</strong>. The two lifecycles are <strong>distinct</strong>.</li>
-<li>An <strong>Order</strong> comes into existence in <strong>Execution State</strong> at <strong>submission</strong>. The dispatch-time stream record makes that entry canonical and replayable; subsequent state is derived from <strong>Execution Events</strong> under <strong>Configuration</strong>.</li>
+<li>An <strong>Order</strong> comes into existence in <strong>Execution State</strong> at <strong>submission</strong>. The dispatch-time Event Stream record makes that entry canonical and replayable; subsequent state is derived from <strong>Execution Events</strong> under <strong>Configuration</strong>.</li>
 <li>An <strong>Order</strong> is <strong>not</strong> a source of truth; its full history is <strong>reconstructible</strong> from the <strong>Event Stream</strong> and <strong>Configuration</strong> by replay.</li>
 <li><strong>Order state</strong> reflects the current derived condition: <strong>Submitted</strong> from dispatch onward; subsequent states reflect observable <strong>Venue</strong> execution reality as reported through <strong>Execution Events</strong>. The word "pending" in prose is descriptive only, not a separate canonical Order state.</li>
 </ol>
@@ -4364,11 +4364,11 @@
 <ul>
 <li><strong>All</strong> <strong>Execution Events</strong> and outbound commands targeting the same logical order share that <strong>Order ID</strong>.</li>
 <li>The <strong>Venue</strong> may assign an additional <strong>Venue-side identifier</strong> (e.g. exchange order ID), associated with the <strong>Order</strong> after <strong>Venue acknowledgement</strong>.</li>
-<li><strong>Order ID</strong> is the canonical key for lifecycle tracking within the Infrastructure regardless of Venue-assigned identifiers.</li>
+<li><strong>Order ID</strong> is the canonical key for lifecycle tracking within the infrastructure regardless of Venue-assigned identifiers.</li>
 </ul>
 <hr />
 <h2 id="lifecycle-entry-condition">Lifecycle entry condition</h2>
-<p>An <strong>Order</strong> comes into existence in <strong>Execution State</strong> at <strong>submission</strong> in state <strong>Submitted</strong>: the point at which the Infrastructure represents an outbound request as <strong>submitted</strong> and is awaiting <strong>Venue</strong> acknowledgement or further <strong>Execution Events</strong>.</p>
+<p>An <strong>Order</strong> comes into existence in <strong>Execution State</strong> at <strong>submission</strong> in state <strong>Submitted</strong>: the point at which the infrastructure represents an outbound request as <strong>submitted</strong> and is awaiting <strong>Venue</strong> acknowledgement or further <strong>Execution Events</strong>.</p>
 <p><strong>Prior stages</strong>—such as <strong>Intent</strong> command creation, <strong>Risk</strong> policy evaluation, and <strong>Queue Processing</strong> / <strong>Execution Control</strong>—belong to the <strong>Intent lifecycle</strong> (<a href="../intent-lifecycle/">Intent Lifecycle</a>), <strong>not</strong> to this lifecycle. The <strong>Order</strong> lifecycle <strong>begins</strong> only at <strong>Submission</strong>.</p>
 <hr />
 <h2 id="lifecycle-stages">Lifecycle stages</h2>
@@ -4408,7 +4408,7 @@
 </table>
 <hr />
 <h2 id="valid-transitions">Valid transitions</h2>
-<p><strong>Entry transition</strong> (<code>[*] ➝ Submitted</code>): The <strong>Order</strong> enters <strong>Execution State</strong> at <strong>submission</strong>. <code>Submitted</code> is the first <strong>Order</strong> state. The corresponding dispatch-time stream record makes this entry part of canonical history. It is not created by any later <strong>Venue</strong> response.</p>
+<p><strong>Entry transition</strong> (<code>[*] ➝ Submitted</code>): The <strong>Order</strong> enters <strong>Execution State</strong> at <strong>submission</strong>. <code>Submitted</code> is the first <strong>Order</strong> state. The corresponding dispatch-time Event Stream record makes this entry part of canonical history. It is not created by any later <strong>Venue</strong> response.</p>
 <p><strong>Post-submission transitions</strong> (<code>Submitted</code> onward): All subsequent state changes are triggered by <strong>Execution Events</strong> (Venue execution reports) processed in <strong>Processing Order</strong>. No post-submission transition occurs outside <strong>Event processing</strong>.</p>
 <pre class="mermaid"><code>stateDiagram-v2
     [*] --&gt; Submitted : Dispatch / outbound request transmitted
@@ -4425,7 +4425,7 @@
     PartiallyFilled --&gt; Cancelled : Cancel confirmation</code></pre>
 <p><strong>Normative rules:</strong></p>
 <ol>
-<li><strong>Entry to <code>Submitted</code></strong> is triggered by <strong>dispatch</strong> (the Venue Adapter transmitting the outbound request), recorded in the stream via an appropriate dispatch-time record when canonical history requires it. It is <strong>not</strong> triggered by a Venue execution report.</li>
+<li><strong>Entry to <code>Submitted</code></strong> is triggered by <strong>dispatch</strong> (the Venue Adapter transmitting the outbound request), recorded in the Event Stream via an appropriate dispatch-time record when canonical history requires it. It is <strong>not</strong> triggered by a Venue execution report.</li>
 <li><strong>Post-submission transitions</strong> occur only through <strong>Execution Events</strong> (Venue execution reports) applied in <strong>Processing Order</strong> via the <strong>Event Stream</strong>.</li>
 <li>Transitions must be <strong>consistent</strong> with the ordering defined by the <strong>Event Stream</strong>: no retroactive or out-of-order mutation.</li>
 <li>A <strong>Venue</strong>-initiated modification event (e.g. Venue-side cancel or modification) also produces a post-submission state transition via the same <strong>Execution Event</strong> mechanism.</li>
@@ -4476,8 +4476,8 @@
 <ol>
 <li><strong>Derived only:</strong> <strong>Order</strong> state is a <strong>projection</strong> of <strong>Execution State</strong> computed from <strong>Event Stream + Configuration</strong>; it is <strong>not</strong> authoritative independent truth.</li>
 <li><strong>Entry at submission:</strong> The <strong>Order lifecycle</strong> begins at <strong>Submitted</strong>; pre-submission stages belong to <strong>Intent lifecycle</strong>.</li>
-<li><strong>Event-driven lifecycle:</strong> Entry to <strong>Submitted</strong> is triggered by dispatch (recorded via an appropriate dispatch-time stream record when canonical history requires it); all post-submission transitions require a corresponding <strong>Execution Event</strong> in <strong>Processing Order</strong>. No state change occurs outside <strong>Event processing</strong>.</li>
-<li><strong>No retroactive mutation:</strong> Venue timestamps do not override <strong>Processing Order</strong>; transitions apply in stream position order.</li>
+<li><strong>Event-driven lifecycle:</strong> Entry to <strong>Submitted</strong> is triggered by dispatch (recorded via an appropriate dispatch-time Event Stream record when canonical history requires it); all post-submission transitions require a corresponding <strong>Execution Event</strong> in <strong>Processing Order</strong>. No state change occurs outside <strong>Event processing</strong>.</li>
+<li><strong>No retroactive mutation:</strong> Venue timestamps do not override <strong>Processing Order</strong>; transitions apply in Event Stream position order.</li>
 <li><strong>Terminal is final:</strong> An <strong>Order</strong> in a <strong>terminal</strong> state admits no further transitions.</li>
 <li><strong>Intent vs Order are distinct:</strong> An <strong>Intent</strong> is an ephemeral <strong>command</strong> that may cause an <strong>Order</strong> to exist or transition, but <strong>Intent</strong> stages (Generated, Policy decided, Pending dispatch, etc.) are <strong>not</strong> <strong>Order</strong> states.</li>
 <li><strong>Backtesting / Live parity:</strong> The lifecycle model and its event-driven derivation apply identically in both Runtimes.</li>

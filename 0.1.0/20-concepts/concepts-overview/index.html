@@ -4380,29 +4380,29 @@
 <h1 id="concepts-overview">Concepts Overview</h1>
 <hr />
 <h2 id="purpose-and-scope">Purpose and scope</h2>
-<p>This document provides <strong>semantic orientation</strong> for the Infrastructure's core conceptual layer.</p>
+<p>This document provides <strong>semantic orientation</strong> for the infrastructure's core conceptual layer.</p>
 <p>Each section below summarizes one core concept, states its role, and explains how it relates to others. Full normative rules, invariants, and lifecycle definitions are in the individual concept documents linked throughout.</p>
 <p>Capitalized terms are used as in <a href="../../00-guides/terminology/">Terminology</a>.</p>
 <p>This document does <strong>not</strong> restate full lifecycle stages, queue evaluation algorithms, or runtime walkthroughs. Those belong in the concept documents below.</p>
 <hr />
 <h2 id="the-canonical-inputs">The canonical inputs</h2>
-<p>The Infrastructure's behavior is fully defined by two inputs. Everything else—all derived <strong>State</strong>, all dispatch decisions, all <strong>Order</strong> projections—is a deterministic function of these two.</p>
+<p>The infrastructure's behavior is fully defined by two inputs. Everything else—all derived <strong>State</strong>, all dispatch decisions, all <strong>Order</strong> projections—is a deterministic function of these two.</p>
 <h3 id="event">Event</h3>
-<p>An <strong>Event</strong> is an <strong>immutable record of an occurrence</strong> that the Infrastructure must treat as input to processing. Events are the <strong>only source of State transitions</strong>.</p>
+<p>An <strong>Event</strong> is an <strong>immutable record of an occurrence</strong> that the infrastructure must treat as input to processing. Events are the <strong>only source of State transitions</strong>.</p>
 <p>Events are not commands. They record what has observably occurred: market data, execution feedback, control signals, intent-processing outcomes where canonical history requires them.</p>
 <p>➝ <a href="../event-model/">Event Model</a></p>
 <h3 id="event-stream">Event Stream</h3>
-<p>The <strong>Event Stream</strong> is the <strong>canonical, totally ordered sequence</strong> of Events the Infrastructure applies. It defines <strong>Processing Order</strong>: the strict internal sequence that determines causality and State derivation.</p>
+<p>The <strong>Event Stream</strong> is the <strong>canonical, totally ordered sequence</strong> of Events the infrastructure applies. It defines <strong>Processing Order</strong>: the strict internal sequence that determines causality and State derivation.</p>
 <p><strong>Event Time</strong> (the external timestamp inside an Event) is metadata. It does not define Processing Order.</p>
 <p>➝ <a href="../event-model/">Event Model</a> · <a href="../time-model/">Time Model</a></p>
 <h3 id="configuration">Configuration</h3>
-<p><strong>Configuration</strong> is the explicit, versioned set of rules, parameters, and ordering assumptions under which the Infrastructure processes the Event Stream and derives State. It is the second canonical input alongside the Event Stream.</p>
+<p><strong>Configuration</strong> is the explicit, versioned set of rules, parameters, and ordering assumptions under which the infrastructure processes the Event Stream and derives State. It is the second canonical input alongside the Event Stream.</p>
 <p>Configuration must not change silently during processing. Any Configuration change that affects derived State must be represented as an explicit versioned input consistent with canonical history.</p>
 <p>➝ <a href="../../00-guides/terminology/#configuration">Terminology: Configuration</a></p>
 <hr />
 <h2 id="derived-state">Derived State</h2>
 <h3 id="state">State</h3>
-<p><strong>State</strong> is the complete derived condition of the Infrastructure:</p>
+<p><strong>State</strong> is the complete derived condition of the infrastructure:</p>
 <p><code>State = f(Event Stream, Configuration)</code></p>
 <p>State is <strong>not</strong> a mutable store owned by components. It is a <strong>deterministic projection</strong>: recomputable by replaying the Event Stream under the same Configuration. Components read projections of State; they do not own it as independent truth.</p>
 <p>➝ <a href="../state-model/">State Model</a></p>
@@ -4441,7 +4441,7 @@
 <li><strong>Not persistent</strong> — An Intent exists only as transient input to the processing step in which it is generated.</li>
 <li><strong>Not an Order</strong> — Intent lifecycle and Order lifecycle are distinct and must not be collapsed.</li>
 </ul>
-<p>Where the Infrastructure must record an Intent-processing outcome for canonical history (e.g. a policy decision, a dispatch), that record appears as an <strong>Intent-related Event</strong>, not as the Intent itself.</p>
+<p>Where the infrastructure must record an Intent-processing outcome for canonical history (e.g. a policy decision, a dispatch), that record appears as an <strong>Intent-related Event</strong>, not as the Intent itself.</p>
 <p>➝ <a href="../../00-guides/terminology/#intent">Terminology: Intent</a> · <a href="../intent-lifecycle/">Intent Lifecycle</a></p>
 <hr />
 <h2 id="risk">Risk</h2>
@@ -4468,13 +4468,13 @@
 <p>➝ <a href="../queue-processing/">Queue Processing</a> · <a href="../intent-dominance/">Intent Dominance</a></p>
 <hr />
 <h2 id="order">Order</h2>
-<p>An <strong>Order</strong> is a <strong>derived entity in Execution State</strong>. It represents the Infrastructure's execution-level tracking of a submitted outbound action.</p>
+<p>An <strong>Order</strong> is a <strong>derived entity in Execution State</strong>. It represents the infrastructure's execution-level tracking of a submitted outbound action.</p>
 <p><strong>The Order lifecycle begins at submission.</strong> <code>Submitted</code> is the first Order state. Nothing before dispatch — Intent generation, Risk acceptance, Queue residency — constitutes an Order.</p>
 <p>After submission, Order state evolves exclusively through <strong>Execution Events</strong>. Venue acknowledgements, fills, rejections, and cancellations advance an already-existing Order; they do not create it.</p>
 <p>➝ <a href="../order-lifecycle/">Order Lifecycle</a></p>
 <hr />
 <h2 id="determinism">Determinism</h2>
-<p>The Infrastructure is <strong>deterministic</strong>: given an identical Event Stream, identical Configuration, and the same Processing Order, it produces identical State at every stream position.</p>
+<p>The infrastructure is <strong>deterministic</strong>: given an identical Event Stream, identical Configuration, and the same Processing Order, it produces identical State at every Event Stream position.</p>
 <p>This requires:</p>
 <ul>
 <li><strong>No hidden state</strong> outside Event Stream + Configuration</li>
@@ -4516,7 +4516,7 @@
 <li><strong>Risk</strong> decides admissibility only; <strong>allowed</strong> Intents proceed to <strong>Execution Control</strong>.</li>
 <li><strong>Queue + Queue Processing</strong> schedule dispatch deterministically as part of Event processing — not a separate loop.</li>
 <li>At <strong>submission</strong>, an <strong>Order</strong> comes into existence in <strong>Execution State</strong>.</li>
-<li><strong>Venue</strong> responses re-enter the stream as <strong>Execution Events</strong>, advancing the Order through its lifecycle and returning to State derivation.</li>
+<li><strong>Venue</strong> responses re-enter the Event Stream as <strong>Execution Events</strong>, advancing the Order through its lifecycle and returning to State derivation.</li>
 </ul>
 <hr />
 <h2 id="reading-order">Reading order</h2>

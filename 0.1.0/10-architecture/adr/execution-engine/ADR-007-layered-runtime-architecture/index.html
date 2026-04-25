@@ -4322,14 +4322,14 @@
 Updated: 2026-04-01</p>
 <hr />
 <h2 id="context">Context</h2>
-<p>The Infrastructure must process market data, evaluate trading decisions, enforce safety policy, schedule outbound work, and interact with external Venues — all within a deterministic, event-driven processing model. These are fundamentally different responsibilities, and the architectural question is how they are organized within the Core Runtime.</p>
+<p>The infrastructure must process market data, evaluate trading decisions, enforce safety policy, schedule outbound work, and interact with external Venues — all within a deterministic, event-driven processing model. These are fundamentally different responsibilities, and the architectural question is how they are organized within the Core Runtime.</p>
 <p>Without explicit layering, responsibilities become entangled:</p>
 <ul>
 <li><strong>Strategy absorbs control logic.</strong> If no architectural boundary separates decision-making from execution scheduling, Strategy implementations begin encoding rate-limit awareness, inflight tracking, or dispatch timing — concerns that belong to Execution Control. Strategy becomes coupled to execution mechanics rather than expressing desired actions against derived State.</li>
 <li><strong>Risk drifts into Execution Control logic.</strong> Without a clear mandate that Risk decides admissibility only, the policy layer accumulates scheduling, timing, and dispatch-ordering responsibilities. The result is a component that conflates "is this allowed?" with "when should this be sent?" — two questions that must be answered by different logic with different inputs.</li>
 <li><strong>Execution Control drifts into policy logic.</strong> Without a boundary, Queue Processing may re-evaluate admissibility rather than only scheduling allowed work. Policy enforcement becomes duplicated and potentially inconsistent between Risk and Execution Control.</li>
 <li><strong>Venue-specific concerns leak into the Core.</strong> If protocol translation is not isolated, Venue-specific message formats, API semantics, and connection handling spread into Strategy, Risk, or Execution Control. Core logic becomes coupled to a specific Venue's interface, breaking portability across Venues and across Runtimes (Backtesting vs Live).</li>
-<li><strong>Feedback bypasses the canonical path.</strong> Without explicit layering, Venue responses may update component state directly rather than re-entering the Infrastructure through the Event Stream. This introduces out-of-band mutation paths that break deterministic replay.</li>
+<li><strong>Feedback bypasses the canonical path.</strong> Without explicit layering, Venue responses may update component state directly rather than re-entering the infrastructure through the Event Stream. This introduces out-of-band mutation paths that break deterministic replay.</li>
 </ul>
 <p>These problems are not speculative. Trading infrastructures that grow without explicit layering routinely produce monolithic processing paths where decision logic, safety policy, scheduling, and Venue protocol handling are interleaved in ways that cannot be tested, audited, or evolved independently.</p>
 <p>The architecture requires explicit runtime layers with defined responsibilities and hard boundaries, so that each concern is handled by exactly one layer and no layer assumes responsibilities that belong to another.</p>
@@ -4339,7 +4339,7 @@ Updated: 2026-04-01</p>
 <h3 id="processing-chain">Processing chain</h3>
 <p>The canonical outbound processing sequence is:</p>
 <p><code>Event ➝ derived State ➝ Strategy ➝ Intent ➝ Risk ➝ Queue / Queue Processing ➝ Venue Adapter ➝ Venue</code></p>
-<p>Venue feedback re-enters the Infrastructure only as Events appended to the Event Stream. There is no path by which Venue responses update derived State without passing through Event processing.</p>
+<p>Venue feedback re-enters the infrastructure only as Events appended to the Event Stream. There is no path by which Venue responses update derived State without passing through Event processing.</p>
 <h3 id="layer-definitions">Layer definitions</h3>
 <p><strong>Strategy</strong> reads projections of derived State and emits Intents — ephemeral commands expressing desired trading actions. Strategy decides <strong>what</strong> actions should occur.</p>
 <ul>
@@ -4359,14 +4359,14 @@ Updated: 2026-04-01</p>
 <li>Queue Processing computes eligibility, ordering, inflight gating, rate-compliant timing, and dominance as deterministic derivations within Event processing. There is no separate runtime tick, background timer, or autonomous scheduler.</li>
 <li>Execution Control does not re-evaluate policy admissibility. That responsibility belongs exclusively to Risk.</li>
 </ul>
-<p><strong>Venue Adapter</strong> performs protocol translation and external I/O at the Infrastructure boundary. The Venue Adapter handles <strong>how</strong> outbound work is transmitted and how Venue feedback is surfaced.</p>
+<p><strong>Venue Adapter</strong> performs protocol translation and external I/O at the infrastructure boundary. The Venue Adapter handles <strong>how</strong> outbound work is transmitted and how Venue feedback is surfaced.</p>
 <ul>
 <li>The Venue Adapter translates outbound work selected by Execution Control into Venue-specific requests and transmits them.</li>
 <li>Venue responses are surfaced so they can enter the Event Stream as Execution Events. The Adapter does not update derived State directly.</li>
 <li>The Venue Adapter does not decide policy (Risk) or dispatch scheduling (Execution Control). It performs protocol translation only.</li>
 </ul>
 <h3 id="feedback-path">Feedback path</h3>
-<p>Venue feedback — acknowledgements, fills, rejections, cancellations — re-enters the Infrastructure exclusively as Events appended to the Event Stream. On subsequent processing steps, these Events derive updated Execution State (Order lifecycle transitions, position changes). Strategy may then emit new Intents based on the updated projections.</p>
+<p>Venue feedback — acknowledgements, fills, rejections, cancellations — re-enters the infrastructure exclusively as Events appended to the Event Stream. On subsequent processing steps, these Events derive updated Execution State (Order lifecycle transitions, position changes). Strategy may then emit new Intents based on the updated projections.</p>
 <p>There is no parallel path by which Venue responses update State without flowing through Event processing. This is what closes the processing loop while preserving determinism.</p>
 <h3 id="layer-separation-is-a-four-way-partition">Layer separation is a four-way partition</h3>
 <table>
@@ -4406,12 +4406,12 @@ Updated: 2026-04-01</p>
 <p><strong>Each layer is testable against its own contract.</strong> Strategy can be tested against derived State projections without instantiating Risk, Execution Control, or a Venue. Risk can be tested against policy rules without scheduling logic. Execution Control can be tested against dispatch rules without policy evaluation. The Venue Adapter can be tested against protocol translation without upstream logic. This is possible because each layer has a defined input, a defined output, and no dependency on the internals of adjacent layers.</p>
 <p><strong>Strategy is isolated from execution mechanics.</strong> Strategy reads derived State and emits Intents. It does not know whether an Intent will be rate-limited, delayed by inflight gating, or collapsed by dominance. Execution stability does not depend on Strategy implementation discipline — it is enforced by the layers downstream.</p>
 <p><strong>Policy enforcement is centralized and consistent.</strong> Every Intent passes through Risk before entering Execution Control. There is no alternative path by which Strategy output reaches a Venue without a prior policy decision. This holds across all Strategies and all Runtimes.</p>
-<p><strong>Execution Control is deterministic and replayable.</strong> Because Queue Processing runs within Event processing (not as a separate tick), and because the Queue is derived from Event Stream + Configuration, replay of the same stream under the same Configuration produces identical dispatch decisions at every Processing Order position. Backtesting and Live evaluate the same Execution Control logic.</p>
+<p><strong>Execution Control is deterministic and replayable.</strong> Because Queue Processing runs within Event processing (not as a separate tick), and because the Queue is derived from Event Stream + Configuration, replay of the same Event Stream under the same Configuration produces identical dispatch decisions at every Processing Order position. Backtesting and Live evaluate the same Execution Control logic.</p>
 <p><strong>Venue-specific concerns do not propagate into the Core.</strong> The Venue Adapter boundary ensures that Venue protocol differences, API specifics, and connection semantics are confined to the Adapter. Replacing or adding a Venue Adapter does not require changes to Strategy, Risk, or Execution Control. The same Core logic applies in Backtesting (with a simulated Venue) and Live (with a real Venue).</p>
 <p><strong>Feedback is canonically mediated.</strong> Because Venue responses re-enter only through Events on the Event Stream, no component holds Venue-derived state that the Event Stream cannot reproduce. This preserves the derivation guarantee: <code>State = f(Event Stream, Configuration)</code>.</p>
 <hr />
 <h2 id="trade-offs">Trade-offs</h2>
-<p><strong>Every outbound action traverses four layers.</strong> The layered architecture means no shortcut path exists from Strategy to Venue. This is more processing per Intent than a direct pass-through design — but direct pass-through cannot provide the policy enforcement, Execution Control stability, and deterministic replay guarantees the Infrastructure requires.</p>
+<p><strong>Every outbound action traverses four layers.</strong> The layered architecture means no shortcut path exists from Strategy to Venue. This is more processing per Intent than a direct pass-through design — but direct pass-through cannot provide the policy enforcement, Execution Control stability, and deterministic replay guarantees the infrastructure requires.</p>
 <p><strong>Layer boundaries must be enforced by implementation discipline.</strong> The architecture defines what each layer must and must not do, but enforcement depends on implementation respecting those boundaries. A component that quietly absorbs an adjacent layer's responsibility (e.g., Strategy encoding rate-limit logic, or Risk applying dispatch timing) violates the layered model without necessarily producing an immediate failure. Architectural review and testing must verify that boundaries hold.</p>
 <hr />
 <h2 id="summary">Summary</h2>

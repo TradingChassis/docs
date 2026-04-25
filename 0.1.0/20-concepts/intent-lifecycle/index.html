@@ -4317,7 +4317,7 @@
 <h1 id="intent-lifecycle">Intent Lifecycle</h1>
 <hr />
 <h2 id="purpose-and-scope">Purpose and scope</h2>
-<p>This document defines the <strong>lifecycle of Intents only</strong>: how a <strong>command</strong> produced by <strong>Strategy</strong> moves from creation to <strong>terminal disposition</strong> inside the Infrastructure.</p>
+<p>This document defines the <strong>lifecycle of Intents only</strong>: how a <strong>command</strong> produced by <strong>Strategy</strong> moves from creation to <strong>terminal disposition</strong> inside the infrastructure.</p>
 <p>It specifies <strong>conceptual stages</strong> and <strong>valid transitions</strong>. It does <strong>not</strong>:</p>
 <ul>
 <li>define <strong>Order</strong> lifecycle (<a href="../order-lifecycle/">Order Lifecycle</a>);</li>
@@ -4336,7 +4336,7 @@
 <li>The <strong>Intent lifecycle</strong> is the conceptual progression of that command through <strong>policy</strong>, <strong>Execution Control</strong>, <strong>dispatch</strong>, and <strong>disposition</strong>.</li>
 <li>Progress becomes <strong>visible</strong> and <strong>replayable</strong> only through <strong>Intent-related Events</strong> when <strong>canonical history</strong> so requires (<a href="../../00-guides/terminology/#intent-visibility">Terminology: Intent visibility</a>, <a href="../event-model/#intent-related-events">Event Model: Intent-related Events</a>).</li>
 </ol>
-<p>Naming <strong>IntentGenerated</strong>, <strong>IntentAccepted</strong>, <strong>IntentRejected</strong>, and <strong>IntentDispatched</strong> below names <strong>categories of records</strong> that <strong>may</strong> appear on the stream when required—not every transition <strong>must</strong> emit a dedicated Event type if Configuration does not demand that record for replay or audit.</p>
+<p>Naming <strong>IntentGenerated</strong>, <strong>IntentAccepted</strong>, <strong>IntentRejected</strong>, and <strong>IntentDispatched</strong> below names <strong>categories of records</strong> that <strong>may</strong> appear on the Event Stream when required—not every transition <strong>must</strong> emit a dedicated Event type if Configuration does not demand that record for replay or audit.</p>
 <hr />
 <h2 id="lifecycle-stages">Lifecycle stages</h2>
 <p>These <strong>stages</strong> describe the <strong>Intent</strong> alone. They <strong>do not</strong> name <strong>Execution Events</strong> from the <strong>Venue</strong> or <strong>Order</strong> projection states (those belong to <strong>Order lifecycle</strong> and <strong>Execution State</strong> derivation).</p>

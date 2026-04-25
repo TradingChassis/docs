@@ -4289,19 +4289,19 @@
 Updated: 2026-04-01</p>
 <hr />
 <h2 id="context">Context</h2>
-<p>A trading infrastructure must process a continuous stream of occurrences — market data updates, Venue execution reports, control signals — and maintain a coherent internal condition based on those occurrences. The architectural question is: <strong>what is the authoritative representation of infrastructure history and current condition?</strong></p>
+<p>A trading infrastructure must process a continuous Event Stream of occurrences — market data updates, Venue execution reports, control signals — and maintain a coherent internal condition based on those occurrences. The architectural question is: <strong>what is the authoritative representation of infrastructure history and current condition?</strong></p>
 <p>Two fundamental approaches exist:</p>
-<p><strong>Mutable state as primary truth.</strong> Components directly mutate an internal state store in response to incoming signals. The current state <em>is</em> the Infrastructure's truth; history is either not retained or maintained separately as a secondary concern.</p>
-<p><strong>Event stream as primary truth.</strong> Occurrences are recorded as immutable Events in a canonical stream. State is a derived projection: a deterministic function of the Event stream and configuration. The stream is the Infrastructure's truth; current state is recomputable from it.</p>
+<p><strong>Mutable state as primary truth.</strong> Components directly mutate an internal state store in response to incoming signals. The current state <em>is</em> the infrastructure's truth; history is either not retained or maintained separately as a secondary concern.</p>
+<p><strong>Event Stream as primary truth.</strong> Occurrences are recorded as immutable Events in a canonical Event Stream. State is a derived projection: a deterministic function of the Event Stream and configuration. The Event Stream is the infrastructure's truth; current state is recomputable from it.</p>
 <p>The mutable-state-as-truth approach creates specific problems for a infrastructure that must be deterministic, replayable, and operationally auditable:</p>
 <ul>
-<li><strong>Reconstruction is unreliable.</strong> If state is the primary store, reconstructing historical state requires either complete snapshots at every point of interest or reverse-engineering state from incomplete logs. Neither is guaranteed to reproduce the exact condition the Infrastructure was in at a given moment.</li>
+<li><strong>Reconstruction is unreliable.</strong> If state is the primary store, reconstructing historical state requires either complete snapshots at every point of interest or reverse-engineering state from incomplete logs. Neither is guaranteed to reproduce the exact condition the infrastructure was in at a given moment.</li>
 <li><strong>Replay is structurally unsupported.</strong> Replaying the same inputs to reproduce the same outputs requires that all state evolution be accounted for by those inputs. When components mutate state directly — through ad hoc writes, hidden caches, timer-driven updates, or out-of-band corrections — the inputs alone are insufficient to reproduce the result.</li>
-<li><strong>Backtesting and Live diverge.</strong> If the Infrastructure permits state mutations outside the input-processing path, Backtesting (which replays historical inputs) cannot reproduce the state mutations that occurred during Live execution. The two Runtimes evaluate different infrastructures.</li>
-<li><strong>Causality is ambiguous.</strong> When multiple components can mutate state through different mechanisms, the question "why is the Infrastructure in this state?" has no single authoritative answer. Debugging requires correlating disparate mutation sources rather than reading a single ordered history.</li>
+<li><strong>Backtesting and Live diverge.</strong> If the infrastructure permits state mutations outside the input-processing path, Backtesting (which replays historical inputs) cannot reproduce the state mutations that occurred during Live execution. The two Runtimes evaluate different infrastructures.</li>
+<li><strong>Causality is ambiguous.</strong> When multiple components can mutate state through different mechanisms, the question "why is the infrastructure in this state?" has no single authoritative answer. Debugging requires correlating disparate mutation sources rather than reading a single ordered history.</li>
 <li><strong>Consistency across domains is fragile.</strong> Market State, Execution State, and Control State must remain mutually consistent. Direct mutation across domains without a single sequencing mechanism creates windows where one domain reflects an occurrence that another has not yet processed.</li>
 </ul>
-<p>The Infrastructure requires deterministic behavior, exact replayability, and semantic parity between Backtesting and Live. These properties are structurally incompatible with a mutable-state-as-truth model.</p>
+<p>The infrastructure requires deterministic behavior, exact replayability, and semantic parity between Backtesting and Live. These properties are structurally incompatible with a mutable-state-as-truth model.</p>
 <hr />
 <h2 id="decision">Decision</h2>
 <p><strong>Events are the canonical record of infrastructure history. State is a deterministic projection of the Event Stream under Configuration. State is not primary truth.</strong></p>
@@ -4313,13 +4313,13 @@ Updated: 2026-04-01</p>
 <p><strong>Events are the only source of State transitions.</strong> No component may change derived State by any mechanism other than processing a canonical Event. Spontaneous, timer-driven, and out-of-band State changes are forbidden.</p>
 </li>
 <li>
-<p><strong>The Event Stream is the authoritative history.</strong> Events are immutable once appended. The stream is totally ordered by Processing Order — the strict internal causal sequence that determines when each Event is applied. Event Time (the external timestamp an Event carries) is metadata; it does not override Processing Order.</p>
+<p><strong>The Event Stream is the authoritative history.</strong> Events are immutable once appended. The Event Stream is totally ordered by Processing Order — the strict internal causal sequence that determines when each Event is applied. Event Time (the external timestamp an Event carries) is metadata; it does not override Processing Order.</p>
 </li>
 <li>
 <p><strong>State is derived, not owned.</strong> No component holds State as independent mutable truth. Components read projections of derived State; they do not maintain authoritative copies that diverge from what the Event Stream would produce.</p>
 </li>
 <li>
-<p><strong>State is reconstructible.</strong> Given an identical Event Stream and identical Configuration, the Infrastructure produces identical State at every Processing Order position. State can be reconstructed at any point by replaying the stream under the same Configuration.</p>
+<p><strong>State is reconstructible.</strong> Given an identical Event Stream and identical Configuration, the infrastructure produces identical State at every Processing Order position. State can be reconstructed at any point by replaying the Event Stream under the same Configuration.</p>
 </li>
 <li>
 <p><strong>All inputs that influence State must be canonical.</strong> Any data that affects derived State must be either part of the Event Stream or part of explicit, versioned Configuration. Hidden stores, caches, and out-of-band writes that influence State evolution are forbidden.</p>
@@ -4345,18 +4345,18 @@ Updated: 2026-04-01</p>
 </tr>
 <tr>
 <td><strong>Control State</strong></td>
-<td>Infrastructure Events, Control Events (configuration changes, operational signals)</td>
+<td>Control Events (configuration changes, operational signals)</td>
 </tr>
 </tbody>
 </table>
 <p>There is no fourth top-level domain. Execution-control substate (Queue contents, inflight tracking, rate-limit bookkeeping) is part of Execution State — derived, not independently authoritative.</p>
 <hr />
 <h2 id="consequences">Consequences</h2>
-<p><strong>Deterministic replay is a structural property, not an aspiration.</strong> Because State is fully determined by Event Stream + Configuration, and because no mutation path exists outside Event processing, replay of the same stream under the same Configuration is guaranteed to produce the same State at every position. This holds for all State domains including Execution Control substate.</p>
+<p><strong>Deterministic replay is a structural property, not an aspiration.</strong> Because State is fully determined by Event Stream + Configuration, and because no mutation path exists outside Event processing, replay of the same Event Stream under the same Configuration is guaranteed to produce the same State at every position. This holds for all State domains including Execution Control substate.</p>
 <p><strong>Backtesting and Live share the same derivation model.</strong> Both Runtimes apply the same <code>State = f(Event Stream, Configuration)</code> rule. Infrastructure differs (historical vs live inputs, simulated vs real Venue); the derivation semantics do not. This equivalence is a direct consequence of the event-derived model — it is not achievable if either Runtime permits state mutations outside the Event processing path.</p>
 <p><strong>All derived entities are projections, not independent truth.</strong> Orders, positions, Queue contents, and Execution Control bookkeeping exist only as projections maintained during Event processing. None is an authoritative store that can diverge from the Event Stream. This rules out designs where, for example, a Queue maintains its own truth independently of the derivation path, or where Order state is updated through a mechanism other than processing Execution Events.</p>
-<p><strong>Processing Order is the causal axis.</strong> Because State derivation is sequential over the Event Stream, the strict ordering of Events — Processing Order — defines the Infrastructure's internal causal history. Event Time is preserved as external metadata but does not determine when an Event is applied. This eliminates timing-dependent ambiguity in state evolution.</p>
-<p><strong>No separate runtime tick.</strong> All advancement of State — including Execution Control substate — occurs within Event processing. There is no background timer, polling loop, or autonomous scheduler that advances State independently. This follows directly from the decision: if State is derived from the Event Stream, anything that changes State outside Event processing introduces a mutation path that the stream cannot account for.</p>
+<p><strong>Processing Order is the causal axis.</strong> Because State derivation is sequential over the Event Stream, the strict ordering of Events — Processing Order — defines the infrastructure's internal causal history. Event Time is preserved as external metadata but does not determine when an Event is applied. This eliminates timing-dependent ambiguity in state evolution.</p>
+<p><strong>No separate runtime tick.</strong> All advancement of State — including Execution Control substate — occurs within Event processing. There is no background timer, polling loop, or autonomous scheduler that advances State independently. This follows directly from the decision: if State is derived from the Event Stream, anything that changes State outside Event processing introduces a mutation path that the Event Stream cannot account for.</p>
 <p><strong>Failure recovery by replay.</strong> State after a failure can be reconstructed from the Event Stream without relying on snapshots or parallel mutable stores. Snapshots, if used, are a pure optimization — they must not contradict what replay would produce.</p>
 <hr />
 <h2 id="trade-offs">Trade-offs</h2>
@@ -4365,7 +4365,7 @@ Updated: 2026-04-01</p>
 <p><strong>Derived state has latency relative to the Event Stream.</strong> State at any moment reflects only Events processed up to the current Processing Order position. This is inherent to sequential derivation and is the same in Backtesting and Live. It is not a deficiency — it is the mechanism that makes determinism possible — but implementation must not attempt to compensate by introducing out-of-band state updates.</p>
 <hr />
 <h2 id="summary">Summary</h2>
-<p>The Infrastructure treats the Event Stream as canonical history and State as a derived projection. State is not primary truth; it is a deterministic function of Event Stream and Configuration. This decision is the structural foundation for deterministic replay, Backtesting/Live semantic parity, and the prohibition of hidden mutable truth throughout the Infrastructure.</p>
+<p>The infrastructure treats the Event Stream as canonical history and State as a derived projection. State is not primary truth; it is a deterministic function of Event Stream and Configuration. This decision is the structural foundation for deterministic replay, Backtesting/Live semantic parity, and the prohibition of hidden mutable truth throughout the infrastructure.</p>
 
 
 

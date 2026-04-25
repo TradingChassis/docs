@@ -3513,7 +3513,7 @@
   <a href="#position-in-the-infrastructure" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Position in the Infrastructure
+        Position in the infrastructure
       
     </span>
   </a>
@@ -4295,10 +4295,10 @@
 <p>The Analysis Stack provides the infrastructure and components required to consume persisted infrastructure outputs and artifacts, perform asynchronous and reproducible analysis on them, and produce derived analytical artifacts, comparisons, and evaluation results.</p>
 <hr />
 <h2 id="purpose">Purpose</h2>
-<p>The Analysis Stack exists to turn the Infrastructure's persisted outputs into evaluative knowledge. Backtesting runs produce experiment results. Live execution produces execution records. The Data Platform holds canonical datasets and derived data. The Analysis Stack provides the technical infrastructure to consume these persisted outputs, evaluate them, compare them across experiments and contexts, and produce derived analytical artifacts — all asynchronously and reproducibly.</p>
+<p>The Analysis Stack exists to turn the infrastructure's persisted outputs into evaluative knowledge. Backtesting runs produce experiment results. Live execution produces execution records. The Data Platform holds canonical datasets and derived data. The Analysis Stack provides the technical infrastructure to consume these persisted outputs, evaluate them, compare them across experiments and contexts, and produce derived analytical artifacts — all asynchronously and reproducibly.</p>
 <p>The Analysis Stack is <strong>retrospective and asynchronous</strong> in character. It operates on data that is already durably stored. It does not participate in ongoing runtime execution and does not observe running infrastructures in real time. Its work begins after other Stacks have produced and persisted their outputs.</p>
 <hr />
-<h2 id="position-in-the-infrastructure">Position in the Infrastructure</h2>
+<h2 id="position-in-the-infrastructure">Position in the infrastructure</h2>
 <p>The Analysis Stack belongs to the <strong>Analysis and Monitoring</strong> group. It works downstream of persisted outputs and artifacts produced by the Backtesting Stack, the Live Stack, and the Data Platform:</p>
 <pre class="mermaid"><code>flowchart LR
     BS["Backtesting Stack"] --&gt; EAS["Experiment / Artifact Storage"] --&gt; AS["Analysis Stack"]
@@ -4318,7 +4318,7 @@
 <li>Enabling <strong>comparison and evaluation</strong> — supporting cross-experiment comparison, parameter-sweep analysis, Strategy ranking, and performance evaluation across runs, time periods, or configurations.</li>
 <li>Enabling <strong>retrospective analysis of persisted Live outputs</strong> — consuming execution records, order history, fill data, and position records for post-hoc evaluation, execution-quality assessment, and performance review.</li>
 <li>Supporting <strong>Research–Live discrepancy analysis</strong> — comparing persisted Backtesting outcomes with persisted Live execution outcomes to identify, measure, and model the gap between Research expectations and production reality.</li>
-<li>Producing <strong>derived analytical artifacts</strong> — comparative evaluations, analysis datasets, reports, and versioned results that become part of the Infrastructure's persistent record.</li>
+<li>Producing <strong>derived analytical artifacts</strong> — comparative evaluations, analysis datasets, reports, and versioned results that become part of the infrastructure's persistent record.</li>
 </ul>
 <hr />
 <h2 id="key-boundaries">Key Boundaries</h2>
@@ -4337,7 +4337,7 @@
 <hr />
 <h2 id="why-the-stack-matters">Why the Stack Matters</h2>
 <p>The Analysis Stack is where persisted infrastructure outputs become actionable knowledge. Experiment results, execution records, and canonical datasets are raw material — they carry information, but they do not by themselves answer questions about Strategy quality, execution effectiveness, or the relationship between Research expectations and Live outcomes.</p>
-<p>The Analysis Stack provides the infrastructure to ask and answer those questions: to compare experiments, to evaluate performance, to quantify the gap between Research and Live, and to produce derived artifacts that make the Infrastructure's behavior measurable and interpretable. Without it, persisted outputs would accumulate without systematic evaluation, and Research conclusions would depend on ad hoc inspection rather than reproducible, versioned analysis.</p>
+<p>The Analysis Stack provides the infrastructure to ask and answer those questions: to compare experiments, to evaluate performance, to quantify the gap between Research and Live, and to produce derived artifacts that make the infrastructure's behavior measurable and interpretable. Without it, persisted outputs would accumulate without systematic evaluation, and Research conclusions would depend on ad hoc inspection rather than reproducible, versioned analysis.</p>
 <p>Detailed treatment of scope and role, interfaces, internal structure, operational behavior, and implementation considerations is provided in the companion documents for this Stack.</p>
 
 

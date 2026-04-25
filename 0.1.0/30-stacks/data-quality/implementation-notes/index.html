@@ -4450,7 +4450,7 @@
 <p>These properties are implementation concerns — they describe how the Data Quality Stack's realization preserves auditability. They do not introduce new canonical infrastructure semantics.</p>
 <hr />
 <h2 id="implementation-boundaries">Implementation Boundaries</h2>
-<p><strong>Implementation choices, not canonical semantics.</strong> The metadata model, workflow patterns, orchestration tooling, and pipeline decomposition described here are realization concerns. They do not define or modify the Infrastructure's canonical Event, State, or lifecycle semantics.</p>
+<p><strong>Implementation choices, not canonical semantics.</strong> The metadata model, workflow patterns, orchestration tooling, and pipeline decomposition described here are realization concerns. They do not define or modify the infrastructure's canonical Event, State, or lifecycle semantics.</p>
 <p><strong>Raw and canonical remain logically distinct.</strong> Regardless of how the pipeline is implemented, the logical separation between raw recorded datasets (in Persistent Raw Storage) and canonical datasets (in Canonical Storage) must be preserved. The promotion gate is the boundary between the two. No implementation shortcut should blur this distinction.</p>
 <p><strong>No Core Runtime interaction.</strong> The Data Quality Stack's implementation does not intersect with the Core Runtime Event Stream, State derivation, or execution-path processing. Quality processing operates entirely within the Data Platform domain.</p>
 <p><strong>No deployment specification.</strong> The patterns above describe logical realization approaches. Physical infrastructure, cluster topology, and deployment procedures are not specified by this document.</p>

@@ -4397,7 +4397,7 @@
 <h1 id="logical-architecture">Logical Architecture</h1>
 <hr />
 <h2 id="purpose-and-scope">Purpose and scope</h2>
-<p>The <strong>Logical Architecture</strong> defines the <strong>logical components</strong> of the Infrastructure, their <strong>responsibilities</strong>, and <strong>hard boundaries</strong> between them.</p>
+<p>The <strong>Logical Architecture</strong> defines the <strong>logical components</strong> of the infrastructure, their <strong>responsibilities</strong>, and <strong>hard boundaries</strong> between them.</p>
 <p>It answers:</p>
 <ul>
 <li>which <strong>Components</strong> exist at the logical layer;</li>
@@ -4547,7 +4547,7 @@
 <tbody>
 <tr>
 <td><strong>Live</strong></td>
-<td>Real-time waiting; the runtime control scheduling mechanism tracks the derived obligation and injects the <strong>Control-Time Event</strong> into the live stream at the appropriate moment.</td>
+<td>Real-time waiting; the runtime control scheduling mechanism tracks the derived obligation and injects the <strong>Control-Time Event</strong> into the live Event Stream at the appropriate moment.</td>
 </tr>
 <tr>
 <td><strong>Backtesting</strong></td>
@@ -4561,12 +4561,12 @@
 <p><strong>Responsibilities:</strong></p>
 <ul>
 <li>Map internal outbound actions to <strong>Venue-specific</strong> requests.</li>
-<li>Perform <strong>external I/O</strong> (or simulator I/O) and surface Venue feedback so it can be represented as <strong>Events</strong> for the stream.</li>
+<li>Perform <strong>external I/O</strong> (or simulator I/O) and surface Venue feedback so it can be represented as <strong>Events</strong> for the Event Stream.</li>
 </ul>
 <p><strong>Normative boundaries:</strong></p>
 <ul>
 <li>The Adapter <strong>does not</strong> decide <strong>policy</strong> (<strong>Risk</strong>) or <strong>Execution Control</strong> (<strong>Queue Processing</strong>).</li>
-<li>The Adapter <strong>does not</strong> own derived State; it <strong>reads</strong> what Execution Control hands off and <strong>writes</strong> the Infrastructure only through <strong>Events</strong> (or through mechanisms that append <strong>Events</strong>).</li>
+<li>The Adapter <strong>does not</strong> own derived State; it <strong>reads</strong> what Execution Control hands off and <strong>writes</strong> the infrastructure only through <strong>Events</strong> (or through mechanisms that append <strong>Events</strong>).</li>
 <li>The Adapter <strong>does not</strong> inject <strong>Control-Time Events</strong> into the <strong>Event Stream</strong>. <strong>Control-Time Events</strong> are injected by the <strong>Runtime</strong> upon realization of a <strong>Control Scheduling Obligation</strong> and are not <strong>Venue</strong>-originated Events.</li>
 </ul>
 <hr />
@@ -4575,7 +4575,7 @@
 <ul>
 <li>Accept execution requests and emit <strong>market</strong> and <strong>execution</strong> feedback according to the Venue’s (or simulator’s) rules.</li>
 </ul>
-<p>The <strong>Venue</strong> is outside the logical Core; responses enter the Infrastructure as <strong>Events</strong>.</p>
+<p>The <strong>Venue</strong> is outside the logical Core; responses enter the infrastructure as <strong>Events</strong>.</p>
 <hr />
 <h2 id="interaction-model-high-level">Interaction model (high-level)</h2>
 <p>The following is a <strong>conceptual</strong> dependency between logical Components, <strong>not</strong> a procedural Runtime specification:</p>
@@ -4625,7 +4625,7 @@
 </thead>
 <tbody>
 <tr>
-<td>Formal <strong>Event</strong> kinds and stream rules</td>
+<td>Formal <strong>Event</strong> kinds and Event Stream rules</td>
 <td><a href="../../20-concepts/event-model/">Event Model</a></td>
 </tr>
 <tr>

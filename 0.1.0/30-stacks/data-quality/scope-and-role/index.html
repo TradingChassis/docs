@@ -2553,12 +2553,12 @@
   <a href="#position-in-the-infrastructure" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Position in the Infrastructure
+        Position in the infrastructure
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Position in the Infrastructure">
+    <nav class="md-nav" aria-label="Position in the infrastructure">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -4321,7 +4321,7 @@
 </ul>
 <p>Canonical datasets arise <strong>only</strong> through the Data Quality Stack. There is no alternative path by which raw recorded data enters Canonical Storage.</p>
 <hr />
-<h2 id="position-in-the-infrastructure">Position in the Infrastructure</h2>
+<h2 id="position-in-the-infrastructure">Position in the infrastructure</h2>
 <p>The Data Quality Stack is part of the <strong>Data Platform</strong>, positioned between the Data Recording Stack and Canonical Storage:</p>
 <p><code>Data Recording ➝ Data Quality ➝ Data Storage (Canonical Storage)</code></p>
 <p>It sits downstream of the Data Recording Stack and upstream of Canonical Storage, the Backtesting Stack, and the Analysis Stack. It controls the promotion boundary: raw recorded datasets on one side, canonical validated datasets on the other.</p>
@@ -4357,9 +4357,9 @@
 </ul>
 <hr />
 <h2 id="why-the-stack-matters">Why the Stack Matters</h2>
-<p>The Data Quality Stack is the point at which the Infrastructure decides which recorded datasets are reliable and suitable enough to serve as canonical Research inputs. Every canonical dataset — every Backtesting input, every Analysis baseline — passes through this Stack's validation and promotion logic before it becomes authoritative.</p>
+<p>The Data Quality Stack is the point at which the infrastructure decides which recorded datasets are reliable and suitable enough to serve as canonical Research inputs. Every canonical dataset — every Backtesting input, every Analysis baseline — passes through this Stack's validation and promotion logic before it becomes authoritative.</p>
 <p>If the Data Quality Stack is weak, ambiguous, or permissive, Research and Backtesting may operate on incomplete, inconsistent, or structurally defective data without detection. The downstream consequence is that Strategy evaluation results lose credibility: conclusions drawn from low-quality canonical data are unreliable regardless of how rigorous the downstream processing is.</p>
-<p>The gatekeeper role is therefore not auxiliary infrastructure — it is the mechanism that gives Canonical Storage its authority as the validated dataset layer for the Infrastructure.</p>
+<p>The gatekeeper role is therefore not auxiliary infrastructure — it is the mechanism that gives Canonical Storage its authority as the validated dataset layer for the infrastructure.</p>
 
 
 

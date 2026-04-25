@@ -4389,14 +4389,14 @@
 <h1 id="determinism-model">Determinism Model</h1>
 <hr />
 <h2 id="purpose-and-scope">Purpose and scope</h2>
-<p>The <strong>Determinism Model</strong> defines what determinism means in the Infrastructure, what it requires, and what behavior is forbidden because it would break <strong>replayability</strong> or <strong>reproducibility</strong>.</p>
+<p>The <strong>Determinism Model</strong> defines what determinism means in the infrastructure, what it requires, and what behavior is forbidden because it would break <strong>replayability</strong> or <strong>reproducibility</strong>.</p>
 <p>It does <strong>not</strong> restate the architecture in full. For formal definitions of <strong>Events</strong>, <strong>State</strong>, <strong>Processing Order</strong>, and <strong>time</strong>, see <a href="../event-model/">Event Model</a>, <a href="../state-model/">State Model</a>, and <a href="../time-model/">Time Model</a>.</p>
 <p>Capitalized terms are used as in <a href="../../00-guides/terminology/">Terminology</a>.</p>
 <hr />
 <h2 id="definition">Definition</h2>
-<p>The Infrastructure is <strong>deterministic</strong> if and only if:</p>
+<p>The infrastructure is <strong>deterministic</strong> if and only if:</p>
 <blockquote>
-<p>Given an identical <strong>Event Stream</strong>, identical <strong>Configuration</strong>, and the same <strong>Processing Order</strong>, the Infrastructure produces identical <strong>State</strong> (including all <strong>Execution Control substate</strong>) at every stream position.</p>
+<p>Given an identical <strong>Event Stream</strong>, identical <strong>Configuration</strong>, and the same <strong>Processing Order</strong>, the infrastructure produces identical <strong>State</strong> (including all <strong>Execution Control substate</strong>) at every Event Stream position.</p>
 </blockquote>
 <p>Formally:</p>
 <p><code>State = f(Event Stream, Configuration)</code></p>
@@ -4453,7 +4453,7 @@
 </tr>
 <tr>
 <td><strong>Rate-limit bookkeeping</strong></td>
-<td>Deterministic functions of prior stream history and Configuration rules</td>
+<td>Deterministic functions of prior Event Stream history and Configuration rules</td>
 </tr>
 <tr>
 <td><strong>Control Scheduling Obligations</strong></td>
@@ -4478,14 +4478,14 @@
 <h3 id="out-of-band-queue-or-execution-control-state">Out-of-band Queue or Execution Control State</h3>
 <p>If the <strong>Queue</strong> (Execution Control substate) or any Execution Control bookkeeping (inflight status, rate-limit capacity, eligibility) is maintained as a separate primary store that is not recomputable from the <strong>Event Stream</strong>, replay cannot reproduce identical decisions. The <strong>Queue</strong> must be derived, not owned.</p>
 <h3 id="separate-runtime-tick-or-autonomous-loop">Separate runtime tick or autonomous loop</h3>
-<p>Any mechanism that advances Execution Control State or triggers Queue reevaluation <strong>independently of Event processing</strong>—a background timer, a polling loop, an OS scheduler callback—introduces a source of advancement that is not present in the <strong>Event Stream</strong>. This breaks replay because the additional advancement cannot be reproduced from the stream alone.</p>
+<p>Any mechanism that advances Execution Control State or triggers Queue reevaluation <strong>independently of Event processing</strong>—a background timer, a polling loop, an OS scheduler callback—introduces a source of advancement that is not present in the <strong>Event Stream</strong>. This breaks replay because the additional advancement cannot be reproduced from the Event Stream alone.</p>
 <p><strong>Control Scheduling Obligations</strong> (non-canonical signals derived by the Core from current State + Configuration) do not violate this rule: they produce no State Transition and do not advance Execution Control State by themselves. <strong>Control-Time Events</strong> (canonical Events injected by the Runtime when an obligation is realized) also do not violate this rule: they appear in the Event Stream as part of the canonical input. Replay of the same Event Stream—including all injected Control-Time Events—under the same Configuration produces identical derived State.</p>
 <h3 id="wall-clock-dependent-branching">Wall-clock-dependent branching</h3>
 <p>Any branching in processing logic that depends on what the wall clock reads at runtime (e.g. "if current time &gt; T, do X") is not a function of the <strong>Event Stream</strong>. Time-dependent behavior must instead be expressed through Events or Configuration-level rules applied deterministically (see <a href="../time-model/">Time Model</a>).</p>
 <h3 id="thread-and-scheduler-timing">Thread and scheduler timing</h3>
 <p>State Transitions must not depend on the order in which threads or tasks are scheduled by the OS. <strong>Processing Order</strong> is defined by the <strong>Event Stream</strong>, not by thread execution order.</p>
 <h3 id="non-canonical-ordering-of-events">Non-canonical ordering of Events</h3>
-<p>Applying the same Events in a different order than their canonical <strong>Processing Order</strong> produces different derived State. Any mechanism that allows Events to be applied out of stream order (except under a well-defined override specified in Configuration) breaks determinism.</p>
+<p>Applying the same Events in a different order than their canonical <strong>Processing Order</strong> produces different derived State. Any mechanism that allows Events to be applied out of Event Stream order (except under a well-defined override specified in Configuration) breaks determinism.</p>
 <h3 id="randomness-outside-the-event-stream">Randomness outside the Event Stream</h3>
 <p>Stochastic behavior that is not seeded deterministically via the <strong>Event Stream</strong> or <strong>Configuration</strong> must not influence State Transitions or dispatch decisions.</p>
 <hr />
@@ -4531,7 +4531,7 @@
 <h2 id="relationship-to-other-documents">Relationship to other documents</h2>
 <ul>
 <li><a href="../../00-guides/terminology/">Terminology</a> — canonical definitions including <strong>Event Stream</strong>, <strong>Configuration</strong>, <strong>Processing Order</strong>, <strong>State</strong>.</li>
-<li><a href="../event-model/">Event Model</a> — how Events enter the Infrastructure; Event Stream as canonical input.</li>
+<li><a href="../event-model/">Event Model</a> — how Events enter the infrastructure; Event Stream as canonical input.</li>
 <li><a href="../state-model/">State Model</a> — <code>State = f(Event Stream, Configuration)</code>; State domains; no hidden mutation.</li>
 <li><a href="../time-model/">Time Model</a> — Processing Order as causal axis; Event Time as metadata; no wall-clock authority.</li>
 <li><a href="../queue-processing/">Queue Processing</a> — deterministic Execution Control evaluation within Event processing; no separate tick.</li>

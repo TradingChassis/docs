@@ -4311,7 +4311,7 @@
 Updated: 2026-04-01</p>
 <hr />
 <h2 id="context">Context</h2>
-<p>Strategy produces Intents — ephemeral commands expressing desired trading actions — during Event processing. These commands, if eventually dispatched, become outbound requests that directly affect the Infrastructure's market exposure.</p>
+<p>Strategy produces Intents — ephemeral commands expressing desired trading actions — during Event processing. These commands, if eventually dispatched, become outbound requests that directly affect the infrastructure's market exposure.</p>
 <p>Without a centralized policy gate, the following problems arise:</p>
 <ul>
 <li><strong>Uncontrolled exposure.</strong> Strategy logic could produce commands that exceed position limits, violate risk parameters, or create dangerous market exposure. If no mandatory validation layer exists, the path from Strategy decision to Venue submission has no safety constraint.</li>
@@ -4319,7 +4319,7 @@ Updated: 2026-04-01</p>
 <li><strong>Strategy-Venue coupling.</strong> If Strategy can interact with Venues or Venue Adapters directly, bypassing policy evaluation, then safety depends entirely on Strategy implementation discipline. This is not an acceptable architectural guarantee.</li>
 <li><strong>Policy and Execution Control conflation.</strong> Policy admissibility ("is this Intent allowed?") and Execution Control scheduling ("when should this allowed work be dispatched?") are fundamentally different questions. Mixing them in a single component makes both harder to reason about, audit, and evolve independently.</li>
 </ul>
-<p>The Infrastructure requires an architectural boundary that separates <strong>policy admissibility</strong> from <strong>Execution Control scheduling</strong>, enforces policy on every Intent before it can proceed toward Venue interaction, and prevents any component from bypassing that enforcement.</p>
+<p>The infrastructure requires an architectural boundary that separates <strong>policy admissibility</strong> from <strong>Execution Control scheduling</strong>, enforces policy on every Intent before it can proceed toward Venue interaction, and prevents any component from bypassing that enforcement.</p>
 <hr />
 <h2 id="decision">Decision</h2>
 <p><strong>All Intents must pass through the Risk Engine before entering Execution Control substate (the Queue). The Risk Engine decides admissibility only: allowed or denied.</strong></p>
@@ -4347,10 +4347,10 @@ Updated: 2026-04-01</p>
 <p><code>Strategy ➝ Risk Engine ➝ Queue ➝ Queue Processing ➝ Venue Adapter ➝ Venue</code></p>
 <p>Strategy produces Intents. Risk evaluates admissibility. The Queue holds allowed pending work. Queue Processing evaluates sendability and selects work for dispatch. The Venue Adapter translates and transmits. The Venue responds with Execution Events that re-enter the Event Stream.</p>
 <ol>
-<li><strong>Risk outcomes that must appear in canonical history are recorded as Events.</strong> Where a policy decision must be part of the replayable record (for deterministic replay or audit), the outcome is reflected through an Intent-related Event on the canonical stream. Risk does not maintain parallel authoritative state.</li>
+<li><strong>Risk outcomes that must appear in canonical history are recorded as Events.</strong> Where a policy decision must be part of the replayable record (for deterministic replay or audit), the outcome is reflected through an Intent-related Event on the canonical Event Stream. Risk does not maintain parallel authoritative state.</li>
 </ol>
 <h3 id="what-risk-evaluates">What Risk evaluates</h3>
-<p>Risk evaluates <strong>policy admissibility</strong> — whether the Infrastructure's rules permit this Intent to proceed. Typical policy checks include:</p>
+<p>Risk evaluates <strong>policy admissibility</strong> — whether the infrastructure's rules permit this Intent to proceed. Typical policy checks include:</p>
 <ul>
 <li>Position and exposure limits</li>
 <li>Trading enable/disable controls (kill-switch)</li>
@@ -4375,7 +4375,7 @@ Updated: 2026-04-01</p>
 <p><strong>Denied Intents do not enter Execution Control substate.</strong> A denied Intent produces no Queue entry, no pending outbound work, and no Order. The denial is terminal for that Intent's processing arc. This boundary is clean: the Queue holds only work that Risk has allowed.</p>
 <hr />
 <h2 id="trade-offs">Trade-offs</h2>
-<p><strong>Every Intent incurs a Risk evaluation.</strong> Policy evaluation runs on every Intent, including those that will ultimately be superseded by dominance in Execution Control substate before dispatch. This is the cost of mandatory enforcement: the Infrastructure evaluates admissibility before it knows whether a command will be collapsed. The alternative — evaluating policy only at dispatch time — would allow inadmissible commands to reside in Execution Control substate, blurring the boundary between policy and execution control.</p>
+<p><strong>Every Intent incurs a Risk evaluation.</strong> Policy evaluation runs on every Intent, including those that will ultimately be superseded by dominance in Execution Control substate before dispatch. This is the cost of mandatory enforcement: the infrastructure evaluates admissibility before it knows whether a command will be collapsed. The alternative — evaluating policy only at dispatch time — would allow inadmissible commands to reside in Execution Control substate, blurring the boundary between policy and execution control.</p>
 <p><strong>Risk cannot express "send later."</strong> The binary allowed/denied model means Risk has no mechanism to delay an Intent. If a condition is temporary (e.g., a rate-limit window), Risk must either allow the Intent (letting execution control handle timing) or deny it. This is intentional: mixing delay semantics into Risk would conflate policy with execution control and make both harder to reason about.</p>
 <hr />
 <h2 id="summary">Summary</h2>

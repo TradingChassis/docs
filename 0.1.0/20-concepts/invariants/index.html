@@ -4306,8 +4306,8 @@
 <h1 id="invariants">Invariants</h1>
 <hr />
 <h2 id="purpose-and-scope">Purpose and scope</h2>
-<p>This document states the <strong>non-negotiable properties</strong> that must always hold across the Infrastructure.</p>
-<p>Each invariant is a normative constraint. Violation places the Infrastructure in an invalid State.</p>
+<p>This document states the <strong>non-negotiable properties</strong> that must always hold across the infrastructure.</p>
+<p>Each invariant is a normative constraint. Violation places the infrastructure in an invalid State.</p>
 <p>This document does not describe architecture, implementation, or process. For those, see <a href="../../10-architecture/logical-architecture/">Logical Architecture</a>, <a href="../../10-architecture/infrastructure-flows/">Infrastructure Flows</a>, and the concept documents referenced below.</p>
 <p>Capitalized terms are used as in <a href="../../00-guides/terminology/">Terminology</a>.</p>
 <p>Invariants are grouped by theme: <a href="#event-and-state-invariants">Event and State</a> · <a href="#execution-control-invariants">Execution Control</a> · <a href="#lifecycle-invariants">Lifecycle</a> · <a href="#risk-invariants">Risk</a> · <a href="#determinism-invariants">Determinism</a>.</p>
@@ -4318,11 +4318,11 @@ No component may change derived <strong>State</strong> by any mechanism other th
 <p><strong>E2 — State is fully determined by Event Stream and Configuration.</strong>
 Formally: <code>State = f(Event Stream, Configuration)</code>. No third input exists. Any data that influences derived <strong>State</strong> must either be part of the <strong>Event Stream</strong> or be explicit, versioned <strong>Configuration</strong>.</p>
 <p><strong>E3 — Events are immutable once appended.</strong>
-An <strong>Event</strong> in the <strong>Event Stream</strong> must not be modified, deleted, or reordered after it is written. The stream is append-only.</p>
+An <strong>Event</strong> in the <strong>Event Stream</strong> must not be modified, deleted, or reordered after it is written. The Event Stream is append-only.</p>
 <p><strong>E4 — Events are processed in Processing Order.</strong>
 No component may apply <strong>Events</strong> out of the sequence defined by <strong>Processing Order</strong>. <strong>Processing Order</strong> is the canonical causal axis; <strong>Event Time</strong> is metadata and does not override it.</p>
 <p><strong>E5 — Identical inputs produce identical State.</strong>
-Given an identical <strong>Event Stream</strong>, identical <strong>Configuration</strong>, and the same <strong>Processing Order</strong>, the Infrastructure must produce identical <strong>State</strong> at every stream position without exception.</p>
+Given an identical <strong>Event Stream</strong>, identical <strong>Configuration</strong>, and the same <strong>Processing Order</strong>, the infrastructure must produce identical <strong>State</strong> at every Event Stream position without exception.</p>
 <hr />
 <h2 id="execution-control-invariants">Execution Control invariants</h2>
 <p><strong>EC1 — The Queue is derived Execution Control substate.</strong>
@@ -4338,7 +4338,7 @@ For every logical order key, the Execution Control substate holds at most one ef
 For every logical order key, at most one outbound request may be inflight at any time. A subsequent command targeting the same key must not be dispatched until the prior request has reached a terminal outcome.</p>
 <p>Formally: <code>∀ key: count(inflight(key)) ≤ 1</code></p>
 <p><strong>EC6 — Execution Control derivations are not canonical Events unless history requires them.</strong>
-Dominance resolution, eligibility changes, scheduling decisions, and inflight-gating evaluations must not produce <strong>Events</strong> in the canonical stream unless there is an explicit requirement that they be part of replayable history. Internal derivation must remain internal.</p>
+Dominance resolution, eligibility changes, scheduling decisions, and inflight-gating evaluations must not produce <strong>Events</strong> in the canonical Event Stream unless there is an explicit requirement that they be part of replayable history. Internal derivation must remain internal.</p>
 <p><strong>EC7 — Control Scheduling Obligations are non-canonical; Control-Time Events are canonical once injected.</strong>
 A <strong>Control Scheduling Obligation</strong> derived by the Core from current <strong>State</strong> and <strong>Configuration</strong> is a non-canonical, runtime-facing signal. It does not enter the <strong>Event Stream</strong>, produces no <strong>State Transition</strong>, and does not advance Execution Control State by itself. The corresponding canonical record is a <strong>Control-Time Event</strong> injected by the <strong>Runtime</strong>, which is then processed within <strong>Event processing</strong> identically to any other <strong>Event</strong>. The derivation of the obligation is a pure function of <strong>State + Configuration</strong>; the injected <strong>Control-Time Event</strong> is part of the canonical <strong>Event Stream</strong> and is subject to <code>State = f(Event Stream, Configuration)</code>.</p>
 <hr />
@@ -4363,7 +4363,7 @@ The <strong>Risk Engine</strong> makes a binary policy decision: allowed or deni
 No component may cause an outbound execution action without a prior allowed policy decision from the <strong>Risk Engine</strong> for the corresponding <strong>Intent</strong>.</p>
 <hr />
 <h2 id="determinism-invariants">Determinism invariants</h2>
-<p><strong>D1 — The Infrastructure must be fully replayable.</strong>
+<p><strong>D1 — The infrastructure must be fully replayable.</strong>
 Given the same <strong>Event Stream</strong> and the same <strong>Configuration</strong>, every prior <strong>State</strong> and every prior dispatch decision must be exactly reproducible. No execution path may depend on information not present in <strong>Event Stream + Configuration</strong>.</p>
 <p><strong>D2 — Wall-clock time and runtime timing must not affect canonical behavior.</strong>
 Wall-clock time, OS scheduling, thread interleaving, network delivery timing, and any other runtime timing factor must not influence <strong>State transitions</strong> or dispatch decisions. Time-dependent behavior must be expressed through <strong>Events</strong> or <strong>Configuration</strong> so that it is part of the canonical input and is therefore replayable.</p>
@@ -4373,7 +4373,7 @@ Any data that influences a <strong>State transition</strong> or a dispatch decis
 Both <strong>Runtimes</strong> must apply the same deterministic processing rules to the same <strong>Event Stream + Configuration</strong> and produce the same <strong>State</strong>. Infrastructure may differ; semantic behavior must not.</p>
 <hr />
 <h2 id="violation">Violation</h2>
-<p>If any invariant is violated, the Infrastructure is in an <strong>invalid State</strong>.</p>
+<p>If any invariant is violated, the infrastructure is in an <strong>invalid State</strong>.</p>
 <p>A component that detects an invariant violation must halt further processing, emit diagnostic information, and prevent propagation of inconsistent <strong>State</strong>. Invariant violations are critical infrastructure faults and must not be silently ignored.</p>
 <hr />
 <h2 id="relationship-to-other-documents">Relationship to other documents</h2>

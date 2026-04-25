@@ -3047,12 +3047,12 @@
   <a href="#position-in-the-infrastructure" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Position in the Infrastructure
+        Position in the infrastructure
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Position in the Infrastructure">
+    <nav class="md-nav" aria-label="Position in the infrastructure">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -4314,7 +4314,7 @@
 <p>The Backtesting Stack exists to make the Core Runtime executable for Research. It operationalizes deterministic, reproducible Strategy evaluation by running the Core Runtime against historical canonical datasets with simulated Venue execution, producing experiment results, artifacts, and metrics for later analysis.</p>
 <p>The Backtesting Stack <strong>uses</strong> the Core Runtime — it does not <strong>define</strong> it. The Core Runtime's semantic model (Events, State, Intents, Orders, Risk, Execution Control, Queue Processing, Determinism) is established in architecture and concept documents. The Backtesting Stack realizes that model in a Backtesting execution context: it supplies historical inputs, provides a simulated Venue, orchestrates experiment runs, and persists the outputs.</p>
 <hr />
-<h2 id="position-in-the-infrastructure">Position in the Infrastructure</h2>
+<h2 id="position-in-the-infrastructure">Position in the infrastructure</h2>
 <p>The Backtesting Stack belongs to the <strong>Core Runtime</strong> group:</p>
 <p><code>Data Platform ➝ [Canonical Storage] ➝ Backtesting Stack ➝ [Experiment Outputs] ➝ Analysis Stack</code></p>
 <p>It sits downstream of <strong>Canonical Storage</strong> (consuming validated historical datasets) and upstream of the <strong>Analysis Stack</strong> (producing experiment results and artifacts for evaluation). It depends on:</p>
@@ -4353,7 +4353,7 @@
 </ul>
 <hr />
 <h2 id="why-the-stack-matters">Why the Stack Matters</h2>
-<p>The Backtesting Stack is the mechanism through which the Infrastructure's deterministic, event-driven Core Runtime is applied to historical data for Strategy evaluation. Without it, the Core Runtime would have no Research execution context — canonical datasets would exist but could not be used for systematic, reproducible Strategy evaluation.</p>
+<p>The Backtesting Stack is the mechanism through which the infrastructure's deterministic, event-driven Core Runtime is applied to historical data for Strategy evaluation. Without it, the Core Runtime would have no Research execution context — canonical datasets would exist but could not be used for systematic, reproducible Strategy evaluation.</p>
 <p>The value of the Backtesting Stack depends directly on the properties it preserves from the Core Runtime: determinism, reproducibility, and semantic parity with Live. A backtest that does not reproduce the same processing semantics as Live execution provides misleading results. The Backtesting Stack's role is to ensure that the execution environment it provides is faithful to the Core Runtime model, so that conclusions drawn from Backtesting results are architecturally grounded.</p>
 
 

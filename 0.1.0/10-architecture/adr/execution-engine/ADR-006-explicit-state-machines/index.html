@@ -4322,18 +4322,18 @@
 Updated: 2026-04-01</p>
 <hr />
 <h2 id="context">Context</h2>
-<p>The Infrastructure processes Intents (ephemeral commands from Strategy), evaluates them against policy (Risk), schedules them for dispatch (Queue Processing), transmits them to Venues (Venue Adapter), and tracks the resulting Orders through Venue feedback (Execution Events). This processing chain involves multiple components, each responsible for a different stage.</p>
+<p>The infrastructure processes Intents (ephemeral commands from Strategy), evaluates them against policy (Risk), schedules them for dispatch (Queue Processing), transmits them to Venues (Venue Adapter), and tracks the resulting Orders through Venue feedback (Execution Events). This processing chain involves multiple components, each responsible for a different stage.</p>
 <p>Without explicit lifecycle definitions, the following problems arise:</p>
 <ul>
 <li><strong>Fragmented lifecycle logic.</strong> If no single model defines the valid states and transitions for an Intent or an Order, each component must independently encode its assumptions about what states exist and which transitions are legal. These assumptions diverge over time.</li>
 <li><strong>Ambiguous boundaries.</strong> Without a clear statement of where one lifecycle ends and another begins, the distinction between pre-submission Intent handling and post-submission Order tracking erodes. Components begin treating Intent stages as Order states or vice versa — a confusion that produces incorrect behavior and misleading diagnostics.</li>
 <li><strong>Inconsistent transition enforcement.</strong> If lifecycle transitions are implicit in conditional logic distributed across Strategy, Risk, Queue Processing, and Venue Adapter, there is no single point where a transition can be validated as legal. Invalid transitions may go undetected until they produce downstream failure.</li>
-<li><strong>Harder invariant validation.</strong> The Infrastructure's determinism and replayability depend on every lifecycle transition being a deterministic function of the Event Stream and Configuration. If lifecycle rules are implicit, verifying this property requires auditing every component rather than validating a single explicit model.</li>
+<li><strong>Harder invariant validation.</strong> The infrastructure's determinism and replayability depend on every lifecycle transition being a deterministic function of the Event Stream and Configuration. If lifecycle rules are implicit, verifying this property requires auditing every component rather than validating a single explicit model.</li>
 </ul>
 <p>The architecture requires explicit lifecycle state machines that define, for each relevant domain, the valid states, valid transitions, and the boundary conditions that separate one lifecycle from another.</p>
 <hr />
 <h2 id="decision">Decision</h2>
-<p>The Infrastructure models two primary lifecycle domains as explicit state machines: the <strong>Intent lifecycle</strong> and the <strong>Order lifecycle</strong>. These are distinct, non-overlapping lifecycles with a clear boundary at submission.</p>
+<p>The infrastructure models two primary lifecycle domains as explicit state machines: the <strong>Intent lifecycle</strong> and the <strong>Order lifecycle</strong>. These are distinct, non-overlapping lifecycles with a clear boundary at submission.</p>
 <h3 id="intent-lifecycle">Intent lifecycle</h3>
 <p>The Intent lifecycle defines the progression of an ephemeral command from Strategy output through policy decision, Execution Control residency, dispatch, and terminal disposition.</p>
 <p><strong>Stages:</strong></p>
@@ -4429,7 +4429,7 @@ Updated: 2026-04-01</p>
 <p><strong>The two-lifecycle model requires a clear submission boundary.</strong> The decision to separate Intent and Order at submission means every component must respect this boundary. A component that conflates pre-submission and post-submission handling violates the lifecycle model. This is a constraint on implementation, but it is also the mechanism that prevents the ambiguity the decision was designed to eliminate.</p>
 <hr />
 <h2 id="summary">Summary</h2>
-<p>The Infrastructure models Intent lifecycle and Order lifecycle as two explicit, non-overlapping state machines separated at submission. The Intent lifecycle covers command progression from Strategy output through policy, execution control, and dispatch. The Order lifecycle covers execution progression from submission through Venue feedback to terminal disposition. Queue Processing and related Execution Control mechanisms operate within the Intent lifecycle, not as separate top-level state machines. All lifecycle transitions are driven by Event processing, making both lifecycles deterministic and replayable.</p>
+<p>The infrastructure models Intent lifecycle and Order lifecycle as two explicit, non-overlapping state machines separated at submission. The Intent lifecycle covers command progression from Strategy output through policy, execution control, and dispatch. The Order lifecycle covers execution progression from submission through Venue feedback to terminal disposition. Queue Processing and related Execution Control mechanisms operate within the Intent lifecycle, not as separate top-level state machines. All lifecycle transitions are driven by Event processing, making both lifecycles deterministic and replayable.</p>
 
 
 

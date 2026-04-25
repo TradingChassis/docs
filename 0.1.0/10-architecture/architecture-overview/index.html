@@ -4353,11 +4353,11 @@
 
 
 <h1 id="architecture-overview">Architecture Overview</h1>
-<p>For the architectural design philosophy of the Infrastructure see:
+<p>For the architectural design philosophy of the infrastructure see:
 <a href="../architecture-principles/">Architecture Principles</a></p>
 <hr />
 <h2 id="purpose-and-scope">Purpose and scope</h2>
-<p>This document provides a <strong>top-level architectural overview</strong> of the Infrastructure.</p>
+<p>This document provides a <strong>top-level architectural overview</strong> of the infrastructure.</p>
 <p>It explains:</p>
 <ul>
 <li>the <strong>major architectural layers</strong> and their roles</li>
@@ -4374,7 +4374,7 @@
 <p>Capitalized terms are used as in <a href="../../00-guides/terminology/">Terminology</a>.</p>
 <hr />
 <h2 id="architectural-layers">Architectural layers</h2>
-<p>The Infrastructure is organized into three structural layers:</p>
+<p>The infrastructure is organized into three structural layers:</p>
 <pre class="mermaid"><code>flowchart TD
     subgraph dataPlatform["Data Platform"]
         recording["Data Recording Stack"]
@@ -4424,7 +4424,7 @@
 <hr />
 <h2 id="core-runtime">Core Runtime</h2>
 <p>The <strong>Core Runtime</strong> is the deterministic, event-driven engine that executes <strong>Strategy</strong> logic, manages <strong>risk</strong>, controls <strong>outbound execution</strong>, and processes <strong>Venue feedback</strong>.</p>
-<p>It is the semantic center of the Infrastructure. The Data Platform supplies canonical inputs; Analysis and Monitoring consume outputs. The Core Runtime applies the <strong>Event Stream</strong> under <strong>Configuration</strong> and produces <strong>derived State</strong>, dispatch decisions, and <strong>Orders</strong>.</p>
+<p>It is the semantic center of the infrastructure. The Data Platform supplies canonical inputs; Analysis and Monitoring consume outputs. The Core Runtime applies the <strong>Event Stream</strong> under <strong>Configuration</strong> and produces <strong>derived State</strong>, dispatch decisions, and <strong>Orders</strong>.</p>
 <h3 id="deterministic-event-driven-processing">Deterministic event-driven processing</h3>
 <p>The Core Runtime advances <strong>only</strong> through <strong>Event processing</strong>:</p>
 <p><code>State = f(Event Stream, Configuration)</code></p>
@@ -4433,13 +4433,13 @@
 <p>At the architectural level, the Core Runtime executes the following chain on each processing step:</p>
 <pre class="mermaid"><code>flowchart TB
     E["Event\n(Processing Order)"]
-    S["State derivation\nMarket · Execution · Infrastructure"]
+    S["State derivation\nMarket · Execution · Control"]
     ST["Strategy\nemits Intents"]
     R["Risk Engine\npolicy: allowed / denied"]
     Q["Queue + Queue Processing\nExecution Control"]
     D["Venue Adapter"]
     V["Venue"]
-    F["Execution Events\nback into stream"]
+    F["Execution Events\nback into Event Stream"]
 
     E --&gt; S
     S --&gt; ST
@@ -4489,7 +4489,7 @@
 </tbody>
 </table>
 <h3 id="key-architectural-constraints">Key architectural constraints</h3>
-<p><strong>Intent.</strong> An Intent is a <strong>command</strong> produced by Strategy. It is not an Event, not persistent, and not an Order. It enters the processing chain as transient input to the current step. Intent-processing outcomes appear in the stream as Events only when canonical history requires it.</p>
+<p><strong>Intent.</strong> An Intent is a <strong>command</strong> produced by Strategy. It is not an Event, not persistent, and not an Order. It enters the processing chain as transient input to the current step. Intent-processing outcomes appear in the Event Stream as Events only when canonical history requires it.</p>
 <p><strong>Risk.</strong> The Risk Engine decides <strong>admissibility only</strong> (allowed / denied). It does not schedule transmission, apply rate limits, or manage inflight gating. Those responsibilities belong exclusively to <strong>Execution Control</strong> (Queue + Queue Processing).</p>
 <p><strong>Queue and Execution Control.</strong> The Queue is <strong>derived Execution Control substate</strong> within <strong>Execution State</strong> — not a fourth top-level domain, not a source of truth, and fully recomputable from <strong>Event Stream + Configuration</strong> (<a href="../../20-concepts/queue-semantics/">Queue Semantics</a>). Queue Processing runs as a deterministic computation <strong>within Event processing</strong> — there is no separate runtime tick.</p>
 <p><strong>Control-time scheduling.</strong> Where current State and Configuration imply a future relevant control-time re-evaluation point (e.g. pending allowed outbound work exists and a rate-limit window will recover), the Core may derive a <strong>Control Scheduling Obligation</strong> — a non-canonical, runtime-facing signal that produces no State Transition. The Runtime realizes this obligation externally and injects a <strong>Control-Time Event</strong> into the Event Stream at the appropriate future position. The Core then processes that Event within the standard processing chain, identically to any other Event. This is not a separate runtime tick; the Venue Adapter is not involved; Control-Time Events are Control State semantics, not Venue Events. See <a href="../logical-architecture/#runtime-boundary">Logical Architecture: Runtime boundary</a>.</p>
@@ -4517,7 +4517,7 @@
 <p>Responsibilities: metrics collection, Runtime telemetry, operational dashboards, alerting and incident visibility.</p>
 <hr />
 <h2 id="backtesting-and-live-parity">Backtesting and Live parity</h2>
-<p>A central architectural goal of the Infrastructure is <strong>semantic parity</strong> between Backtesting and Live.</p>
+<p>A central architectural goal of the infrastructure is <strong>semantic parity</strong> between Backtesting and Live.</p>
 <p>Both Runtimes run the same <strong>Core Runtime</strong> semantics:</p>
 <ul>
 <li><strong>Event-driven, deterministic processing</strong> (<code>State = f(Event Stream, Configuration)</code>)</li>

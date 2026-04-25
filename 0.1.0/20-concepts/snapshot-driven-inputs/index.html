@@ -4384,10 +4384,10 @@
 <h1 id="snapshot-driven-inputs">Snapshot-Driven Inputs</h1>
 <hr />
 <h2 id="purpose">Purpose</h2>
-<p>This document defines how <strong>snapshot-driven inputs</strong> fit into a deterministic, event-driven Infrastructure.</p>
+<p>This document defines how <strong>snapshot-driven inputs</strong> fit into a deterministic, event-driven infrastructure.</p>
 <p>It establishes:</p>
 <ul>
-<li>what a snapshot-driven input is in this Infrastructure's semantic context;</li>
+<li>what a snapshot-driven input is in this infrastructure's semantic context;</li>
 <li>how snapshots relate to canonical history and the Event Stream;</li>
 <li>what constraints must hold for snapshot use to remain compatible with determinism and replayability;</li>
 <li>what snapshot-driven inputs are not permitted to do.</li>
@@ -4410,8 +4410,8 @@
 </ul>
 <hr />
 <h2 id="core-definition">Core definition</h2>
-<p>A <strong>snapshot-driven input</strong> is an input to the Infrastructure that represents the <strong>condition of a source at a bounded point in time</strong>, rather than an ordered sequence of incremental change records.</p>
-<p>Instead of receiving every change that led to the current condition, the Infrastructure receives the current condition itself — the full state of the source as of a specific moment.</p>
+<p>A <strong>snapshot-driven input</strong> is an input to the infrastructure that represents the <strong>condition of a source at a bounded point in time</strong>, rather than an ordered sequence of incremental change records.</p>
+<p>Instead of receiving every change that led to the current condition, the infrastructure receives the current condition itself — the full state of the source as of a specific moment.</p>
 <p>Common scenarios where snapshot-driven inputs arise:</p>
 <ul>
 <li>A market data feed that delivers a full order book state on connection or reconnect, followed by incremental updates</li>
@@ -4422,26 +4422,26 @@
 <hr />
 <h2 id="relationship-between-snapshots-and-canonical-history">Relationship between snapshots and canonical history</h2>
 <p>The canonical model requires that <code>State = f(Event Stream, Configuration)</code> and that <strong>Events are the only source of State transitions</strong>. Snapshot-driven inputs must be integrated in a way that does not violate this.</p>
-<p>There are two canonical-compatible ways to integrate a snapshot into the Infrastructure:</p>
+<p>There are two canonical-compatible ways to integrate a snapshot into the infrastructure:</p>
 <h3 id="integration-path-a-snapshot-as-event">Integration path A: snapshot as Event</h3>
-<p>The snapshot is <strong>canonicalized as an Event</strong> (specifically, a <strong>Market Event</strong> or <strong>Infrastructure Event</strong> as appropriate — see <a href="../event-model/">Event Model</a>) and appended to the <strong>Event Stream</strong> at the relevant <strong>Processing Order</strong> position.</p>
-<p>From that stream position onward, derived State reflects the contents of the snapshot. Subsequent incremental Events (deltas, updates) are applied on top in <strong>Processing Order</strong>, exactly as they would be if no snapshot had been used.</p>
-<p>This path makes the snapshot a full part of canonical history. A replay of the stream reproduces the snapshot Event and derives the same State from it. The snapshot does not exist as a hidden input — it is visible in the stream.</p>
-<p><strong>Event Time on the snapshot Event</strong> records when the snapshot was taken externally. Processing Order, not Event Time, determines when it is applied to derived State — as with all Events in the Infrastructure (<a href="../time-model/">Time Model</a>).</p>
+<p>The snapshot is <strong>canonicalized as an Event</strong> (specifically, a <strong>Market Event</strong> or <strong>Control Event</strong> as appropriate — see <a href="../event-model/">Event Model</a>) and appended to the <strong>Event Stream</strong> at the relevant <strong>Processing Order</strong> position.</p>
+<p>From that Event Stream position onward, derived State reflects the contents of the snapshot. Subsequent incremental Events (deltas, updates) are applied on top in <strong>Processing Order</strong>, exactly as they would be if no snapshot had been used.</p>
+<p>This path makes the snapshot a full part of canonical history. A replay of the Event Stream reproduces the snapshot Event and derives the same State from it. The snapshot does not exist as a hidden input — it is visible in the Event Stream.</p>
+<p><strong>Event Time on the snapshot Event</strong> records when the snapshot was taken externally. Processing Order, not Event Time, determines when it is applied to derived State — as with all Events in the infrastructure (<a href="../time-model/">Time Model</a>).</p>
 <h3 id="integration-path-b-snapshot-as-bounded-configuration-anchor">Integration path B: snapshot as bounded Configuration anchor</h3>
-<p>The snapshot is provided as a <strong>stable, versioned Configuration anchor</strong> — a known starting State for a bounded processing scope. It is not appended as an Event, but it is an explicit, immutable input to the Infrastructure for that processing context.</p>
+<p>The snapshot is provided as a <strong>stable, versioned Configuration anchor</strong> — a known starting State for a bounded processing scope. It is not appended as an Event, but it is an explicit, immutable input to the infrastructure for that processing context.</p>
 <p>Subsequent Events are applied on top of this anchor under the same derivation rules as usual.</p>
 <p>This path is compatible with determinism and replayability only if the snapshot anchor is treated as a <strong>versioned, fixed input</strong> — the same anchor must be used for every replay of the same processing scope. A snapshot anchor that is read as live, current, mutable state and therefore differs between runs breaks determinism (<a href="../determinism-model/">Determinism Model</a>).</p>
 <h3 id="what-is-not-permitted">What is not permitted</h3>
 <p>A snapshot that <strong>silently mutates derived State</strong> outside either of the above paths violates the canonical model. Specifically:</p>
 <ul>
-<li>Maintaining a mutable "current state" store updated by incoming snapshots, where that store influences Infrastructure behavior without entering the Event Stream, is <strong>hidden mutable truth</strong> and is forbidden (<a href="../invariants/">Invariants: E1, E2, D3</a>).</li>
+<li>Maintaining a mutable "current state" store updated by incoming snapshots, where that store influences infrastructure behavior without entering the Event Stream, is <strong>hidden mutable truth</strong> and is forbidden (<a href="../invariants/">Invariants: E1, E2, D3</a>).</li>
 <li>Treating a live, non-versioned snapshot read as equivalent to a stable canonical input breaks replayability: the same Event Stream replayed at a different time may read a different snapshot and produce a different result.</li>
 </ul>
 <hr />
 <h2 id="snapshots-as-derived-input-representations">Snapshots as derived input representations</h2>
-<p>Not all snapshot-related structures are external inputs. The Infrastructure also uses snapshot representations on the <strong>read side</strong>: bounded views of derived State maintained for efficiency and component access.</p>
-<p>A <strong>derived State projection</strong> — a materialized view of some portion of current derived State, maintained incrementally as Events are processed — is semantically valid as a read-side efficiency mechanism. Strategy, for example, reads <strong>projections</strong> of derived Market and Execution State rather than re-deriving full State from the stream on each processing step (<a href="../state-model/">State Model</a>).</p>
+<p>Not all snapshot-related structures are external inputs. The infrastructure also uses snapshot representations on the <strong>read side</strong>: bounded views of derived State maintained for efficiency and component access.</p>
+<p>A <strong>derived State projection</strong> — a materialized view of some portion of current derived State, maintained incrementally as Events are processed — is semantically valid as a read-side efficiency mechanism. Strategy, for example, reads <strong>projections</strong> of derived Market and Execution State rather than re-deriving full State from the Event Stream on each processing step (<a href="../state-model/">State Model</a>).</p>
 <p>Such derived views are valid under the following conditions:</p>
 <ol>
 <li>They are <strong>derived from the Event Stream</strong>, not authoritative sources that differ from it.</li>
@@ -4457,17 +4457,17 @@
 <p><strong>S1 — Snapshot inputs that affect derived State must be stable across replays.</strong>
 A snapshot used as an anchor or as a canonical Event must be the same in every replay of the same scope. If the snapshot is read from a live, changing source, it must be <strong>fixed at recording time</strong> as a versioned canonical record before it influences any processing.</p>
 <p><strong>S2 — Snapshot inputs must enter through canonical processing paths.</strong>
-A snapshot that advances derived State does so either as an Event in the stream or as an explicit Configuration anchor. There is no third path. Snapshots that influence processing through out-of-band writes to derived State projections are not compatible with determinism.</p>
+A snapshot that advances derived State does so either as an Event in the Event Stream or as an explicit Configuration anchor. There is no third path. Snapshots that influence processing through out-of-band writes to derived State projections are not compatible with determinism.</p>
 <p><strong>S3 — Processing Order, not snapshot Event Time, determines causality.</strong>
-A snapshot Event carries an <strong>Event Time</strong> that reflects when the snapshot was externally produced. This Event Time does not override the snapshot Event's position in <strong>Processing Order</strong>. Derived State at the snapshot's stream position reflects the full history up to and including that position, in <strong>Processing Order</strong> sequence.</p>
-<p><strong>S4 — Derived views must be recomputable from the stream.</strong>
+A snapshot Event carries an <strong>Event Time</strong> that reflects when the snapshot was externally produced. This Event Time does not override the snapshot Event's position in <strong>Processing Order</strong>. Derived State at the snapshot's Event Stream position reflects the full history up to and including that position, in <strong>Processing Order</strong> sequence.</p>
+<p><strong>S4 — Derived views must be recomputable from the Event Stream.</strong>
 A bounded State projection maintained as a snapshot for efficiency must produce the same result as re-deriving from the Event Stream and Configuration. If a derived view cannot be reconstructed by replay, it is not a valid projection.</p>
 <hr />
 <h2 id="constraints-and-non-goals">Constraints and non-goals</h2>
 <h3 id="constraints">Constraints</h3>
 <ul>
 <li>
-<p>A snapshot must not be used as a <strong>primary source of State</strong> that independently determines Infrastructure behavior. It is either part of the canonical input (Event or Configuration anchor) or a derived view — never an authoritative truth that runs in parallel.</p>
+<p>A snapshot must not be used as a <strong>primary source of State</strong> that independently determines infrastructure behavior. It is either part of the canonical input (Event or Configuration anchor) or a derived view — never an authoritative truth that runs in parallel.</p>
 </li>
 <li>
 <p>A snapshot anchor used to bootstrap State must be <strong>explicitly versioned and fixed</strong> for its processing scope. Using a live read of current state as an anchor introduces non-determinism.</p>
@@ -4482,7 +4482,7 @@ A bounded State projection maintained as a snapshot for efficiency must produce 
 <h3 id="non-goals">Non-goals</h3>
 <ul>
 <li>
-<p>This document does not define <strong>which</strong> snapshot Event types are recognized in the Infrastructure. The Event Model establishes that Market Events may include order book snapshots (<a href="../event-model/#market-events">Event Model: Market Events</a>); specific named types are defined at implementation time.</p>
+<p>This document does not define <strong>which</strong> snapshot Event types are recognized in the infrastructure. The Event Model establishes that Market Events may include order book snapshots (<a href="../event-model/#market-events">Event Model: Market Events</a>); specific named types are defined at implementation time.</p>
 </li>
 <li>
 <p>This document does not prescribe <strong>how often</strong> snapshots are consumed or at what granularity derived views are materialized. Frequency is an implementation and performance decision subject to the semantic constraints above.</p>
@@ -4540,7 +4540,7 @@ A bounded State projection maintained as a snapshot for efficiency must produce 
 <p><strong>Frequency and scope of derived State projections.</strong> Which projections of derived State are maintained as snapshots, at what granularity, and how they are kept consistent with the Event Stream during processing are implementation decisions governed by the semantic constraints above but not prescribed by them.</p>
 </li>
 <li>
-<p><strong>Handling of snapshot sequence gaps.</strong> How the Infrastructure responds when an expected incremental update sequence is disrupted and a new snapshot must be consumed (e.g., feed reconnect with sequence gap) is an operational and implementation concern. The canonical constraint — that any resulting State transition must enter through Event processing — applies, but the specific recovery protocol is not defined here.</p>
+<p><strong>Handling of snapshot sequence gaps.</strong> How the infrastructure responds when an expected incremental update sequence is disrupted and a new snapshot must be consumed (e.g., feed reconnect with sequence gap) is an operational and implementation concern. The canonical constraint — that any resulting State transition must enter through Event processing — applies, but the specific recovery protocol is not defined here.</p>
 </li>
 </ol>
 

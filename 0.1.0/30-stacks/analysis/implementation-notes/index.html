@@ -4365,7 +4365,7 @@
 <p>Retrospective Live analysis is analytical and asynchronous. It operates on persisted outputs after execution has occurred. It is not real-time operational monitoring — it does not observe running infrastructures or emit alerts.</p>
 <hr />
 <h2 id="implementation-boundaries">Implementation Boundaries</h2>
-<p><strong>Implementation choices, not canonical semantics.</strong> The workflow patterns, versioning strategies, persistence approaches, and comparison structures described here are implementation-level concerns. They do not define or modify the Infrastructure's canonical Event, State, or lifecycle semantics.</p>
+<p><strong>Implementation choices, not canonical semantics.</strong> The workflow patterns, versioning strategies, persistence approaches, and comparison structures described here are implementation-level concerns. They do not define or modify the infrastructure's canonical Event, State, or lifecycle semantics.</p>
 <p><strong>Analysis operates on persisted artifacts.</strong> The implementation reads from and writes to the Data Storage Stack's persistent surfaces. It does not interact with running infrastructures, consume transient runtime state, or participate in real-time processing.</p>
 <p><strong>Not operational monitoring.</strong> The Analysis Stack's implementation is oriented around asynchronous, retrospective analytical work. It does not implement real-time observation, alerting, or runtime health tracking. That is a separate concern.</p>
 <p><strong>No storage governance.</strong> The Analysis Stack reads from and writes to storage surfaces but does not manage their organization, retention, or access policies.</p>

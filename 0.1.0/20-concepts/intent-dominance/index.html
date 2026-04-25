@@ -4342,7 +4342,7 @@
 <h2 id="conceptual-model">Conceptual model</h2>
 <p>A <strong>Strategy</strong> may generate a sequence of <strong>Intents</strong> targeting the same logical order key:</p>
 <p><code>NEW ➝ REPLACE ➝ REPLACE ➝ CANCEL</code></p>
-<p>Rather than forwarding each command independently (which would produce redundant or conflicting execution requests), the Infrastructure collapses them. Dominance determines which command is the <strong>current effective</strong> pending action.</p>
+<p>Rather than forwarding each command independently (which would produce redundant or conflicting execution requests), the infrastructure collapses them. Dominance determines which command is the <strong>current effective</strong> pending action.</p>
 <p>The result for the sequence above is:</p>
 <p><code>CANCEL</code></p>
 <p>Only the effective command is dispatched. This is a <strong>deterministic function</strong> of the incoming command and the current Execution Control substate under <strong>Configuration</strong>—not a separate step with its own clock or state store.</p>
@@ -4354,7 +4354,7 @@
 <li>Dominance rules are evaluated <strong>only</strong> among commands targeting the <strong>same</strong> logical order key.</li>
 <li>Commands targeting <strong>different</strong> logical order keys are <strong>independent</strong> and do not interact.</li>
 </ul>
-<p><strong>Order ID</strong> is the canonical key used throughout the Infrastructure for this purpose (<a href="../order-lifecycle/">Order Lifecycle</a>).</p>
+<p><strong>Order ID</strong> is the canonical key used throughout the infrastructure for this purpose (<a href="../order-lifecycle/">Order Lifecycle</a>).</p>
 <hr />
 <h2 id="dominance-hierarchy">Dominance hierarchy</h2>
 <p>Intent dominance follows a <strong>hierarchical precedence</strong>:</p>

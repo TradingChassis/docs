@@ -3294,12 +3294,12 @@
   <a href="#position-in-the-infrastructure" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Position in the Infrastructure
+        Position in the infrastructure
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Position in the Infrastructure">
+    <nav class="md-nav" aria-label="Position in the infrastructure">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -4314,7 +4314,7 @@
 <p>The Live Stack exists to make the Core Runtime operational in a production trading context. It connects the Core Runtime to real-time market data, enables interaction with real Venues, provides an operationally controllable execution environment, and persists the execution outcomes that result from live trading activity.</p>
 <p>The Live Stack <strong>uses</strong> the Core Runtime; it does not <strong>define</strong> it. The Core Runtime's semantic model — Events, State derivation, Intents, Risk, Execution Control, Order lifecycle, Determinism — is established in architecture and concept documents. The Live Stack realizes that model in a real-time, market-connected environment: it supplies live inputs, connects to real Venues through the Venue Adapter boundary, supports operational control and observability, and persists execution records.</p>
 <hr />
-<h2 id="position-in-the-infrastructure">Position in the Infrastructure</h2>
+<h2 id="position-in-the-infrastructure">Position in the infrastructure</h2>
 <p>The Live Stack belongs to the <strong>Core Runtime</strong> group. It operates at the boundary between the Core Runtime and the real market and Venue environment:</p>
 <pre class="mermaid"><code>flowchart LR
     RT["Real-Time Market Data"] --&gt; LS["Live Stack (Core Runtime)"]
@@ -4328,7 +4328,7 @@
 </ul>
 <p>The Live Stack is <strong>not</strong> part of the Data Platform. It does not capture raw data for recording purposes, validate datasets, normalize formats, or promote canonical data. It is a real-time execution layer, not a data-processing pipeline.</p>
 <h3 id="relationship-to-the-core-runtime">Relationship to the Core Runtime</h3>
-<p>The Live Stack executes the same Core Runtime that defines the Infrastructure's processing semantics — the same Event-driven processing model, the same Strategy ➝ Risk ➝ Execution Control ➝ Venue Adapter chain, the same deterministic State derivation. The Live Stack provides the real-time operational context in which those semantics are applied to live market conditions and real Venue interactions.</p>
+<p>The Live Stack executes the same Core Runtime that defines the infrastructure's processing semantics — the same Event-driven processing model, the same Strategy ➝ Risk ➝ Execution Control ➝ Venue Adapter chain, the same deterministic State derivation. The Live Stack provides the real-time operational context in which those semantics are applied to live market conditions and real Venue interactions.</p>
 <h3 id="operational-importance">Operational importance</h3>
 <p>The Live Stack carries the technical burden of production runtime execution. It operates against real markets, transmits real orders to real Venues, and produces real financial outcomes. This makes operational control and observability critically important — the Live Stack must support execution that is observable, controllable, and operationally sound. However, the Monitoring Stack remains a separate Stack; the Live Stack supports observability-ready execution without owning the monitoring infrastructure itself.</p>
 <hr />
@@ -4356,8 +4356,8 @@
 </ul>
 <hr />
 <h2 id="why-the-stack-matters">Why the Stack Matters</h2>
-<p>The Live Stack is where the Infrastructure's architecture meets real markets. Everything upstream — canonical models, deterministic processing semantics, validated datasets, Research-evaluated Strategies — converges here into real-time execution that produces real financial outcomes.</p>
-<p>The Live Stack's reliability and operational soundness directly determine whether the Infrastructure's architectural guarantees translate into safe, controlled production behavior. A Live Stack that is not observable cannot be operated safely. A Live Stack that does not faithfully execute the Core Runtime's processing model produces behavior that diverges from what was validated during Research. The Live Stack's role is to ensure that the transition from Research to production is architecturally faithful and operationally controlled.</p>
+<p>The Live Stack is where the infrastructure's architecture meets real markets. Everything upstream — canonical models, deterministic processing semantics, validated datasets, Research-evaluated Strategies — converges here into real-time execution that produces real financial outcomes.</p>
+<p>The Live Stack's reliability and operational soundness directly determine whether the infrastructure's architectural guarantees translate into safe, controlled production behavior. A Live Stack that is not observable cannot be operated safely. A Live Stack that does not faithfully execute the Core Runtime's processing model produces behavior that diverges from what was validated during Research. The Live Stack's role is to ensure that the transition from Research to production is architecturally faithful and operationally controlled.</p>
 
 
 

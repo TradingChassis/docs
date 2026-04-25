@@ -4333,7 +4333,7 @@
 <p>This document defines the inputs, outputs, and interface boundaries of the Data Recording Stack — what enters it, what leaves it, and how it relates to upstream sources and downstream consumers.</p>
 <hr />
 <h2 id="inputs">Inputs</h2>
-<p>The Data Recording Stack receives <strong>raw market-data feed messages</strong> from real Venues. These are external data sources outside the Infrastructure boundary.</p>
+<p>The Data Recording Stack receives <strong>raw market-data feed messages</strong> from real Venues. These are external data sources outside the infrastructure boundary.</p>
 <p>Typical input data includes:</p>
 <ul>
 <li><strong>Trade / tape messages</strong> — individual executed trades reported by the Venue.</li>
@@ -4352,7 +4352,7 @@
 <p>The Data Recording Stack writes to <strong>Local Buffer</strong> (temporary storage on the Capture Node during recording) and to <strong>Persistent Raw Storage</strong> (durable storage for completed raw datasets). It does <strong>not</strong> write to <strong>Canonical Storage</strong>. Even where Persistent Raw Storage and Canonical Storage share physical infrastructure, the logical separation is strict. Raw recorded datasets are not canonical datasets; promotion to Canonical Storage is a downstream responsibility.</p>
 <hr />
 <h2 id="relationship-to-venues">Relationship to Venues</h2>
-<p>Venues are external market-data sources outside the Infrastructure boundary. The Data Recording Stack connects to Venue market-data feeds to receive raw messages.</p>
+<p>Venues are external market-data sources outside the infrastructure boundary. The Data Recording Stack connects to Venue market-data feeds to receive raw messages.</p>
 <p>This relationship is <strong>inbound only</strong> at the data-recording level: the Stack receives data from Venues but does not send execution requests to them. Outbound Venue interaction (order submission, modification, cancellation) belongs to the Core Runtime's Venue Adapter, which is architecturally separate from the Data Recording Stack. The term "Venue Adapter" is not used for Data Recording components; feed connectivity here is handled by Feed Connectors within the Data Recording Stack.</p>
 <hr />
 <h2 id="relationship-to-data-quality-stack">Relationship to Data Quality Stack</h2>

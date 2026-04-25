@@ -790,17 +790,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#infrastructure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Infrastructure
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#core" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4579,7 +4568,7 @@
 
 
 <h1 id="terminology">Terminology</h1>
-<p>This document is the <strong>canonical semantic source</strong> for core Infrastructure terms.</p>
+<p>This document is the <strong>canonical semantic source</strong> for core infrastructure terms.</p>
 <p>It defines what concepts mean and how they relate. It does <strong>not</strong> specify stack layout, operational procedures, or full end-to-end runtime walkthroughs; those belong in architecture and operations documentation.</p>
 <p>Capitalized terms denote formally defined concepts. Other words are descriptive only.</p>
 <p>All definitions below are <strong>normative</strong> for interpretation of the rest of the documentation.</p>
@@ -4591,14 +4580,14 @@
 <p>Supporting terms at the end assume the core definitions.</p>
 <hr />
 <h2 id="event">Event</h2>
-<p>An <strong>Event</strong> is an immutable record of an occurrence that the Infrastructure is required to treat as input to processing.</p>
+<p>An <strong>Event</strong> is an immutable record of an occurrence that the infrastructure is required to treat as input to processing.</p>
 <p><strong>Normative rules:</strong></p>
 <ol>
 <li><strong>Events are the only source of State transitions.</strong> No State change occurs except as the result of processing an Event under Configuration.</li>
 <li>Events are applied strictly in <strong>Processing Order</strong> (see <a href="#processing-order">Processing Order</a>).</li>
 <li>After creation, an Event must not be altered.</li>
 </ol>
-<p>The Infrastructure is fully event-driven: all evolution of derived State is accounted for by the Event Stream and Configuration.</p>
+<p>The infrastructure is fully event-driven: all evolution of derived State is accounted for by the Event Stream and Configuration.</p>
 <hr />
 <h2 id="event-stream">Event Stream</h2>
 <p>The <strong>Event Stream</strong> is the canonical, totally ordered sequence of Events the Runtime applies.</p>
@@ -4628,10 +4617,10 @@
 <p>Processing Order is independent of Event Time and Capture Time.</p>
 <hr />
 <h2 id="configuration">Configuration</h2>
-<p><strong>Configuration</strong> is the explicit, versioned set of rules, parameters, and ordering assumptions under which the Infrastructure processes the <strong>Event Stream</strong> and derives <strong>State</strong>.</p>
+<p><strong>Configuration</strong> is the explicit, versioned set of rules, parameters, and ordering assumptions under which the infrastructure processes the <strong>Event Stream</strong> and derives <strong>State</strong>.</p>
 <p><strong>Normative rules:</strong></p>
 <ol>
-<li><strong>Configuration</strong> is part of the canonical input to the Infrastructure.</li>
+<li><strong>Configuration</strong> is part of the canonical input to the infrastructure.</li>
 <li>Derived <strong>State</strong> depends on <strong>Event Stream + Configuration</strong>.</li>
 <li><strong>Configuration</strong> defines processing rules and parameters, but is not itself <strong>Processing Order</strong>.</li>
 <li><strong>Configuration</strong> must not change silently during processing.</li>
@@ -4640,7 +4629,7 @@
 </ol>
 <hr />
 <h2 id="state">State</h2>
-<p><strong>State</strong> is the complete derived condition of the Infrastructure.</p>
+<p><strong>State</strong> is the complete derived condition of the infrastructure.</p>
 <p><strong>Normative rules:</strong></p>
 <ol>
 <li><strong>State is fully derived from Event Stream + Configuration:</strong></li>
@@ -4688,7 +4677,7 @@
 </ol>
 <hr />
 <h2 id="determinism">Determinism</h2>
-<p>The Infrastructure is <strong>deterministic</strong> if and only if: for identical Event Stream and identical Configuration, all derived State (including Execution Control substate) is identical at every Processing Order position.</p>
+<p>The infrastructure is <strong>deterministic</strong> if and only if: for identical Event Stream and identical Configuration, all derived State (including Execution Control substate) is identical at every Processing Order position.</p>
 <p>Derived behavior must not depend on:</p>
 <ul>
 <li>wall-clock time;</li>
@@ -4703,7 +4692,7 @@
 <ol>
 <li>An Intent is <strong>not</strong> an Event.</li>
 <li>An Intent is <strong>not</strong> persistent. It exists only as transient input within the processing step in which Strategy evaluation occurs.</li>
-<li>An Intent does not, by itself, change State. Effects appear only through subsequent <strong>State derivation</strong> after Events that the Infrastructure records when canonical history requires them (see <a href="#intent-visibility">Intent visibility</a>).</li>
+<li>An Intent does not, by itself, change State. Effects appear only through subsequent <strong>State derivation</strong> after Events that the infrastructure records when canonical history requires them (see <a href="#intent-visibility">Intent visibility</a>).</li>
 </ol>
 <p>Strategies produce Intents; they do not send orders to Venues or perform Execution Control.</p>
 <hr />
@@ -4738,7 +4727,7 @@
 <p><strong>Normative rules:</strong></p>
 <ol>
 <li>Queue Processing implements <strong>Execution Control</strong> only, not policy. It assumes Intents are already risk-allowed unless the model explicitly re-validates against derived limits that are themselves State.</li>
-<li>There is <strong>no separate runtime tick.</strong> Queue Processing is <strong>part of deterministic Event processing</strong>—the same sequential application of Events that advances Market, Execution, and Infrastructure domains also advances Execution Control substate and dispatch decisions.</li>
+<li>There is <strong>no separate runtime tick.</strong> Queue Processing is <strong>part of deterministic Event processing</strong>—the same sequential application of Events that advances Market, Execution, and infrastructure domains also advances Execution Control substate and dispatch decisions.</li>
 <li>Dominance, eligibility, and scheduling are <strong>internal deterministic derivations</strong> within that processing unless canonical history explicitly requires additional Events (<a href="#intent-visibility">Intent visibility</a>).</li>
 </ol>
 <hr />
@@ -4751,7 +4740,7 @@
 <p><strong>Normative rules:</strong></p>
 <ol>
 <li>Orders exist only as projections maintained while processing the Event Stream; they are not a separate source of truth.</li>
-<li>The <strong>Order lifecycle begins at submission</strong> with state <strong>Submitted</strong>—the stage at which the Infrastructure represents an outbound request as submitted and awaiting Venue acknowledgement or further execution Events. Prior stages are Intent and Execution Control derivation, not a persisted Order entity.</li>
+<li>The <strong>Order lifecycle begins at submission</strong> with state <strong>Submitted</strong>—the stage at which the infrastructure represents an outbound request as submitted and awaiting Venue acknowledgement or further execution Events. Prior stages are Intent and Execution Control derivation, not a persisted Order entity.</li>
 <li>Orders evolve only through Events (e.g. acknowledgements, fills, cancellations, rejections).</li>
 </ol>
 <hr />
@@ -4771,19 +4760,20 @@
 <blockquote>
 <p>The following terms are supporting terminology and rely on the core definitions above. They do not redefine Event, State, Intent, Order, Queue, Risk, or Execution Control.</p>
 </blockquote>
-<h2 id="infrastructure">Infrastructure</h2>
-<p>The <strong>Infrastructure</strong> is the trading infrastructure described in this documentation: Core Runtime, data platform, Backtesting and Live Runtimes, and analysis and monitoring, as documented elsewhere.</p>
-<p>It <strong>excludes</strong> proprietary Strategy implementations (except as interfaces), portfolio allocation, and external regulatory frameworks unless explicitly documented.</p>
+<hr />
 <h2 id="core">Core</h2>
 <p>The <strong>Core</strong> is the deterministic engine that applies the Event Stream, derives State, invokes Strategy, applies Risk, and runs Execution Control (Queue and Queue Processing) as part of Event processing.</p>
 <p>The Core behaves the same in concept across Backtesting and Live; surrounding Stacks and Adapters differ.</p>
+<hr />
 <h2 id="strategy">Strategy</h2>
 <p>A <strong>Strategy</strong> is a Component that reads derived State and emits <strong>Intents</strong>.</p>
 <p>Strategies do not interact directly with Venues, Queues, or Risk outcomes except through the defined processing pipeline. All outbound trading effects pass through Risk and Execution Control.</p>
+<hr />
 <h2 id="runtime">Runtime</h2>
 <p>A <strong>Runtime</strong> is an environment in which the Core processes Events (e.g. Backtesting Runtime, Live Runtime). It supplies canonical input to the Core and realizes external-to-Core obligations required to preserve semantic parity across Backtesting and Live.</p>
 <p>This includes market/Execution input delivery and, where required, realization of control-time scheduling obligations as explicit Control Events.</p>
 <p>Runtimes share the same <strong>semantic</strong> model; they differ in data sources, Venue implementation, and infrastructure.</p>
+<hr />
 <h2 id="control-scheduling-obligation">Control Scheduling Obligation</h2>
 <p>A <strong>Control Scheduling Obligation</strong> is a non-canonical, runtime-facing obligation derived by the Core when current <strong>State</strong> and <strong>Configuration</strong> together imply a future relevant control-time re-evaluation point—specifically, when pending allowed outbound work exists and a future moment is implied at which <strong>Execution Control</strong> conditions may change.</p>
 <p><strong>Normative rules:</strong></p>
@@ -4807,27 +4797,38 @@
 <hr />
 <h2 id="backtesting">Backtesting</h2>
 <p><strong>Backtesting</strong> is deterministic Strategy evaluation using historical inputs and a simulated Venue, producing an Event Stream and derived State under the same rules as Live when inputs are equivalent.</p>
+<hr />
 <h2 id="live">Live</h2>
 <p><strong>Live</strong> is real-time Strategy Execution against a real Venue under the same Core semantics as Backtesting.</p>
+<hr />
 <h2 id="execution">Execution</h2>
 <p><strong>Execution</strong> is the activity of turning permitted, scheduled outbound actions into Venue requests and ingesting Venue responses as Events.</p>
 <p><strong>Execution</strong> in this sense spans Venue Adapter I/O; <strong>Execution Control</strong> spans Queue and Queue Processing.</p>
+<hr />
 <h2 id="venue">Venue</h2>
 <p>A <strong>Venue</strong> is an external or simulated execution environment that receives requests and emits market and execution-related Events.</p>
+<hr />
 <h2 id="venue-adapter">Venue Adapter</h2>
 <p>A <strong>Venue Adapter</strong> maps internal outbound actions to Venue protocols and maps Venue messages to Events. It does not define policy or replace Queue Processing.</p>
+<hr />
 <h2 id="stack">Stack</h2>
 <p>A <strong>Stack</strong> is a documented subinfrastructure grouping (e.g. Data Recording, Data Storage, Live). Stacks are organizational; core semantics in this document are independent of Stack boundaries.</p>
+<hr />
 <h2 id="component">Component</h2>
 <p>A <strong>Component</strong> is a deployable or logical unit within a Stack.</p>
+<hr />
 <h2 id="research">Research</h2>
-<p><strong>Research</strong> is the use of the Infrastructure for Strategy development and evaluation (typically Backtesting, Analysis, Canonical Storage). It is a usage context, not a Core semantic primitive.</p>
+<p><strong>Research</strong> is the use of the infrastructure for Strategy development and evaluation (typically Backtesting, Analysis, Canonical Storage). It is a usage context, not a Core semantic primitive.</p>
+<hr />
 <h2 id="analysis">Analysis</h2>
-<p><strong>Analysis</strong> is read-oriented inspection of datasets and results produced by the Infrastructure.</p>
+<p><strong>Analysis</strong> is read-oriented inspection of datasets and results produced by the infrastructure.</p>
+<hr />
 <h2 id="canonical-storage">Canonical Storage</h2>
 <p><strong>Canonical Storage</strong> is the specialized, persistent, and authoritative storage layer for datasets (validated, promoted data) used across Stacks. It is not the Runtime Event Stream; replay and State reconstruction are defined from Events, not from storage alone.</p>
+<hr />
 <h2 id="flow">Flow</h2>
-<p>A <strong>Flow</strong> is a narrative or diagram of how information moves between parts of the Infrastructure. Flows are explanatory; <strong>Processing Order</strong> and the Event Stream are normative for causality.</p>
+<p>A <strong>Flow</strong> is a narrative or diagram of how information moves between parts of the infrastructure. Flows are explanatory; <strong>Processing Order</strong> and the Event Stream are normative for causality.</p>
+<hr />
 <h2 id="pipeline">Pipeline</h2>
 <p>A <strong>Pipeline</strong> is a staged description of processing. For example, the <strong>intent pipeline</strong> is a documented staging of</p>
 <p><strong>Strategy ➝ Risk ➝ Queue ➝ Adapter</strong>.</p>
