@@ -1,7 +1,7 @@
 # TradingChassis — Trading Infrastructure Documentation
 
 [![Docs](https://img.shields.io/badge/docs-MkDocs%20Material-blue)](#)
-[![Deploy Docs](https://github.com/TradingChassis/docs/actions/workflows/deploy.yml/badge.svg)](https://github.com/TradingChassis/docs/actions/workflows/deploy.yml)
+[![Deploy Docs](https://github.com/TradingChassis/docs/actions/workflows/deploy.yaml/badge.svg)](https://github.com/TradingChassis/docs/actions/workflows/deploy.yaml)
 [![Diagrams: Mermaid](https://img.shields.io/badge/diagrams-Mermaid-ff3670)](#)
 [![Made with Markdown](https://img.shields.io/badge/made%20with-Markdown-1f425f)](#)
 [![License: CC BY 4.0](https://img.shields.io/badge/license-CC%20BY%204.0-green)](https://creativecommons.org/licenses/by/4.0/)
