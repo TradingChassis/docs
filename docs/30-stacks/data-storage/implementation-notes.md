@@ -95,7 +95,7 @@ Other intermediate areas — validation scratch space, processing temporary file
 
 ## Implementation Boundaries
 
-**Implementation choices, not canonical semantics.** The realization patterns, retention characteristics, and organizational examples described here are implementation-level concerns. They do not define or modify the Infrastructure's canonical Event, State, or lifecycle semantics.
+**Implementation choices, not canonical semantics.** The realization patterns, retention characteristics, and organizational examples described here are implementation-level concerns. They do not define or modify the infrastructure's canonical Event, State, or lifecycle semantics.
 
 **Logical separation is the invariant.** Regardless of how storage is physically organized, the logical distinction between storage classes must be preserved. This is the single non-negotiable implementation requirement that this document reinforces.
 

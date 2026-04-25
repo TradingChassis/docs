@@ -33,7 +33,7 @@ For a brief semantic introduction to each core concept, see [Concepts Overview](
 | What are the logical components and their responsibilities? | [Logical Architecture](../10-architecture/logical-architecture.md) |
 | What is the step-by-step runtime sequence? | [Infrastructure Flows](../10-architecture/infrastructure-flows.md) |
 | How does an Intent move from Strategy to Venue? | [Intent Pipeline](../10-architecture/intent-pipeline.md) |
-| What is the Infrastructure's top-level structure and layer organization? | [Architecture Overview](../10-architecture/architecture-overview.md) |
+| What is the infrastructure's top-level structure and layer organization? | [Architecture Overview](../10-architecture/architecture-overview.md) |
 | What is the Runtime boundary for control-time scheduling? | [Logical Architecture: Runtime boundary](../10-architecture/logical-architecture.md#runtime-boundary) · [Architecture Principles: P13](../10-architecture/architecture-principles.md#p13-the-core-derives-obligations-the-runtime-injects-canonical-events) |
 
 ### Lifecycle semantics
@@ -63,9 +63,9 @@ For a brief semantic introduction to each core concept, see [Concepts Overview](
 
 | Question | Document |
 | -------- | -------- |
-| How are the Infrastructure's stacks organized? | [Architecture Overview](../10-architecture/architecture-overview.md) |
+| How are the infrastructure's stacks organized? | [Architecture Overview](../10-architecture/architecture-overview.md) |
 | How does Backtesting relate to Live at the semantic level? | [Architecture Overview](../10-architecture/architecture-overview.md) |
-| How is the Infrastructure deployed? | [Physical Architecture](../10-architecture/physical-architecture.md) |
+| How is the infrastructure deployed? | [Physical Architecture](../10-architecture/physical-architecture.md) |
 
 ---
 
@@ -109,7 +109,7 @@ For the full step-by-step sequence, see [Infrastructure Flows](../10-architectur
 
 ## Infrastructure topology
 
-The Infrastructure is organized into three infrastructure layers:
+The infrastructure is organized into three infrastructure layers:
 
 ```mermaid
 flowchart TB

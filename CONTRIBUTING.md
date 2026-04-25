@@ -2,7 +2,7 @@
 
 Thank you for your interest in contributing.
 
-This repository documents the architecture, concepts, operations, and evolution.
+This repository documents the architecture, concepts, stacks, operations, and evolution.
 
 Contributions should improve clarity, correctness, and long-term maintainability of the documentation.
 
@@ -22,7 +22,7 @@ All contributions should follow the core architectural philosophy:
 
 Avoid introducing ambiguous descriptions, undocumented assumptions, or unclear behavior.
 
-Architecture documentation should explain why the Infrastructure exists in its current form, not only how it is implemented.
+Architecture documentation should explain why the infrastructure exists in its current form, not only how it is implemented.
 
 ---
 

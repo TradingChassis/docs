@@ -27,7 +27,7 @@ Runtime observability begins with instrumentation: running infrastructure parts 
 No specific collection mechanism is architecturally required. The key implementation properties are:
 
 - Collection paths are **non-intrusive** — they do not alter the execution logic or runtime behavior of the observed infrastructures.
-- Collection is **continuous during execution** — signals are gathered while the Infrastructure is running, not retroactively after execution completes.
+- Collection is **continuous during execution** — signals are gathered while the infrastructure is running, not retroactively after execution completes.
 - Collection supports **multiple signal types** — metrics, status, health, errors, and traces can coexist within the same integration infrastructure.
 
 ---
@@ -88,7 +88,7 @@ Real products and platforms frequently combine monitoring, orchestration, execut
 
 ## Implementation Boundaries
 
-**Implementation choices, not canonical semantics.** The collection patterns, aggregation strategies, alert structures, and visibility approaches described here are implementation-level concerns. They do not define or modify the Infrastructure's canonical Event, State, or lifecycle semantics.
+**Implementation choices, not canonical semantics.** The collection patterns, aggregation strategies, alert structures, and visibility approaches described here are implementation-level concerns. They do not define or modify the infrastructure's canonical Event, State, or lifecycle semantics.
 
 **Monitoring operates on runtime signals.** The implementation collects and processes signals from running infrastructure parts. It does not consume persisted analytical outputs, historical experiment results, or retrospective evaluation datasets.
 

@@ -6,9 +6,9 @@ This document defines the logical internal structure of the Data Storage Stack: 
 
 ## Structural Overview
 
-The Data Storage Stack is not a processing pipeline. Its internal structure is a **logical storage organization** — a set of persistent storage classes, each with a defined role, that together provide the Infrastructure's durable substrate.
+The Data Storage Stack is not a processing pipeline. Its internal structure is a **logical storage organization** — a set of persistent storage classes, each with a defined role, that together provide the infrastructure's durable substrate.
 
-The key structural principle is **logical separation**. Each storage class holds a distinct category of persisted data, has defined writers and readers, and carries a stable meaning within the Infrastructure. These classes are logically distinct regardless of whether they share physical infrastructure. The Data Storage Stack's internal structure is the arrangement of these classes and the boundaries between them.
+The key structural principle is **logical separation**. Each storage class holds a distinct category of persisted data, has defined writers and readers, and carries a stable meaning within the infrastructure. These classes are logically distinct regardless of whether they share physical infrastructure. The Data Storage Stack's internal structure is the arrangement of these classes and the boundaries between them.
 
 ---
 
@@ -18,13 +18,13 @@ The key structural principle is **logical separation**. Each storage class holds
 
 Holds raw recorded datasets as produced by the Data Recording Stack — Venue market-data messages with source and timing metadata, partitioned by Venue, Feed, and Time Window, written without transformation or normalization.
 
-**Role:** Durable retention of the Infrastructure's raw empirical record before any quality assessment or canonical promotion has occurred.
+**Role:** Durable retention of the infrastructure's raw empirical record before any quality assessment or canonical promotion has occurred.
 
 ### Canonical Storage
 
 Holds validated, normalized datasets promoted by the Data Quality Stack. Canonical datasets have passed integrity, completeness, and consistency assessment and have been transformed into canonical form.
 
-**Role:** The authoritative validated dataset layer for the Infrastructure. Canonical Storage is the persistent surface from which Backtesting, Analysis, and other downstream consumers read validated Research inputs.
+**Role:** The authoritative validated dataset layer for the infrastructure. Canonical Storage is the persistent surface from which Backtesting, Analysis, and other downstream consumers read validated Research inputs.
 
 ### Derived Storage
 

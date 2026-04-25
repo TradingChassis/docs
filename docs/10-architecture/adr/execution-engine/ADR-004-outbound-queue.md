@@ -17,11 +17,11 @@ Strategy produces Intents — ephemeral commands expressing desired trading acti
 
 `NEW ➝ REPLACE ➝ REPLACE ➝ CANCEL`
 
-If every Intent were forwarded directly to the Venue Adapter as an outbound request, the Infrastructure would produce unstable execution behavior:
+If every Intent were forwarded directly to the Venue Adapter as an outbound request, the infrastructure would produce unstable execution behavior:
 
 - **Duplicate requests.** Multiple `NEW` commands for the same logical order key would produce duplicate submissions.
 - **Replace and cancel storms.** Rapid successive modifications or cancellations would generate bursts of conflicting requests to the Venue.
-- **Concurrent conflicts.** Overlapping inflight requests for the same order key would produce ambiguous Venue-side state — the Infrastructure could not determine which request the Venue is processing.
+- **Concurrent conflicts.** Overlapping inflight requests for the same order key would produce ambiguous Venue-side state — the infrastructure could not determine which request the Venue is processing.
 - **Strategy-dependent stability.** Outbound execution stability would depend on how frequently and in what order Strategy generates commands, coupling execution behavior to Strategy implementation detail.
 
 These problems require a mechanism between Risk evaluation and Venue dispatch that reconciles outbound work before transmission. The mechanism must:
@@ -37,7 +37,7 @@ The mechanism must also respect the separation between policy and execution cont
 
 ## Decision
 
-The Infrastructure implements an outbound Queue as **derived Execution Control substate** within Execution State.
+The infrastructure implements an outbound Queue as **derived Execution Control substate** within Execution State.
 
 The Queue holds **effective reconciled allowed pending outbound work** — at most one command per logical order key — and is maintained deterministically from the Event Stream and Configuration. It is not a raw event history of Strategy output, not a second source of truth, and not a fourth top-level State domain.
 
@@ -59,7 +59,7 @@ The Queue holds **effective reconciled allowed pending outbound work** — at mo
 
 6. **Execution control runs within Event processing.** Queue updates, dominance, eligibility, inflight gating, scheduling, and dispatch selection are deterministic computations within the canonical Event-processing step. There is no separate runtime tick, background timer, or autonomous scheduler.
 
-7. **Dominance, eligibility, and scheduling are internal derivations.** These computations do not produce separate Events in the canonical stream unless canonical history explicitly requires recording the outcome for replay or audit.
+7. **Dominance, eligibility, and scheduling are internal derivations.** These computations do not produce separate Events in the canonical Event Stream unless canonical history explicitly requires recording the outcome for replay or audit.
 
 ### Boundaries
 
@@ -75,7 +75,7 @@ The Queue holds **effective reconciled allowed pending outbound work** — at mo
 
 **Outbound traffic is structurally stable.** Dominance prevents duplicate and redundant requests. Inflight gating prevents concurrent conflicts for the same order key. Rate limiting prevents bursts that exceed Venue constraints. These properties hold by construction, not by Strategy discipline.
 
-**All Execution Control decisions are deterministic and replayable.** Because the Queue is derived from Event Stream + Configuration and all Execution Control computations run within Event processing, replay of the same stream under the same Configuration produces identical dispatch decisions at every Processing Order position. Backtesting and Live evaluate the same Execution Control logic.
+**All Execution Control decisions are deterministic and replayable.** Because the Queue is derived from Event Stream + Configuration and all Execution Control computations run within Event processing, replay of the same Event Stream under the same Configuration produces identical dispatch decisions at every Processing Order position. Backtesting and Live evaluate the same Execution Control logic.
 
 **The Queue is not an independent truth layer.** It does not accumulate a history of Strategy emissions. It does not hold state that the Event Stream cannot reproduce. Components that need Execution Control information read it as a projection of derived State, not as an authoritative parallel store.
 
@@ -85,12 +85,12 @@ The Queue holds **effective reconciled allowed pending outbound work** — at mo
 
 ## Trade-offs
 
-**The Queue does not preserve intermediate Strategy intent history.** By design, only the effective command per logical order key is retained. A sequence `NEW ➝ REPLACE ➝ REPLACE ➝ CANCEL` produces `CANCEL` in Execution Control substate; the intermediate replaces are not individually visible in the Queue. Where visibility of superseded commands is needed for replay or audit, the canonical mechanism is Intent-related Events recorded on the stream when required — not Queue-level retention.
+**The Queue does not preserve intermediate Strategy intent history.** By design, only the effective command per logical order key is retained. A sequence `NEW ➝ REPLACE ➝ REPLACE ➝ CANCEL` produces `CANCEL` in Execution Control substate; the intermediate replaces are not individually visible in the Queue. Where visibility of superseded commands is needed for replay or audit, the canonical mechanism is Intent-related Events recorded on the Event Stream when required — not Queue-level retention.
 
-**Execution-control rules add derivation complexity.** Dominance, inflight gating, rate-limit evaluation, and eligibility are deterministic functions applied at every relevant processing step. This is more complex than direct pass-through, but direct pass-through cannot provide the stability and determinism guarantees the Infrastructure requires.
+**Execution-control rules add derivation complexity.** Dominance, inflight gating, rate-limit evaluation, and eligibility are deterministic functions applied at every relevant processing step. This is more complex than direct pass-through, but direct pass-through cannot provide the stability and determinism guarantees the infrastructure requires.
 
 ---
 
 ## Summary
 
-The Infrastructure uses a derived Execution Control Queue that reconciles allowed pending outbound work to at most one effective command per logical order key. The Queue is Execution Control substate within Execution State — derived, not independently authoritative. Dominance, inflight gating, and rate-limited dispatch ensure stable, deterministic outbound behavior. All Execution Control computation runs within Event processing; there is no separate tick. Queue residency is pre-submission; Orders begin at dispatch.
+The infrastructure uses a derived Execution Control Queue that reconciles allowed pending outbound work to at most one effective command per logical order key. The Queue is Execution Control substate within Execution State — derived, not independently authoritative. Dominance, inflight gating, and rate-limited dispatch ensure stable, deterministic outbound behavior. All Execution Control computation runs within Event processing; there is no separate tick. Queue residency is pre-submission; Orders begin at dispatch.

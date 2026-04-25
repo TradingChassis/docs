@@ -90,7 +90,7 @@ The Monitoring Stack is the integration layer between runtime signal emission an
 
 **Telemetry integration.** Running infrastructure parts emit metrics and telemetry in whatever form their implementation supports. The Monitoring Stack provides the receiving infrastructure and makes collected telemetry available through queryable and visual surfaces. The specific collection mechanisms and protocols are implementation concerns, not interface-level commitments.
 
-**Health integration.** Running infrastructure parts expose health and readiness signals. The Monitoring Stack integrates these into aggregated health views that represent the operational state of the Infrastructure's running parts. Health integration may be pull-based (the Monitoring Stack queries health endpoints) or push-based (components emit health signals), depending on the implementation pattern chosen.
+**Health integration.** Running infrastructure parts expose health and readiness signals. The Monitoring Stack integrates these into aggregated health views that represent the operational state of the infrastructure's running parts. Health integration may be pull-based (the Monitoring Stack queries health endpoints) or push-based (components emit health signals), depending on the implementation pattern chosen.
 
 **Alert integration.** The Monitoring Stack evaluates collected signals against monitoring conditions and produces alert-oriented outputs when noteworthy conditions are detected. Alert outputs may be consumed by operators directly, routed to external notification infrastructures, or recorded as alert artifacts. The specific alert rules and thresholds are operational configuration, not architectural interface definitions.
 

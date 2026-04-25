@@ -9,7 +9,7 @@ It does not focus on proprietary strategy logic or alpha design.
 
 ## What this infrastructure is
 
-At a high level, the Infrastructure is designed for:
+At a high level, the infrastructure is designed for:
 
 - event-driven runtime behavior with deterministic processing
 - Research and Backtesting grounded in the same conceptual model as Live operation
@@ -36,7 +36,7 @@ For a dedicated structure explanation, see [Documentation Structure](00-guides/d
 
 ## Start here by goal
 
-### Understand the Infrastructure conceptually
+### Understand the infrastructure conceptually
 
 1. [Architecture Map](00-guides/architecture-map.md)
 2. [Infrastructure Narrative](10-architecture/infrastructure-narrative.md)

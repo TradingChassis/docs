@@ -103,7 +103,7 @@ At each stage, a dataset may exit the promotion path if it fails to meet the cri
 
 ## Operational Boundaries
 
-**Asynchronous gate, not streaming processor.** The Data Quality Stack operates as a batch-oriented asynchronous gate between raw data and canonical data. It processes datasets as discrete units (partitioned by Venue, Feed, and Time Window), not as a continuous stream of individual messages.
+**Asynchronous gate, not streaming processor.** The Data Quality Stack operates as a batch-oriented asynchronous gate between raw data and canonical data. It processes datasets as discrete units (partitioned by Venue, Feed, and Time Window), not as a continuous Event Stream of individual messages.
 
 **No raw data capture.** The Data Quality Stack reads from Persistent Raw Storage. It does not connect to Venue feeds, manage recording infrastructure, or produce raw datasets. Those are Data Recording Stack responsibilities.
 

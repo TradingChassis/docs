@@ -15,7 +15,7 @@ Initial work focused on building the project’s infrastructure base and deploym
 **Main outcomes**
 
 - Established cloud and server-side infrastructure foundation
-- Built the Infrastructure repository and supporting secrets/configuration setup
+- Built the infrastructure repository and supporting secrets/configuration setup
 - Evaluated deployment and operations requirements around Kubernetes and Infrastructure as Code
 - Explored exchange and market-data integration patterns, including API and transport options such as WebSocket, UDP, multicast, FIX, and lower-latency binary protocols
 - Investigated provider and colocation constraints relevant to the target runtime environment
@@ -66,7 +66,7 @@ Once the Core Runtime and supporting tooling existed, the focus moved to formali
 **Main outcomes**
 
 - Created the MkDocs-based architecture documentation
-- Documented the semantic and conceptual model of the Infrastructure rather than repository-level implementation details
+- Documented the semantic and conceptual model of the infrastructure rather than repository-level implementation details
 - Structured documentation around architecture, concepts, Stacks, operations, and evolution
 - Cleaned up project structure at the GitHub organization and repository level
 - Standardized repository presentation and publication setup
@@ -115,6 +115,6 @@ At this stage, the project has:
 - a defined infrastructure foundation
 - a working Core Runtime and Backtesting foundation
 - a documented deterministic event-driven architecture model
-- a public documentation and repository structure that reflects the Infrastructure coherently
+- a public documentation and repository structure that reflects the infrastructure coherently
 
 The next milestones are expected to focus on downstream documentation alignment, additional Runtime refinement, and further maturation.

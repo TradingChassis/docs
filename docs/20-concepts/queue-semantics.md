@@ -52,7 +52,7 @@ The **Queue** therefore remains **minimal**, **conflict-free**, and **determinis
 **Normative rules:**
 
 1. At most **one** effective command may be held per logical order key. A new command targeting an existing key **replaces** the prior effective command according to dominance rules ([Intent Dominance](intent-dominance.md)).
-2. **Order ID** is the canonical key used for lifecycle tracking and identity throughout the Infrastructure ([Order Lifecycle](order-lifecycle.md)).
+2. **Order ID** is the canonical key used for lifecycle tracking and identity throughout the infrastructure ([Order Lifecycle](order-lifecycle.md)).
 3. A **Venue-side identifier** (e.g. exchange order ID) may be associated with an existing Order after **Venue** acknowledgement; it does not affect Queue identity rules.
 
 ---

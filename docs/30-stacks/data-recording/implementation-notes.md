@@ -16,11 +16,11 @@ Implementation decisions in the Data Recording Stack therefore carry Research co
 
 ## Capture Time and Recording Context
 
-**Capture Time** — the local time at which a Data Recording component observes or receives a raw Venue message — is implementation-relevant recording metadata. It records when the Infrastructure first saw a message, under the network and infrastructure conditions that prevailed at the Capture Node.
+**Capture Time** — the local time at which a Data Recording component observes or receives a raw Venue message — is implementation-relevant recording metadata. It records when the infrastructure first saw a message, under the network and infrastructure conditions that prevailed at the Capture Node.
 
 Capture Time matters because it anchors recorded data to the observation conditions of the recording environment. Downstream processing — gap detection, latency analysis, time-alignment across feeds, Backtesting input preparation — depends on Capture Time to reconstruct the temporal structure of what the recording infrastructure actually observed. If Capture Time is inaccurate, inconsistent, or missing, the temporal fidelity of all downstream uses is degraded.
 
-Capture Time is recording metadata, not a Core Runtime causal concept. It does not define Processing Order, Event Time, or any canonical runtime sequencing. Its significance is entirely within the recording and data-platform domain: it describes when and under what conditions raw data entered the Infrastructure.
+Capture Time is recording metadata, not a Core Runtime causal concept. It does not define Processing Order, Event Time, or any canonical runtime sequencing. Its significance is entirely within the recording and data-platform domain: it describes when and under what conditions raw data entered the infrastructure.
 
 ---
 
@@ -34,7 +34,7 @@ This applies to external, infrastructure-level factors:
 - **Feed source and access method.** Different Venue feed tiers (direct market data vs. consolidated feeds, full-depth vs. top-of-book) produce different data. The feed source used during recording should reflect what the Live Stack will consume, or differences should be understood.
 - **Network and transport conditions.** Batching behavior, TCP vs. UDP delivery, reconnect semantics, and message ordering under load are properties of the recording environment that influence what the raw record contains.
 
-Raw data may be self-recorded by the Infrastructure's own infrastructure or obtained from external providers. The architectural concern is not the source per se, but the degree to which the recording conditions — whether self-operated or externally provided — approximate the conditions the Live Stack will face. Self-recording from infrastructure that mirrors the Live environment provides strong parity by construction; externally sourced data may or may not carry equivalent observation conditions, depending on how and where it was recorded.
+Raw data may be self-recorded by the infrastructure's own infrastructure or obtained from external providers. The architectural concern is not the source per se, but the degree to which the recording conditions — whether self-operated or externally provided — approximate the conditions the Live Stack will face. Self-recording from infrastructure that mirrors the Live environment provides strong parity by construction; externally sourced data may or may not carry equivalent observation conditions, depending on how and where it was recorded.
 
 ---
 
@@ -55,7 +55,7 @@ Full parity between the recording environment and the eventual Live environment 
 The design principle is not to eliminate all differences — that is impractical — but to **identify, model, and measure** the differences that remain:
 
 - **Identify** which aspects of the recording environment differ from the intended Live environment (feed path, latency profile, capture-node placement, internal pipeline version, timestamp source).
-- **Model** the expected impact of each difference on downstream data characteristics (e.g., a remote feed path adds N milliseconds of latency variance relative to co-located capture; an external data provider uses a different timestamp source than the Infrastructure's own Capture Time).
+- **Model** the expected impact of each difference on downstream data characteristics (e.g., a remote feed path adds N milliseconds of latency variance relative to co-located capture; an external data provider uses a different timestamp source than the infrastructure's own Capture Time).
 - **Measure** actual residual differences where possible, so that their magnitude is known rather than assumed.
 
 This is especially important for microstructure-sensitive Research, where Strategy evaluation may be sensitive to timing differences on the order of milliseconds or less. For less timing-sensitive work, residual differences may be operationally acceptable without detailed modeling — but they should still be acknowledged.

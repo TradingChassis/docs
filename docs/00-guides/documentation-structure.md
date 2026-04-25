@@ -47,7 +47,7 @@ Use this section to understand architectural composition and responsibility boun
 - flow and lifecycle-adjacent architecture documents for runtime sequencing context
 - ADRs under `10-architecture/adr/` for decision history and rationale
 
-This section explains how the Infrastructure is organized without replacing canonical concept definitions.
+This section explains how the infrastructure is organized without replacing canonical concept definitions.
 
 ### `20-concepts` - Canonical semantics
 
@@ -61,7 +61,7 @@ Use this section to see how conceptual and architectural models are realized per
 
 Stack documents are applied views: they explain implementation shape and constraints while remaining aligned with canonical concepts.
 
-### `40-operations` - Operating the Infrastructure
+### `40-operations` - Operating the infrastructure
 
 Use this section for operational concerns: observability, monitoring, recovery, incident handling, and runbook-oriented material.
 
@@ -71,7 +71,7 @@ Operations documents are runtime-practice references, not the source of semantic
 
 Use this section for forward and backward context:
 
-- where the Infrastructure is heading (roadmap, milestones)
+- where the infrastructure is heading (roadmap, milestones)
 - what changed over time (development logs and evolution notes)
 
 This section provides planning and change traceability without redefining current canonical behavior.

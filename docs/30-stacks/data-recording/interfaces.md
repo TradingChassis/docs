@@ -6,7 +6,7 @@ This document defines the inputs, outputs, and interface boundaries of the Data 
 
 ## Inputs
 
-The Data Recording Stack receives **raw market-data feed messages** from real Venues. These are external data sources outside the Infrastructure boundary.
+The Data Recording Stack receives **raw market-data feed messages** from real Venues. These are external data sources outside the infrastructure boundary.
 
 Typical input data includes:
 
@@ -37,7 +37,7 @@ The Data Recording Stack writes to **Local Buffer** (temporary storage on the Ca
 
 ## Relationship to Venues
 
-Venues are external market-data sources outside the Infrastructure boundary. The Data Recording Stack connects to Venue market-data feeds to receive raw messages.
+Venues are external market-data sources outside the infrastructure boundary. The Data Recording Stack connects to Venue market-data feeds to receive raw messages.
 
 This relationship is **inbound only** at the data-recording level: the Stack receives data from Venues but does not send execution requests to them. Outbound Venue interaction (order submission, modification, cancellation) belongs to the Core Runtime's Venue Adapter, which is architecturally separate from the Data Recording Stack. The term "Venue Adapter" is not used for Data Recording components; feed connectivity here is handled by Feed Connectors within the Data Recording Stack.
 

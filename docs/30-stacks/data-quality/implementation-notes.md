@@ -116,7 +116,7 @@ These properties are implementation concerns — they describe how the Data Qual
 
 ## Implementation Boundaries
 
-**Implementation choices, not canonical semantics.** The metadata model, workflow patterns, orchestration tooling, and pipeline decomposition described here are realization concerns. They do not define or modify the Infrastructure's canonical Event, State, or lifecycle semantics.
+**Implementation choices, not canonical semantics.** The metadata model, workflow patterns, orchestration tooling, and pipeline decomposition described here are realization concerns. They do not define or modify the infrastructure's canonical Event, State, or lifecycle semantics.
 
 **Raw and canonical remain logically distinct.** Regardless of how the pipeline is implemented, the logical separation between raw recorded datasets (in Persistent Raw Storage) and canonical datasets (in Canonical Storage) must be preserved. The promotion gate is the boundary between the two. No implementation shortcut should blur this distinction.
 

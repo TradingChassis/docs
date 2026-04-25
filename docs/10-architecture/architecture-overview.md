@@ -1,13 +1,13 @@
 # Architecture Overview
 
-For the architectural design philosophy of the Infrastructure see:
+For the architectural design philosophy of the infrastructure see:
 [Architecture Principles](../10-architecture/architecture-principles.md)
 
 ---
 
 ## Purpose and scope
 
-This document provides a **top-level architectural overview** of the Infrastructure.
+This document provides a **top-level architectural overview** of the infrastructure.
 
 It explains:
 
@@ -28,7 +28,7 @@ Capitalized terms are used as in [Terminology](../00-guides/terminology.md).
 
 ## Architectural layers
 
-The Infrastructure is organized into three structural layers:
+The infrastructure is organized into three structural layers:
 
 ```mermaid
 flowchart TD
@@ -69,7 +69,7 @@ flowchart TD
 
 The **Core Runtime** is the deterministic, event-driven engine that executes **Strategy** logic, manages **risk**, controls **outbound execution**, and processes **Venue feedback**.
 
-It is the semantic center of the Infrastructure. The Data Platform supplies canonical inputs; Analysis and Monitoring consume outputs. The Core Runtime applies the **Event Stream** under **Configuration** and produces **derived State**, dispatch decisions, and **Orders**.
+It is the semantic center of the infrastructure. The Data Platform supplies canonical inputs; Analysis and Monitoring consume outputs. The Core Runtime applies the **Event Stream** under **Configuration** and produces **derived State**, dispatch decisions, and **Orders**.
 
 ### Deterministic event-driven processing
 
@@ -86,13 +86,13 @@ At the architectural level, the Core Runtime executes the following chain on eac
 ```mermaid
 flowchart TB
     E["Event\n(Processing Order)"]
-    S["State derivation\nMarket · Execution · Infrastructure"]
+    S["State derivation\nMarket · Execution · Control"]
     ST["Strategy\nemits Intents"]
     R["Risk Engine\npolicy: allowed / denied"]
     Q["Queue + Queue Processing\nExecution Control"]
     D["Venue Adapter"]
     V["Venue"]
-    F["Execution Events\nback into stream"]
+    F["Execution Events\nback into Event Stream"]
 
     E --> S
     S --> ST
@@ -118,7 +118,7 @@ flowchart TB
 
 ### Key architectural constraints
 
-**Intent.** An Intent is a **command** produced by Strategy. It is not an Event, not persistent, and not an Order. It enters the processing chain as transient input to the current step. Intent-processing outcomes appear in the stream as Events only when canonical history requires it.
+**Intent.** An Intent is a **command** produced by Strategy. It is not an Event, not persistent, and not an Order. It enters the processing chain as transient input to the current step. Intent-processing outcomes appear in the Event Stream as Events only when canonical history requires it.
 
 **Risk.** The Risk Engine decides **admissibility only** (allowed / denied). It does not schedule transmission, apply rate limits, or manage inflight gating. Those responsibilities belong exclusively to **Execution Control** (Queue + Queue Processing).
 
@@ -174,7 +174,7 @@ Responsibilities: metrics collection, Runtime telemetry, operational dashboards,
 
 ## Backtesting and Live parity
 
-A central architectural goal of the Infrastructure is **semantic parity** between Backtesting and Live.
+A central architectural goal of the infrastructure is **semantic parity** between Backtesting and Live.
 
 Both Runtimes run the same **Core Runtime** semantics:
 
