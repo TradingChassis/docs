@@ -4105,30 +4105,44 @@
 
 
 <h1 id="tradingchassis-documentation">TradingChassis Documentation</h1>
-<p>This documentation is the technical reference for a deterministic, event-driven trading infrastructure.</p>
-<p>It focuses on architecture, semantics, implementation structure, and operations.<br />
-It does not focus on proprietary strategy logic or alpha design.</p>
+<p>This documentation is the technical reference for TradingChassis: an open-source infrastructure project for deterministic, reproducible, observable, and auditable trading systems.</p>
+<p>It focuses on architecture, semantics, implementation structure, operations, and project evolution.<br />
+It does not focus on proprietary Strategy logic, alpha design, trading signals, or trading performance claims.</p>
 <hr />
 <h2 id="what-this-infrastructure-is">What this infrastructure is</h2>
-<p>At a high level, the infrastructure is designed for:</p>
+<p>TradingChassis is designed as infrastructure for professional Research-to-Production trading systems.</p>
+<p>At a high level, the infrastructure is organized around:</p>
 <ul>
-<li>event-driven runtime behavior with deterministic processing</li>
-<li>Research and Backtesting grounded in the same conceptual model as Live operation</li>
-<li>explicit separation of architecture concerns (semantics, runtime architecture, stack realization, operations)</li>
+<li>deterministic Event processing and explicit Processing Order</li>
+<li>State derivation from Event Stream + Configuration</li>
+<li>canonical data flows from raw market data toward validated and reusable datasets</li>
+<li>Research, Backtesting, Analysis, and Live as connected infrastructure contexts</li>
+<li>explicit separation of semantics, Runtime behavior, Stack realization, and operations</li>
+<li>reproducibility, auditability, observability, and operational maintainability</li>
+<li>runbooks, monitoring, recovery context, and maintenance procedures as part of the infrastructure model</li>
 </ul>
+<p>Backtesting is treated as part of Research. Live is a different operational context, not a separate conceptual universe. The goal is to make behavior explainable across contexts by grounding it in shared semantics, explicit architecture, and documented operational boundaries.</p>
 <p>For the architecture map of the full infrastructure, start with <a href="00-guides/architecture-map/">Architecture Map</a>.</p>
 <hr />
 <h2 id="what-this-documentation-contains">What this documentation contains</h2>
 <p>The repository is organized into six major sections:</p>
 <ul>
-<li><strong>Guides</strong> (<code>00-guides</code>) - orientation, terminology, and navigation aids</li>
-<li><strong>Architecture</strong> (<code>10-architecture</code>) - structure, boundaries, and ADRs</li>
+<li><strong>Guides</strong> (<code>00-guides</code>) - orientation, terminology, documentation structure, and navigation aids</li>
+<li><strong>Architecture</strong> (<code>10-architecture</code>) - infrastructure structure, boundaries, flows, principles, and Architecture Decision Records</li>
 <li><strong>Concepts</strong> (<code>20-concepts</code>) - canonical semantic models and invariants</li>
-<li><strong>Stacks</strong> (<code>30-stacks</code>) - implementation-facing stack overviews</li>
-<li><strong>Operations</strong> (<code>40-operations</code>) (work in progress) - monitoring, recovery, incident, and runbook-oriented material</li>
-<li><strong>Evolution</strong> (<code>50-evolution</code>) - roadmap, milestones, and development logs</li>
+<li><strong>Stacks</strong> (<code>30-stacks</code>) - implementation-facing Stack overviews and subinfrastructure boundaries</li>
+<li><strong>Operations</strong> (<code>40-operations</code>) - monitoring, recovery, incident handling, runbooks, maintenance, and operational context</li>
+<li><strong>Evolution</strong> (<code>50-evolution</code>) - roadmap, milestones, development logs, and architectural progress</li>
 </ul>
 <p>For a dedicated structure explanation, see <a href="00-guides/documentation-structure/">Documentation Structure</a>.</p>
+<p>The documentation separates what the infrastructure <em>means</em> from how it is <em>realized</em> and how it is <em>operated</em>:</p>
+<ul>
+<li><strong>Concepts</strong> define canonical semantics.</li>
+<li><strong>Architecture</strong> explains boundaries, structure, and sequencing.</li>
+<li><strong>Stacks</strong> describe implementation-facing realizations.</li>
+<li><strong>Operations</strong> explains how the infrastructure is monitored, maintained, recovered, and used operationally.</li>
+<li><strong>Evolution</strong> records how the project changes over time.</li>
+</ul>
 <hr />
 <h2 id="start-here-by-goal">Start here by goal</h2>
 <h3 id="understand-the-infrastructure-conceptually">Understand the infrastructure conceptually</h3>
@@ -4137,14 +4151,14 @@ It does not focus on proprietary strategy logic or alpha design.</p>
 <li><a href="10-architecture/infrastructure-narrative/">Infrastructure Narrative</a></li>
 <li><a href="10-architecture/architecture-overview/">Architecture Overview</a></li>
 </ol>
-<h3 id="understand-runtime-architecture">Understand runtime architecture</h3>
+<h3 id="understand-architecture-and-boundaries">Understand architecture and boundaries</h3>
 <ol>
 <li><a href="10-architecture/logical-architecture/">Logical Architecture</a></li>
 <li><a href="10-architecture/infrastructure-flows/">Infrastructure Flows</a></li>
 <li><a href="10-architecture/physical-architecture/">Physical Architecture</a></li>
 <li><a href="10-architecture/architecture-principles/">Architecture Principles</a></li>
 </ol>
-<h3 id="understand-core-semantics-authoritative-definitions">Understand core semantics (authoritative definitions)</h3>
+<h3 id="understand-core-semantics">Understand core semantics</h3>
 <ol>
 <li><a href="00-guides/terminology/">Terminology</a></li>
 <li><a href="20-concepts/concepts-overview/">Concepts Overview</a></li>
@@ -4154,21 +4168,45 @@ It does not focus on proprietary strategy logic or alpha design.</p>
 <li><a href="20-concepts/determinism-model/">Determinism Model</a></li>
 <li><a href="20-concepts/invariants/">Invariants</a></li>
 </ol>
-<h3 id="find-implementation-stack-details-and-operations-material">Find implementation, stack details and operations material</h3>
+<h3 id="understand-research-backtesting-analysis-and-live-context">Understand Research, Backtesting, Analysis, and Live context</h3>
 <ol>
-<li>relevant stack section under <a href="30-stacks/stacks-overview/">Stacks</a></li>
-<li>related ADRs under <a href="10-architecture/adr/foundations/ADR-001-two-axis-structure/">Architecture</a></li>
-<li>monitoring / recovery / incident and runbook documents under <a href="40-operations/operations-overview/">Operations</a></li>
+<li><a href="00-guides/architecture-map/">Architecture Map</a></li>
+<li><a href="10-architecture/infrastructure-narrative/">Infrastructure Narrative</a></li>
+<li>relevant Stack documents under <a href="30-stacks/stacks-overview/">Stacks</a></li>
+<li>related semantic models under <a href="20-concepts/concepts-overview/">Concepts</a></li>
+</ol>
+<h3 id="find-implementation-and-stack-details">Find implementation and Stack details</h3>
+<ol>
+<li>relevant Stack section under <a href="30-stacks/stacks-overview/">Stacks</a></li>
+<li>related architecture views under <a href="10-architecture/architecture-overview/">Architecture</a></li>
+<li>related ADRs under <a href="10-architecture/adr/foundations/ADR-001-two-axis-structure/">Architecture Decision Records</a></li>
+</ol>
+<h3 id="understand-operations-monitoring-and-maintenance">Understand operations, monitoring, and maintenance</h3>
+<ol>
+<li><a href="40-operations/operations-overview/">Operations Overview</a></li>
+<li>monitoring, recovery, incident, and runbook-oriented documents under <a href="40-operations/operations-overview/">Operations</a></li>
+<li>related Stack documents under <a href="30-stacks/stacks-overview/">Stacks</a></li>
+<li>related architecture boundaries under <a href="10-architecture/architecture-overview/">Architecture</a></li>
+</ol>
+<h3 id="understand-project-direction-and-evolution">Understand project direction and evolution</h3>
+<ol>
+<li><a href="50-evolution/roadmap/">Roadmap</a></li>
+<li>milestones and development logs under <a href="50-evolution/roadmap/">Evolution</a></li>
+<li>relevant ADRs under <a href="10-architecture/adr/foundations/ADR-001-two-axis-structure/">Architecture Decision Records</a></li>
 </ol>
 <hr />
 <h2 id="how-to-use-this-documentation-effectively">How to use this documentation effectively</h2>
+<p>Use this documentation as a layered technical reference:</p>
 <ul>
-<li>Use overview pages to orient quickly.</li>
-<li>Use concept documents for exact semantic definitions.</li>
-<li>Use architecture documents for component boundaries and sequencing.</li>
-<li>Use stack and operations documents for applied implementation and operating context.</li>
+<li>Use <strong>Guides</strong> to orient quickly.</li>
+<li>Use <strong>Terminology</strong> and <strong>Concepts</strong> for exact semantic definitions.</li>
+<li>Use <strong>Architecture</strong> documents for structure, sequencing, and boundaries.</li>
+<li>Use <strong>Stacks</strong> for implementation-facing subinfrastructure views.</li>
+<li>Use <strong>Operations</strong> for monitoring, recovery, runbooks, maintenance, and operating context.</li>
+<li>Use <strong>Evolution</strong> to understand roadmap, milestones, and historical direction.</li>
 </ul>
 <p>When in doubt, treat concept documents as semantic authority and use overview pages as navigational summaries.</p>
+<p>Stack and operations documents should apply canonical semantics; they should not redefine them locally.</p>
 
 
 

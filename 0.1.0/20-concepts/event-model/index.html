@@ -4395,7 +4395,7 @@
 <li><strong>Occurrence, not command.</strong> An Event records that something <strong>has occurred</strong> or <strong>has been decided</strong> for canonical history (e.g. external market update, Venue execution report, recorded policy outcome, control signal). It does not substitute for an <strong>Intent</strong>, which is an ephemeral <strong>command</strong> (see <a href="../../00-guides/terminology/#intent">Terminology: Intent</a>).</li>
 <li><strong>Sole driver of State transitions.</strong> <strong>Events are the only source of State transitions.</strong> No change to derived State occurs except by processing an Event under <strong>Configuration</strong>.</li>
 <li><strong>Immutability.</strong> After append (or equivalent canonical creation), an Event must not be modified.</li>
-<li><strong>Ordering.</strong> Events are applied strictly in <strong>Processing Order</strong> as realized by their position in the <strong>Event Stream</strong> (see <a href="#event-Event Stream">Event Stream</a>).</li>
+<li><strong>Ordering.</strong> Events are applied strictly in <strong>Processing Order</strong> as realized by their position in the <strong>Event Stream</strong> (see <a href="#event-stream">Event Stream</a>).</li>
 </ol>
 <p>Events <strong>do not</strong> “mutate State” as an extra mechanism: <strong>State Transitions</strong> are the <strong>result</strong> of deterministically applying an Event to the State derived from all prior Events and Configuration.</p>
 <hr />
