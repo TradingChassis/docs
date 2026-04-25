@@ -4,11 +4,11 @@
 
 ## Purpose and scope
 
-The Physical Architecture describes how the Infrastructure's logical components are realized as deployed infrastructure.
+The Physical Architecture describes how the infrastructure's logical components are realized as deployed infrastructure.
 
 While the [Logical Architecture](logical-architecture.md) defines conceptual components and their responsibilities, this document explains:
 
-- the physical deployment environments the Infrastructure operates in
+- the physical deployment environments the infrastructure operates in
 - what runs where, and how physical components interact
 - how the Core Runtime's canonical semantics are preserved across deployment boundaries
 - how storage, transport, and observability infrastructure relate to the canonical model
@@ -21,7 +21,7 @@ Capitalized terms are used as in [Terminology](../00-guides/terminology.md).
 
 ## Deployment topology
 
-The Infrastructure is deployed across three classes of physical infrastructure:
+The infrastructure is deployed across three classes of physical infrastructure:
 
 - **Recorder / Live Node** — low-latency server co-located near a Venue for market data collection or Live Execution
 - **Central Infrastructure Cluster** — general-purpose server infrastructure for Research, Backtesting, and Analysis workloads
@@ -163,7 +163,7 @@ The cluster is isolated from Live infrastructure. Backtesting workloads cannot i
 
 Persistent Data Storage connects all Runtimes holding canonical datasets and arbitrary persisted outputs.
 
-**Canonical Storage is not the runtime Event Stream.** During live execution, the Event Stream is the runtime stream managed by the Core Runtime on the Live Node. Canonical Storage holds promoted, validated datasets — historical market data, experiment results, and execution records — that Research consumes. State reconstruction for Research is defined from those canonical datasets, not from a live storage read.
+**Canonical Storage is not the runtime Event Stream.** During live execution, the Event Stream is the runtime Event Stream managed by the Core Runtime on the Live Node. Canonical Storage holds promoted, validated datasets — historical market data, experiment results, and execution records — that Research consumes. State reconstruction for Research is defined from those canonical datasets, not from a live storage read.
 
 Typical storage responsibilities:
 
@@ -190,7 +190,7 @@ The `canonical/` layer holds promoted validated market data used by Backtesting 
 
 ## Market data pipeline
 
-Market data enters the Infrastructure through Recorder nodes and is promoted to Canonical Storage through a validation pipeline:
+Market data enters the infrastructure through Recorder nodes and is promoted to Canonical Storage through a validation pipeline:
 
 ```mermaid
 flowchart TB

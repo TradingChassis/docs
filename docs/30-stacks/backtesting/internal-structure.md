@@ -63,10 +63,10 @@ Loads canonical datasets from Canonical Storage and feeds them to the Runtime Ex
 Role:
 
 - Read canonical datasets from Canonical Storage for the time period, Venue, and feed specified by the run definition.
-- Transform canonical dataset content into the historical Event stream that the Core Runtime processes.
+- Transform canonical dataset content into the historical Event Stream that the Core Runtime processes.
 - Deliver Events to the Runtime Execution Harness in the correct Processing Order for deterministic replay.
 
-The Historical Input Feeder is the component that bridges canonical persistent data and the Core Runtime's Event-processing model. It consumes canonical datasets (the Data Platform's output) and produces the historical Event stream (the Core Runtime's input).
+The Historical Input Feeder is the component that bridges canonical persistent data and the Core Runtime's Event-processing model. It consumes canonical datasets (the Data Platform's output) and produces the historical Event Stream (the Core Runtime's input).
 
 ### Runtime Execution Harness
 
@@ -77,7 +77,7 @@ Role:
 - Instantiate the Core Runtime with the run's Strategy, Configuration, and Execution Control rules.
 - Feed historical Events from the Historical Input Feeder into the Core Runtime's processing loop.
 - Provide the **Simulated Venue** — the simulated execution environment behind the Venue Adapter boundary that generates realistic execution feedback (fills, acknowledgements, rejections) from historical data.
-- Execute the complete Core Runtime processing chain: Event intake ➝ State derivation ➝ Strategy evaluation ➝ Risk ➝ Execution Control ➝ Venue Adapter ➝ Simulated Venue ➝ Execution Events back into the stream.
+- Execute the complete Core Runtime processing chain: Event intake ➝ State derivation ➝ Strategy evaluation ➝ Risk ➝ Execution Control ➝ Venue Adapter ➝ Simulated Venue ➝ Execution Events back into the Event Stream.
 - Ensure that determinism is preserved throughout execution — the same inputs and Configuration produce identical State, dispatch decisions, and Order lifecycle outcomes at every Processing Order position.
 
 The Runtime Execution Harness is where the Core Runtime actually runs. The Simulated Venue is integral to this harness — without it, the processing loop has no execution feedback and cannot produce Order lifecycle outcomes. The harness executes the Core Runtime's semantics faithfully; it does not modify them.
@@ -104,7 +104,7 @@ Role:
 - Write execution records (dispatch histories, Order lifecycle records, detailed execution traces) to **Execution Record Storage**.
 - Ensure that all outputs are durably persisted and available for later retrieval by the Analysis Stack and operational tooling.
 
-The Artifact Writer is the final internal capability. Its output is the Backtesting Stack's durable contribution to the Infrastructure: persisted experiment results and execution records that outlast the run and are available for downstream analysis.
+The Artifact Writer is the final internal capability. Its output is the Backtesting Stack's durable contribution to the infrastructure: persisted experiment results and execution records that outlast the run and are available for downstream analysis.
 
 ---
 
@@ -114,8 +114,8 @@ The end-to-end internal flow within the Backtesting Stack follows a staged progr
 
 1. **Experiment definition.** The Experiment Controller accepts an experiment specification and decomposes it into individual run definitions (single runs, batch runs, or parameter-sweep variations).
 2. **Run preparation.** The Run Orchestrator prepares each run — associating the correct canonical dataset, Strategy, Configuration, and parameters.
-3. **Historical input loading.** The Historical Input Feeder reads canonical datasets from Canonical Storage and produces the historical Event stream for the run.
-4. **Runtime execution.** The Runtime Execution Harness executes the Core Runtime against the historical Event stream, with the Simulated Venue providing execution feedback to complete the processing loop. The full Core Runtime chain runs deterministically.
+3. **Historical input loading.** The Historical Input Feeder reads canonical datasets from Canonical Storage and produces the historical Event Stream for the run.
+4. **Runtime execution.** The Runtime Execution Harness executes the Core Runtime against the historical Event Stream, with the Simulated Venue providing execution feedback to complete the processing loop. The full Core Runtime chain runs deterministically.
 5. **Result collection.** The Result Collector captures structured experiment results, metrics, and execution outputs from the completed run.
 6. **Artifact persistence.** The Artifact Writer persists results, execution records, and artifacts to the Data Storage Stack's persistent surfaces.
 

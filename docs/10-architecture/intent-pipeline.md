@@ -24,7 +24,7 @@ Capitalized terms are used as in [Terminology](../00-guides/terminology.md).
 
 The outbound Intent pipeline is the conceptual path that describes **how** an **Intent**—an ephemeral **command** produced by **Strategy**—is transformed into a stable, rate-compliant, sequenced outbound request handed to a **Venue**.
 
-Rather than forwarding every generated **Intent** directly to the **Venue**, the Infrastructure applies a **reconciliation and control** process before dispatch. This prevents structural execution instabilities such as:
+Rather than forwarding every generated **Intent** directly to the **Venue**, the infrastructure applies a **reconciliation and control** process before dispatch. This prevents structural execution instabilities such as:
 
 - duplicate requests targeting the same **Order**;
 - replace or cancel storms from high-frequency **Strategy** output;
@@ -113,7 +113,7 @@ Only the minimal effective command is dispatched. This is a **deterministic deri
 - **Rate-limit compliance**: outbound capacity is available under Configuration rules.
 - **Ordering**: deterministic ordering among multiple eligible commands.
 
-These are **internal deterministic derivations** over derived State. They do **not** require separate canonical **Event** types unless the Infrastructure explicitly requires records for replay or audit ([Terminology: Intent visibility](../00-guides/terminology.md#intent-visibility)).
+These are **internal deterministic derivations** over derived State. They do **not** require separate canonical **Event** types unless the infrastructure explicitly requires records for replay or audit ([Terminology: Intent visibility](../00-guides/terminology.md#intent-visibility)).
 
 Queue Processing is part of **deterministic Event processing**—**not** a separate tick or autonomous scheduler loop ([Infrastructure Flows](infrastructure-flows.md)).
 
@@ -129,7 +129,7 @@ Queue Processing is part of **deterministic Event processing**—**not** a separ
 - the **Venue Adapter** transmits the outbound request;
 - the **Order** comes into existence in **Execution State** at **Submitted**—this is the **entry point** of the **Order lifecycle** ([Order Lifecycle](../20-concepts/order-lifecycle.md)).
 
-**The Order exists from the moment of dispatch**, not from any later Venue response. The Infrastructure records a **Submitted** representation as soon as the outbound request is transmitted.
+**The Order exists from the moment of dispatch**, not from any later Venue response. The infrastructure records a **Submitted** representation as soon as the outbound request is transmitted.
 
 **After dispatch**, the **Venue** processes the request and returns responses. These responses enter the **Event Stream** as **Execution Events** and **evolve the existing Order** through subsequent lifecycle stages (e.g. **Accepted**, **Filled**, **Rejected**, **Cancelled**). Venue acknowledgement does **not** create the Order for the first time—it advances an Order that already exists in **Submitted** state.
 

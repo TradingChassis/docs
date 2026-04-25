@@ -4,7 +4,7 @@
 
 ## Purpose and scope
 
-The **Logical Architecture** defines the **logical components** of the Infrastructure, their **responsibilities**, and **hard boundaries** between them.
+The **Logical Architecture** defines the **logical components** of the infrastructure, their **responsibilities**, and **hard boundaries** between them.
 
 It answers:
 
@@ -139,7 +139,7 @@ The **Runtime** is the surrounding execution context. It supplies the Event Stre
 
 | Runtime | Obligation realization mechanism |
 | ------- | -------------------------------- |
-| **Live** | Real-time waiting; the runtime control scheduling mechanism tracks the derived obligation and injects the **Control-Time Event** into the live stream at the appropriate moment. |
+| **Live** | Real-time waiting; the runtime control scheduling mechanism tracks the derived obligation and injects the **Control-Time Event** into the live Event Stream at the appropriate moment. |
 | **Backtesting** | Simulated time / event-timeline orchestration; the Backtesting Runtime injects the **Control-Time Event** at the corresponding simulated-time position in the historical **Event Stream**. |
 
 The Core receives a canonical **Control-Time Event** through the **Event Stream** in both Runtimes and processes it identically.
@@ -151,12 +151,12 @@ The Core receives a canonical **Control-Time Event** through the **Event Stream*
 **Responsibilities:**
 
 - Map internal outbound actions to **Venue-specific** requests.
-- Perform **external I/O** (or simulator I/O) and surface Venue feedback so it can be represented as **Events** for the stream.
+- Perform **external I/O** (or simulator I/O) and surface Venue feedback so it can be represented as **Events** for the Event Stream.
 
 **Normative boundaries:**
 
 - The Adapter **does not** decide **policy** (**Risk**) or **Execution Control** (**Queue Processing**).
-- The Adapter **does not** own derived State; it **reads** what Execution Control hands off and **writes** the Infrastructure only through **Events** (or through mechanisms that append **Events**).
+- The Adapter **does not** own derived State; it **reads** what Execution Control hands off and **writes** the infrastructure only through **Events** (or through mechanisms that append **Events**).
 - The Adapter **does not** inject **Control-Time Events** into the **Event Stream**. **Control-Time Events** are injected by the **Runtime** upon realization of a **Control Scheduling Obligation** and are not **Venue**-originated Events.
 
 ---
@@ -167,7 +167,7 @@ The Core receives a canonical **Control-Time Event** through the **Event Stream*
 
 - Accept execution requests and emit **market** and **execution** feedback according to the Venue’s (or simulator’s) rules.
 
-The **Venue** is outside the logical Core; responses enter the Infrastructure as **Events**.
+The **Venue** is outside the logical Core; responses enter the infrastructure as **Events**.
 
 ---
 
@@ -227,7 +227,7 @@ The **same** logical Components apply in **Backtesting** and **Live**. **Differe
 
 | Topic | Where it belongs |
 | ----- | ---------------- |
-| Formal **Event** kinds and stream rules | [Event Model](../20-concepts/event-model.md) |
+| Formal **Event** kinds and Event Stream rules | [Event Model](../20-concepts/event-model.md) |
 | **State** domains, derivation law, snapshots | [State Model](../20-concepts/state-model.md) |
 | **Processing Order** vs **Event Time** | [Time Model](../20-concepts/time-model.md) |
 | **Stack** layout and canonical datasets | [Architecture Overview](architecture-overview.md), stacks docs |

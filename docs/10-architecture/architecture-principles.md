@@ -4,9 +4,9 @@
 
 ## Purpose and scope
 
-This document states the **governing architectural principles** of the Infrastructure.
+This document states the **governing architectural principles** of the infrastructure.
 
-Each principle expresses an enduring design rule that constrains how the Infrastructure is built, extended, and evolved. Principles are normative: they are not aspirations and not preferences. Violating a principle compromises architectural integrity.
+Each principle expresses an enduring design rule that constrains how the infrastructure is built, extended, and evolved. Principles are normative: they are not aspirations and not preferences. Violating a principle compromises architectural integrity.
 
 This document does not replace the formal concept documents (Event Model, State Model, Determinism Model, Invariants). For normative definitions and invariant statements, see those documents. The principles here express *why* those rules exist and what they commit the architecture to.
 
@@ -18,7 +18,7 @@ Capitalized terms are used as in [Terminology](../00-guides/terminology.md).
 
 **All State evolution is caused by processing canonical Events. No other mechanism may change derived State.**
 
-The Infrastructure is event-driven in a strict sense: not merely that it reacts to Events, but that Events are the *sole* causal mechanism for State change. Spontaneous updates, wall-clock triggers, timer-driven branches, and out-of-band writes to State projections are forbidden.
+The infrastructure is event-driven in a strict sense: not merely that it reacts to Events, but that Events are the *sole* causal mechanism for State change. Spontaneous updates, wall-clock triggers, timer-driven branches, and out-of-band writes to State projections are forbidden.
 
 This principle makes behavior fully observable: every State transition has a corresponding Event in the Event Stream that explains it.
 
@@ -30,7 +30,7 @@ This principle makes behavior fully observable: every State transition has a cor
 
 **Derived State is fully determined by Event Stream + Configuration. No component owns State as independent mutable truth.**
 
-Formally: `State = f(Event Stream, Configuration)`. State is a projection recomputable from the Event Stream under the same Configuration. Components read projections of State; they do not hold authoritative copies that diverge from the stream.
+Formally: `State = f(Event Stream, Configuration)`. State is a projection recomputable from the Event Stream under the same Configuration. Components read projections of State; they do not hold authoritative copies that diverge from the Event Stream.
 
 This principle eliminates a class of consistency bugs where a component's internal state disagrees with what the Event Stream would derive. There is one canonical answer at any Event Stream position, and it is always the derived one.
 
@@ -56,7 +56,7 @@ Queue contents, Order projections, and all Execution Control substate are **deri
 
 ## P4 — Determinism is non-negotiable
 
-**Given identical Event Stream and identical Configuration, the Infrastructure must produce identical State at every stream position — without exception, across all domains, and across all Runtimes.**
+**Given identical Event Stream and identical Configuration, the infrastructure must produce identical State at every Event Stream position — without exception, across all domains, and across all Runtimes.**
 
 Determinism is not a property that holds approximately or under normal conditions. It holds always: for Market State, Execution State (including Orders and Execution Control substate), and Control State. Any behavior that depends on wall-clock time, OS scheduling, thread interleaving, or Runtime timing violates this principle.
 
@@ -70,14 +70,14 @@ Determinism is the basis for reproducible Research, reliable failure recovery by
 
 **State transitions follow Processing Order — the strict internal sequencing of Events in the Event Stream. No external timing mechanism defines the causal sequence.**
 
-Processing Order is not wall-clock time, not arrival order at a network boundary, and not thread-scheduling order. It is the Infrastructure's authoritative determination of which Event is logically next. Every State transition occurs at a specific position in Processing Order, and that position is the canonical identifier of where in the Infrastructure's history that transition belongs.
+Processing Order is not wall-clock time, not arrival order at a network boundary, and not thread-scheduling order. It is the infrastructure's authoritative determination of which Event is logically next. Every State transition occurs at a specific position in Processing Order, and that position is the canonical identifier of where in the infrastructure's history that transition belongs.
 
 This principle has two direct consequences:
 
 - **Replay is defined over Processing Order, not wall-clock time.** Two replays of the same Event Stream produce identical State at every Processing Order position, regardless of how quickly each replay runs in real time.
 - **Event Time is external metadata, not internal causality.** A Market Event carrying a timestamp from an external feed is processed at its Processing Order position; it does not retroactively reorder prior State transitions.
 
-Processing Order is what makes the Infrastructure's causal history unambiguous. Without it, the same set of Events could produce different State depending on when they were applied in real time — breaking both determinism and replayability.
+Processing Order is what makes the infrastructure's causal history unambiguous. Without it, the same set of Events could produce different State depending on when they were applied in real time — breaking both determinism and replayability.
 
 ➝ [Time Model](../20-concepts/time-model.md), [Determinism Model](../20-concepts/determinism-model.md), [Invariants: E4](../20-concepts/invariants.md)
 
@@ -105,7 +105,7 @@ An Intent is produced by Strategy as an ephemeral command. It is not an Event, n
 
 An Order comes into existence in Execution State at **submission**. `Submitted` is the first Order state. After submission, Order state evolves through Execution Events. Venue responses advance an already-existing Order; they do not create it.
 
-Collapsing these lifecycles produces documentation and implementation ambiguity about when the Infrastructure is committed to an outbound action and what can be revoked before that commitment.
+Collapsing these lifecycles produces documentation and implementation ambiguity about when the infrastructure is committed to an outbound action and what can be revoked before that commitment.
 
 ➝ [Intent Lifecycle](../20-concepts/intent-lifecycle.md), [Order Lifecycle](../20-concepts/order-lifecycle.md)
 
@@ -119,7 +119,7 @@ Every advancement of Queue state, every dispatch decision, and every re-evaluati
 
 This principle ensures that Queue Processing decisions are deterministic, replayable, and free of timing-dependent behavior. A module with a separate scheduler tick cannot guarantee that Backtesting produces the same dispatch decisions as Live.
 
-**Control-Time Events and P8.** Where current State and Configuration imply a future relevant control-time re-evaluation point, the Core may derive a **Control Scheduling Obligation**. The Runtime realizes this obligation by injecting a **Control-Time Event** into the Event Stream. This is consistent with P8: the Control-Time Event is a canonical stream Event processed within Event processing, not a background timer, polling loop, or independent scheduling mechanism. The Core performs no hidden wall-clock mutations; the canonical record exists only once the Event is injected and processed in Processing Order.
+**Control-Time Events and P8.** Where current State and Configuration imply a future relevant control-time re-evaluation point, the Core may derive a **Control Scheduling Obligation**. The Runtime realizes this obligation by injecting a **Control-Time Event** into the Event Stream. This is consistent with P8: the Control-Time Event is a canonical Event Stream Event processed within Event processing, not a background timer, polling loop, or independent scheduling mechanism. The Core performs no hidden wall-clock mutations; the canonical record exists only once the Event is injected and processed in Processing Order.
 
 ➝ [Queue Processing](../20-concepts/queue-processing.md), [Infrastructure Flows](infrastructure-flows.md), [Invariants: EC2](../20-concepts/invariants.md)
 
@@ -141,9 +141,9 @@ This principle is the architectural basis for trusting Backtesting results as pr
 
 ## P10 — Design for microstructure granularity
 
-**The Infrastructure is designed to operate at the granularity of individual market events, order book updates, and individual order lifecycle transitions. Coarser-grained usage is a projection of fine-grained data, not a separate architectural mode.**
+**The infrastructure is designed to operate at the granularity of individual market events, order book updates, and individual order lifecycle transitions. Coarser-grained usage is a projection of fine-grained data, not a separate architectural mode.**
 
-Strategies operating at microstructure granularity (market making, short-term liquidity trading) require the highest-fidelity representation of market events, execution feedback, and order book state. The Infrastructure is designed to meet these requirements natively.
+Strategies operating at microstructure granularity (market making, short-term liquidity trading) require the highest-fidelity representation of market events, execution feedback, and order book state. the infrastructure is designed to meet these requirements natively.
 
 Strategies operating at coarser granularity use projections of the same data. This avoids the common failure mode of building a second, lower-fidelity infrastructure path that accumulates semantic divergence over time.
 
@@ -155,7 +155,7 @@ Strategies operating at coarser granularity use projections of the same data. Th
 
 The Core Runtime implements the canonical rules that all other architecture depends on. Changes to it are high-consequence and must be evaluated against every principle above. Boundary components (Adapters, connectors, Strategy logic) can be added or replaced without modifying Core semantics.
 
-This principle allows the Infrastructure to support new Venues, asset classes, and trading styles without re-litigating foundational semantic decisions.
+This principle allows the infrastructure to support new Venues, asset classes, and trading styles without re-litigating foundational semantic decisions.
 
 ➝ [Logical Architecture](logical-architecture.md)
 

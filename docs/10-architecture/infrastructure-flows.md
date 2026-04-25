@@ -19,9 +19,9 @@ Canonical vocabulary applies throughout.
 
 ## Runtime flow overview
 
-The Infrastructure advances **only** through **deterministic Event processing**: each step applies **Events** from the **Event Stream** in **Processing Order** under **Configuration** and updates **derived State** (see [Time Model](../20-concepts/time-model.md)).
+The infrastructure advances **only** through **deterministic Event processing**: each step applies **Events** from the **Event Stream** in **Processing Order** under **Configuration** and updates **derived State** (see [Time Model](../20-concepts/time-model.md)).
 
-There is **one** unified Runtime sequence for a given applied Event—**no** competing alternative flows. **Queue Processing** is **not** a second **loop**, **tick**, or **scheduler phase**; it is part of **the same** Event-processing step that updates Market, Execution (including **Execution Control substate**), and Infrastructure domains.
+There is **one** unified Runtime sequence for a given applied Event—**no** competing alternative flows. **Queue Processing** is **not** a second **loop**, **tick**, or **scheduler phase**; it is part of **the same** Event-processing step that updates Market, Execution (including **Execution Control substate**), and infrastructure domains.
 
 ```mermaid
 flowchart TB
@@ -59,7 +59,7 @@ flowchart TB
     ER --> E0
 ```
 
-The diagram is **logical** sequencing within processing, not a second concurrent pipeline. **Feedback** closes the loop when **Events** re-enter the stream; the next advance is again **Event-driven**.
+The diagram is **logical** sequencing within processing, not a second concurrent pipeline. **Feedback** closes the loop when **Events** re-enter the Event Stream; the next advance is again **Event-driven**.
 
 If a step has nothing to do (e.g. no **Intents**, or no outbound work selected), the **order** of stages is unchanged; those substeps are **vacuous** for that application. Causal order **when** work exists is always as listed.
 
@@ -71,15 +71,15 @@ The following is the **single canonical order** of stages when an **Event** is a
 
 ### 1. Event intake
 
-The next **Event** is taken in **Processing Order** (stream position), not by **Event Time** alone.
+The next **Event** is taken in **Processing Order** (Event Stream position), not by **Event Time** alone.
 
-Sources include, per [Event Model](../20-concepts/event-model.md): **Market**, **Execution**, **Intent-related**, **Infrastructure**, and **Control** categories—whatever the stream contains at that position.
+Sources include, per [Event Model](../20-concepts/event-model.md): **Market**, **Execution**, **Intent-related**, and **Control** categories—whatever the Event Stream contains at that position.
 
 ---
 
 ### 2. State derivation
 
-The **Event** is applied. **Derived State** becomes `f(stream_prefix, Configuration)` at the new position.
+The **Event** is applied. **State** becomes `f(Event Stream, Configuration)` at the new position.
 
 - **State** includes **Market State**, **Execution State**, and **Control State**.
 - **Queue** (Execution Control **substate**) is part of **Execution State** derivation, **not** a fourth top-level domain ([State Model](../20-concepts/state-model.md)).
@@ -149,7 +149,7 @@ Work selected for send is passed to the **Venue Adapter**: **protocol translatio
 
 ### 9. Venue feedback
 
-The **Venue** returns execution feedback. The Adapter surfaces this so it can enter the stream as **Execution Events** (and similar), per [Event Model](../20-concepts/event-model.md)—not to be confused with ephemeral **Intents**.
+The **Venue** returns execution feedback. The Adapter surfaces this so it can enter the Event Stream as **Execution Events** (and similar), per [Event Model](../20-concepts/event-model.md)—not to be confused with ephemeral **Intents**.
 
 ---
 
@@ -167,7 +167,7 @@ Three notions must stay separate:
 
 | Concern | What moves | Persistence |
 | -------- | ----------- | ----------- |
-| **Event flow** | **Events** in **Processing Order** | Immutable stream records; sole driver of **State transitions** |
+| **Event flow** | **Events** in **Processing Order** | Immutable Event Stream records; sole driver of **State transitions** |
 | **Intent processing** | Ephemeral **Intents** ➝ **allowed/denied** ➝ **Execution Control** ➝ dispatch | **Intents** are not persistent; visibility via **Events** when required |
 | **Order evolution** | **Order** projections in **Execution State** | **Derived** from **Execution** (and where applicable **Intent-related**) **Events**; lifecycle **begins at submission** with state **Submitted** |
 
@@ -205,8 +205,8 @@ There is **no** parallel path where **Venue** updates **State** without **Events
 2. **State derivation:** `State = f(Event Stream, Configuration)`; Components **read** projections, they do **not** own mutable infrastructure truth.
 3. **Risk vs Execution Control:** **Allowed / denied** only at **Risk**; **timing and ordering** only at **Queue Processing**.
 4. **Intent vs Event:** **Intents** are commands during a step; they are **not** Events. Stream updates use **Events** only **when** canonical history requires ([Terminology: Intent visibility](../00-guides/terminology.md#intent-visibility)).
-5. **Orders:** **Orders** are **derived** in **Execution State**; they **exist** from **submission** onward in state **Submitted** as projections; Strategy does **not** “send Orders” as primary objects— it sends **Intents**; the Infrastructure **dispatches** and **Venue** **Execution Events** refine **Order** state.
-6. **Determinism:** Same stream + Configuration ➝ same derived State at each position (including Execution Control substate).
+5. **Orders:** **Orders** are **derived** in **Execution State**; they **exist** from **submission** onward in state **Submitted** as projections; Strategy does **not** “send Orders” as primary objects— it sends **Intents**; the infrastructure **dispatches** and **Venue** **Execution Events** refine **Order** state.
+6. **Determinism:** Same Event Stream + Configuration ➝ same derived State at each position (including Execution Control substate).
 
 ---
 

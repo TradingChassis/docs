@@ -4,7 +4,7 @@
 
 ## Purpose and scope
 
-The **Determinism Model** defines what determinism means in the Infrastructure, what it requires, and what behavior is forbidden because it would break **replayability** or **reproducibility**.
+The **Determinism Model** defines what determinism means in the infrastructure, what it requires, and what behavior is forbidden because it would break **replayability** or **reproducibility**.
 
 It does **not** restate the architecture in full. For formal definitions of **Events**, **State**, **Processing Order**, and **time**, see [Event Model](event-model.md), [State Model](state-model.md), and [Time Model](time-model.md).
 
@@ -14,9 +14,9 @@ Capitalized terms are used as in [Terminology](../00-guides/terminology.md).
 
 ## Definition
 
-The Infrastructure is **deterministic** if and only if:
+The infrastructure is **deterministic** if and only if:
 
-> Given an identical **Event Stream**, identical **Configuration**, and the same **Processing Order**, the Infrastructure produces identical **State** (including all **Execution Control substate**) at every stream position.
+> Given an identical **Event Stream**, identical **Configuration**, and the same **Processing Order**, the infrastructure produces identical **State** (including all **Execution Control substate**) at every Event Stream position.
 
 Formally:
 
@@ -63,7 +63,7 @@ The following must all be **deterministic functions** of **Event Stream + Config
 | **Queue Processing decisions** | Pure functions of current derived State and Configuration; no independent clock or timer authority |
 | **Dominance and reconciliation** | Deterministic functions of pending substate and incoming command under Configuration |
 | **Eligibility, inflight gating, ordering** | Deterministic derivations from current derived State and Configuration |
-| **Rate-limit bookkeeping** | Deterministic functions of prior stream history and Configuration rules |
+| **Rate-limit bookkeeping** | Deterministic functions of prior Event Stream history and Configuration rules |
 | **Control Scheduling Obligations** | Non-canonical derivations from State + Configuration; produce no State Transition; not part of the canonical input |
 | **Control-Time Events** | Canonical Events once injected; part of the Event Stream; fully subject to `State = f(Event Stream, Configuration)` |
 | **Order existence** | Orders begin at submission; no Order state exists before that point in the lifecycle |
@@ -86,7 +86,7 @@ If the **Queue** (Execution Control substate) or any Execution Control bookkeepi
 
 ### Separate runtime tick or autonomous loop
 
-Any mechanism that advances Execution Control State or triggers Queue reevaluation **independently of Event processing**—a background timer, a polling loop, an OS scheduler callback—introduces a source of advancement that is not present in the **Event Stream**. This breaks replay because the additional advancement cannot be reproduced from the stream alone.
+Any mechanism that advances Execution Control State or triggers Queue reevaluation **independently of Event processing**—a background timer, a polling loop, an OS scheduler callback—introduces a source of advancement that is not present in the **Event Stream**. This breaks replay because the additional advancement cannot be reproduced from the Event Stream alone.
 
 **Control Scheduling Obligations** (non-canonical signals derived by the Core from current State + Configuration) do not violate this rule: they produce no State Transition and do not advance Execution Control State by themselves. **Control-Time Events** (canonical Events injected by the Runtime when an obligation is realized) also do not violate this rule: they appear in the Event Stream as part of the canonical input. Replay of the same Event Stream—including all injected Control-Time Events—under the same Configuration produces identical derived State.
 
@@ -100,7 +100,7 @@ State Transitions must not depend on the order in which threads or tasks are sch
 
 ### Non-canonical ordering of Events
 
-Applying the same Events in a different order than their canonical **Processing Order** produces different derived State. Any mechanism that allows Events to be applied out of stream order (except under a well-defined override specified in Configuration) breaks determinism.
+Applying the same Events in a different order than their canonical **Processing Order** produces different derived State. Any mechanism that allows Events to be applied out of Event Stream order (except under a well-defined override specified in Configuration) breaks determinism.
 
 ### Randomness outside the Event Stream
 
@@ -136,7 +136,7 @@ Determinism enables:
 ## Relationship to other documents
 
 - [Terminology](../00-guides/terminology.md) — canonical definitions including **Event Stream**, **Configuration**, **Processing Order**, **State**.
-- [Event Model](event-model.md) — how Events enter the Infrastructure; Event Stream as canonical input.
+- [Event Model](event-model.md) — how Events enter the infrastructure; Event Stream as canonical input.
 - [State Model](state-model.md) — `State = f(Event Stream, Configuration)`; State domains; no hidden mutation.
 - [Time Model](time-model.md) — Processing Order as causal axis; Event Time as metadata; no wall-clock authority.
 - [Queue Processing](queue-processing.md) — deterministic Execution Control evaluation within Event processing; no separate tick.

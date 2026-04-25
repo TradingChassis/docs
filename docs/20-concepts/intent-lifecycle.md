@@ -4,7 +4,7 @@
 
 ## Purpose and scope
 
-This document defines the **lifecycle of Intents only**: how a **command** produced by **Strategy** moves from creation to **terminal disposition** inside the Infrastructure.
+This document defines the **lifecycle of Intents only**: how a **command** produced by **Strategy** moves from creation to **terminal disposition** inside the infrastructure.
 
 It specifies **conceptual stages** and **valid transitions**. It does **not**:
 
@@ -28,7 +28,7 @@ An **Intent** is an ephemeral **command**—a desired trading action (e.g. `NEW`
 2. The **Intent lifecycle** is the conceptual progression of that command through **policy**, **Execution Control**, **dispatch**, and **disposition**.
 3. Progress becomes **visible** and **replayable** only through **Intent-related Events** when **canonical history** so requires ([Terminology: Intent visibility](../00-guides/terminology.md#intent-visibility), [Event Model: Intent-related Events](event-model.md#intent-related-events)).
 
-Naming **IntentGenerated**, **IntentAccepted**, **IntentRejected**, and **IntentDispatched** below names **categories of records** that **may** appear on the stream when required—not every transition **must** emit a dedicated Event type if Configuration does not demand that record for replay or audit.
+Naming **IntentGenerated**, **IntentAccepted**, **IntentRejected**, and **IntentDispatched** below names **categories of records** that **may** appear on the Event Stream when required—not every transition **must** emit a dedicated Event type if Configuration does not demand that record for replay or audit.
 
 ---
 

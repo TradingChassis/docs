@@ -4,7 +4,7 @@
 
 ## Purpose
 
-The development of the Infrastructure follows a structured development and feedback approach to systematize development, documentation, and feedback.
+The development of the infrastructure follows a structured development and feedback approach to systematize development, documentation, and feedback.
 
 The goal is not only to build, but to make thinking, problems, and decisions transparent and traceable.
 
@@ -64,7 +64,7 @@ Each iteration represents a step in the reasoning process:
 The goal is not to present a final solution, but to document how understanding evolves.
 
 Iterations are appended over time as new insights emerge.
-It is a living document and may evolve as the Infrastructure changes.
+It is a living document and may evolve as the infrastructure changes.
 
 ---
 
@@ -123,7 +123,7 @@ Each Dev Log follows a consistent structure:
     Underlying cause of the problem.
 
     ### Changes Applied
-    Modifications to the Infrastructure.
+    Modifications to the infrastructure.
 
     ### Outcome
     Resulting behavior after changes.

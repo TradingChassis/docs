@@ -14,16 +14,16 @@ How that environment is realized determines whether the stack delivers on its ce
 
 ## Realizing Historical Runtime Execution
 
-The Core Runtime processes Events deterministically in Processing Order. In Backtesting, the Event stream is constructed from canonical datasets rather than arriving from live Venue feeds. The implementation must bridge canonical persistent data and the Core Runtime's Event-processing model without introducing non-determinism.
+The Core Runtime processes Events deterministically in Processing Order. In Backtesting, the Event Stream is constructed from canonical datasets rather than arriving from live Venue feeds. The implementation must bridge canonical persistent data and the Core Runtime's Event-processing model without introducing non-determinism.
 
-**Canonical dataset materialization.** Canonical datasets are stored in Canonical Storage as validated, normalized dataset files partitioned by Venue, Feed, and Time Window. The Historical Input Feeder reads these files and produces the historical Event stream in the Processing Order the Core Runtime expects. This materialization step must be deterministic: the same canonical dataset must always produce the same Event stream in the same order.
+**Canonical dataset materialization.** Canonical datasets are stored in Canonical Storage as validated, normalized dataset files partitioned by Venue, Feed, and Time Window. The Historical Input Feeder reads these files and produces the historical Event Stream in the Processing Order the Core Runtime expects. This materialization step must be deterministic: the same canonical dataset must always produce the same Event Stream in the same order.
 
-**Simulated Venue realization.** The Simulated Venue sits behind the Venue Adapter boundary and generates execution feedback from historical data. Its behavior must also be deterministic: given the same historical input data and the same sequence of outbound requests, it must produce identical execution feedback. The current realization uses hftbacktest for this purpose, as documented in ADR-008. The surrounding infrastructure — Event processing, State derivation, Strategy evaluation, Risk, Execution Control, the Venue Adapter itself — remains implemented within the Infrastructure.
+**Simulated Venue realization.** The Simulated Venue sits behind the Venue Adapter boundary and generates execution feedback from historical data. Its behavior must also be deterministic: given the same historical input data and the same sequence of outbound requests, it must produce identical execution feedback. The current realization uses hftbacktest for this purpose, as documented in ADR-008. The surrounding infrastructure — Event processing, State derivation, Strategy evaluation, Risk, Execution Control, the Venue Adapter itself — remains implemented within the infrastructure.
 
 **Determinism preservation through infrastructure.** The Core Runtime is deterministic by design, but the execution environment can introduce non-determinism if not carefully controlled. Implementation must ensure that:
 
 - Thread scheduling, process ordering, and resource contention do not affect Event processing order.
-- Timestamp sources used within the processing loop are derived from the Event stream (Processing Order), not from wall-clock time.
+- Timestamp sources used within the processing loop are derived from the Event Stream (Processing Order), not from wall-clock time.
 - No hidden mutable state outside the Event processing path influences run outcomes.
 
 These are implementation-level constraints that preserve the Core Runtime's determinism guarantee through to Research output.
@@ -95,7 +95,7 @@ The Backtesting Stack writes to these surfaces but does not manage them. Storage
 The Backtesting Stack may integrate with the Monitoring Stack for operational observability during execution. Typical concerns include:
 
 - **Run status and progress** — which runs are pending, executing, completed, or failed within a batch or sweep.
-- **Execution throughput** — how fast the Core Runtime is processing the historical Event stream (events per second, time-to-completion estimates).
+- **Execution throughput** — how fast the Core Runtime is processing the historical Event Stream (events per second, time-to-completion estimates).
 - **Resource utilization** — compute, memory, and I/O consumption during execution.
 - **Error and failure visibility** — runs that fail or produce unexpected outcomes should be visible promptly.
 

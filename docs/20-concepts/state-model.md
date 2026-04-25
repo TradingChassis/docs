@@ -4,7 +4,7 @@
 
 ## Purpose and scope
 
-The **State Model** is the formal definition of **State** in the Infrastructure.
+The **State Model** is the formal definition of **State** in the infrastructure.
 
 It specifies:
 
@@ -13,7 +13,7 @@ It specifies:
 - which **State domains** exist and how they relate;
 - what constraints govern **State evolution** and **determinism**.
 
-Canonical definitions of **State**, **State Transition**, **Processing Order**, **Intent**, **Order**, **Queue**, and related terms appear in [Terminology](../00-guides/terminology.md). **Event** categories and stream semantics appear in [Event Model](event-model.md). **Temporal ordering** is defined in [Time Model](time-model.md).
+Canonical definitions of **State**, **State Transition**, **Processing Order**, **Intent**, **Order**, **Queue**, and related terms appear in [Terminology](../00-guides/terminology.md). **Event** categories and Event Stream semantics appear in [Event Model](event-model.md). **Temporal ordering** is defined in [Time Model](time-model.md).
 
 This document does **not** redefine **Event** semantics or component responsibilities beyond what is required to explain State derivation. It does not specify full Runtime flow.
 
@@ -21,7 +21,7 @@ This document does **not** redefine **Event** semantics or component responsibil
 
 ## Definition of State
 
-**State** is the **complete derived condition** of the Infrastructure at a position in **Processing Order**.
+**State** is the **complete derived condition** of the infrastructure at a position in **Processing Order**.
 
 **Normative rules:**
 
@@ -29,7 +29,7 @@ This document does **not** redefine **Event** semantics or component responsibil
 
    `State = f(Event Stream, Configuration)`
 
-2. State is **not** an independent or mutable “source of truth” held by any Component. It is a **deterministic projection**: at any stream position, State is the result of applying the formal derivation function implied by Configuration to all Events up to that position, in order.
+2. State is **not** an independent or mutable “source of truth” held by any Component. It is a **deterministic projection**: at any Event Stream position, State is the result of applying the formal derivation function implied by Configuration to all Events up to that position, in order.
 
 3. The **Event Stream** (with **Configuration**) is **canonical** for history and reconstruction. State is **reconstructible** by replay under the same rules.
 
@@ -85,13 +85,13 @@ Derived State must not depend on wall-clock time, scheduler timing, thread inter
 
 Derived State is grouped into **exactly three** top-level conceptual domains.
 
-Together they constitute the full Infrastructure State. **No fourth top-level domain** (such as “Queue state”) exists.
+Together they constitute the full State. **No fourth top-level domain** (such as “Queue state”) exists.
 
 | Domain | Role |
 | ------ | ---- |
 | **Market State** | Observed market conditions (e.g. order book, trades, derived market indicators) derived from **Market Events** (see [Event Model](event-model.md)). |
 | **Execution State** | Trading and execution projection: **Orders**, fills, positions, balances, and related status; includes **Execution Control substate** (see below). |
-| **Control State** | Runtime configuration, control, and operational flags derived from **Infrastructure Events** and **Control Events**. |
+| **Control State** | Runtime configuration, control, and operational flags derived from **Control Events**. |
 
 ### Execution State and event kinds
 
@@ -110,7 +110,7 @@ The **Queue**—pending **allowed** outbound work after reconciliation, together
 
 **Normative rules:**
 
-1. The Queue is **not** a **fourth top-level State domain**. It is **part of Execution State** (or equivalently: a well-defined substructure of the single derived State whose top-level domains are Market, Execution, Infrastructure).
+1. The Queue is **not** a **fourth top-level State domain**. It is **part of Execution State** (or equivalently: a well-defined substructure of the single derived State whose top-level domains are Market, Execution, Control).
 
 2. The Queue is **not** a second source of truth. It must be **recomputable** from **Event Stream + Configuration** and the deterministic Execution Control rules (see [Terminology: Queue](../00-guides/terminology.md#queue)).
 
@@ -126,7 +126,7 @@ An **Order** is a **derived entity** in **Execution State**.
 
 1. Orders are **not** authoritative objects stored independently of the Event Stream. They exist only as **projections** maintained while applying the derivation function.
 
-2. The **Order lifecycle begins at submission** with state **Submitted**: the stage at which the Infrastructure represents an outbound request as **submitted** and awaiting Venue acknowledgement or further **Execution Events**. Stages before that are **Intent** and Execution Control derivation, not a persisted **Order** entity in this sense.
+2. The **Order lifecycle begins at submission** with state **Submitted**: the stage at which the infrastructure represents an outbound request as **submitted** and awaiting Venue acknowledgement or further **Execution Events**. Stages before that are **Intent** and Execution Control derivation, not a persisted **Order** entity in this sense.
 
 3. Orders evolve **only** through **Events** (e.g. acknowledgements, fills, cancellations, rejections), in **Processing Order**.
 
@@ -138,7 +138,7 @@ An **Order** is a **derived entity** in **Execution State**.
 
 **Normative alignment** (see [Terminology: Intent visibility](../00-guides/terminology.md#intent-visibility)):
 
-- These computations are **not** separate **Events** **unless** explicit canonical history requires recording them on the stream.
+- These computations are **not** separate **Events** **unless** explicit canonical history requires recording them on the Event Stream.
 - **Rate limits** and **wakeups** are modeled **without unnecessary extra event types**, via rules tied to **Processing Order** and State derived from existing Events.
 
 Absence of an Event for an intermediate step does **not** imply non-determinism: the step must be a **pure function** of prior Events and Configuration.
@@ -179,9 +179,9 @@ Each application yields deterministic updates to **Market State**, **Execution S
 
 ## State reconstruction and snapshots
 
-Because State is a function of **Event Stream + Configuration**, it can be **reconstructed** by replay from any prefix of the stream using the same rules.
+Because State is a function of **Event Stream + Configuration**, it can be **reconstructed** by replay from any prefix of the Event Stream using the same rules.
 
-**Snapshots** (if used) are a **pure optimization**: a stored materialization of derived State at a known stream position. **Canonical** history remains the **Event Stream** with **Configuration**; snapshots must not contradict replay.
+**Snapshots** (if used) are a **pure optimization**: a stored materialization of derived State at a known Event Stream position. **Canonical** history remains the **Event Stream** with **Configuration**; snapshots must not contradict replay.
 
 ---
 

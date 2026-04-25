@@ -45,10 +45,10 @@ Queue Processing reads **only** derived quantities; it holds **no** independent 
 | ----- | ------ |
 | **Derived Queue substate** | Execution Control substate: reconciled allowed pending Intents per logical order key, derived from **Event Stream + Configuration** |
 | **Execution State projections** | Current **Order** states, inflight status, fills — derived **Execution State** |
-| **Rate-capacity projection** | Remaining outbound capacity at this processing position, derived from rate rules and prior stream history under **Configuration** |
+| **Rate-capacity projection** | Remaining outbound capacity at this processing position, derived from rate rules and prior Event Stream history under **Configuration** |
 | **Ordering / priority rules** | Specified in **Configuration**; applied deterministically |
 
-Because all inputs are derived from **Event Stream + Configuration**, the output of Queue Processing is also deterministic: identical stream history and Configuration always produce the same transmission decisions at the same stream position.
+Because all inputs are derived from **Event Stream + Configuration**, the output of Queue Processing is also deterministic: identical Event Stream history and Configuration always produce the same transmission decisions at the same Event Stream position.
 
 ---
 
@@ -70,9 +70,9 @@ At most one outbound request per logical order key may be **inflight** at a time
 
 ### 4. Rate-limit evaluation
 
-Queue Processing reads the **rate-capacity projection** derived from prior stream history under Configuration (e.g. token-bucket rules, outbound counts against Venue limits). If dispatching the next eligible Intent would exceed available capacity, that Intent **remains in Pending dispatch** and is re-evaluated in a future processing step.
+Queue Processing reads the **rate-capacity projection** derived from prior Event Stream history under Configuration (e.g. token-bucket rules, outbound counts against Venue limits). If dispatching the next eligible Intent would exceed available capacity, that Intent **remains in Pending dispatch** and is re-evaluated in a future processing step.
 
-Rate-limit state is **derived** from the **Event Stream** and Configuration. Rate limits and capacity recovery **must not** introduce unnecessary separate **Event types** ([Terminology](../00-guides/terminology.md#intent-visibility)); where a capacity change is relevant to determinism, it is expressed through deterministic rules tied to **Processing Order** and existing stream history.
+Rate-limit state is **derived** from the **Event Stream** and Configuration. Rate limits and capacity recovery **must not** introduce unnecessary separate **Event types** ([Terminology](../00-guides/terminology.md#intent-visibility)); where a capacity change is relevant to determinism, it is expressed through deterministic rules tied to **Processing Order** and existing Event Stream history.
 
 ### 5. Eligibility and ordering
 
