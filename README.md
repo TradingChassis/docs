@@ -12,7 +12,7 @@ This repository contains the documentation for TradingChassis's infrastructure. 
 
 ---
 
-## Purpose
+## 🎯 Purpose
 
 The goal of this repository is to make the structure, reasoning, and constraints of the infrastructure explicit and durable. It captures:
 
@@ -26,7 +26,7 @@ Documentation here is organized to remain accurate over time by separating what 
 
 ---
 
-## Audience
+## 👥 Audience
 
 This documentation is intended for:
 
@@ -36,7 +36,7 @@ This documentation is intended for:
 
 ---
 
-## Repository Structure
+## 🗂️ Repository Structure
 
 ```text
 .
@@ -59,7 +59,7 @@ This documentation is intended for:
 
 ---
 
-## Documentation Model
+## 🧭 Documentation Model
 
 The documentation is numbered to encode reading flow from foundational orientation toward implementation and operational detail.
 
@@ -78,7 +78,7 @@ Each Stack in `30-stacks` follows a standard document structure: overview, scope
 
 ---
 
-## Local Development
+## 🛠️ Local Development
 
 The site is built with MkDocs and the Material for MkDocs theme.
 
@@ -104,7 +104,7 @@ mkdocs build
 
 ---
 
-## Publishing
+## 🚢 Publishing
 
 The site is published to GitHub Pages as a versioned documentation site using `mike`.
 
@@ -158,7 +158,7 @@ mike serve
 
 ---
 
-## Contributing
+## 🤝 Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for full guidance.
 
@@ -168,11 +168,3 @@ In brief:
 - Canonical semantic definitions live in `20-concepts`. Stack and operational documents should apply those definitions, not redefine them.
 - Architectural decisions of significant scope should be documented as ADRs under `10-architecture/adr/`.
 - Keep commits small and well scoped. Pull requests should explain what changed and why it improves the documentation.
-
----
-
-## License
-
-Documentation content is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) unless otherwise stated.
-
-> This repository documents infrastructure architecture and engineering concepts. It does not constitute financial advice.
