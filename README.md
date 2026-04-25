@@ -59,7 +59,7 @@ This documentation is intended for:
 
 ---
 
-## 🧭 Documentation Model
+## 📚 Documentation Model
 
 The documentation is numbered to encode reading flow from foundational orientation toward implementation and operational detail.
 
