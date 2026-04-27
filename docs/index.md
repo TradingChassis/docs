@@ -1,6 +1,6 @@
 # TradingChassis Documentation
 
-This documentation is the technical reference for TradingChassis:
+This documentation is the technical reference for TradingChassis:  
 an open-source trading infrastructure project for building small-scaled professional Research-to-Production trading systems.
 
 It focuses on architecture, semantics, implementation structure, operations, and project evolution.  
