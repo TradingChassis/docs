@@ -53,7 +53,7 @@ This Runtime is operated by the Execution Stack.
 
 ---
 
-## Trading Runtime Model
+## Core Runtime Model
 
 Both Runtimes execute the same event-driven trading core.
 
@@ -113,7 +113,7 @@ This event-driven feedback loop ensures consistent infrastructure behavior acros
 
 ## Runtime Components
 
-The Trading Runtime consists of several cooperating components.
+The Core Runtime consists of several cooperating components.
 
 ### State Management
 
