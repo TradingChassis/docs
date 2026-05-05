@@ -65,7 +65,7 @@ Once the Core Runtime and supporting tooling existed, the focus moved to formali
 
 **Main outcomes**
 
-- Created the MkDocs-based architecture documentation
+- Created this MkDocs-based architecture documentation
 - Documented the semantic and conceptual model of the infrastructure rather than repository-level implementation details
 - Structured documentation around architecture, concepts, Stacks, operations, and evolution
 - Cleaned up project structure at the GitHub organization and repository level
