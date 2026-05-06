@@ -40,6 +40,38 @@ The main priority is to make the Core and its Backtesting Runtime structurally s
 
 ---
 
+## Status framing
+
+This roadmap is directional. The sections below capture what is **completed**, what remains **transitional**, and what is explicitly **deferred**.
+
+### Completed
+
+- The Core canonical processing boundary is stable for the current transitional implementation milestone.
+- Core Runtime canonical integration is validated for current canonical paths.
+- Local runtime smoke is usable:
+  - `python -m core_runtime.local.backtest --config core_runtime/local/local.json`
+- Local Docker runtime image validation works and the runtime image is intentionally minimal (runtime-only).
+
+### Transitional
+
+- Post-submission lifecycle remains compatibility/snapshot-driven.
+- Snapshot-derived fill progression remains compatibility-only and must not be described as canonical runtime `FillEvent` ingress.
+- `ControlTimeEvent` exists and is integrated as a canonical runtime input **for realized scheduled deadlines** in the current transitional slice. This does not imply a finalized or complete execution-control scheduling implementation.
+  - Implemented ordering semantics (Phase 16C): on realized deadline, Runtime processes canonical Control-Time Event before any deadline-caused queue pop; failure prevents pop/marker advancement; old deadlines do not repeatedly pop.
+  - Implemented structured obligation boundary (Phase 16F): non-canonical structured Control Scheduling Obligations are exposed on the gate decision contract; `next_send_ts_ns_local` remains a compatibility mirror / scalar fallback.
+  - Implemented single pending runtime semantics (Phase 16H): Runtime maintains one pending obligation (or `None`) and collapses multiple obligations deterministically; realization injects one Control-Time Event; success consumes pending before transitional pop; failure preserves pending and prevents pop.
+  - Still deferred in this track: Core reducer remains minimal/no-op for Control-Time Events; queue pop remains Runtime-owned; strict clear-on-every-canonical-pass remains deferred when no gate decision is produced; full Core-owned Queue Processing remains deferred.
+
+### Deferred explicit
+
+- Runtime canonical `FillEvent` ingress
+- `ExecutionFeedbackRecordSource`
+- full canonical post-submission lifecycle
+- `ProcessingContext`
+- replay/storage / Event Stream persistence
+
+---
+
 ## Near-term roadmap
 
 ### 1. Harden the Core
@@ -77,6 +109,12 @@ Desired outcome:
 
 - a solid Backtesting Runtime built around the Core
 - a clearer separation between reusable logic and environment-specific logic
+
+Near-term next steps:
+
+- Risk vs ExecutionControl boundary cleanup
+- State vs snapshot compatibility split
+- deferred execution feedback capabilities and runtime `FillEvent` ingress work
 
 ---
 

@@ -108,13 +108,58 @@ Work focused on tightening the documentation and aligning it around a single exp
 
 ---
 
-## Current Position
+## April 2026 – Present
 
-At this stage, the project has:
+This transitional implementation milestone closes Core and Core Runtime alignment:
 
-- a defined infrastructure foundation
-- a working Core Runtime and Backtesting foundation
-- a documented deterministic event-driven architecture model
-- a public documentation and repository structure that reflects the infrastructure coherently
+### Core semantic milestone
 
-The next milestones are expected to focus on downstream documentation alignment, additional Runtime refinement, and further maturation.
+- Core import root is `tradingchassis_core` and the distribution name is `tradingchassis-core`.
+- The Core public canonical processing API is usable and stable for the current slice:
+  - `CoreConfiguration`
+  - `ProcessingPosition`
+  - `EventStreamEntry`
+  - `process_event_entry`
+  - `fold_event_stream_entries`
+- `EventStreamEntry` is a minimal envelope containing only:
+  - `position`
+  - `event`
+- `CoreConfiguration` is explicit and versioned, with deterministic identity (fingerprinted), and is passed call-level to processing (it is not embedded in `EventStreamEntry`).
+- `ProcessingPosition` defines **Processing Order**. Event Time is carried by Events as external metadata and does **not** define Processing Order.
+
+### Core Runtime alignment
+
+- Core Runtime import root is `core_runtime` and the distribution name is `tradingchassis-core-runtime`.
+- Core Runtime consumes Core (`tradingchassis_core`) and owns runtime orchestration responsibilities around canonical processing:
+  - owns a runtime `EventStreamCursor`
+  - allocates `ProcessingPosition`
+  - constructs `EventStreamEntry`
+  - calls `process_event_entry(..., configuration=CoreConfiguration)`
+- Local hftbacktest-backed runtime smoke is usable:
+
+```
+python -m core_runtime.local.backtest --config core_runtime/local/local.json
+```
+
+- Default local outputs are generated under:
+  - `.runtime/local/results/`
+
+### Packaging / deployment validation
+
+- The Core Runtime Docker image has been validated locally and is intentionally minimal (runtime-only: no tests, no repo checkout).
+- Kubernetes / Argo / GHCR execution is a **deployment validation track**, not a claim of full production readiness.
+
+### Control-Time obligation semantics (transitional implementation track)
+
+- Phase 16C: Runtime ordering for realized deadlines is explicit: inject/process canonical Control-Time Event before deadline-caused queue pop; failure prevents pop/marker advancement; old deadlines do not repeatedly pop.
+- Phase 16F: Structured non-canonical Control Scheduling Obligations are exposed on the gate decision contract; `next_send_ts_ns_local` remains a compatibility mirror / scalar fallback.
+- Phase 16H: Runtime maintains a single pending Control Scheduling Obligation (or `None`) and collapses multiple obligations deterministically; realization injects one canonical Control-Time Event; success consumes pending before transitional pop; failure preserves pending and prevents pop.
+- Still deferred in this track: Core reducer remains minimal/no-op for Control-Time Events; queue pop remains Runtime-owned; strict clear-on-every-canonical-pass remains deferred when no gate decision is produced; full Core-owned Queue Processing remains deferred.
+
+### Explicit deferred capabilities
+
+- Runtime canonical `FillEvent` ingress
+- `ExecutionFeedbackRecordSource`
+- full canonical post-submission lifecycle
+- `ProcessingContext`
+- replay/storage / Event Stream persistence
