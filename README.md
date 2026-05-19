@@ -1,4 +1,14 @@
-# TradingChassis — Trading Infrastructure Documentation
+# Status: Legacy / Architectural Exploration
+
+This repository is no longer part of the active direction of TradingChassis.
+
+It explored deterministic Event-driven trading semantics, Intent handling,
+risk gates, and Execution Control boundaries as part of an earlier design phase.
+
+TradingChassis has since pivoted away from implementing a custom trading engine.
+This repository remains public as historical context and proof of architectural exploration.
+
+# TradingChassis Trading Infrastructure Documentation
 
 [![Docs](https://img.shields.io/badge/docs-MkDocs%20Material-blue)](#)
 [![Deploy Docs](https://github.com/TradingChassis/docs/actions/workflows/deploy.yaml/badge.svg)](https://github.com/TradingChassis/docs/actions/workflows/deploy.yaml)
@@ -10,9 +20,7 @@ This repository contains the documentation for TradingChassis's infrastructure. 
 
 > **Terminology note:** This README follows the [TradingChassis terminology](https://tradingchassis.github.io/docs/latest/00-guides/terminology/). Capitalized terms are used according to the canonical definitions in the documentation.
 
----
-
-## 🎯 Purpose
+## Purpose
 
 The goal of this repository is to make the structure, reasoning, and constraints of the infrastructure explicit and durable. It captures:
 
@@ -24,9 +32,7 @@ The goal of this repository is to make the structure, reasoning, and constraints
 
 Documentation here is organized to remain accurate over time by separating what the infrastructure is *conceptually* from how it is *realized* in implementation.
 
----
-
-## 👥 Audience
+## Audience
 
 This documentation is intended for:
 
@@ -34,9 +40,7 @@ This documentation is intended for:
 - infrastructure and platform engineers who need to understand subinfrastructure boundaries
 - contributors who need shared vocabulary and design context before making changes
 
----
-
-## 🗂️ Repository Structure
+## Repository Structure
 
 ```text
 .
@@ -57,9 +61,7 @@ This documentation is intended for:
 └── README.md
 ```
 
----
-
-## 📚 Documentation Model
+## Documentation Model
 
 The documentation is numbered to encode reading flow from foundational orientation toward implementation and operational detail.
 
@@ -76,9 +78,7 @@ The `20-concepts` section defines what the infrastructure *means*. The `30-stack
 
 Each Stack in `30-stacks` follows a standard document structure: overview, scope and role, interfaces, internal structure, operational behavior, and implementation notes.
 
----
-
-## 🛠️ Local Development
+## Local Development
 
 The site is built with MkDocs and the Material for MkDocs theme.
 
@@ -102,9 +102,7 @@ Then open `http://127.0.0.1:8000`.
 mkdocs build
 ```
 
----
-
-## 🚢 Publishing
+## Publishing
 
 The site is published to GitHub Pages as a versioned documentation site using `mike`.
 
@@ -156,9 +154,7 @@ mike serve
 - Use version strings like `0.1.0` rather than `v0.1.0` for documentation versions unless you intentionally want your documentation version names to match Git tag names with a `v` prefix.
 - The GitHub Pages site is published from the `gh-pages` branch managed by `mike`.
 
----
-
-## 🤝 Contributing
+## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for full guidance.
 

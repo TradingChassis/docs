@@ -149,6 +149,60 @@ while also removing unnecessary dependence on external Market or Execution Event
 
 ---
 
+## Iteration 5 – Runtime ordering evidence
+
+The Runtime ordering semantics for realized deadlines are now explicit and validated in the current Backtesting Runtime slice:
+
+- A realized scheduled deadline results in injection of a canonical **Control-Time Event**.
+- The Runtime processes the canonical **Control-Time Event** **before** performing any deadline-caused queued-intent pop / flush behavior.
+- If canonical processing of the injected **Control-Time Event** fails, the Runtime does **not** pop queued intents and does **not** mark the deadline as successfully injected.
+- A previously injected deadline does not cause repeated queue pops without a new canonical injection.
+
+This ordering improves causality and failure atomicity for the transitional Runtime-owned queue-pop step. It does **not** imply full Core-owned Queue Processing or a finalized Execution Control scheduling model.
+
+---
+
+## Iteration 6 – Structured Control Scheduling Obligation boundary
+
+The boundary between non-canonical scheduling intent and canonical control-time history is now structured:
+
+- A **Control Scheduling Obligation** is a **non-canonical**, runtime-facing scheduling instruction derived from current State + Configuration.
+- Obligations are structured data (e.g. include due time and audit metadata) and remain explicitly **not** part of the Event Stream.
+- The compatibility gate decision contract (`GateDecision`) can carry structured Control Scheduling Obligations.
+- `next_send_ts_ns_local` remains a **compatibility timestamp** (mirror / scalar fallback) for wakeup scheduling; it is not the semantic canonical form of scheduling.
+- The Runtime may map obligation metadata into existing **Control-Time Event** audit fields when injecting the canonical Event.
+- A Control Scheduling Obligation never enters `EventStreamEntry`; only the injected canonical **Control-Time Event** does.
+
+---
+
+## Iteration 7 – Single pending obligation semantics
+
+The current transitional Runtime slice now treats Control Scheduling Obligations with a **single pending** lifecycle:
+
+- The Runtime maintains **exactly one** pending **Control Scheduling Obligation** (or `None`) as the current complete future control-time need.
+- The pending obligation is **runtime-facing** and **non-canonical**. It does not mutate State and does not enter the Event Stream.
+- **Latest consumed decision output wins:**
+  - if a consumed gate decision emits an effective obligation, the Runtime sets/replaces/keeps the pending obligation;
+  - if it emits no obligation, the Runtime clears the pending obligation (subject to the scalar fallback described below).
+- If multiple obligations are emitted in a single consumed decision, the current Runtime slice collapses them deterministically by:
+  - minimum `due_ts_ns_local`, then
+  - minimum `obligation_key` lexicographically.
+- **Realization:** if the pending obligation reaches due time before a later consumed decision replaces or clears it, the Runtime injects **one** canonical **Control-Time Event** derived from that pending obligation.
+- **Success path:** after successful canonical processing of the injected Control-Time Event, the Runtime consumes the pending obligation and clears the compatibility mirror **before** performing the transitional queue pop / gate re-evaluation.
+- **Failure path:** if canonical processing fails, the pending obligation remains and the Runtime does not pop queued intents.
+
+### Remaining transitional / deferred items
+
+The following items remain explicitly transitional or deferred in the current slice:
+
+- Core-side reducer behavior for Control-Time Events remains minimal / no-op.
+- Deadline-caused queue pop remains Runtime-owned (sequenced after canonical processing as above).
+- `next_send_ts_ns_local` remains as a compatibility mirror / scalar fallback.
+- Strict “clear on every canonical pass” semantics remain deferred when no gate decision is produced.
+- Full Core-owned Queue Processing / queue re-evaluation remains deferred.
+
+---
+
 ## Open Questions
 
 - What is the exact canonical shape of a Control-Time Event?

@@ -103,6 +103,15 @@
   --md-code-bg-color: #e7ecf2;
 }
 
+.md-typeset pre.code-wrap {
+  white-space: pre-wrap !important;
+  word-break: break-word !important;
+  overflow-x: hidden !important;
+  padding: 0.5rem !important;
+  background: var(--md-code-bg-color) !important;
+  border-radius: 0.5rem !important;
+}
+
 [data-md-color-scheme="slate"] {
   --md-default-bg-color: #0f1115;
 }
