@@ -366,19 +366,3 @@ A **Component** is a deployable or logical unit within a Stack.
 ## Canonical Storage
 
 **Canonical Storage** is the specialized, persistent, and authoritative storage layer for datasets (validated, promoted data) used across Stacks. It is not the Runtime Event Stream; replay and State reconstruction are defined from Events, not from storage alone.
-
----
-
-## Flow
-
-A **Flow** is a narrative or diagram of how information moves between parts of the infrastructure. Flows are explanatory; **Processing Order** and the Event Stream are normative for causality.
-
----
-
-## Pipeline
-
-A **Pipeline** is a staged description of processing. For example, the **intent pipeline** is a documented staging of
-
-**Strategy ➝ Risk ➝ Queue ➝ Adapter**.
-
-Stages map to the Core semantics defined in this document, not to separate sources of truth.

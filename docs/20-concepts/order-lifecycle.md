@@ -6,6 +6,14 @@
 
 This document defines the **lifecycle of Orders only**: how an **Order** evolves as a **derived entity** in **Execution State** from **submission** (`Submitted`) through **terminal disposition**.
 
+Core baseline mapping note:
+
+- The current Core baseline includes explicit canonical terminal Event coverage
+  for `Cancelled`, `Rejected`, and `Expired` outcomes through
+  `OrderCanceledEvent`, `OrderRejectedEvent`, and `OrderExpiredEvent`.
+- The conceptual `Accepted` stage remains part of the lifecycle model, but no
+  dedicated `OrderAcceptedEvent` is added in this baseline slice.
+
 It specifies **lifecycle stages**, **valid transitions**, and **terminal states**. It does **not**:
 
 - define **Intent** lifecycle ([Intent Lifecycle](intent-lifecycle.md));

@@ -174,15 +174,14 @@ Typical storage responsibilities:
 
 A typical storage layout:
 
-```
-data/
+<pre class="code-wrap">data/
 ├─ raw/
 ├─ normalized/
 ├─ canonical/
 ├─ derived/
 ├─ quarantine/
 └─ experiments/
-```
+</pre>
 
 The `canonical/` layer holds promoted validated market data used by Backtesting as its Event Stream input for historical Market Events.
 
