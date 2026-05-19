@@ -4580,13 +4580,15 @@
 <li>Operational logs and telemetry</li>
 </ul>
 <p>A typical storage layout:</p>
-<p><code>data/
+<pre class="code-wrap">data/
 ├─ raw/
 ├─ normalized/
 ├─ canonical/
 ├─ derived/
 ├─ quarantine/
-└─ experiments/</code></p>
+└─ experiments/
+</pre>
+
 <p>The <code>canonical/</code> layer holds promoted validated market data used by Backtesting as its Event Stream input for historical Market Events.</p>
 <hr />
 <h2 id="market-data-pipeline">Market data pipeline</h2>

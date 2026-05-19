@@ -4020,6 +4020,56 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#status-framing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Status framing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Status framing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#completed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Completed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#transitional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transitional
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deferred-explicit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deferred explicit
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#near-term-roadmap" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4353,6 +4403,35 @@ It is treated as an ongoing reference layer rather than a one-off milestone.</p>
 <p>At this stage, the main priority is <strong>not</strong> broad feature expansion.<br />
 The main priority is to make the Core and its Backtesting Runtime structurally solid.</p>
 <hr />
+<h2 id="status-framing">Status framing</h2>
+<p>This roadmap is directional. The sections below capture what is <strong>completed</strong>, what remains <strong>transitional</strong>, and what is explicitly <strong>deferred</strong>.</p>
+<h3 id="completed">Completed</h3>
+<ul>
+<li>The Core canonical processing boundary is stable for the current transitional implementation milestone.</li>
+<li>Core Runtime canonical integration is validated for current canonical paths.</li>
+<li>Local runtime smoke is usable:</li>
+<li><code>python -m core_runtime.local.backtest --config core_runtime/local/local.json</code></li>
+<li>Local Docker runtime image validation works and the runtime image is intentionally minimal (runtime-only).</li>
+</ul>
+<h3 id="transitional">Transitional</h3>
+<ul>
+<li>Post-submission lifecycle remains compatibility/snapshot-driven.</li>
+<li>Snapshot-derived fill progression remains compatibility-only and must not be described as canonical runtime <code>FillEvent</code> ingress.</li>
+<li><code>ControlTimeEvent</code> exists and is integrated as a canonical runtime input <strong>for realized scheduled deadlines</strong> in the current transitional slice. This does not imply a finalized or complete execution-control scheduling implementation.</li>
+<li>Implemented ordering semantics (Phase 16C): on realized deadline, Runtime processes canonical Control-Time Event before any deadline-caused queue pop; failure prevents pop/marker advancement; old deadlines do not repeatedly pop.</li>
+<li>Implemented structured obligation boundary (Phase 16F): non-canonical structured Control Scheduling Obligations are exposed on the gate decision contract; <code>next_send_ts_ns_local</code> remains a compatibility mirror / scalar fallback.</li>
+<li>Implemented single pending runtime semantics (Phase 16H): Runtime maintains one pending obligation (or <code>None</code>) and collapses multiple obligations deterministically; realization injects one Control-Time Event; success consumes pending before transitional pop; failure preserves pending and prevents pop.</li>
+<li>Still deferred in this track: Core reducer remains minimal/no-op for Control-Time Events; queue pop remains Runtime-owned; strict clear-on-every-canonical-pass remains deferred when no gate decision is produced; full Core-owned Queue Processing remains deferred.</li>
+</ul>
+<h3 id="deferred-explicit">Deferred explicit</h3>
+<ul>
+<li>Runtime canonical <code>FillEvent</code> ingress</li>
+<li><code>ExecutionFeedbackRecordSource</code></li>
+<li>full canonical post-submission lifecycle</li>
+<li><code>ProcessingContext</code></li>
+<li>replay/storage / Event Stream persistence</li>
+</ul>
+<hr />
 <h2 id="near-term-roadmap">Near-term roadmap</h2>
 <h3 id="1-harden-the-core">1. Harden the Core</h3>
 <p>The first priority is to make the Core stable, explicit, and self-contained.</p>
@@ -4384,6 +4463,12 @@ The main priority is to make the Core and its Backtesting Runtime structurally s
 <ul>
 <li>a solid Backtesting Runtime built around the Core</li>
 <li>a clearer separation between reusable logic and environment-specific logic</li>
+</ul>
+<p>Near-term next steps:</p>
+<ul>
+<li>Risk vs ExecutionControl boundary cleanup</li>
+<li>State vs snapshot compatibility split</li>
+<li>deferred execution feedback capabilities and runtime <code>FillEvent</code> ingress work</li>
 </ul>
 <hr />
 <h3 id="3-stabilize-research-facing-stacks">3. Stabilize Research-facing Stacks</h3>

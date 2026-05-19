@@ -4340,6 +4340,14 @@
 <hr />
 <h2 id="purpose-and-scope">Purpose and scope</h2>
 <p>This document defines the <strong>lifecycle of Orders only</strong>: how an <strong>Order</strong> evolves as a <strong>derived entity</strong> in <strong>Execution State</strong> from <strong>submission</strong> (<code>Submitted</code>) through <strong>terminal disposition</strong>.</p>
+<p>Core baseline mapping note:</p>
+<ul>
+<li>The current Core baseline includes explicit canonical terminal Event coverage
+  for <code>Cancelled</code>, <code>Rejected</code>, and <code>Expired</code> outcomes through
+  <code>OrderCanceledEvent</code>, <code>OrderRejectedEvent</code>, and <code>OrderExpiredEvent</code>.</li>
+<li>The conceptual <code>Accepted</code> stage remains part of the lifecycle model, but no
+  dedicated <code>OrderAcceptedEvent</code> is added in this baseline slice.</li>
+</ul>
 <p>It specifies <strong>lifecycle stages</strong>, <strong>valid transitions</strong>, and <strong>terminal states</strong>. It does <strong>not</strong>:</p>
 <ul>
 <li>define <strong>Intent</strong> lifecycle (<a href="../intent-lifecycle/">Intent Lifecycle</a>);</li>

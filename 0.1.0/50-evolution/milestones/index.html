@@ -4082,13 +4082,74 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#current-position" class="md-nav__link">
+  <a href="#april-2026-present" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Current Position
+        April 2026 – Present
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="April 2026 – Present">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-semantic-milestone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core semantic milestone
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#core-runtime-alignment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Runtime alignment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#packaging-deployment-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Packaging / deployment validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#control-time-obligation-semantics-transitional-implementation-track" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Control-Time obligation semantics (transitional implementation track)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#explicit-deferred-capabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Explicit deferred capabilities
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -4376,15 +4437,58 @@
 <li>Established a coherent architecture model that can now guide further implementation and documentation work</li>
 </ul>
 <hr />
-<h2 id="current-position">Current Position</h2>
-<p>At this stage, the project has:</p>
+<h2 id="april-2026-present">April 2026 – Present</h2>
+<p>This transitional implementation milestone closes Core and Core Runtime alignment:</p>
+<h3 id="core-semantic-milestone">Core semantic milestone</h3>
 <ul>
-<li>a defined infrastructure foundation</li>
-<li>a working Core Runtime and Backtesting foundation</li>
-<li>a documented deterministic event-driven architecture model</li>
-<li>a public documentation and repository structure that reflects the infrastructure coherently</li>
+<li>Core import root is <code>tradingchassis_core</code> and the distribution name is <code>tradingchassis-core</code>.</li>
+<li>The Core public canonical processing API is usable and stable for the current slice:</li>
+<li><code>CoreConfiguration</code></li>
+<li><code>ProcessingPosition</code></li>
+<li><code>EventStreamEntry</code></li>
+<li><code>process_event_entry</code></li>
+<li><code>fold_event_stream_entries</code></li>
+<li><code>EventStreamEntry</code> is a minimal envelope containing only:</li>
+<li><code>position</code></li>
+<li><code>event</code></li>
+<li><code>CoreConfiguration</code> is explicit and versioned, with deterministic identity (fingerprinted), and is passed call-level to processing (it is not embedded in <code>EventStreamEntry</code>).</li>
+<li><code>ProcessingPosition</code> defines <strong>Processing Order</strong>. Event Time is carried by Events as external metadata and does <strong>not</strong> define Processing Order.</li>
 </ul>
-<p>The next milestones are expected to focus on downstream documentation alignment, additional Runtime refinement, and further maturation.</p>
+<h3 id="core-runtime-alignment">Core Runtime alignment</h3>
+<ul>
+<li>Core Runtime import root is <code>core_runtime</code> and the distribution name is <code>tradingchassis-core-runtime</code>.</li>
+<li>Core Runtime consumes Core (<code>tradingchassis_core</code>) and owns runtime orchestration responsibilities around canonical processing:</li>
+<li>owns a runtime <code>EventStreamCursor</code></li>
+<li>allocates <code>ProcessingPosition</code></li>
+<li>constructs <code>EventStreamEntry</code></li>
+<li>calls <code>process_event_entry(..., configuration=CoreConfiguration)</code></li>
+<li>Local hftbacktest-backed runtime smoke is usable:</li>
+</ul>
+<p><code>python -m core_runtime.local.backtest --config core_runtime/local/local.json</code></p>
+<ul>
+<li>Default local outputs are generated under:</li>
+<li><code>.runtime/local/results/</code></li>
+</ul>
+<h3 id="packaging-deployment-validation">Packaging / deployment validation</h3>
+<ul>
+<li>The Core Runtime Docker image has been validated locally and is intentionally minimal (runtime-only: no tests, no repo checkout).</li>
+<li>Kubernetes / Argo / GHCR execution is a <strong>deployment validation track</strong>, not a claim of full production readiness.</li>
+</ul>
+<h3 id="control-time-obligation-semantics-transitional-implementation-track">Control-Time obligation semantics (transitional implementation track)</h3>
+<ul>
+<li>Phase 16C: Runtime ordering for realized deadlines is explicit: inject/process canonical Control-Time Event before deadline-caused queue pop; failure prevents pop/marker advancement; old deadlines do not repeatedly pop.</li>
+<li>Phase 16F: Structured non-canonical Control Scheduling Obligations are exposed on the gate decision contract; <code>next_send_ts_ns_local</code> remains a compatibility mirror / scalar fallback.</li>
+<li>Phase 16H: Runtime maintains a single pending Control Scheduling Obligation (or <code>None</code>) and collapses multiple obligations deterministically; realization injects one canonical Control-Time Event; success consumes pending before transitional pop; failure preserves pending and prevents pop.</li>
+<li>Still deferred in this track: Core reducer remains minimal/no-op for Control-Time Events; queue pop remains Runtime-owned; strict clear-on-every-canonical-pass remains deferred when no gate decision is produced; full Core-owned Queue Processing remains deferred.</li>
+</ul>
+<h3 id="explicit-deferred-capabilities">Explicit deferred capabilities</h3>
+<ul>
+<li>Runtime canonical <code>FillEvent</code> ingress</li>
+<li><code>ExecutionFeedbackRecordSource</code></li>
+<li>full canonical post-submission lifecycle</li>
+<li><code>ProcessingContext</code></li>
+<li>replay/storage / Event Stream persistence</li>
+</ul>
 
 
 

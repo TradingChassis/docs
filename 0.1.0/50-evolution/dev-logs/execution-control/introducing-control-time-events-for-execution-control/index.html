@@ -4337,6 +4337,56 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#iteration-5-runtime-ordering-evidence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Iteration 5 – Runtime ordering evidence
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#iteration-6-structured-control-scheduling-obligation-boundary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Iteration 6 – Structured Control Scheduling Obligation boundary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#iteration-7-single-pending-obligation-semantics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Iteration 7 – Single pending obligation semantics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Iteration 7 – Single pending obligation semantics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#remaining-transitional-deferred-items" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Remaining transitional / deferred items
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#open-questions" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4551,6 +4601,52 @@ As a result, pending Queue work may remain unevaluated in quiet periods even tho
 <li>semantic parity between Backtesting and Live</li>
 </ul>
 <p>while also removing unnecessary dependence on external Market or Execution Events for future Queue re-evaluation.</p>
+<hr />
+<h2 id="iteration-5-runtime-ordering-evidence">Iteration 5 – Runtime ordering evidence</h2>
+<p>The Runtime ordering semantics for realized deadlines are now explicit and validated in the current Backtesting Runtime slice:</p>
+<ul>
+<li>A realized scheduled deadline results in injection of a canonical <strong>Control-Time Event</strong>.</li>
+<li>The Runtime processes the canonical <strong>Control-Time Event</strong> <strong>before</strong> performing any deadline-caused queued-intent pop / flush behavior.</li>
+<li>If canonical processing of the injected <strong>Control-Time Event</strong> fails, the Runtime does <strong>not</strong> pop queued intents and does <strong>not</strong> mark the deadline as successfully injected.</li>
+<li>A previously injected deadline does not cause repeated queue pops without a new canonical injection.</li>
+</ul>
+<p>This ordering improves causality and failure atomicity for the transitional Runtime-owned queue-pop step. It does <strong>not</strong> imply full Core-owned Queue Processing or a finalized Execution Control scheduling model.</p>
+<hr />
+<h2 id="iteration-6-structured-control-scheduling-obligation-boundary">Iteration 6 – Structured Control Scheduling Obligation boundary</h2>
+<p>The boundary between non-canonical scheduling intent and canonical control-time history is now structured:</p>
+<ul>
+<li>A <strong>Control Scheduling Obligation</strong> is a <strong>non-canonical</strong>, runtime-facing scheduling instruction derived from current State + Configuration.</li>
+<li>Obligations are structured data (e.g. include due time and audit metadata) and remain explicitly <strong>not</strong> part of the Event Stream.</li>
+<li>The compatibility gate decision contract (<code>GateDecision</code>) can carry structured Control Scheduling Obligations.</li>
+<li><code>next_send_ts_ns_local</code> remains a <strong>compatibility timestamp</strong> (mirror / scalar fallback) for wakeup scheduling; it is not the semantic canonical form of scheduling.</li>
+<li>The Runtime may map obligation metadata into existing <strong>Control-Time Event</strong> audit fields when injecting the canonical Event.</li>
+<li>A Control Scheduling Obligation never enters <code>EventStreamEntry</code>; only the injected canonical <strong>Control-Time Event</strong> does.</li>
+</ul>
+<hr />
+<h2 id="iteration-7-single-pending-obligation-semantics">Iteration 7 – Single pending obligation semantics</h2>
+<p>The current transitional Runtime slice now treats Control Scheduling Obligations with a <strong>single pending</strong> lifecycle:</p>
+<ul>
+<li>The Runtime maintains <strong>exactly one</strong> pending <strong>Control Scheduling Obligation</strong> (or <code>None</code>) as the current complete future control-time need.</li>
+<li>The pending obligation is <strong>runtime-facing</strong> and <strong>non-canonical</strong>. It does not mutate State and does not enter the Event Stream.</li>
+<li><strong>Latest consumed decision output wins:</strong></li>
+<li>if a consumed gate decision emits an effective obligation, the Runtime sets/replaces/keeps the pending obligation;</li>
+<li>if it emits no obligation, the Runtime clears the pending obligation (subject to the scalar fallback described below).</li>
+<li>If multiple obligations are emitted in a single consumed decision, the current Runtime slice collapses them deterministically by:</li>
+<li>minimum <code>due_ts_ns_local</code>, then</li>
+<li>minimum <code>obligation_key</code> lexicographically.</li>
+<li><strong>Realization:</strong> if the pending obligation reaches due time before a later consumed decision replaces or clears it, the Runtime injects <strong>one</strong> canonical <strong>Control-Time Event</strong> derived from that pending obligation.</li>
+<li><strong>Success path:</strong> after successful canonical processing of the injected Control-Time Event, the Runtime consumes the pending obligation and clears the compatibility mirror <strong>before</strong> performing the transitional queue pop / gate re-evaluation.</li>
+<li><strong>Failure path:</strong> if canonical processing fails, the pending obligation remains and the Runtime does not pop queued intents.</li>
+</ul>
+<h3 id="remaining-transitional-deferred-items">Remaining transitional / deferred items</h3>
+<p>The following items remain explicitly transitional or deferred in the current slice:</p>
+<ul>
+<li>Core-side reducer behavior for Control-Time Events remains minimal / no-op.</li>
+<li>Deadline-caused queue pop remains Runtime-owned (sequenced after canonical processing as above).</li>
+<li><code>next_send_ts_ns_local</code> remains as a compatibility mirror / scalar fallback.</li>
+<li>Strict “clear on every canonical pass” semantics remain deferred when no gate decision is produced.</li>
+<li>Full Core-owned Queue Processing / queue re-evaluation remains deferred.</li>
+</ul>
 <hr />
 <h2 id="open-questions">Open Questions</h2>
 <ul>
