@@ -40,6 +40,57 @@ This documentation is intended for:
 - infrastructure and platform engineers who need to understand subinfrastructure boundaries
 - contributors who need shared vocabulary and design context before making changes
 
+## Project Positioning
+
+| What It Is | What It Is Not | Who It Is For |
+| --- | --- | --- |
+| Infrastructure for trading systems. | A signal or Strategy library. | Trading infrastructure engineers. |
+| Research-to-Production architecture. | A plug-and-play exchange bot. | Traders with strong engineering background. |
+| A deterministic Event-driven Core and State model. | A promise of trading performance. | Developers working with market data, market microstructure, and deterministic systems. |
+| A modular, documentation-heavy engineering project. | A notebook-only Backtesting tool or beginner algo-trading course. | People building reproducible, observable, and auditable trading workflows. |
+
+## Infrastructure Workflow
+
+This diagram is intentionally high-level. It shows how infrastructure fits together to create a Research-to-Production workflow. Terms and detailed architecture are defined in the [documentation](#documentation).
+
+```mermaid
+flowchart TB
+    subgraph DATA[Data]
+        A[Raw Market Data] --> B[Validation & Normalization]
+        B --> C[Canonical Storage]
+    end
+
+    subgraph RUNTIME[Runtime Contexts]
+        F[Backtesting]
+        G[Live]
+    end
+
+    subgraph CORE[Shared Core Semantics]
+        I[State]
+        I --> K[Strategy]
+        K --> M[Risk]
+        M --> N[Execution Control]
+    end
+
+    subgraph EXECUTION[Execution]
+        O[Venue Adapter]
+        O --> P[Venue]
+    end
+
+    subgraph OBSERVABILITY[Auditability, Analysis, Operations]
+        Q[Audit Trails]
+        Q --> R[Analysis]
+        Q --> S[Logging & Metrics]
+        S --> T[Monitoring & Operations]
+        T --> U[Runbooks & Recovery]
+    end
+
+    DATA --> RUNTIME
+    RUNTIME --> CORE
+    CORE --> EXECUTION
+    CORE --> OBSERVABILITY
+```
+
 ## Repository Structure
 
 ```text
