@@ -1,4 +1,4 @@
-# Status: Legacy / Architectural Exploration
+# Status: Archived / Architectural Exploration
 
 This repository is no longer part of the active direction of TradingChassis.
 
